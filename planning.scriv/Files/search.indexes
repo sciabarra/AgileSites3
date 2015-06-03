@@ -3,63 +3,140 @@
     <Documents>
         <Document ID="10">
             <Title>tomcat</Title>
+            <Text>Add a Vagrantfile inside
+Install </Text>
+        </Document>
+        <Document ID="19">
+            <Title>Reference</Title>
         </Document>
         <Document ID="15">
-            <Title>agilesites11g</Title>
+            <Title>agilesites</Title>
+            <Text>Install agilesites… hm
+</Text>
+        </Document>
+        <Document ID="21">
+            <Title>Planner</Title>
         </Document>
         <Document ID="3">
-            <Title>Agilizer</Title>
+            <Title>AgileSites11g</Title>
+            <Text>Welcome to AgileSites11g
+
+AgileSites11g is a framework for Agile development with Oracle WebCenter Sites 11g (11.1.1.6.1 and 11.1.1.8.0)
+
+Sample code
+
+</Text>
         </Document>
         <Document ID="11">
             <Title>weblogic</Title>
+            <Text>Add a Vagrantfile inside
+
+
+</Text>
+        </Document>
+        <Document ID="16">
+            <Title>proto</Title>
+            <Text>New proto site
+
+Based on Maurizio Casimirri’s Mobile Angular UI
+
+Import of statics
+</Text>
         </Document>
         <Document ID="4">
             <Title>AgileSites12c</Title>
             <Text>sciabarra/AgileSitesNG
 </Text>
         </Document>
-        <Document ID="16">
-            <Title>agilesites12c</Title>
-        </Document>
         <Document ID="5">
             <Title>AgileSites11g</Title>
-            <Text>Sciabarra/AgileSites2
+            <Text>From sciabarra/AgileSites2
+Branch 11g
 
-Installer for agilesites
+- Tester 
+- Driver
+- Document exporter
+
+- Compile the plugin and copy it in setup/bin/setup.jar
+- Reload the plugin from source
 
 </Text>
         </Document>
         <Document ID="12">
             <Title>demo</Title>
-            <Text>agilesites/agilesites2-demo
+            <Text>From agilesites/agilesites2-demo
+Branch 11g
+
+To be rewritten
+
+Use bootstrap
 </Text>
+        </Document>
+        <Document ID="17">
+            <Title>Tutorial</Title>
         </Document>
         <Document ID="6">
             <Title>lib</Title>
-            <Text>agilesites/agilesites2-lib</Text>
+            <Text>agilesites/agilesites2-lib
+
+Create Branch 11g
+</Text>
         </Document>
         <Document ID="13">
             <Title>wem</Title>
             <Text>agilesites/agilesitesng-wem
+
+This will be the scala backend
 
 </Text>
         </Document>
         <Document ID="7">
             <Title>plugin</Title>
             <Text>agilesites/agilesitesng-plugin
+
+TBD
 </Text>
+        </Document>
+        <Document ID="18">
+            <Title>ansible</Title>
+            <Text>Setup a whole cluster and drive by unusable</Text>
         </Document>
         <Document ID="8">
             <Title>plugin</Title>
             <Text>agilesites/agilesites2-build
+
+Create Branch 11g
+Unify installers
 </Text>
         </Document>
         <Document ID="14">
             <Title>react</Title>
-            <Text>agilesites/agilesitesng-react</Text>
+            <Text>agilesites/agilesitesng-react
+
+It will use Nashorn only
+
+</Text>
+        </Document>
+        <Document ID="20">
+            <Title>agilesite</Title>
         </Document>
         <Document ID="9">
-            <Title>AgileBuilder</Title>
+            <Title>setup</Title>
+            <Text>From sciabarra/agilesites2-setup
+Create Branch 11g
+
+Rewrite installers in java/scala
+
+Setup by properties
+Install in /data/sites/XXX
+
+T6H.properties
+T8H.properties
+W6O.properties
+W8O.properties
+
+Remove agilesites2-setup 
+</Text>
         </Document>
     </Documents>
 </SearchIndexes>
