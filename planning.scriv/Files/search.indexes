@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SearchIndexes Version="1.0">
+    <Documents>
+        <Document ID="10">
+            <Title>tomcat</Title>
+        </Document>
+        <Document ID="15">
+            <Title>agilesites11g</Title>
+        </Document>
+        <Document ID="3">
+            <Title>Agilizer</Title>
+        </Document>
+        <Document ID="11">
+            <Title>weblogic</Title>
+        </Document>
+        <Document ID="4">
+            <Title>AgileSites12c</Title>
+            <Text>sciabarra/AgileSitesNG
+</Text>
+        </Document>
+        <Document ID="16">
+            <Title>agilesites12c</Title>
+        </Document>
+        <Document ID="5">
+            <Title>AgileSites11g</Title>
+            <Text>Sciabarra/AgileSites2
+
+Installer for agilesites
+
+</Text>
+        </Document>
+        <Document ID="12">
+            <Title>demo</Title>
+            <Text>agilesites/agilesites2-demo
+</Text>
+        </Document>
+        <Document ID="6">
+            <Title>lib</Title>
+            <Text>agilesites/agilesites2-lib</Text>
+        </Document>
+        <Document ID="13">
+            <Title>wem</Title>
+            <Text>agilesites/agilesitesng-wem
+
+</Text>
+        </Document>
+        <Document ID="7">
+            <Title>plugin</Title>
+            <Text>agilesites/agilesitesng-plugin
+</Text>
+        </Document>
+        <Document ID="8">
+            <Title>plugin</Title>
+            <Text>agilesites/agilesites2-build
+</Text>
+        </Document>
+        <Document ID="14">
+            <Title>react</Title>
+            <Text>agilesites/agilesitesng-react</Text>
+        </Document>
+        <Document ID="9">
+            <Title>AgileBuilder</Title>
+        </Document>
+    </Documents>
+</SearchIndexes>
