@@ -1,0 +1,6 @@
+base=$(pwd)
+for i in  setup plugin lib proto
+do cd $base/$i 
+echo "====== $i"
+git "$@"
+done

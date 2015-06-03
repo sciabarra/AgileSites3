@@ -1,0 +1,6 @@
+msg=${1:?commit}
+gitsub commit -m "$msg" -a
+gitsub push origin 11g
+git add lib plugin setup proto
+git commit -m "$msg" -a
+git push origin 11g 

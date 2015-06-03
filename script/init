@@ -1,0 +1,2 @@
+export EDITOR=subl
+export PATH=$PWD/script:$PATH
