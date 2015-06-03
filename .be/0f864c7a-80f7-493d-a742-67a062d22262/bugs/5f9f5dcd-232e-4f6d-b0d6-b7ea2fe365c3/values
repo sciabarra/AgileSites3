@@ -26,21 +26,21 @@
 
 
 
-    "status": "closed", 
+    "status": "open", 
 
 
 
 
 
 
-    "summary": "checkout the libraries and switch to branch 11g", 
+    "summary": "ensure that template and jar have UNIQUE (generated) ID", 
 
 
 
 
 
 
-    "time": "Mer, 03 Giu 2015 10:23:31 +0000"
+    "time": "Mer, 03 Giu 2015 17:25:42 +0000"
 
 
 
