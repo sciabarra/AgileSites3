@@ -1,6 +1,8 @@
 msg=${1:?commit}
-gitsub commit -m "$msg" -a
-gitsub push origin 11g
-git add lib plugin setup proto
+subs="lib plugin setup proto"
+for i in $subs
+do  cd $i; git commit -m "$msg" -a  ; cd ..
+done
 git commit -m "$msg" -a
+git add lib plugin setup proto
 git push origin 11g 
