@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ScrivenerProject Version="1.0" Creator="SCRMAC-2.6-25480" Modified="2015-06-03 11:48:50 +0100">
+<ScrivenerProject Version="1.0" Creator="SCRMAC-2.6-25480" Modified="2015-06-05 13:22:51 +0200">
     <Binder>
-        <BinderItem ID="0" Type="DraftFolder" Created="2015-06-02 21:46:17 +0100" Modified="2015-06-02 21:46:17 +0100">
+        <BinderItem ID="0" Type="DraftFolder" Created="2015-06-02 22:46:17 +0200" Modified="2015-06-02 22:46:17 +0200">
             <Title>Draft</Title>
             <MetaData>
                 <IncludeInCompile>Yes</IncludeInCompile>
             </MetaData>
             <Children>
-                <BinderItem ID="3" Type="Text" Created="2015-06-02 21:46:17 +0100" Modified="2015-06-03 11:22:03 +0100">
+                <BinderItem ID="3" Type="Text" Created="2015-06-02 22:46:17 +0200" Modified="2015-06-03 12:22:03 +0200">
                     <Title>AgileSites11g</Title>
                     <MetaData>
                         <IncludeInCompile>Yes</IncludeInCompile>
@@ -17,7 +17,7 @@
                         <TextSelection>149,0</TextSelection>
                     </TextSettings>
                     <Children>
-                        <BinderItem ID="17" Type="Folder" Created="2015-06-03 10:47:37 +0100" Modified="2015-06-03 11:20:20 +0100">
+                        <BinderItem ID="17" Type="Folder" Created="2015-06-03 11:47:37 +0200" Modified="2015-06-03 12:20:20 +0200">
                             <Title>Tutorial</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
@@ -27,8 +27,92 @@
                                 <TextSelection>0,0</TextSelection>
                             </TextSettings>
                         </BinderItem>
-                        <BinderItem ID="19" Type="Folder" Created="2015-06-03 10:51:57 +0100" Modified="2015-06-03 11:20:32 +0100">
+                        <BinderItem ID="19" Type="Folder" Created="2015-06-03 11:51:57 +0200" Modified="2015-06-03 12:20:32 +0200">
                             <Title>Reference</Title>
+                            <MetaData>
+                                <IncludeInCompile>Yes</IncludeInCompile>
+                                <NotesTextSelection>0,0</NotesTextSelection>
+                            </MetaData>
+                            <TextSettings>
+                                <TextSelection>0,0</TextSelection>
+                            </TextSettings>
+                            <Children>
+                                <BinderItem ID="24" Type="Text" Created="2015-06-05 08:19:25 +0200" Modified="2015-06-05 08:19:54 +0200">
+                                    <Title>Layout</Title>
+                                    <MetaData>
+                                        <IncludeInCompile>Yes</IncludeInCompile>
+                                        <NotesTextSelection>0,0</NotesTextSelection>
+                                    </MetaData>
+                                    <TextSettings>
+                                        <TextSelection>0,0</TextSelection>
+                                    </TextSettings>
+                                </BinderItem>
+                            </Children>
+                        </BinderItem>
+                    </Children>
+                </BinderItem>
+            </Children>
+        </BinderItem>
+        <BinderItem ID="1" Type="ResearchFolder" Created="2015-06-02 22:46:17 +0200" Modified="2015-06-02 22:46:17 +0200">
+            <Title>Research</Title>
+            <MetaData>
+                <IncludeInCompile>Yes</IncludeInCompile>
+            </MetaData>
+            <Children>
+                <BinderItem ID="25" Type="Folder" Created="2015-06-05 08:20:01 +0200" Modified="2015-06-05 08:20:05 +0200">
+                    <Title>Private</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                        <NotesTextSelection>0,0</NotesTextSelection>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                    <Children>
+                        <BinderItem ID="28" Type="Folder" Created="2015-06-05 08:31:47 +0200" Modified="2015-06-05 08:31:50 +0200">
+                            <Title>Layouts</Title>
+                            <MetaData>
+                                <IncludeInCompile>Yes</IncludeInCompile>
+                                <NotesTextSelection>0,0</NotesTextSelection>
+                            </MetaData>
+                            <TextSettings>
+                                <TextSelection>0,0</TextSelection>
+                            </TextSettings>
+                            <Children>
+                                <BinderItem ID="5" Type="Text" Created="2015-06-02 22:47:06 +0200" Modified="2015-06-05 10:05:33 +0200">
+                                    <Title>Layout 11g</Title>
+                                    <MetaData>
+                                        <IncludeInCompile>Yes</IncludeInCompile>
+                                        <NotesTextSelection>0,0</NotesTextSelection>
+                                    </MetaData>
+                                    <TextSettings>
+                                        <TextSelection>639,0</TextSelection>
+                                    </TextSettings>
+                                </BinderItem>
+                                <BinderItem ID="4" Type="Text" Created="2015-06-02 22:46:50 +0200" Modified="2015-06-05 10:06:25 +0200">
+                                    <Title>Layout 12c</Title>
+                                    <MetaData>
+                                        <IncludeInCompile>Yes</IncludeInCompile>
+                                        <NotesTextSelection>0,0</NotesTextSelection>
+                                    </MetaData>
+                                    <TextSettings>
+                                        <TextSelection>86,0</TextSelection>
+                                    </TextSettings>
+                                </BinderItem>
+                                <BinderItem ID="31" Type="Text" Created="2015-06-05 10:06:23 +0200" Modified="2015-06-05 10:10:52 +0200">
+                                    <Title>Embed SBT</Title>
+                                    <MetaData>
+                                        <IncludeInCompile>Yes</IncludeInCompile>
+                                        <NotesTextSelection>0,0</NotesTextSelection>
+                                    </MetaData>
+                                    <TextSettings>
+                                        <TextSelection>235,0</TextSelection>
+                                    </TextSettings>
+                                </BinderItem>
+                            </Children>
+                        </BinderItem>
+                        <BinderItem ID="26" Type="Text" Created="2015-06-05 08:20:33 +0200" Modified="2015-06-05 08:20:36 +0200">
+                            <Title>Layout</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
                                 <NotesTextSelection>0,0</NotesTextSelection>
@@ -39,16 +123,8 @@
                         </BinderItem>
                     </Children>
                 </BinderItem>
-            </Children>
-        </BinderItem>
-        <BinderItem ID="1" Type="ResearchFolder" Created="2015-06-02 21:46:17 +0100" Modified="2015-06-02 21:46:17 +0100">
-            <Title>Research</Title>
-            <MetaData>
-                <IncludeInCompile>Yes</IncludeInCompile>
-            </MetaData>
-            <Children>
-                <BinderItem ID="21" Type="Folder" Created="2015-06-03 11:19:12 +0100" Modified="2015-06-03 11:19:14 +0100">
-                    <Title>Planner</Title>
+                <BinderItem ID="22" Type="Folder" Created="2015-06-05 08:17:13 +0200" Modified="2015-06-05 08:17:16 +0200">
+                    <Title>Todo</Title>
                     <MetaData>
                         <IncludeInCompile>Yes</IncludeInCompile>
                         <NotesTextSelection>0,0</NotesTextSelection>
@@ -57,143 +133,69 @@
                         <TextSelection>0,0</TextSelection>
                     </TextSettings>
                     <Children>
-                        <BinderItem ID="5" Type="Text" Created="2015-06-02 21:47:06 +0100" Modified="2015-06-03 10:57:14 +0100">
+                        <BinderItem ID="23" Type="Text" Created="2015-06-05 08:18:29 +0200" Modified="2015-06-05 13:20:26 +0200">
                             <Title>AgileSites11g</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
                                 <NotesTextSelection>0,0</NotesTextSelection>
                             </MetaData>
                             <TextSettings>
-                                <TextSelection>167,0</TextSelection>
+                                <TextSelection>187,0</TextSelection>
                             </TextSettings>
                             <Children>
-                                <BinderItem ID="16" Type="Text" Created="2015-06-02 21:55:02 +0100" Modified="2015-06-03 11:23:00 +0100">
-                                    <Title>proto</Title>
+                                <BinderItem ID="29" Type="Text" Created="2015-06-05 09:16:17 +0200" Modified="2015-06-05 13:22:51 +0200">
+                                    <Title>Done</Title>
                                     <MetaData>
                                         <IncludeInCompile>Yes</IncludeInCompile>
                                         <NotesTextSelection>0,0</NotesTextSelection>
                                     </MetaData>
                                     <TextSettings>
-                                        <TextSelection>83,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="9" Type="Text" Created="2015-06-02 21:48:41 +0100" Modified="2015-06-03 11:03:18 +0100">
-                                    <Title>setup</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>85,0</TextSelection>
-                                    </TextSettings>
-                                    <Children>
-                                        <BinderItem ID="18" Type="Text" Created="2015-06-03 10:47:41 +0100" Modified="2015-06-03 10:54:40 +0100">
-                                            <Title>ansible</Title>
-                                            <MetaData>
-                                                <IncludeInCompile>Yes</IncludeInCompile>
-                                                <NotesTextSelection>0,0</NotesTextSelection>
-                                            </MetaData>
-                                            <TextSettings>
-                                                <TextSelection>43,0</TextSelection>
-                                            </TextSettings>
-                                        </BinderItem>
-                                        <BinderItem ID="11" Type="Text" Created="2015-06-02 21:49:05 +0100" Modified="2015-06-03 10:55:02 +0100">
-                                            <Title>weblogic</Title>
-                                            <MetaData>
-                                                <IncludeInCompile>Yes</IncludeInCompile>
-                                                <NotesTextSelection>0,0</NotesTextSelection>
-                                            </MetaData>
-                                            <TextSettings>
-                                                <TextSelection>25,0</TextSelection>
-                                            </TextSettings>
-                                        </BinderItem>
-                                        <BinderItem ID="10" Type="Text" Created="2015-06-02 21:48:53 +0100" Modified="2015-06-03 10:55:02 +0100">
-                                            <Title>tomcat</Title>
-                                            <MetaData>
-                                                <IncludeInCompile>Yes</IncludeInCompile>
-                                                <NotesTextSelection>0,0</NotesTextSelection>
-                                            </MetaData>
-                                            <TextSettings>
-                                                <TextSelection>33,0</TextSelection>
-                                            </TextSettings>
-                                        </BinderItem>
-                                    </Children>
-                                </BinderItem>
-                                <BinderItem ID="8" Type="Text" Created="2015-06-02 21:48:07 +0100" Modified="2015-06-03 10:58:38 +0100">
-                                    <Title>plugin</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>48,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="6" Type="Text" Created="2015-06-02 21:47:17 +0100" Modified="2015-06-03 11:02:55 +0100">
-                                    <Title>lib</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>27,0</TextSelection>
+                                        <TextSelection>0,7</TextSelection>
                                     </TextSettings>
                                 </BinderItem>
                             </Children>
                         </BinderItem>
-                        <BinderItem ID="4" Type="Text" Created="2015-06-02 21:46:50 +0100" Modified="2015-06-03 10:58:12 +0100">
+                        <BinderItem ID="27" Type="Text" Created="2015-06-05 08:30:20 +0200" Modified="2015-06-05 08:31:05 +0200">
                             <Title>AgileSites12c</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
                                 <NotesTextSelection>0,0</NotesTextSelection>
                             </MetaData>
                             <TextSettings>
-                                <TextSelection>1,0</TextSelection>
+                                <TextSelection>2,0</TextSelection>
                             </TextSettings>
-                            <Children>
-                                <BinderItem ID="7" Type="Text" Created="2015-06-02 21:47:37 +0100" Modified="2015-06-03 11:04:10 +0100">
-                                    <Title>plugin</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>36,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="14" Type="Text" Created="2015-06-02 21:52:01 +0100" Modified="2015-06-03 11:04:18 +0100">
-                                    <Title>react</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>57,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="13" Type="Text" Created="2015-06-02 21:51:52 +0100" Modified="2015-06-03 11:04:18 +0100">
-                                    <Title>wem</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>61,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                            </Children>
+                        </BinderItem>
+                        <BinderItem ID="30" Type="Text" Created="2015-06-05 09:50:12 +0200" Modified="2015-06-05 09:50:49 +0200">
+                            <Title>Demo Oracle</Title>
+                            <MetaData>
+                                <IncludeInCompile>Yes</IncludeInCompile>
+                                <NotesTextSelection>0,0</NotesTextSelection>
+                            </MetaData>
+                            <TextSettings>
+                                <TextSelection>38,0</TextSelection>
+                            </TextSettings>
                         </BinderItem>
                     </Children>
                 </BinderItem>
+                <BinderItem ID="21" Type="Folder" Created="2015-06-03 12:19:12 +0200" Modified="2015-06-03 12:19:14 +0200">
+                    <Title>Planner</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                        <NotesTextSelection>0,0</NotesTextSelection>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
             </Children>
         </BinderItem>
-        <BinderItem ID="2" Type="TrashFolder" Created="2015-06-02 21:46:17 +0100" Modified="2015-06-02 21:46:17 +0100">
+        <BinderItem ID="2" Type="TrashFolder" Created="2015-06-02 22:46:17 +0200" Modified="2015-06-02 22:46:17 +0200">
             <Title>Trash</Title>
             <MetaData>
                 <IncludeInCompile>Yes</IncludeInCompile>
             </MetaData>
             <Children>
-                <BinderItem ID="20" Type="Folder" Created="2015-06-03 11:01:27 +0100" Modified="2015-06-03 11:01:31 +0100">
+                <BinderItem ID="20" Type="Folder" Created="2015-06-03 12:01:27 +0200" Modified="2015-06-03 12:01:31 +0200">
                     <Title>agilesite</Title>
                     <MetaData>
                         <IncludeInCompile>Yes</IncludeInCompile>
@@ -203,7 +205,7 @@
                         <TextSelection>0,0</TextSelection>
                     </TextSettings>
                     <Children>
-                        <BinderItem ID="12" Type="Text" Created="2015-06-02 21:50:31 +0100" Modified="2015-06-03 10:55:45 +0100">
+                        <BinderItem ID="12" Type="Text" Created="2015-06-02 22:50:31 +0200" Modified="2015-06-03 11:55:45 +0200">
                             <Title>demo</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
@@ -215,7 +217,7 @@
                         </BinderItem>
                     </Children>
                 </BinderItem>
-                <BinderItem ID="15" Type="Text" Created="2015-06-02 21:54:01 +0100" Modified="2015-06-03 10:51:10 +0100">
+                <BinderItem ID="15" Type="Text" Created="2015-06-02 22:54:01 +0200" Modified="2015-06-03 11:51:10 +0200">
                     <Title>agilesites</Title>
                     <MetaData>
                         <IncludeInCompile>Yes</IncludeInCompile>
@@ -258,9 +260,9 @@
         </StatusItems>
     </StatusSettings>
     <ProjectTargets Notify="No">
-        <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2015-06-02 21:46:16 +0100" IgnoreDeadline="Yes">0</DraftTarget>
+        <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2015-06-02 22:46:16 +0200" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="Yes" ResetType="Midnight" DeterminedFromDeadline="No" WritingDays="" CanWriteOnDeadlineDate="No">0</SessionTarget>
-        <PreviousSession Words="117" Characters="802" Date="2015-06-03 11:48:46 +0100"></PreviousSession>
+        <PreviousSession Words="7" Characters="58" Date="2015-06-05 07:02:35 +0200"></PreviousSession>
     </ProjectTargets>
     <PrintSettings PaperSize="595.0,842.0" LeftMargin="72.0" RightMargin="72.0" TopMargin="90.0" BottomMargin="90.0" PaperType="iso-a4" Orientation="Portrait" HorizontalPagination="Clip" VerticalPagination="Auto" ScaleFactor="1.0" HorizontallyCentered="Yes" VerticallyCentered="Yes" Collates="Yes" PagesAcross="1" PagesDown="1"></PrintSettings>
 </ScrivenerProject>

@@ -48,6 +48,15 @@ Sample code<br/>
 <li>
 <p class="binderItem"><strong>Reference</strong></p>
 </li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Layout</strong><br/>The layout of the project is<br/>
+<br/>
+<br/>
+TopLeve</p>
+</li>
+</ul>
 </ul>
 </ul>
 <hr/>
@@ -57,100 +66,150 @@ Sample code<br/>
 <hr/>
 <ul>
 <li>
+<p class="binderItem"><strong>Private</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Layouts</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Layout 11g</strong><br/>Layout AgileSites11g<br/>
+<br/>
+Folder: AgileSites11g<br/>
+Repo: sciabarra/AgileSites2<br/>
+Branch: 11g<br/>
+<br/>
+Functions:<br/>
+- Assembler (assemble “pieces” for subfolder)<br/>
+- Plugin Tester (imports in source)<br/>
+- Document exporter (convert scrivener content in something importable)<br/>
+<br/>
+Folder: proto<br/>
+Repo: agilesites/agilesites2-proto<br/>
+<br/>
+Implementation of the modern business template<br/>
+<br/>
+Folder: setup<br/>
+Repo: sciabarra/agilesites2-setup<br/>
+<br/>
+Installers in Javascript executed by SBT via Trireme<br/>
+Multi profile SBT (bin/sbt.sh called by scripts )...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Layout 12c</strong><br/>Layout 12c<br/>
+<br/>
+Folder: AgileSites12c<br/>
+Repo: sciabarra/AgileSitesNG<br/>
+Branch: 12c<br/>
+<br/>
+Functions:<br/>
+- Assembler (assemble “pieces” for subfolder)<br/>
+- Plugin Tester (imports in source)<br/>
+- Document exporter (convert scrivener content in something importable)<br/>
+<br/>
+<br/>
+Folder: plugin<br/>
+Repo: agilesites/agilesitesng-plugin<br/>
+<br/>
+The plugin for react/wem implementation<br/>
+<br/>
+<br/>
+Folder: react<br/>
+Repo: agilesites/agilesitesng-react<br/>
+<br/>
+A reactive based prototype<br/>
+<br/>
+FLu<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+Repo: agilesites/agilesitesng-wem<br/>
+Folder: wem<br/>
+Functions:<br/>
+WEM interface serv...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Embed SBT</strong><br/>How to embed sbt and run it offline with multiple profiles<br/>
+<br/>
+In<br/>
+<br/>
+setup/bin/sbt.sh put a script to launch SBT with the following options<br/>
+<br/>
+JAVA_HOME<br/>
+IVY_REPO<br/>
+PROFILE<br/>
+<br/>
+Then create in setup a script<br/>
+<br/>
+Cd here<br/>
+JAVA_HOME=…<br/>
+IVY_REPO=…<br/>
+PROFILE=…<br/>
+Call bin\sbt.cmd %*<br/>
+</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Layout</strong></p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Todo</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>AgileSites11g</strong><br/>Setup<br/>
+<br/>
+- MultiProfile sbt for setup with external repo<br/>
+- Remove gui downloader from code<br/>
+- Merge setup code in the plugin<br/>
+- Execute Javascript with SBT and trireme (mostly using shelljs)<br/>
+<br/>
+<br/>
+- Downloader with authentication from oracle<br/>
+- Reinstall tomcat in javascript<br/>
+- Reinstall weblogic in javascript<br/>
+<br/>
+Proto<br/>
+- Create the website based on modern<br/>
+- Multiprofile sbt here too<br/>
+- Better import of Jars<br/>
+- Templates and jar needs an unique id<br/>
+- Import of statics<br/>
+<br/>
+Lib<br/>
+- Abstract classes with sensible defau...</p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Done</strong><br/>Plugin<br/>
+<br/>
+- Publish to nexus everything<br/>
+- Get rid of agilesites2-setup repo and use the build for the embedded stuff</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>AgileSites12c</strong><br/>- Complete the fluxxor based demo</p>
+</li>
+<li>
+<p class="binderItem"><strong>Demo Oracle</strong><br/>- Configure and Demo AgileSites 1.8.1<br/>
+- Show telmore<br/>
+- Demo AgileSites with groovy?</p>
+</li>
+</ul>
+<hr/>
+<li>
 <p class="binderItem"><strong>Planner</strong></p>
 </li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>AgileSites11g</strong><br/>From sciabarra/AgileSites2<br/>
-Branch 11g<br/>
-<br/>
-- Tester <br/>
-- Driver<br/>
-- Document exporter<br/>
-<br/>
-- Compile the plugin and copy it in setup/bin/setup.jar<br/>
-- Reload the plugin from source<br/>
-</p>
-</li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>proto</strong><br/>New proto site<br/>
-<br/>
-Based on Maurizio Casimirri’s Mobile Angular UI<br/>
-<br/>
-Import of statics</p>
-</li>
-<li>
-<p class="binderItem"><strong>setup</strong><br/>From sciabarra/agilesites2-setup<br/>
-Create Branch 11g<br/>
-<br/>
-Rewrite installers in java/scala<br/>
-<br/>
-Setup by properties<br/>
-Install in /data/sites/XXX<br/>
-<br/>
-T6H.properties<br/>
-T8H.properties<br/>
-W6O.properties<br/>
-W8O.properties<br/>
-<br/>
-Remove agilesites2-setup </p>
-</li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>ansible</strong><br/>Setup a whole cluster and drive by unusable</p>
-</li>
-<li>
-<p class="binderItem"><strong>weblogic</strong><br/>Add a Vagrantfile inside<br/>
-<br/>
-</p>
-</li>
-<li>
-<p class="binderItem"><strong>tomcat</strong><br/>Add a Vagrantfile inside<br/>
-Install </p>
-</li>
-</ul>
-<hr/>
-<li>
-<p class="binderItem"><strong>plugin</strong><br/>agilesites/agilesites2-build<br/>
-<br/>
-Create Branch 11g<br/>
-Unify installers</p>
-</li>
-<li>
-<p class="binderItem"><strong>lib</strong><br/>agilesites/agilesites2-lib<br/>
-<br/>
-Create Branch 11g</p>
-</li>
-</ul>
-<hr/>
-<li>
-<p class="binderItem"><strong>AgileSites12c</strong><br/>sciabarra/AgileSitesNG</p>
-</li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>plugin</strong><br/>agilesites/agilesitesng-plugin<br/>
-<br/>
-TBD</p>
-</li>
-<li>
-<p class="binderItem"><strong>react</strong><br/>agilesites/agilesitesng-react<br/>
-<br/>
-It will use Nashorn only<br/>
-</p>
-</li>
-<li>
-<p class="binderItem"><strong>wem</strong><br/>agilesites/agilesitesng-wem<br/>
-<br/>
-This will be the scala backend<br/>
-</p>
-</li>
-</ul>
-</ul>
 </ul>
 <hr/>
 <li>

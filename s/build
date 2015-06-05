@@ -1,0 +1,7 @@
+cd plugin
+sh build.sh
+cd ..
+cd lib
+sh build118.sh
+sh build116.sh
+cd ..
