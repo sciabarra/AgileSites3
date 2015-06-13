@@ -1,0 +1,15 @@
+var prg = require('commander')
+
+prg.version("0.0.1")
+    .option("-a --appserver    <astype>", 'tomcator weblogic', /^(tomcat|weblogic)$/i)
+    .option("-d --database     <dbtype>", 'hsqldb or  oracle:host:port', /^(hsqldb|oracle:\w+:\d+)$/)
+    .option("-j --java-home    <jhome>", 'java home')
+    .option("-h --host <host>", "public hostname")
+    .option("-p --public-port <pubport>", "public port")
+    .option("-P --private-port <privport>", "private port")
+    .option("-u --cs-user-pass [csuserpass]", 'cs user/pass')
+    .option("-U --db-user-pass [dbuserpass]", 'db user/pass')
+    .option("-s --shared [folder]", "shared folder")
+    .parse(process.argv)
+
+console.log(prg.options)

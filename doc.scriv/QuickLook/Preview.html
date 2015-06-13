@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
 	body {background-color: #bac0c7}
-    p.binderItem {margin: 10.0px 0.0px 0.0px 05.0px; font-family:Cochin, Times, Courier, Arial, serif; font-size:14.0px;}
+    p.binderItem {margin: 10.0px 0.0px 0.0px 05.0px; font-family:Verdana, Cochin, Times, Courier, Arial, serif; font-size:14.0px;}
     .page {border: 1px solid #727272; background: #fff}
     hr {
       border-top: 1px dashed #000;
@@ -45,16 +45,136 @@ Sample code<br/>
 <li>
 <p class="binderItem"><strong>Tutorial</strong></p>
 </li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Preparation</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>1 Install Prerequisite Software</strong><br/>1) download and install sbt (http://www.scala-sbt.org/) version 0.13.8  for your platform<br/>
+<br/>
+2) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
+<br/>
+a) unzip the distribution file it in a temp folder<br/>
+<br/>
+b) now, locate the file WCS_Sites.zip then extract that file in a folder of your choice, for example:<br/>
+<br/>
+  /data/sites/bigbang<br/>
+<br/>
+before you move on, verify you have 2 folders <br/>
+ • /data/sites/bingbang/Sites <br/>
+ • /data/sites/bigba...</p>
+</li>
+<li>
+<p class="binderItem"><strong>2 Prepare project</strong><br/><br/>
+To start with AgileSites you need to:<br/>
+<br/>
+1) create a folder for your project  (bigbang in this tutorial) <br/>
+2) create subfolder bigbang/project<br/>
+2) create a file project/build.properties with the single line<br/>
+<br/>
+sbt.version=0.13.8 <br/>
+3) create a file project/plugins.sbt with the following lines (note the empty line in between).<br/>
+<br/>
+addSbtPlugin("com.sciabarra" % "agilesites2-build" % "11g-M1-SNAPSHOT")<br/>
+<br/>
+<br/>
+4) create a file build.sbt with the following lines:<br/>
+<br/>
+name := "bigbang"  organization := "com.sciabarra"...</p>
+</li>
+<li>
+<p class="binderItem"><strong>3 Install Sites</strong><br/>Open either the terminal or the command prompt in the big bang project folder and type sbt. You should see something like this:<br/>
+<br/>
+>>> agilesites.properties<br/>
+sites.directory=/data/sites/bigbang<br/>
+sites.focus=bigbang<br/>
+[info] Set current project to bigbang <br/>
+(in build file:../bigbang/)<br/>
+<br/>
+<br/>
+Now at the command prompt type<br/>
+<br/>
+bigbang> sitesInstall<br/>
+<br/>
+You will see a lot of output while it will install Sites. <br/>
+<br/>
+<br/>
+</p>
+</li>
+<li>
+<p class="binderItem"><strong>4 Configure Eclipse</strong><br/>1) add in the file project/plugins.sbt with the following lines (separated by an empty line from the preceding):<br/>
+<br/>
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0") <br/>
+<br/>
+2) add in the file build.sbt the following line:<br/>
+<br/>
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java <br/>
+3) type the following to generate an Eclipse project:<br/>
+<br/>
+bigbang> ; reload ; eclipse<br/>
+<br/>
+<br/>
+(You need the reload step to pick the project jars available only after you installed.<br/>
+Then finally you can open eclipse,...</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Beginning</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Create a new site</strong></p>
+</li>
+</ul>
+</ul>
+<hr/>
 <li>
 <p class="binderItem"><strong>Reference</strong></p>
 </li>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>Layout</strong><br/>The layout of the project is<br/>
+<p class="binderItem"><strong>Layout</strong><br/>1. I install sites <br/>
+<br/>
+Development layout<br/>
+<br/>
+The meta project is able to install Sites (different version)<br/>
+<br/>
+Each component is a plugin (a jar)<br/>
+<br/>
+The plugin is deployed, creating assets<br/>
+<br/>
+The metaproject can also import content<br/>
+<br/>
+And <br/>
+<br/>
+A developer create a plugin and publish it locally<br/>
+<br/>
+The plugin can also be deployed somewhere <br/>
 <br/>
 <br/>
-TopLeve</p>
+<br/>
+<br/>
+</p>
+</li>
+<li>
+<p class="binderItem"><strong>Samples</strong><br/>@Template(type=“Page”) <br/>
+class MyTemplate implements Element {<br/>
+   public String apply(Env e) { … }<br/>
+}<br/>
+<br/>
+@Definition<br/>
+class Something {<br/>
+   @Type(“string”)<br/>
+   String getName()<br/>
+} <br/>
+<br/>
+Something something = e.getAssetAs<Something>()</p>
 </li>
 </ul>
 </ul>
@@ -90,13 +210,13 @@ Functions:<br/>
 Folder: proto<br/>
 Repo: agilesites/agilesites2-proto<br/>
 <br/>
-Implementation of the modern business template<br/>
+Implementation of the proto site, using modern business template<br/>
 <br/>
 Folder: setup<br/>
 Repo: sciabarra/agilesites2-setup<br/>
 <br/>
 Installers in Javascript executed by SBT via Trireme<br/>
-Multi profile SBT (bin/sbt.sh called by scripts )...</p>
+Multi profile SBT (bin/sbt.sh c...</p>
 </li>
 <li>
 <p class="binderItem"><strong>Layout 12c</strong><br/>Layout 12c<br/>
@@ -165,45 +285,41 @@ Call bin\sbt.cmd %*<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>AgileSites11g</strong><br/>Setup<br/>
+<p class="binderItem"><strong>AgileSites11g</strong><br/>Todo<br/>
+- Add annotation support to the core<br/>
+- Rework the jar upload: first store in a local file accessible to the class loader, then move it as an asset<br/>
+- Install the api as a Jar asset <br/>
+- Install the api also in the web<br/>
+-  the WCS.dispatch needs the names of the jars that it will use (creating a class loader specific for them)<br/>
+- Give an unique id to Templates and Jar (as  it is now to the content model)<br/>
+- Get rid of prefixes and suffixes<br/>
 <br/>
-- Execute Javascript with SBT and trireme (mostly using shelljs)<br/>
-- MultiProfile sbt for setup with external repo<br/>
-<br/>
-- Downloader with authentication from oracle<br/>
-- Reinstall tomcat in javascript<br/>
-- Reinstall weblogic in javascript<br/>
-<br/>
-Proto<br/>
-- Create the website based on modern<br/>
-- Multiprofile sbt here too<br/>
-- Better import of Jars<br/>
-- Templates and jar needs an unique id<br/>
-- Import of statics<br/>
-<br/>
-Lib<br/>
-- Abstract classes with sensible defaults instead of scaffolding (ideally : class Element { apply() } })<br/>
--...</p>
+Big<br/>
+- Port everything to Sites12c <br/>
+- Implement content im...</p>
 </li>
 <hr/>
 <ul>
+<li>
+<p class="binderItem"><strong>Attic</strong><br/>- Reinstall tomcat in javascript<br/>
+- Reinstall weblogic in javascript<br/>
+- Setup: MultiProfile sbt for setup with external repo ????<br/>
+- Proto: Multiprofile sbt here too</p>
+</li>
 <li>
 <p class="binderItem"><strong>Done</strong><br/>Plugin<br/>
 <br/>
 - Publish to nexus everything<br/>
 - Get rid of agilesites2-setup repo and use the build for the embedded stuff<br/>
 - Remove gui downloader from code<br/>
-- Merge setup code in the plugin</p>
+- Merge setup code in the plugin<br/>
+- Execute Javascript with SBT and trireme <br/>
+- Install Sites 118 in /data/sites/bigbang from the big bang project with Java6</p>
 </li>
 </ul>
 <hr/>
 <li>
 <p class="binderItem"><strong>AgileSites12c</strong><br/>- Complete the fluxxor based demo</p>
-</li>
-<li>
-<p class="binderItem"><strong>Demo Oracle</strong><br/>- Configure and Demo AgileSites 1.8.1<br/>
-- Show telmore<br/>
-- Demo AgileSites with groovy?</p>
 </li>
 </ul>
 <hr/>
@@ -218,22 +334,23 @@ Lib<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>agilesite</strong></p>
+<p class="binderItem"><strong>Untitled</strong></p>
 </li>
-<hr/>
-<ul>
 <li>
-<p class="binderItem"><strong>demo</strong><br/>From agilesites/agilesites2-demo<br/>
+<p class="binderItem"><strong>agilesites</strong><br/>Install agilesites… hm</p>
+</li>
+<li>
+<p class="binderItem"><strong>Star</strong><br/>From agilesites/agilesites2-demo<br/>
 Branch 11g<br/>
 <br/>
 To be rewritten<br/>
 <br/>
 Use bootstrap</p>
 </li>
-</ul>
-<hr/>
 <li>
-<p class="binderItem"><strong>agilesites</strong><br/>Install agilesites… hm</p>
+<p class="binderItem"><strong>Demo Oracle</strong><br/>- Configure and Demo AgileSites 1.8.1<br/>
+- Show telmore<br/>
+- Demo AgileSites with groovy?</p>
 </li>
 </ul>
 </ul>

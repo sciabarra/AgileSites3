@@ -7,6 +7,3 @@
 [submodule "plugin"]
 	path = plugin
 	url = https://sciabarra@github.com/agilesites/agilesites2-build
-[submodule "proto"]
-	path = proto
-	url = https://sciabarra@github.com/agilesites/agilesites2-proto
