@@ -1,8 +1,11 @@
 msg=${1:?commit}
-subs="lib plugin setup"
+subs="lib plugin setup bigbang"
 for i in $subs
-do  cd $i; git commit -m "$msg" -a  ; cd ..
+do cd $i 
+   git commit -m "$msg" -a 
+   git push origin 11g
+   cd ..
 done
+git add lib plugin setup bigbang
 git commit -m "$msg" -a
-git add lib plugin setup 
 git push origin 11g 
