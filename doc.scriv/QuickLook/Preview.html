@@ -48,87 +48,33 @@ Sample code<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>Preparation</strong></p>
-</li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>1 Install Prerequisite Software</strong><br/>1) download and install sbt (http://www.scala-sbt.org/) version 0.13.8  for your platform<br/>
-<br/>
-2) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
-<br/>
-a) unzip the distribution file it in a temp folder<br/>
-<br/>
-b) now, locate the file WCS_Sites.zip then extract that file in a folder of your choice, for example:<br/>
-<br/>
-  /data/sites/bigbang<br/>
-<br/>
-before you move on, verify you have 2 folders <br/>
- • /data/sites/bingbang/Sites <br/>
- • /data/sites/bigba...</p>
-</li>
-<li>
-<p class="binderItem"><strong>2 Prepare project</strong><br/><br/>
-To start with AgileSites you need to:<br/>
-<br/>
-1) create a folder for your project  (bigbang in this tutorial) <br/>
-2) create subfolder bigbang/project<br/>
-2) create a file project/build.properties with the single line<br/>
-<br/>
-sbt.version=0.13.8 <br/>
-3) create a file project/plugins.sbt with the following lines (note the empty line in between).<br/>
-<br/>
-addSbtPlugin("com.sciabarra" % "agilesites2-build" % "11g-M1-SNAPSHOT")<br/>
-<br/>
-<br/>
-4) create a file build.sbt with the following lines:<br/>
-<br/>
-name := "bigbang"  organization := "com.sciabarra"...</p>
-</li>
-<li>
-<p class="binderItem"><strong>3 Install Sites</strong><br/>Open either the terminal or the command prompt in the big bang project folder and type sbt. You should see something like this:<br/>
-<br/>
->>> agilesites.properties<br/>
-sites.directory=/data/sites/bigbang<br/>
-sites.focus=bigbang<br/>
-[info] Set current project to bigbang <br/>
-(in build file:../bigbang/)<br/>
-<br/>
-<br/>
-Now at the command prompt type<br/>
-<br/>
-bigbang> sitesInstall<br/>
-<br/>
-You will see a lot of output while it will install Sites. <br/>
-<br/>
-<br/>
-</p>
-</li>
-<li>
-<p class="binderItem"><strong>4 Configure Eclipse</strong><br/>1) add in the file project/plugins.sbt with the following lines (separated by an empty line from the preceding):<br/>
-<br/>
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0") <br/>
-<br/>
-2) add in the file build.sbt the following line:<br/>
-<br/>
-EclipseKeys.projectFlavor := EclipseProjectFlavor.Java <br/>
-3) type the following to generate an Eclipse project:<br/>
-<br/>
-bigbang> ; reload ; eclipse<br/>
-<br/>
-<br/>
-(You need the reload step to pick the project jars available only after you installed.<br/>
-Then finally you can open eclipse,...</p>
-</li>
-</ul>
-<hr/>
-<li>
 <p class="binderItem"><strong>Beginning</strong></p>
 </li>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>Create a new site</strong></p>
+<p class="binderItem"><strong>Installation</strong><br/>Download the agilesites-bigbang.zip from www.agilesites.org/bigbang.zip and unzip it.<br/>
+<br/>
+Copy agilesites.properties.dist into agilesites.properties.<br/>
+<br/>
+Edit it to match your system. Most important you have to set:<br/>
+<br/>
+ • java: java executable you want to use <br/>
+ • site.focus : the name of the main site of your project. It is recommended it is a lower case name<br/>
+ • sites.directory is an empty writable directory where to install sites<br/>
+<br/>
+On Windows, go to the command prompt and type agilesites.cmd. On Linux/O...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Create a new site</strong><br/>The first step to implement a new site with AgileSites is to create a new site.<br/>
+<br/>
+You do that creating a class and adding an annotation<br/>
+<br/>
+@Site<br/>
+class BigBang  {<br/>
+<br/>
+}<br/>
+</p>
 </li>
 </ul>
 </ul>
@@ -176,6 +122,86 @@ class Something {<br/>
 <br/>
 Something something = e.getAssetAs<Something>()</p>
 </li>
+<li>
+<p class="binderItem"><strong>Configuring Manually</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>1 Install Prerequisite Software</strong><br/>1) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
+<br/>
+a) unzip the distribution file it in a temp folder<br/>
+<br/>
+b) now, locate the file WCS_Sites.zip then extract that file in a folder of your choice, for example:<br/>
+<br/>
+  /data/sites/bigbang<br/>
+<br/>
+before you move on, verify you have 2 folders <br/>
+ • /data/sites/bingbang/Sites <br/>
+ • /data/sites/bigbang/misc <br/>
+<br/>
+This folder will be the folder of your local Sites installation<br/>
+<br/>
+If you also want...</p>
+</li>
+<li>
+<p class="binderItem"><strong>2 Prepare project</strong><br/><br/>
+To start with AgileSites you need to download and install sbt (http://www.scala-sbt.org/) version 0.13.8  for your platform.<br/>
+<br/>
+Then<br/>
+<br/>
+1) create a folder for your project  (bigbang in this tutorial) <br/>
+2) create subfolder bigbang/project<br/>
+2) create a file project/build.properties with the single line<br/>
+<br/>
+sbt.version=0.13.8 <br/>
+3) create a file project/plugins.sbt with the following lines (note the empty line in between).<br/>
+<br/>
+addSbtPlugin("com.sciabarra" % "agilesites2-build" % "11g-M1-SNAPSHOT")<br/>
+<br/>
+<br/>
+4) create a...</p>
+</li>
+<li>
+<p class="binderItem"><strong>3 Install Sites</strong><br/>Open either the terminal or the command prompt in the big bang project folder and type sbt. You should see something like this:<br/>
+<br/>
+>>> agilesites.properties<br/>
+sites.directory=/data/sites/bigbang<br/>
+sites.focus=bigbang<br/>
+[info] Set current project to bigbang <br/>
+(in build file:../bigbang/)<br/>
+<br/>
+<br/>
+Now at the command prompt type<br/>
+<br/>
+bigbang> sitesInstall<br/>
+<br/>
+You will see a lot of output while it will install Sites. <br/>
+<br/>
+Now you can install AgileSites with the command:<br/>
+<br/>
+<br/>
+bigbang> asSetup<br/>
+<br/>
+That’s it. You have AgileSites insta...</p>
+</li>
+<li>
+<p class="binderItem"><strong>4 Configure Eclipse</strong><br/>1) add in the file project/plugins.sbt with the following lines (separated by an empty line from the preceding):<br/>
+<br/>
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0") <br/>
+<br/>
+2) add in the file build.sbt the following line:<br/>
+<br/>
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java <br/>
+3) type the following to generate an Eclipse project:<br/>
+<br/>
+bigbang> ; reload ; eclipse<br/>
+<br/>
+<br/>
+(You need the reload step to pick the project jars available only after you installed.<br/>
+Then finally you can open eclipse,...</p>
+</li>
+</ul>
 </ul>
 </ul>
 </ul>
@@ -285,11 +311,12 @@ Call bin\sbt.cmd %*<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>AgileSites11g</strong><br/>Todo<br/>
-- Add annotation support to the core<br/>
+<p class="binderItem"><strong>AgileSites11g</strong><br/>Core<br/>
 - Rework the jar upload: first store in a local file accessible to the class loader, then move it as an asset<br/>
+- Install the api also in the web folder to be groovy accessible<br/>
+<br/>
+Todo<br/>
 - Install the api as a Jar asset <br/>
-- Install the api also in the web<br/>
 -  the WCS.dispatch needs the names of the jars that it will use (creating a class loader specific for them)<br/>
 - Give an unique id to Templates and Jar (as  it is now to the content model)<br/>
 - Get rid of prefixes and suffixes<br/>
@@ -307,14 +334,15 @@ Big<br/>
 - Proto: Multiprofile sbt here too</p>
 </li>
 <li>
-<p class="binderItem"><strong>Done</strong><br/>Plugin<br/>
-<br/>
-- Publish to nexus everything<br/>
+<p class="binderItem"><strong>Done</strong><br/>- Publish to nexus everything<br/>
 - Get rid of agilesites2-setup repo and use the build for the embedded stuff<br/>
 - Remove gui downloader from code<br/>
 - Merge setup code in the plugin<br/>
 - Execute Javascript with SBT and trireme <br/>
-- Install Sites 118 in /data/sites/bigbang from the big bang project with Java6</p>
+- Install Sites 118 in /data/sites/bigbang from the big bang project with Java6<br/>
+- Refactor the core/api in order to move as more as possible in the API<br/>
+- Add annotation scanning support to the core<br/>
+- Use annotations for Template, CSElement and SiteEntry</p>
 </li>
 </ul>
 <hr/>

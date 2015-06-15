@@ -2,7 +2,7 @@
 <Links Version="1.0" Anchor="RTF">
     <CommentsAndFootnotes>
         <Comment IsFootnote="No" Collapsed="No" ID="42213FD3-CF98-4A18-BBAA-02ECBE291101">
-            <Range>383,10</Range>
+            <Range>476,10</Range>
             <Color>0.992 0.929 0.525</Color>
             <RTF><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
 {\fonttbl\f0\fnil\fcharset0 Verdana;}
@@ -13,7 +13,7 @@
 }]]></RTF>
         </Comment>
         <Comment IsFootnote="No" Collapsed="No" ID="02FBD78B-B1A4-44D6-ACC2-F04695901353">
-            <Range>680,9</Range>
+            <Range>773,9</Range>
             <Color>0.992 0.929 0.525</Color>
             <RTF><![CDATA[{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
 {\fonttbl\f0\fnil\fcharset0 Verdana;}

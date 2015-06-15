@@ -1,5 +1,5 @@
 base=$(pwd)
-for i in  setup plugin lib 
+for i in  setup plugin lib bigbang
 do cd $base/$i 
 echo "====== $i"
 git "$@"

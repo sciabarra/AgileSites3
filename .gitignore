@@ -5,7 +5,6 @@ doc.scriv/Files/search.indexes
 demo/
 .idea/
 target/
-bigbang
 demo
 node_modules/
 proto.tgz

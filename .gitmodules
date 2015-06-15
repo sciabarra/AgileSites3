@@ -7,3 +7,6 @@
 [submodule "plugin"]
 	path = plugin
 	url = https://sciabarra@github.com/agilesites/agilesites2-build
+[submodule "bigbang"]
+	path = bigbang
+	url = https://sciabarra@github.com/agilesites/agilesites2-bigbang

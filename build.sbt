@@ -1,20 +1,18 @@
-val tomcatVersion = "7.0.57"
-
-val hsqlVersion = "1.8.0.10"
+val tcv = "7.0.57"
 
 name := "AgileSites11g"
 
 organization := "com.sciabarra"
 
-def tomcatDeps(tomcatConfig: String) = Seq(
-  "org.apache.tomcat.embed" % "tomcat-embed-core" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat" % "tomcat-jasper" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat" % "tomcat-jasper-el" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat" % "tomcat-jsp-api" % tomcatVersion % tomcatConfig,
-  "org.apache.tomcat" % "tomcat-dbcp" % tomcatVersion % tomcatConfig,
-  "org.hsqldb" % "hsqldb" % hsqlVersion % tomcatConfig, // database
+def tomcatDeps(tcfg: String) = Seq(
+  "org.apache.tomcat.embed" % "tomcat-embed-core" % tcv % tcfg,
+  "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tcv % tcfg,
+  "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tcv % tcfg,
+  "org.apache.tomcat" % "tomcat-jasper" % tcv % tcfg,
+  "org.apache.tomcat" % "tomcat-jasper-el" % tcv % tcfg,
+  "org.apache.tomcat" % "tomcat-jsp-api" % tcv % tcfg,
+  "org.apache.tomcat" % "tomcat-dbcp" % tcv % tcfg,
+  "org.hsqldb" % "hsqldb" % "1.8.0.10" % tcfg, // database
   "org.apache.httpcomponents" % "httpclient" % "4.3.4",
   "com.sciabarra" % "agilesites2-build" % "11g-SNAPSHOT-001" 
     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13") changing() intransitive())
@@ -51,7 +49,6 @@ RepositoryBuilder.localRepo :=  file("/") / "data" / "sites" / "repo" / "local"
 val agilesites11g = project.in(file("."))
   .enablePlugins(SbtWeb)
   .enablePlugins(AgileSitesPlugin)
-  .enablePlugins(AgileSitesJsPlugin)
   .settings(RepositoryBuilder.localRepoCreationSettings:_*)
   .settings(
     RepositoryBuilder.localRepoProjectsPublished <<= (publishedProjects map (publishLocal in _)).dependOn,
