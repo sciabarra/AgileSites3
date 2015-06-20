@@ -1,23 +1,20 @@
-val tcv = "7.0.57"
-
 name := "AgileSites11g"
 
 organization := "com.sciabarra"
 
-def tomcatDeps(tcfg: String) = Seq(
-  "org.apache.tomcat.embed" % "tomcat-embed-core" % tcv % tcfg,
-  "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tcv % tcfg,
-  "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tcv % tcfg,
-  "org.apache.tomcat" % "tomcat-jasper" % tcv % tcfg,
-  "org.apache.tomcat" % "tomcat-jasper-el" % tcv % tcfg,
-  "org.apache.tomcat" % "tomcat-jsp-api" % tcv % tcfg,
-  "org.apache.tomcat" % "tomcat-dbcp" % tcv % tcfg,
-  "org.hsqldb" % "hsqldb" % "1.8.0.10" % tcfg, // database
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4",
-  "com.sciabarra" % "agilesites2-build" % "11g-SNAPSHOT-001" 
-    extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13") changing() intransitive())
+val tcv = "7.0.57"
 
-libraryDependencies ++= tomcatDeps("compile")
+libraryDependencies ++= Seq("org.apache.tomcat.embed" % "tomcat-embed-core" % tcv % "run;compile",
+  "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tcv % "run;compile",
+  "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tcv % "run;compile",
+  "org.apache.tomcat" % "tomcat-jasper" % tcv % "run;compile",
+  "org.apache.tomcat" % "tomcat-jasper-el" % tcv % "run;compile",
+  "org.apache.tomcat" % "tomcat-jsp-api" % tcv % "run;compile",
+  "org.apache.tomcat" % "tomcat-dbcp" % tcv % "run;compile",
+  "org.hsqldb" % "hsqldb" % "1.8.0.10" % "run;compile", // database
+  "org.apache.httpcomponents" % "httpclient" % "4.3.4",
+  "com.sciabarra" % "agilesites2-build" % "11g-SNAPSHOT" % "run;compile"
+    extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13") changing() intransitive())
 
 resolvers ++= Seq(//"Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository",
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
@@ -57,11 +54,13 @@ val agilesites11g = project.in(file("."))
       ,"org.scala-lang" % "scala-compiler" % "2.10.4" % "master"
       ,"org.scala-lang" % "jline" % "2.10.4" % "master"
       ,"org.fusesource.jansi" % "jansi" % "1.11" % "master"
-      ,"com.sciabarra" % "agilesites2-core" % "11.1.1.8.0_1.9a"
-      ,"com.sciabarra" % "agilesites2-api" % "11.1.1.8.0_1.9a"
-      ,"com.sciabarra" % "agilesites2-setup" % "2.0.3"
-      ,"com.sciabarra" % "agilesites2-build" % "2.0.4" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
-      ,"org.aeonbits.owner" % "owner" % "1.0.8" % "master"
-    )) 
+      , "com.sciabarra" % "agilesites2-build"
+        % "11g-M1-SNAPSHOT" % "run"
+        extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+      , "com.sciabarra" % "agilesites2-core"
+        % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
+      //, "com.sciabarra" % "agilesites2-api"
+      //  % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
+    ))
 
 val bb = project.in(file("bigbang"))

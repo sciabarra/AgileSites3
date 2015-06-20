@@ -7,8 +7,16 @@
 \
 You do that creating a class and adding an annotation\
 \
+import agilesites.*;\
+import agilesites.annotations.*;\
+import static agilesites.Api.*;\
+\
 @Site\
-class BigBang  \{\
+class BigBang  extends Site \{\
+\
+	Site() \{\
+      addType(\'93Jar\'94)\
+	\}\
 \
 \}\
 \

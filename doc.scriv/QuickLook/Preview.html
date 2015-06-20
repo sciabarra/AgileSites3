@@ -70,11 +70,25 @@ On Windows, go to the command prompt and type agilesites.cmd. On Linux/O...</p>
 <br/>
 You do that creating a class and adding an annotation<br/>
 <br/>
+import agilesites.*;<br/>
+import agilesites.annotations.*;<br/>
+import static agilesites.Api.*;<br/>
+<br/>
 @Site<br/>
-class BigBang  {<br/>
+class BigBang  extends Site {<br/>
+<br/>
+ Site() {<br/>
+      addType(“Jar”)<br/>
+ }<br/>
 <br/>
 }<br/>
 </p>
+</li>
+<li>
+<p class="binderItem"><strong>Create a new CSElement</strong><br/>@CSElement<br/>
+@SiteEntry<br/>
+class BbWrapper extends Element {<br/>
+}</p>
 </li>
 </ul>
 </ul>
@@ -85,29 +99,127 @@ class BigBang  {<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>Layout</strong><br/>1. I install sites <br/>
+<p class="binderItem"><strong>Layout</strong><br/>AgileSites11g is the meta project, it has subproject:<br/>
 <br/>
-Development layout<br/>
+- Lib (with core and api)<br/>
+- Plugin (the plugin)<br/>
+- Setup (the installation kit)<br/>
+- BigBang (the demo project)<br/>
 <br/>
-The meta project is able to install Sites (different version)<br/>
+The MetaProject can:<br/>
 <br/>
-Each component is a plugin (a jar)<br/>
+- Import/Export the AdminSite<br/>
+- Deploy the setup.jar in the setup project<br/>
+- Initialize a repo for a Standalone app  <br/>
+   (running with sbt with a preloaded repository)<br/>
+- Execute subprojects the plugin imported in source format (no need to publish/reload)<br/>
 <br/>
-The plugin is deployed, creating assets<br/>
-<br/>
-The metaproject can also import content<br/>
-<br/>
-And <br/>
-<br/>
-A developer create a plugin and publish it locally<br/>
-<br/>
-The plugin can also be deployed somewhere <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-</p>
+ </p>
 </li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Layout 11g</strong><br/>Layout AgileSites11g <br/>
+<br/>
+Folder: AgileSites11g<br/>
+Repo: sciabarra/AgileSites2<br/>
+Branch: 11g<br/>
+<br/>
+Functions:<br/>
+- Assembler (assemble “pieces” for subfolder)<br/>
+- Plugin Tester (imports in source)<br/>
+- Document exporter (convert scrivener content in something importable)<br/>
+<br/>
+Folder: proto<br/>
+Repo: agilesites/agilesites2-proto<br/>
+<br/>
+Implementation of the proto site, using modern business template<br/>
+<br/>
+Folder: setup<br/>
+Repo: sciabarra/agilesites2-setup<br/>
+<br/>
+Installers in Javascript executed by SBT via Trireme<br/>
+Multi profile SBT (bin/sbt.sh ...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Layout 12c</strong><br/>Layout 12c<br/>
+<br/>
+Folder: AgileSites12c<br/>
+Repo: sciabarra/AgileSitesNG<br/>
+Branch: 12c<br/>
+<br/>
+Functions:<br/>
+- Assembler (assemble “pieces” for subfolder)<br/>
+- Plugin Tester (imports in source)<br/>
+- Document exporter (convert scrivener content in something importable)<br/>
+<br/>
+<br/>
+Folder: plugin<br/>
+Repo: agilesites/agilesitesng-plugin<br/>
+<br/>
+The plugin for react/wem implementation<br/>
+<br/>
+Folder: react<br/>
+Repo: agilesites/agilesitesng-react<br/>
+<br/>
+A reactive based prototype<br/>
+<br/>
+<br/>
+Repo: agilesites/agilesitesng-wem<br/>
+Folder: wem<br/>
+Functions:<br/>
+WEM interface server<br/>
+Backe...</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Deployment</strong><br/>The installation procedure is the following:<br/>
+<br/>
+1) You run asSetupOffline. It will:<br/>
+<br/>
+a)l copy  all the files with “core” configration  in the webapp folder<br/>
+<br/>
+b) if the flag asForGroovy is true it will also copy the “api” files in the webapp folder <br/>
+<br/>
+c) Add additional properties to futuretense.ini<br/>
+<br/>
+d) Configure the sites.focus (and the prefixed) in the ServletRequests.properties<br/>
+<br/>
+2) You can then run asSetupOnline that will execute<br/>
+<br/>
+a) asSetupPopulate (catalog moving the content)<br/>
+<br/>
+b) asSetupInit (ini...</p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>AAAgileSetup</strong><br/>AAAgileSetup is the setup command <br/>
+<br/>
+The complete syntax is<br/>
+<br/>
+GET /cs/ContentServer?pagename=AAAgileSetup&op=XXX&etc<br/>
+<br/>
+I will omit the initial part and focus on the op and the parameters:<br/>
+<br/>
+It will interpret the following commands: <br/>
+<br/>
+GET …op=hello<br/>
+<br/>
+ Returns a cookie to initialize the session<br/>
+<br/>
+GET …op=init&site=XXX&siteid=YYY<br/>
+<br/>
+ It will create Jar and Static basic types (it not there)<br/>
+ It will initialized the Site with Siteid<br/>
+ Return an authentication key and a list of existing Jars <br/>
+ <br/>
+GET …op=upload<br/>
+...</p>
+</li>
+</ul>
+<hr/>
 <li>
 <p class="binderItem"><strong>Samples</strong><br/>@Template(type=“Page”) <br/>
 class MyTemplate implements Element {<br/>
@@ -123,12 +235,14 @@ class Something {<br/>
 Something something = e.getAssetAs<Something>()</p>
 </li>
 <li>
-<p class="binderItem"><strong>Configuring Manually</strong></p>
+<p class="binderItem"><strong>Archive</strong></p>
 </li>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>1 Install Prerequisite Software</strong><br/>1) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
+<p class="binderItem"><strong>ManualInstallation</strong><br/>Manual Installation of AgileSites<br/>
+<br/>
+1) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
 <br/>
 a) unzip the distribution file it in a temp folder<br/>
 <br/>
@@ -140,66 +254,7 @@ before you move on, verify you have 2 folders <br/>
  • /data/sites/bingbang/Sites <br/>
  • /data/sites/bigbang/misc <br/>
 <br/>
-This folder will be the folder of your local Sites installation<br/>
-<br/>
-If you also want...</p>
-</li>
-<li>
-<p class="binderItem"><strong>2 Prepare project</strong><br/><br/>
-To start with AgileSites you need to download and install sbt (http://www.scala-sbt.org/) version 0.13.8  for your platform.<br/>
-<br/>
-Then<br/>
-<br/>
-1) create a folder for your project  (bigbang in this tutorial) <br/>
-2) create subfolder bigbang/project<br/>
-2) create a file project/build.properties with the single line<br/>
-<br/>
-sbt.version=0.13.8 <br/>
-3) create a file project/plugins.sbt with the following lines (note the empty line in between).<br/>
-<br/>
-addSbtPlugin("com.sciabarra" % "agilesites2-build" % "11g-M1-SNAPSHOT")<br/>
-<br/>
-<br/>
-4) create a...</p>
-</li>
-<li>
-<p class="binderItem"><strong>3 Install Sites</strong><br/>Open either the terminal or the command prompt in the big bang project folder and type sbt. You should see something like this:<br/>
-<br/>
->>> agilesites.properties<br/>
-sites.directory=/data/sites/bigbang<br/>
-sites.focus=bigbang<br/>
-[info] Set current project to bigbang <br/>
-(in build file:../bigbang/)<br/>
-<br/>
-<br/>
-Now at the command prompt type<br/>
-<br/>
-bigbang> sitesInstall<br/>
-<br/>
-You will see a lot of output while it will install Sites. <br/>
-<br/>
-Now you can install AgileSites with the command:<br/>
-<br/>
-<br/>
-bigbang> asSetup<br/>
-<br/>
-That’s it. You have AgileSites insta...</p>
-</li>
-<li>
-<p class="binderItem"><strong>4 Configure Eclipse</strong><br/>1) add in the file project/plugins.sbt with the following lines (separated by an empty line from the preceding):<br/>
-<br/>
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0") <br/>
-<br/>
-2) add in the file build.sbt the following line:<br/>
-<br/>
-EclipseKeys.projectFlavor := EclipseProjectFlavor.Java <br/>
-3) type the following to generate an Eclipse project:<br/>
-<br/>
-bigbang> ; reload ; eclipse<br/>
-<br/>
-<br/>
-(You need the reload step to pick the project jars available only after you installed.<br/>
-Then finally you can open eclipse,...</p>
+This folder will be the folder of your local S...</p>
 </li>
 </ul>
 </ul>
@@ -222,61 +277,7 @@ Then finally you can open eclipse,...</p>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>Layout 11g</strong><br/>Layout AgileSites11g<br/>
-<br/>
-Folder: AgileSites11g<br/>
-Repo: sciabarra/AgileSites2<br/>
-Branch: 11g<br/>
-<br/>
-Functions:<br/>
-- Assembler (assemble “pieces” for subfolder)<br/>
-- Plugin Tester (imports in source)<br/>
-- Document exporter (convert scrivener content in something importable)<br/>
-<br/>
-Folder: proto<br/>
-Repo: agilesites/agilesites2-proto<br/>
-<br/>
-Implementation of the proto site, using modern business template<br/>
-<br/>
-Folder: setup<br/>
-Repo: sciabarra/agilesites2-setup<br/>
-<br/>
-Installers in Javascript executed by SBT via Trireme<br/>
-Multi profile SBT (bin/sbt.sh c...</p>
-</li>
-<li>
-<p class="binderItem"><strong>Layout 12c</strong><br/>Layout 12c<br/>
-<br/>
-Folder: AgileSites12c<br/>
-Repo: sciabarra/AgileSitesNG<br/>
-Branch: 12c<br/>
-<br/>
-Functions:<br/>
-- Assembler (assemble “pieces” for subfolder)<br/>
-- Plugin Tester (imports in source)<br/>
-- Document exporter (convert scrivener content in something importable)<br/>
-<br/>
-<br/>
-Folder: plugin<br/>
-Repo: agilesites/agilesitesng-plugin<br/>
-<br/>
-The plugin for react/wem implementation<br/>
-<br/>
-<br/>
-Folder: react<br/>
-Repo: agilesites/agilesitesng-react<br/>
-<br/>
-A reactive based prototype<br/>
-<br/>
-FLu<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-Repo: agilesites/agilesitesng-wem<br/>
-Folder: wem<br/>
-Functions:<br/>
-WEM interface serv...</p>
+<p class="binderItem"><strong>Layout</strong></p>
 </li>
 <li>
 <p class="binderItem"><strong>Embed SBT</strong><br/>How to embed sbt and run it offline with multiple profiles<br/>
@@ -299,10 +300,6 @@ Call bin\sbt.cmd %*<br/>
 </p>
 </li>
 </ul>
-<hr/>
-<li>
-<p class="binderItem"><strong>Layout</strong></p>
-</li>
 </ul>
 <hr/>
 <li>
