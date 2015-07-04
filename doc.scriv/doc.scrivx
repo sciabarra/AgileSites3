@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ScrivenerProject Version="1.0" Creator="SCRMAC-2.6-25480" Modified="2015-06-20 18:55:53 +0200">
+<ScrivenerProject Version="1.0" Creator="SCRMAC-2.6-25480" Modified="2015-07-04 15:54:25 +0200">
     <Binder>
         <BinderItem ID="0" Type="DraftFolder" Created="2015-06-02 22:46:17 +0200" Modified="2015-06-02 22:46:17 +0200">
             <Title>Draft</Title>
@@ -123,6 +123,26 @@
                                         <TextSelection>815,0</TextSelection>
                                     </TextSettings>
                                     <Children>
+                                        <BinderItem ID="34" Type="Text" Created="2015-06-13 08:53:07 +0200" Modified="2015-06-19 15:26:31 +0200">
+                                            <Title>ManualInstallation</Title>
+                                            <MetaData>
+                                                <IncludeInCompile>Yes</IncludeInCompile>
+                                                <NotesTextSelection>0,0</NotesTextSelection>
+                                            </MetaData>
+                                            <TextSettings>
+                                                <TextSelection>34,0</TextSelection>
+                                            </TextSettings>
+                                        </BinderItem>
+                                        <BinderItem ID="31" Type="Text" Created="2015-06-05 10:06:23 +0200" Modified="2015-06-25 11:18:11 +0200">
+                                            <Title>Embed SBT</Title>
+                                            <MetaData>
+                                                <IncludeInCompile>Yes</IncludeInCompile>
+                                                <NotesTextSelection>0,0</NotesTextSelection>
+                                            </MetaData>
+                                            <TextSettings>
+                                                <TextSelection>132,0</TextSelection>
+                                            </TextSettings>
+                                        </BinderItem>
                                         <BinderItem ID="44" Type="Text" Created="2015-06-16 15:07:53 +0200" Modified="2015-06-19 15:39:22 +0200">
                                             <Title>AAAgileSetup</Title>
                                             <MetaData>
@@ -144,28 +164,6 @@
                                     <TextSettings>
                                         <TextSelection>172,0</TextSelection>
                                     </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="37" Type="Folder" Created="2015-06-13 11:13:26 +0200" Modified="2015-06-19 15:26:44 +0200">
-                                    <Title>Archive</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>0,0</TextSelection>
-                                    </TextSettings>
-                                    <Children>
-                                        <BinderItem ID="34" Type="Text" Created="2015-06-13 08:53:07 +0200" Modified="2015-06-19 15:26:31 +0200">
-                                            <Title>ManualInstallation</Title>
-                                            <MetaData>
-                                                <IncludeInCompile>Yes</IncludeInCompile>
-                                                <NotesTextSelection>0,0</NotesTextSelection>
-                                            </MetaData>
-                                            <TextSettings>
-                                                <TextSelection>34,0</TextSelection>
-                                            </TextSettings>
-                                        </BinderItem>
-                                    </Children>
                                 </BinderItem>
                             </Children>
                         </BinderItem>
@@ -198,28 +196,6 @@
                             <TextSettings>
                                 <TextSelection>0,0</TextSelection>
                             </TextSettings>
-                            <Children>
-                                <BinderItem ID="26" Type="Text" Created="2015-06-05 08:20:33 +0200" Modified="2015-06-05 08:20:36 +0200">
-                                    <Title>Layout</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>0,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                                <BinderItem ID="31" Type="Text" Created="2015-06-05 10:06:23 +0200" Modified="2015-06-05 10:10:52 +0200">
-                                    <Title>Embed SBT</Title>
-                                    <MetaData>
-                                        <IncludeInCompile>Yes</IncludeInCompile>
-                                        <NotesTextSelection>0,0</NotesTextSelection>
-                                    </MetaData>
-                                    <TextSettings>
-                                        <TextSelection>235,0</TextSelection>
-                                    </TextSettings>
-                                </BinderItem>
-                            </Children>
                         </BinderItem>
                     </Children>
                 </BinderItem>
@@ -233,14 +209,14 @@
                         <TextSelection>0,0</TextSelection>
                     </TextSettings>
                     <Children>
-                        <BinderItem ID="23" Type="Text" Created="2015-06-05 08:18:29 +0200" Modified="2015-06-16 12:37:25 +0200">
+                        <BinderItem ID="23" Type="Text" Created="2015-06-05 08:18:29 +0200" Modified="2015-07-01 16:32:43 +0200">
                             <Title>AgileSites11g</Title>
                             <MetaData>
                                 <IncludeInCompile>Yes</IncludeInCompile>
                                 <NotesTextSelection>0,0</NotesTextSelection>
                             </MetaData>
                             <TextSettings>
-                                <TextSelection>463,0</TextSelection>
+                                <TextSelection>489,0</TextSelection>
                             </TextSettings>
                             <Children>
                                 <BinderItem ID="32" Type="Text" Created="2015-06-09 16:27:37 +0200" Modified="2015-06-09 16:29:15 +0200">
@@ -253,14 +229,14 @@
                                         <TextSelection>76,0</TextSelection>
                                     </TextSettings>
                                 </BinderItem>
-                                <BinderItem ID="29" Type="Text" Created="2015-06-05 09:16:17 +0200" Modified="2015-06-15 00:18:50 +0200">
+                                <BinderItem ID="29" Type="Text" Created="2015-06-05 09:16:17 +0200" Modified="2015-07-01 16:10:29 +0200">
                                     <Title>Done</Title>
                                     <MetaData>
                                         <IncludeInCompile>Yes</IncludeInCompile>
                                         <NotesTextSelection>0,0</NotesTextSelection>
                                     </MetaData>
                                     <TextSettings>
-                                        <TextSelection>471,0</TextSelection>
+                                        <TextSelection>538,0</TextSelection>
                                     </TextSettings>
                                 </BinderItem>
                             </Children>
@@ -295,6 +271,26 @@
                 <IncludeInCompile>Yes</IncludeInCompile>
             </MetaData>
             <Children>
+                <BinderItem ID="37" Type="Folder" Created="2015-06-13 11:13:26 +0200" Modified="2015-06-19 15:26:44 +0200">
+                    <Title>Archive</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                        <NotesTextSelection>0,0</NotesTextSelection>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
+                <BinderItem ID="26" Type="Text" Created="2015-06-05 08:20:33 +0200" Modified="2015-06-05 08:20:36 +0200">
+                    <Title>Layout</Title>
+                    <MetaData>
+                        <IncludeInCompile>Yes</IncludeInCompile>
+                        <NotesTextSelection>0,0</NotesTextSelection>
+                    </MetaData>
+                    <TextSettings>
+                        <TextSelection>0,0</TextSelection>
+                    </TextSettings>
+                </BinderItem>
                 <BinderItem ID="39" Type="Text" Created="2015-06-13 14:51:40 +0200" Modified="2015-06-13 14:51:40 +0200">
                     <Title>Untitled</Title>
                     <MetaData>
@@ -370,7 +366,7 @@
     <ProjectTargets Notify="No">
         <DraftTarget Type="Words" CountIncludedOnly="Yes" CurrentCompileGroupOnly="No" Deadline="2015-06-02 22:46:16 +0200" IgnoreDeadline="Yes">0</DraftTarget>
         <SessionTarget Type="Words" CountDraftOnly="Yes" AllowNegatives="Yes" ResetType="Midnight" DeterminedFromDeadline="No" WritingDays="" CanWriteOnDeadlineDate="No">0</SessionTarget>
-        <PreviousSession Words="6" Characters="49" Date="2015-06-20 16:39:21 +0200"></PreviousSession>
+        <PreviousSession Words="0" Characters="0" Date="2015-07-04 14:33:03 +0200"></PreviousSession>
     </ProjectTargets>
     <PrintSettings PaperSize="595.0,842.0" LeftMargin="72.0" RightMargin="72.0" TopMargin="90.0" BottomMargin="90.0" PaperType="iso-a4" Orientation="Portrait" HorizontalPagination="Clip" VerticalPagination="Auto" ScaleFactor="1.0" HorizontallyCentered="Yes" VerticallyCentered="Yes" Collates="Yes" PagesAcross="1" PagesDown="1"></PrintSettings>
 </ScrivenerProject>

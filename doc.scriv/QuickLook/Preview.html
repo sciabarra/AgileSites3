@@ -112,7 +112,7 @@ The MetaProject can:<br/>
 - Deploy the setup.jar in the setup project<br/>
 - Initialize a repo for a Standalone app  <br/>
    (running with sbt with a preloaded repository)<br/>
-- Execute subprojects the plugin imported in source format (no need to publish/reload)<br/>
+- Execute subproject the plugin imported in source format (no need to publish/reload)<br/>
 <br/>
  </p>
 </li>
@@ -130,16 +130,15 @@ Functions:<br/>
 - Plugin Tester (imports in source)<br/>
 - Document exporter (convert scrivener content in something importable)<br/>
 <br/>
-Folder: proto<br/>
-Repo: agilesites/agilesites2-proto<br/>
-<br/>
-Implementation of the proto site, using modern business template<br/>
-<br/>
 Folder: setup<br/>
 Repo: sciabarra/agilesites2-setup<br/>
 <br/>
 Installers in Javascript executed by SBT via Trireme<br/>
-Multi profile SBT (bin/sbt.sh ...</p>
+Multi profile SBT (bin/sbt.sh called by scripts )<br/>
+Ansible scripts<br/>
+<br/>
+Tomcat installer with a vagrant builder<br/>
+Weblogic installer with a vagrant build...</p>
 </li>
 <li>
 <p class="binderItem"><strong>Layout 12c</strong><br/>Layout 12c<br/>
@@ -195,6 +194,42 @@ b) asSetupInit (ini...</p>
 <hr/>
 <ul>
 <li>
+<p class="binderItem"><strong>ManualInstallation</strong><br/>Manual Installation of AgileSites<br/>
+<br/>
+1) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
+<br/>
+a) unzip the distribution file it in a temp folder<br/>
+<br/>
+b) now, locate the file WCS_Sites.zip then extract that file in a folder of your choice, for example:<br/>
+<br/>
+  /data/sites/bigbang<br/>
+<br/>
+before you move on, verify you have 2 folders <br/>
+ • /data/sites/bingbang/Sites <br/>
+ • /data/sites/bigbang/misc <br/>
+<br/>
+This folder will be the folder of your local S...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Embed SBT</strong><br/>How to embed sbt and run it offline with multiple profiles<br/>
+<br/>
+<br/>
+setup/bin/sbt.sh put a script to launch SBT with the following options<br/>
+<br/>
+JAVA_HOME<br/>
+IVY_REPO<br/>
+PROFILE<br/>
+<br/>
+Then create in setup a script<br/>
+<br/>
+Cd here<br/>
+JAVA_HOME=…<br/>
+IVY_REPO=…<br/>
+PROFILE=…<br/>
+Call bin\sbt.cmd %*<br/>
+</p>
+</li>
+<li>
 <p class="binderItem"><strong>AAAgileSetup</strong><br/>AAAgileSetup is the setup command <br/>
 <br/>
 The complete syntax is<br/>
@@ -234,29 +269,6 @@ class Something {<br/>
 <br/>
 Something something = e.getAssetAs<Something>()</p>
 </li>
-<li>
-<p class="binderItem"><strong>Archive</strong></p>
-</li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>ManualInstallation</strong><br/>Manual Installation of AgileSites<br/>
-<br/>
-1) download and install Oracle WebCenter Sites (http://www.oracle.com/technetwork/middleware/webcenter/sites/downloads/index.html).<br/>
-<br/>
-a) unzip the distribution file it in a temp folder<br/>
-<br/>
-b) now, locate the file WCS_Sites.zip then extract that file in a folder of your choice, for example:<br/>
-<br/>
-  /data/sites/bigbang<br/>
-<br/>
-before you move on, verify you have 2 folders <br/>
- • /data/sites/bingbang/Sites <br/>
- • /data/sites/bigbang/misc <br/>
-<br/>
-This folder will be the folder of your local S...</p>
-</li>
-</ul>
 </ul>
 </ul>
 </ul>
@@ -274,32 +286,6 @@ This folder will be the folder of your local S...</p>
 <li>
 <p class="binderItem"><strong>Layouts</strong></p>
 </li>
-<hr/>
-<ul>
-<li>
-<p class="binderItem"><strong>Layout</strong></p>
-</li>
-<li>
-<p class="binderItem"><strong>Embed SBT</strong><br/>How to embed sbt and run it offline with multiple profiles<br/>
-<br/>
-In<br/>
-<br/>
-setup/bin/sbt.sh put a script to launch SBT with the following options<br/>
-<br/>
-JAVA_HOME<br/>
-IVY_REPO<br/>
-PROFILE<br/>
-<br/>
-Then create in setup a script<br/>
-<br/>
-Cd here<br/>
-JAVA_HOME=…<br/>
-IVY_REPO=…<br/>
-PROFILE=…<br/>
-Call bin\sbt.cmd %*<br/>
-</p>
-</li>
-</ul>
 </ul>
 <hr/>
 <li>
@@ -308,19 +294,22 @@ Call bin\sbt.cmd %*<br/>
 <hr/>
 <ul>
 <li>
-<p class="binderItem"><strong>AgileSites11g</strong><br/>Core<br/>
-- Rework the jar upload: first store in a local file accessible to the class loader, then move it as an asset<br/>
-- Install the api also in the web folder to be groovy accessible<br/>
+<p class="binderItem"><strong>AgileSites11g</strong><br/><br/>
+Content Import<br/>
+- Create the AssetAssembler actor and construct an attribute editor<br/>
+- Post the asset via the Wem actor <br/>
+- Connect the Annotation processor to SBT via Akka<br/>
+- Create a CSElement<br/>
+- Create a Template<br/>
+- Create a  SiteEntry <br/>
 <br/>
-Todo<br/>
-- Install the api as a Jar asset <br/>
--  the WCS.dispatch needs the names of the jars that it will use (creating a class loader specific for them)<br/>
-- Give an unique id to Templates and Jar (as  it is now to the content model)<br/>
-- Get rid of prefixes and suffixes<br/>
+Jar Deploy<br/>
+- Status should return informations on the jars in order to upload only the needed<br/>
+- Install the lib and everything in the classpath in an intelligent way<br/>
+- Install the api also in the web folder to be groovy accessible if you  enable groovy<br/>
 <br/>
-Big<br/>
-- Port everything to Sites12c <br/>
-- Implement content im...</p>
+Core<br/>
+-  th...</p>
 </li>
 <hr/>
 <ul>
@@ -339,7 +328,8 @@ Big<br/>
 - Install Sites 118 in /data/sites/bigbang from the big bang project with Java6<br/>
 - Refactor the core/api in order to move as more as possible in the API<br/>
 - Add annotation scanning support to the core<br/>
-- Use annotations for Template, CSElement and SiteEntry</p>
+- Use annotations for Template, CSElement and SiteEntry<br/>
+- Rework the jar upload: firs...</p>
 </li>
 </ul>
 <hr/>
@@ -358,6 +348,12 @@ Big<br/>
 </li>
 <hr/>
 <ul>
+<li>
+<p class="binderItem"><strong>Archive</strong></p>
+</li>
+<li>
+<p class="binderItem"><strong>Layout</strong></p>
+</li>
 <li>
 <p class="binderItem"><strong>Untitled</strong></p>
 </li>
