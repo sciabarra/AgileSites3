@@ -15,7 +15,7 @@ libraryDependencies ++=
      ,"org.apache.tomcat" % "tomcat-dbcp" % tcv % "run;compile"
      ,"org.hsqldb" % "hsqldb" % "1.8.0.10" % "run;compile" // database
      ,"com.sciabarra" % "agilesites2-core" % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
-     ,"com.sciabarra" % "agilesites2-build" % "11g-M1-SNAPSHOT" % "run;compile"
+     ,"com.sciabarra" % "agilesites2-build" % "11g-M2-SNAPSHOT" % "run;compile"
         extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
      )
 
@@ -66,5 +66,8 @@ val root = project.in(file("."))
        //  % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
        ))
 
-// val bb = project.in(file("bigbang"))
+val bb = project.in(file("bigbang"))
 
+addCommandAlias("to12c", """; eval System.setProperty("profile", "12c") ; reload""")
+
+addCommandAlias("to11g", """; eval System.setProperty("profile", "11g") ; reload""")
