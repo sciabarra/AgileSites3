@@ -1,9 +1,6 @@
 [submodule "setup"]
 	path = setup
 	url = https://sciabarra@github.com/sciabarra/agilesites2-setup
-[submodule "lib"]
-	path = lib
-	url = https://sciabarra@github.com/agilesites/agilesites2-lib
 [submodule "plugin"]
 	path = plugin
 	url = https://sciabarra@github.com/agilesites/agilesites2-build

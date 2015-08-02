@@ -1,11 +1,9 @@
-.be/id-cache
+.idea/
 doc.scriv/Files/binder.autosave
 doc.scriv/Files/binder.backup
 doc.scriv/Files/search.indexes
 demo/
-.idea/
+lib/
 target/
-demo
-node_modules/
 proto.tgz
 export/
