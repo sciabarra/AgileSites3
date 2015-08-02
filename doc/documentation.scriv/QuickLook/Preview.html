@@ -1,0 +1,116 @@
+<html>
+
+<head>
+<title>documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+	body {background-color: #bac0c7}
+    p.binderItem {margin: 10.0px 0.0px 0.0px 05.0px; font-family:Cochin, Times, Courier, Arial, serif; font-size:14.0px;}
+    .page {border: 1px solid #727272; background: #fff}
+    hr {
+      border-top: 1px dashed #000;
+      border-bottom: 0px solid #fff;
+      color: #fff;
+      background-color: #fff;
+      height: 0px;
+  </style>
+</head>
+
+<body>
+
+<table border="0" width="100%" cellspacing="3">
+<tr>
+<td>
+
+<table class="page" width="100%" cellspacing="10" cellpadding="2">
+<tr>
+<td valign="top">
+
+<ul>
+<li>
+<p class="binderItem"><strong>Tutorial</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Installation</strong><br/>Start installing AgileSites executing its installer you can download from<br/>
+<br/>
+www.agilesites.og<br/>
+<br/>
+Once installed, the installer will create an icon on your desktop you can click.<br/>
+<br/>
+Click on it and it will open a command line shell <br/>
+<br/>
+=|as:><br/>
+<br/>
+At the installation time you should already have downloaded and installed Sites. If it did not, you need to do now, because Sites is required for development (of course).<br/>
+ You can still do now typing:<br/>
+<br/>
+=|as:> sitesInstall <username> <password><br/>
+<br/>
+where <username> an...</p>
+</li>
+<li>
+<p class="binderItem"><strong>Initial</strong><br/>Now, you have a new project If you check the generated code you will see:<br/>
+<br/>
+package bigbang;  import agilesites.annotations.Site; import agilesites.api.AgileSite;  @Site public class BigBang extends AgileSite { }<br/>
+<br/>
+This code is defining a new site called BigBang that is an “AgileSite” site. The deploy will setup what is needed for it.<br/>
+<br/>
+Now you can create simple page. This is the first one:<br/>
+<br/>
+package bigbang.element;  import agilesites.annotations.CSElement; import agilesites.annotations.SiteEntry; ...</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Reference</strong></p>
+</li>
+<li>
+<p class="binderItem"><strong>Design</strong></p>
+</li>
+<hr/>
+<ul>
+<li>
+<p class="binderItem"><strong>Installer </strong><br/>Before starting the installer, you need to run a “collect” task that will prepare the repo/local folder, copying in repo/bin the sbt-launcher, and configuring it, and checking out the “bigbang” folder<br/>
+<br/>
+The installer done with izpack will then pack the folder the following directories<br/>
+<br/>
+  bigbang<br/>
+  repo<br/>
+<br/>
+It will also create the bigbang/agilesites.{sh,cmd} scripts<br/>
+<br/>
+It will finally ask if you want to download and install Sites, and if yes will run the sitesInstall command<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</p>
+</li>
+<li>
+<p class="binderItem"><strong>Todo</strong><br/>- TODO: a new asCreate command that will copy configurations from current directory to another directory <br/>
+<br/>
+- TODO: the agilesites.sh and agilesites.cmd scripts in the big bang</p>
+</li>
+</ul>
+<hr/>
+<li>
+<p class="binderItem"><strong>Todo</strong></p>
+</li>
+</ul>
+
+</td>
+<td width="8">
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

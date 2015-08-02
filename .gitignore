@@ -1,9 +1,8 @@
 .idea/
-doc.scriv/Files/binder.autosave
-doc.scriv/Files/binder.backup
-doc.scriv/Files/search.indexes
+doc/documentation.scriv/Files/binder.autosave
+doc/documentation.scriv/Files/binder.backup
+doc/documentation.scriv/Files/search.indexes
 demo/
 lib/
 target/
-proto.tgz
 export/

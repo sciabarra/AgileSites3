@@ -45,7 +45,7 @@ lazy val publishedProjects = Seq[ProjectReference]()
 
 RepositoryBuilder.localRepo :=  file("/") / "data" / "sites" / "repo" / "local"
 
-val root = project.in(file("."))
+val as = project.in(file("."))
   .enablePlugins(SbtWeb)
   .enablePlugins(AgileSitesNgPlugin)
   .settings(RepositoryBuilder.localRepoCreationSettings:_*)
@@ -57,18 +57,17 @@ val root = project.in(file("."))
        ,"org.scala-lang" % "scala-compiler" % "2.10.4" % "master"
        ,"org.scala-lang" % "jline" % "2.10.4" % "master"
        ,"org.fusesource.jansi" % "jansi" % "1.11" % "master"
-       , "com.sciabarra" % "agilesites2-build" % "11g-M3" % "run" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+       ,"com.sciabarra" % "agilesites2-build" % "11g-M3" % "run"
+         extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
        //, "com.sciabarra" % "agilesites2-core"
        // % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
        //, "com.sciabarra" % "agilesites2-api"
        //  % "11.1.1.8.0_11g-M1-SNAPSHOT" % "core;compile"
        )).dependsOn(file("plugin").toURI)
 
-val bb = project.in(file("bigbang"))
+
 
 val nl = project.in(file("nglib"))
 
+val bb = project.in(file("bigbang")).dependsOn(nl)
 
-// addCommandAlias("to12c", """; eval System.setProperty("profile", "12c") ; reload""")
-
-// addCommandAlias("to11g", """; eval System.setProperty("profile", "11g") ; reload""")
