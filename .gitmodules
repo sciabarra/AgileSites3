@@ -10,3 +10,6 @@
 [submodule "bigbang"]
 	path = bigbang
 	url = https://sciabarra@github.com/agilesites/agilesites2-bigbang
+[submodule "nglib"]
+	path = nglib
+	url = https://sciabarra@github.com/sciabarra/agilesitesng-lib
