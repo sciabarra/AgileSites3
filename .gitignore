@@ -1,7 +1,9 @@
 .idea/
+.history
 doc/documentation.scriv/Files/binder.autosave
 doc/documentation.scriv/Files/binder.backup
 doc/documentation.scriv/Files/search.indexes
+doc/documentation.scriv/Files/user.lock
 demo/
 lib/
 target/

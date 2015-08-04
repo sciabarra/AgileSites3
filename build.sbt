@@ -25,9 +25,9 @@ resolvers ++=
     ,"Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots"
     )
 
-val deploy = taskKey[Unit]("deploy to bin/setup.jar")
+val deploySetup = taskKey[Unit]("deploy to bin/setup.jar")
 
-deploy := {
+deploySetup := {
   // assemble startup jar
   val src = AssemblyKeys.assembly.value
   val dst = file("setup") / "bin" / "setup.jar"
@@ -66,8 +66,12 @@ val as = project.in(file("."))
        )).dependsOn(file("plugin").toURI)
 
 
-
 val nl = project.in(file("nglib"))
 
 val bb = project.in(file("bigbang")).dependsOn(nl)
 
+addCommandAlias("bb12c", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
+
+addCommandAlias("bb11g", """; eval System.setProperty("profile", "11g") ; reload ; project bb""")
+
+initialCommands := "bb12c"
