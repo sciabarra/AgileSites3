@@ -68,10 +68,11 @@ val as = project.in(file("."))
 
 val nl = project.in(file("nglib"))
 
-val bb = project.in(file("bigbang")).dependsOn(nl)
+val bb = project.in(file("bigbang"))
+  .dependsOn(nl)
+  .settings(ngSpoonProcessorJar := Some(file("plugin")/"target"/"scala-2.10"/"sbt-0.13"/"agilesites2-build-11g-M3.jar"))
 
 addCommandAlias("bb12c", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
 
 addCommandAlias("bb11g", """; eval System.setProperty("profile", "11g") ; reload ; project bb""")
 
-initialCommands := "bb12c"
