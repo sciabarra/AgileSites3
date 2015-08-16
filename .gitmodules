@@ -1,12 +1,12 @@
 [submodule "setup"]
 	path = setup
-	url = https://sciabarra@github.com/sciabarra/agilesites2-setup
+	url = https://github.com/sciabarra/agilesites2-setup
 [submodule "plugin"]
 	path = plugin
-	url = https://sciabarra@github.com/agilesites/agilesites2-build
+	url = https://github.com/agilesites/agilesites2-build
 [submodule "bigbang"]
 	path = bigbang
-	url = https://sciabarra@github.com/agilesites/agilesites2-bigbang
+	url = https://github.com/agilesites/agilesites2-bigbang
 [submodule "nglib"]
 	path = nglib
-	url = https://sciabarra@github.com/sciabarra/agilesitesng-lib
+	url = https://github.com/sciabarra/agilesitesng-lib
