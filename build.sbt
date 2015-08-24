@@ -87,6 +87,6 @@ addCommandAlias("bb", """project bb""")
 
 addCommandAlias("nl", """project nl""")
 
-addCommandAlias("lib", """; project nl ; ngConcatJava ; cmov import_all aaagile; ngService version refresh=1""")
+addCommandAlias("lib", """; project nl ; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 ; project bb""")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
