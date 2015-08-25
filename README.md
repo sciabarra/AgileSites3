@@ -12,17 +12,14 @@ edit it and set
 
 ## initialize
 
-$ cd AgileSites11g/plugin
-$ git checkout 11g
-$ sbt publishLocal
-$ cd ../nglib
-$ git checkout 11g
-$ sbt ngTagWrapperGen
-$ sbt publishLocal
-$ cd ..
-$ sbt lib
+Start sites
+
+Check http://<sites-host>/cs/HelloCS answers
+
+Execute init.sh
 
 ## work
+
 Notes
 
 - if you change the spoon processor you MUST nl/package 
