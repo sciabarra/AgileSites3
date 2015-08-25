@@ -4,9 +4,12 @@
 [submodule "plugin"]
 	path = plugin
 	url = https://github.com/agilesites/agilesites2-build
+	branch = 11g
 [submodule "bigbang"]
 	path = bigbang
 	url = https://github.com/agilesites/agilesites2-bigbang
+	branch = 11g
 [submodule "nglib"]
 	path = nglib
 	url = https://github.com/sciabarra/agilesitesng-lib
+	branch = 11g
