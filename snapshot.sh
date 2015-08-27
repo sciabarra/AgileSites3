@@ -10,4 +10,5 @@ do cd $i
 done
 git add $subs
 git commit -m "$msg" -a
+git pull origin $br
 git push origin $br
