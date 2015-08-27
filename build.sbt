@@ -65,9 +65,6 @@ val as = project.in(file("."))
 
 val nl = project.in(file("nglib"))
 
-//val pl = project.in(file("plugin"))
-
-
 val pluginJar = file("plugin") / "target" / "scala-2.10" / "sbt-0.13" / "agilesites2-build-11g-M4-SNAPSHOT.jar"
 
 val nglibJar = file("nglib") / "target" / "agilesitesng-lib-11g-M4-SNAPSHOT.jar"
