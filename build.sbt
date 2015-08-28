@@ -4,17 +4,6 @@ organization := "com.sciabarra"
 
 val tcv = "7.0.57"
 
-libraryDependencies ++=
-  Seq("org.apache.httpcomponents" % "httpclient" % "4.3.4"
-    , "org.apache.tomcat.embed" % "tomcat-embed-core" % tcv % "run;compile"
-    , "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tcv % "run;compile"
-    , "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tcv % "run;compile"
-    , "org.apache.tomcat" % "tomcat-jasper" % tcv % "run;compile"
-    , "org.apache.tomcat" % "tomcat-jasper-el" % tcv % "run;compile"
-    , "org.apache.tomcat" % "tomcat-jsp-api" % tcv % "run;compile"
-    , "org.apache.tomcat" % "tomcat-dbcp" % tcv % "run;compile"
-    , "org.hsqldb" % "hsqldb" % "1.8.0.10" % "run;compile" // database
-   )
 
 resolvers ++=
   Seq("Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
@@ -72,6 +61,8 @@ val nglibJar = file("nglib") / "target" / "agilesitesng-lib-11g-M4-SNAPSHOT.jar"
 val bb = project.in(file("bigbang"))
   .dependsOn(nl)
   .settings(ngSpoonProcessorJars := Seq(pluginJar.getAbsoluteFile, nglibJar.getAbsoluteFile))
+
+enablePlugins(AgileSitesNgPlugin)
 
 
 addCommandAlias("p2", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
