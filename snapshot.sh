@@ -4,11 +4,11 @@ subs="nglib plugin setup bigbang"
 for i in $subs
 do cd $i 
    git commit -m "$msg" -a 
-   git pull origin $br
-   git push origin $br
+   git pull origin $br 
+   git push origin $br || exit 1
    cd ..
 done
 git add $subs
-git commit -m "$msg" -a
-git pull origin $br
-git push origin $br
+git commit -m "$msg" -a 
+git pull origin $br 
+git push origin $br 
