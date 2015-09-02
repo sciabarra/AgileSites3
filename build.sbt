@@ -62,8 +62,6 @@ val bb = project.in(file("bigbang"))
   .dependsOn(nl)
   .settings(ngSpoonProcessorJars := Seq(pluginJar.getAbsoluteFile, nglibJar.getAbsoluteFile))
 
-enablePlugins(AgileSitesNgPlugin)
-
 
 addCommandAlias("p2", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
 
