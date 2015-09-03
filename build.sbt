@@ -4,7 +4,6 @@ organization := "com.sciabarra"
 
 val tcv = "7.0.57"
 
-
 resolvers ++=
   Seq("Local Maven" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
     , "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases"
@@ -64,7 +63,6 @@ val bb = project.in(file("bigbang"))
 
 enablePlugins(AgileSitesNgPlugin)
 
-
 addCommandAlias("p2", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
 
 addCommandAlias("p1", """; eval System.setProperty("profile", "11g") ; reload ; project bb""")
@@ -75,6 +73,8 @@ addCommandAlias("bb", """project bb""")
 
 addCommandAlias("nl", """project nl""")
 
-addCommandAlias("lib", """; project nl ; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 ; project bb""")
+addCommandAlias("dlib", s"""; project nl ; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 debug=${(file("nglib")/"src"/"test"/"groovy"/"AAAgileServices.groovy").getAbsolutePath}; project bb""")
+
+addCommandAlias("lib", s"""; project nl ; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 ; project bb""")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
