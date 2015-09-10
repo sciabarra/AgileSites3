@@ -1,14 +1,14 @@
 import sbt.Keys._
 
-name := "agilesitesng-lib"
+name := "agilesites3-lib"
 
 organization := "com.sciabarra"
 
-version := "11g-M4-SNAPSHOT"
+version := "v3-M5-SNAPSHOT"
 
 crossPaths := false
 
-libraryDependencies += "com.sciabarra" % "agilesites2-build" % "11g-M4-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 watchSources ++= ((baseDirectory.value / "src" / "main" / "resources") ** "*.jsp").get
 
