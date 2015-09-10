@@ -20,7 +20,10 @@ import agilesites.api.AgileSite;
         "DemoParentDefinition",
         "DemoContentDefinition",
         "DmContent",
-        "DmParent"})
+        "DmParent",
+        "PageAttribute",
+        "PageDefinition",
+        "Page"})
 public class Demo extends AgileSite {
 
     @AttributeEditor

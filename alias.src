@@ -1,5 +1,0 @@
-export EDITOR=subl
-export PATH=$PWD/script:$PATH
-alias ga="git add"
-alias gs="git status"
-alias ll="ls -l"

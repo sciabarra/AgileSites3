@@ -1,5 +1,4 @@
-val plugin = project.in(file(".")).
-  dependsOn(file("plugin").toURI)
+val plugin = project.in(file(".")).dependsOn(file("plugin").toURI)
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
 

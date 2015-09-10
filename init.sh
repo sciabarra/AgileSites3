@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cd plugin
 sbt publishLocal
 cd ..

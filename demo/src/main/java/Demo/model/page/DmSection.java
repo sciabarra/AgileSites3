@@ -5,7 +5,7 @@ import demo.model.DmContent;
 import demo.model.Page;
 
 @FindStartMenu("Find Content Page")
-@StartMenu("New Content Page")
+//@StartMenu("New Content Page")
 @ContentDefinition
 public class DmSection extends Page {
 

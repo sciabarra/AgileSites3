@@ -3,7 +3,7 @@ package demo.model.dmcontent;
 import agilesites.annotations.*;
 import demo.model.DmContent;
 
-@StartMenu("New Image")
+//@StartMenu("New Image")
 @FindStartMenu("Find Image")
 @ContentDefinition
 @Parent("DmGallery")

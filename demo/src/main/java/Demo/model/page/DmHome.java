@@ -4,7 +4,7 @@ import agilesites.annotations.*;
 import demo.model.Page;
 
 @FindStartMenu("Find HomePage")
-@StartMenu("New HomePage")
+//@StartMenu("New HomePage")
 @ContentDefinition
 public class DmHome extends Page {
 

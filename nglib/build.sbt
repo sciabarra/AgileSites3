@@ -1,4 +1,4 @@
-import sbt.Keys._
+val nglib = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 name := "agilesites3-lib"
 
@@ -31,4 +31,3 @@ publishArtifact in(Compile, packageDoc) := false
 
 publishArtifact in packageDoc := false
 
-enablePlugins(AgileSitesNgPlugin)

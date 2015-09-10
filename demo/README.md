@@ -1,5 +1,3 @@
-Obsolete repo
-
-# AgileSites "big bang" project
+# AgileSites "demo" project
 
 Starting point for AgileSites

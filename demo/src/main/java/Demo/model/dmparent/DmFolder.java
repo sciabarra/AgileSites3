@@ -4,7 +4,7 @@ import agilesites.annotations.*;
 import demo.model.DmParent;
 
 @FindStartMenu("Find Folder")
-@StartMenu("New Folder")
+//@StartMenu("New Folder")
 @ParentDefinition
 @Parent("DmFolder")
 public class DmFolder extends DmParent {

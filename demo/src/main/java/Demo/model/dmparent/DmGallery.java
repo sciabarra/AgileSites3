@@ -4,7 +4,7 @@ import agilesites.annotations.*;
 import demo.model.DmParent;
 
 @FindStartMenu("Find Gallery")
-@StartMenu("New Gallery")
+//@StartMenu("New Gallery")
 @ParentDefinition
 @Parent("DmGallery")
 public class DmGallery extends DmParent {
