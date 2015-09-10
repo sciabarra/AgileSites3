@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<h3><center>Overview of ContentServer Tables</center></h3>
+<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+<EXECSQL SQL="SELECT DISTINCT systable FROM SystemInfo ORDER BY systable DESC" LIST="A"/>
+
+<table class="altClass">
+<tr>
+<LOOP LIST="A">
+   <td style="vertical-align: top">	
+		<SETVAR NAME="errno" VALUE="0"/>
+		<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+        <EXECSQL SQL="SELECT tblname FROM SystemInfo WHERE systable = 'A.systable' AND tblname NOT IN ('SystemAssets') ORDER BY LOWER(tblname) ASC" LIST="B"/>
+        <b>Total <CSVAR NAME="B.#numRows"/> tables of type: <CSVAR NAME="A.systable"/></b><br/>
+		<LOOP LIST="B">
+			<a href="ContentServer?pagename=Support/Audit/Default/BodyCheck&#38;tblname=B.tblname" REPLACEALL="B.tblname"><CSVAR NAME="B.tblname"/></a>
+			<SETVAR NAME="errno" VALUE="0"/>
+			<br/>
+		</LOOP>
+    </td>
+</LOOP>
+</tr>
+</table>
+</FTCS> 

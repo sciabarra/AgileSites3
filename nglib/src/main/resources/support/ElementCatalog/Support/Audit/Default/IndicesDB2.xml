@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!DOCTYPE ftcs SYSTEM "futuretense_cs.dtd">
+<ftcs version="1.2">
+<!-- Support/Audit/Default/IndicesDB2
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+
+<SETVAR NAME="errno" VALUE="0"/>
+<H3><center>Output of all Table Indices</center></H3>
+
+<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+<EXECSQL SQL="select tblname from systeminfo where tblname not like 'tt%' order by tblname ASC" LIST="A"/>
+<table class="altClass">
+    <tr><th>IndexName</th><th>ColumnName(s)</th><th>CreateTime</th><th>StatsTime</th><th>NLEAF</th><th>NPAGES</th><th>CARD</th><th>FirstKey</th><th>FullKey</th><th>UniqueRule</th><th>TableColCount</th><th>IndexColCount</th></tr>
+    <tr><td>Total <CSVAR NAME="A.#numRows"/> Tables</td></tr>
+    <LOOP LIST="A">
+            <tr><th align="left" colspan="12"><CSVAR NAME="A.tblname "/></th></tr>
+            <TOUPPER STR="A.tblname" OUTSTR="tbl" />
+            <SETVAR NAME="tablename" VALUE="SystemInfo"/>
+            <EXECSQL SQL="select i.name, i.colnames, i.create_time, i.stats_time, nleaf, npages, card, firstkeycard as firstkey, fullkeycard as fullkey,uniquerule as u, t.colcount as tbcol, i.colcount as ixcol from sysibm.systables t, sysibm.sysindexes i where  t.creator = i.tbcreator and t.name = i.tbname and i.tbname='Variables.tbl'" LIST="indname"/>
+            <LOOP LIST="indname">
+                <tr>
+                    <td><CSVAR NAME="indname.name"/></td>
+                    <td><CSVAR NAME="indname.colnames"/></td>
+                    <td><CSVAR NAME="indname.create_time"/></td>
+                    <td><CSVAR NAME="indname.stats_time"/></td>
+                    <td><CSVAR NAME="indname.nleaf"/></td>
+                    <td><CSVAR NAME="indname.npages"/></td>
+                    <td><CSVAR NAME="indname.card"/></td>
+                    <td><CSVAR NAME="indname.firstkey"/></td>
+                    <td><CSVAR NAME="indname.fullkey"/></td>
+                    <td><CSVAR NAME="indname.u"/></td>
+                    <td><CSVAR NAME="indname.tbcol"/></td>
+                    <td><CSVAR NAME="indname.ixcol"/></td>
+                </tr>
+            </LOOP>
+    </LOOP>
+</table>
+                                    
+</ftcs>

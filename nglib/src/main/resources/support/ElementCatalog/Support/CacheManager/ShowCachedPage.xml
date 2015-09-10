@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- CacheManager/ShowCachedPage
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<SETVAR NAME="tablename" VALUE="SystemPageCache"/>
+<EXECSQL  SQL="SELECT urlpage FROM SystemPageCache WHERE id = Variables.pid" LIST="page" table="SystemPageCache" />
+<IF COND="Variables.errno=-101"><THEN>Page not found! (Maybe not in cache anymore?)<br/>
+</THEN><ELSE>
+<ICS.RESOLVEVARIABLES NAME="page.@urlpage" OUTPUT="htmlOut" DELIMITED="false" />
+<CSVAR NAME="page.@urlpage"/>
+</ELSE></IF>
+</FTCS>

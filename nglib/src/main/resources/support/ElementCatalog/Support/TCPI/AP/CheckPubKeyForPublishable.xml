@@ -1,0 +1,150 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/AP/CheckPubKeyForPublishable
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<SCRIPT LANGUAGE="JavaScript">
+<![CDATA[
+function checkall () {
+	var obj = document.forms[0].elements[0];
+	var formCnt = obj.form.elements.length;
+	// check it
+	for (i=0; i<formCnt; i++) {
+        if (obj.form.elements[i].name == "pubkey")  {
+            if (obj.form.elements[i].checked)
+    			obj.form.elements[i].checked=false;
+             else
+                obj.form.elements[i].checked=true;
+        }
+	}
+}
+]]>
+</SCRIPT>
+<center><h3>Check PubKeys for Publishable Assets</h3></center>
+<IF COND="Variables.delete=delete">
+<THEN>
+	<IF COND="IsVariable.pubkey=true">
+	<THEN>
+		<IF COND="Variables.pubkey!=CS.Empty">
+		<THEN>
+			<h4>Deleting PubKeys</h4>
+			<STRINGLIST NAME="delpubs" STR="Variables.pubkey" DELIM=";"/>
+			<LOOP LIST="delpubs" COUNT="Variables.limit" >
+				<CSVAR NAME="delpubs.ITEM"/>,
+				<SETVAR NAME="tablename" VALUE="PublishedAssets" />
+				<EXECSQL SQL="DELETE FROM PublishedAssets WHERE pubkeyid = delpubs.ITEM" LIST="dummydel"/>
+				<SETVAR NAME="errno" VALUE="0"/>
+				<CATALOGMANAGER SCOPED="LOCAL">
+					<ARGUMENT NAME="ftcmd" VALUE="deleterow" />
+					<ARGUMENT NAME="tablename" VALUE="PubKeyTable" />
+					<ARGUMENT NAME="Delete uploaded files" VALUE="yes"/>
+					<ARGUMENT NAME="id" VALUE="delpubs.ITEM"/>
+				</CATALOGMANAGER>
+			</LOOP>
+			
+			<SETVAR NAME="errno" VALUE="0"/>
+			<SETVAR NAME="tablename" VALUE="PublishedAssets" />
+			<CATALOGMANAGER  SCOPED="LOCAL">
+				<ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+				<ARGUMENT NAME="tablename" VALUE="Variables.tablename" />
+			</CATALOGMANAGER>
+
+			<SETVAR NAME="tablename" VALUE="PubKeyTable" />
+			<CATALOGMANAGER SCOPED="LOCAL">
+				<ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+				<ARGUMENT NAME="tablename" VALUE="Variables.tablename" />
+			</CATALOGMANAGER>
+			<SETVAR NAME="errno" VALUE="0"/>
+		</THEN>
+		</IF>
+	</THEN>
+	</IF>
+</THEN>
+</IF>
+
+<SETVAR NAME="tablename" VALUE="PubTarget"/>
+<IF COND="IsVariable.pubtargetid=false">
+<THEN>
+  <b>Select a Publish Destination:</b><br/>
+	<SETVAR NAME="errno" VALUE="0"/>
+  <SELECTTO LIST="targets" WHAT="id,name,description,type" FROM="PubTarget"/>
+	    <IF COND="IsError.Variables.errno=false">
+	    <THEN>
+        <UL CLASS="subnav">
+		    <LOOP LIST="targets">
+		          <DELIVERYTYPE.LOAD NAME="dtype" OBJECTID="targets.type"/>
+		          <DELIVERYTYPE.GET NAME="dtype" FIELD="name" OUTPUT="dtype:name"/>
+              <LI>
+              <a href="ContentServer?pagename=Support/TCPI/AP/CheckPubKeyForPublishable&#38;pubtargetid=targets.id&#38;tname=targets.name (Variables.dtype:name)" REPLACEALL="targets.id,targets.name,Variables.dtype:name">
+			        <CSVAR NAME="targets.name (Variables.dtype:name)"/></a><br/>
+              </LI>
+        </LOOP>
+        </UL>
+      </THEN>
+      </IF>
+</THEN>
+<ELSE>
+  <h4><CSVAR NAME="Variables.tname"/></h4>
+  <EXECSQL SQL="SELECT name FROM PubTarget where id=Variables.pubtargetid" LIST="ptarget"/>
+	<SETVAR NAME="errno" VALUE="0"/>
+	<SETVAR NAME="tablename" VALUE="PubKeyTable"/>
+	<EXECSQL SQL="SELECT PubKeyTable.id as id, PubKeyTable.urlkey AS urlkey FROM PubKeyTable,PublishedAssets WHERE PubKeyTable.urlkey IS NOT NULL AND PubKeyTable.id=PublishedAssets.pubkeyid AND  PubKeyTable.targetid=Variables.pubtargetid AND EXISTS(SELECT 'x' FROM ApprovedAssets t0 WHERE  PublishedAssets.assetid=t0.assetid AND t0.targetid=Variables.pubtargetid AND t0.state='A' AND t0.locked='F' AND (PublishedAssets.assetversion!=t0.assetversion OR PublishedAssets.assetdate&#60;t0.assetdate)) AND EXISTS(SELECT 'x' FROM ApprovedAssets t1 WHERE PubKeyTable.assetid=t1.assetid AND t1.targetid=Variables.pubtargetid AND t1.tstate='A'  AND t1.locked='F') UNION SELECT PubKeyTable.id as id, PubKeyTable.urlkey AS urlkey FROM  PubKeyTable,ApprovedAssets t2 WHERE PubKeyTable.urlkey IS NOT NULL AND newkey!='D' AND t2.targetid=Variables.pubtargetid AND t2.tstate='A' AND t2.locked='F' AND PubKeyTable.assetid=t2.assetid AND PubKeyTable.targetid=Variables.pubtargetid" LIST="pubkeys"/>
+	<IF COND="Variables.errno=0">
+	<THEN>
+		<SETVAR NAME="dir" VALUE="CS.CatalogDir.PubKeyTable"/>
+		<SETVAR NAME="foundbad" VALUE="false"/>
+		<satellite.form satellite="true" method="POST" >
+		<table class="altClass">
+		<tr>
+			<th>Nr.</th>
+			<th>Delete?</th>
+			<th>Filename</th>
+			<th>Content</th>
+		</tr>
+		<LOOP LIST="pubkeys">
+			<tr>
+			<td><CSVAR NAME="pubkeys.#curRow"/></td>
+			<SETVAR NAME="errno" VALUE="0"/>
+			<BEGINS STR="pubkeys.@urlkey" WHAT="&#60;!--File not found"/>
+			<IF COND="Variables.errno=1">
+				<THEN>
+					<td><input type="checkbox" name="pubkey" value="pubkeys.id" REPLACEALL="pubkeys.id"/></td>
+					<SETVAR NAME="foundbad" VALUE="true"/>
+				</THEN>
+				<ELSE>
+					<td>&nbsp;</td>
+				</ELSE>
+			</IF>
+			<SETVAR NAME="errno" VALUE="0"/>
+			<td><CSVAR NAME="Variables.dirpubkeys.urlkey"/></td>
+			<td><CSVAR NAME="pubkeys.@urlkey"/></td>
+			</tr>
+		</LOOP>
+		</table>
+		<IF COND="Variables.foundbad=true">
+		<THEN>
+			<br/><a href="javascript:void(0);" onclick="return checkall()" onmouseover="window.status='Check/Uncheck all';return true;" onmouseout="window.status='';return true;">check/uncheck all</a><br/><input type="Submit" name="delete" value="delete"/><br/>
+			<input type="hidden" name="pagename" value="Variables.pagename" REPLACEALL="Variables.pagename" />
+			<input type="hidden" name="pubtargetid" value="Variables.pubtargetid" REPLACEALL="Variables.pubtargetid" />
+			Maximum number of deletes (limit): <input type="text" name="limit" value="Variables.limit" REPLACEALL="Variables.limit" />
+		</THEN>
+		<ELSE>
+			<br/><b>All urlkey files were found on disk!</b><br/>No cleanup action is required for the assets that are now publishable for this Pubslish destination.<br/>
+		</ELSE>
+		</IF>
+		</satellite.form>
+		<FLUSH LIST="pubkeys"/>
+	</THEN>
+	<ELSE>
+		No publishable assets found.<br/>
+	</ELSE>
+	</IF>
+</ELSE>
+</IF>
+<SETVAR NAME="errno" VALUE="0"/>
+</FTCS>

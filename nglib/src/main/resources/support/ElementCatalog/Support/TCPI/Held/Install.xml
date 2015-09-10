@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/Held/Install
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<SETVAR NAME="errno" VALUE="0" />
+<IF COND="IsCatalog.BrokenAssets=false">
+   <THEN>
+		<SETVAR NAME="errno" VALUE="0" />
+		<CATALOGMANAGER>
+			<ARGUMENT NAME="ftcmd" VALUE="createtable" />
+			<ARGUMENT NAME="tablename" VALUE="BrokenAssets" />
+			<ARGUMENT NAME="systable" VALUE="obj"/>
+			<ARGUMENT NAME="aclList" VALUE="Browser,SiteGod,xceleditor"/>
+			<ARGUMENT NAME="colname0" VALUE="CS.Property.cc.contentkey" />
+			<ARGUMENT NAME="colvalue0" VALUE="CS.Property.cc.bigint CS.Property.cc.primary" />
+			<ARGUMENT NAME="colname1" VALUE="assetid" />
+			<ARGUMENT NAME="colvalue1" VALUE="CS.Property.cc.bigint NOT NULL" />
+			<ARGUMENT NAME="colname2" VALUE="assettype" />
+			<ARGUMENT NAME="colvalue2" VALUE="CS.Property.cc.varchar (64) NOT NULL"/>
+			<ARGUMENT NAME="colname3" VALUE="reason" />
+			<ARGUMENT NAME="colvalue3" VALUE="CS.Property.cc.varchar (64) NOT NULL" />
+			<ARGUMENT NAME="colname4" VALUE="updateddate" />
+			<ARGUMENT NAME="colvalue4" VALUE="CS.Property.cc.datetime CS.Property.cc.null"/>
+		</CATALOGMANAGER>  
+		<IF COND="IsError.Variables.errno=true">
+			<THEN>
+				<CSVAR NAME="Errorno while creating table: Variables.errno"/>
+			</THEN>
+			<ELSE>
+				Broken asset table created<br/>
+				<SETVAR NAME="errno" VALUE="0" />
+				<SETVAR NAME="tablename" VALUE="BrokenAssets" />
+				<EXECSQL SQL="CREATE INDEX ICS.UniqueID ON BrokenAssets (assetid)" LIST="indexlist"/>
+				<IF COND="Variables.errno!=-502">
+					<THEN>
+						<CSVAR NAME="Errorno while creating index: Variables.errno"/>
+					</THEN>
+				</IF>
+
+			</ELSE>
+		</IF>
+   </THEN>
+<ELSE>
+Broken assets was already created<br/>
+</ELSE>
+</IF>
+
+
+</FTCS> 

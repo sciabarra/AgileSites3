@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- CacheManager/SelectItems
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<script language="JavaScript">
+<![CDATA[
+function checkall () {
+	var obj = document.forms[0].elements[0];
+	var formCnt = obj.form.elements.length;
+	
+	for (i=0; i<formCnt; i++) {
+        if (obj.form.elements[i].name == "idlist")  {
+            if (obj.form.elements[i].checked)
+    			obj.form.elements[i].checked=false;
+             else
+                obj.form.elements[i].checked=true;
+        }
+	}
+}
+]]>
+</script>
+<h3>Find which Pages an Asset is Referenced</h3>
+<IF COND="IsVariable.c=false"><THEN>
+<h4>Select AssetType</h4>
+<satellite.form satellite="true" method="post">
+	<input type="hidden" name="pagename" value="Variables.pagename" REPLACEALL="Variables.pagename"/>
+   <select name="c">
+       <SETVAR NAME="tablename" VALUE="AssetType"/>
+       <EXECSQL  SQL="SELECT assettype FROM AssetType ORDER BY assettype" LIST="assettypes" TABLE="AssetType" />
+       <LOOP LIST="assettypes">
+            <br/><option value="assettypes.assettype" REPLACEALL="assettypes.assettype"><CSVAR NAME="assettypes.assettype"/></option>
+       </LOOP>
+   </select>Optionally enter assetid: <input type="text" name="id" /><br/><br/>
+   <input type="Submit" name="Submit" value="List for Flush"/>
+   &nbsp;<input type="Submit" name="Submit" value="List Container Pages"/>
+</satellite.form>
+</THEN><ELSE>
+	<SETVAR NAME="tablename" VALUE="SystemItemCache"/>
+	<IF COND="IsVariable.id=false"><THEN>
+  	  <EXECSQL  SQL="SELECT DISTINCT id FROM SystemItemCache WHERE id LIKE 'asset-%:Variables.c' ORDER BY id" LIST="items" TABLE="SystemItemCache,SystemItemCache" />
+	  <IF COND="Variables.errno=-101"><THEN>There are no pages cached for assettype <CSVAR NAME="Variables.c"/>!<br/></THEN></IF>
+	  <IF COND="Variables.errno=-105"><THEN>SQL error</THEN></IF>
+	</THEN><ELSE>
+	  <EXECSQL  SQL="SELECT DISTINCT id FROM SystemItemCache WHERE id = 'asset-Variables.id:Variables.c' ORDER BY id" LIST="items" TABLE="SystemItemCache,SystemItemCache" />
+	  <IF COND="Variables.errno=-101"><THEN>There are no pages cached for assettype <CSVAR NAME="Variables.c"/> with id <CSVAR NAME="Variables.id"/>!<br/></THEN></IF>
+	  <IF COND="Variables.errno=-105"><THEN>SQL error</THEN></IF>
+	</ELSE></IF>
+	<IF COND="IsError.Variables.errno=false"><THEN>
+		<IF COND="Variables.Submit=List for Flush"><THEN>
+		<p><b>Select asset(s) whose container pages need to be <i>Flushed</i></b></p>
+			<satellite.form satellite="true" method="post">
+				<input type="hidden" name="pagename" value="Support/CacheManager/flushByItemPost"/>
+				<input type="hidden" name="cs-cs" value="on"/>
+				<input type="hidden" name="cs-ss" value="on"/>
+				<input type="hidden" name="ss" value="on"/>
+				<a href="javascript:void(0);" onclick="return checkall()" onmouseover="window.status='Select all assets';return true;" onmouseout="window.status='';return true;">CheckAll</a>&nbsp;
+				<input type="Submit" NAME="Submit" VALUE="&nbsp;Flush&nbsp;"/><br/><br/>
+				<LOOP LIST="items">
+					<INPUT name="idlist" type="checkbox" value="items.id" REPLACEALL="items.id"/><CSVAR NAME="items.id"/><br/>
+				</LOOP>
+				<br/><a href="javascript:void(0);" onclick="return checkall()" onmouseover="window.status='Select all assets';return true;" onmouseout="window.status='';return true;">CheckAll</a>&nbsp;
+				<input type="submit" name="Submit" value="&nbsp;Flush&nbsp;"/>
+			</satellite.form>
+		</THEN><ELSE>
+		<p><b>Select asset(s) whose container pages need to be <i>Listed</i></b></p>
+			<satellite.form satellite="true" method="post">
+				<input type="hidden" name="pagename" value="Support/CacheManager/listByItemPost"/>
+				<a href="javascript:void(0);" onclick="return checkall()" onmouseover="window.status='Select all assets';return true;" onmouseout="window.status='';return true;">check all</a>&nbsp;
+				<input type="submit" name="Submit" value="&nbsp;List&nbsp;"/><br/><br/>
+				<LOOP LIST="items">
+					<input name="idlist" type="checkbox" value="items.id" REPLACEALL="items.id"/><CSVAR NAME="items.id"/><br/>
+				</LOOP>
+				<br/><a href="javascript:void(0);" onclick="return checkall()" onmouseover="window.status='Select all assets';return true;" onmouseout="window.status='';return true;">check all</a>&nbsp;
+				<input type="submit" name="Submit" value="&nbsp;List&nbsp;"/>
+			</satellite.form>
+		</ELSE></IF>
+	</THEN></IF>	
+</ELSE></IF>
+</FTCS>

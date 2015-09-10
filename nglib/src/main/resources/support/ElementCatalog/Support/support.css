@@ -1,0 +1,274 @@
+div.incache-warn {
+	color: #ff0000;
+	text-align: center;
+}
+body {
+  margin: 0; 
+  padding: 0;
+  text-align: left;
+  font-family:Verdana,geneva;
+  font-size:65%;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+p {
+  padding: 5px 0 7px 0;
+}
+a {
+  color: #737C85;
+  text-decoration: none;
+}
+a:hover {
+  color: #660000;
+  text-decoration: underline;
+}
+li {
+  padding: 0px 0px 2px 5px;
+}
+#content {
+  margin-top: 18px;
+  width: 100%;
+  overflow:visible;
+  background-color: white;
+}
+#logo{
+  background-color:#EE0000;
+}
+table.logo {
+  border:none;
+}
+td.logo {
+  border:none;
+  color: white;
+  font-size: 1.2em;
+  border-bottom:none;
+  font-weight: bold;
+}
+p.logo {
+  text-align: center;
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.spacer {
+  clear: both;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #4A525A;
+  text-align: center;
+}
+
+div.low-risk,
+div.medium-risk,
+div.high-risk
+{
+  float:left;width:33%
+}
+
+ul.entry-header li {
+  background-color: #FBF9FA;
+  padding: 0px 0px 0px 0px;
+}
+ 
+li.read-only a {
+  background-color:#F6F1F4;
+  color:black;
+}
+
+li.with-care a {
+  background-color:#D2B6C8;
+  color:white;
+}
+
+li.dangerous a {
+  background-color:#A36C90;
+  color:white;
+}
+
+li.read-only a:hover {
+  background-color: #7FC942;
+}
+
+li.with-care a:hover {
+  background-color: #F6F10E;
+  color:#000000;
+}
+li.dangerous a:hover {
+  background-color: #F60B0E;
+  color:#000000;
+}
+
+
+ul.entry-header li h2 {
+  font-size: 1.5em;
+  text-decoration: none;
+  text-align: center;
+
+}
+
+ul.entry-header a {
+  padding: 7px 2px 3px 0;
+  display: block;
+}
+
+
+ul.entry-header {
+  margin-left: 18px;
+  list-style-type:none;
+}
+ul.entry-header li p {
+  margin: 10px 10px 10px 10px;
+  text-align: left;
+}
+ul.entry-header li ul {
+  margin: 0px 0px 10px 20px;
+}
+
+blockquote{
+  padding: 10px;
+  border-top: 1px solid #CDCDCD;
+  border-bottom: 1px solid #CDCDCD;
+  margin: 5px 13px;
+}
+blockquote p {
+  font-size: 1em;
+}
+#footer {
+	margin-top: 12px;
+	height:17px;
+	background-color:#EE0000;
+	color: #ffffff;
+	border-top: 1px dotted #ccc;
+	border-bottom: 1px dotted #ccc;
+	padding: 5px 0px 5px 0px;
+}
+
+form, fieldset{
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+input, textarea{
+  border: 1px solid #ccc;
+  padding: 2px 0;
+}
+form {
+  margin: 10px 0;
+}
+label {
+  width: 17em;
+  float: left;
+}
+.white {
+  padding: 5px 10px;
+}
+#nav-bg {
+  min-height: 24px;
+  background-color: #9DAD90;
+}
+#nav {
+}
+#nav ul {
+  text-align: center;
+  list-style-type: none;
+}
+#nav a {
+  display: block;
+  font-size: 1em;
+  font-weight: bold;
+  text-decoration: none;
+  border-left: 1px solid #999;
+  /*padding: 5px 0 0 0;*/
+  color:white;
+}
+#nav a:hover {
+  /*font-size: 1.2em;*/
+  background-color: #8D7685;
+  /*color: #4A525A;*/
+}
+#nav li {
+  float: left;
+  min-width: 90px;
+  padding: 5px 0px 5px 0px;
+}
+#elapsed{
+ padding: 5px;
+ text-align: right;
+ color: white;
+}
+ul.subnav {
+  list-style: none;
+}
+ul.subnav li {
+  padding: 0 0 3px 15px;
+}
+ul.subnav li a {
+  color: #737C85;
+  text-decoration: none;
+}
+ul.subnav li a:hover {
+  color: #660000;
+  text-decoration: underline;
+}
+table {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  word-spacing: normal;
+  font-size:1em;
+}
+table th, table td {
+  border-bottom:1px solid #333366;
+  padding: 4px;
+  text-align: left;
+  vertical-align: middle;
+  white-space:nowrap;
+
+}
+table th {
+  background-color:#A3357C;
+  color:#FFFFFF;
+  font-size:1.2em;
+  font-weight:bold;
+}
+
+table td {
+  border-collapse: collapse;
+  color: black;
+  font-size:1em;
+}
+tr.even{
+  background-color: #FFFFFF;
+}
+tr.odd{
+  background-color: #FBF9FA;
+}
+code {
+  font-family:"Courier New", monospace;
+  white-space: pre;
+  font-size:1.2em;
+  background-color: #F2F2F2;
+  display: block;
+}
+ol {
+  margin: 10px;
+  padding: 10px;
+}
+div.pagelet-summary {
+ background-color: #0099FF;
+}
+div.pagelet-inner {
+ background-color: #00CCFF;
+}
+div.pagelet-body {
+ background-color: #F5F5F5;
+ white-space:normal;
+ border-style:solid;
+ border-width:2px;
+}

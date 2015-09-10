@@ -1,0 +1,49 @@
+#!/bin/bash
+#host: host:port to connect to
+host=localhost:8080
+# invoke wget to get a session cookie
+wget -S -O out.log -o header.log  "http://$host/cs/Satellite?pagename=Support%2FPerformance%2FStandard%2Florem"
+cookieval=`awk 'BEGIN {FS="[ ;]"} /Set-Cookie/ { print $4 }' header.log`
+echo $cookieval
+rm out.log
+rm header.log
+# number of requests per ab command
+n=5000
+#cache buster setting, to have more pages in cache if needed
+cb=3
+#what servlet to use (ContentServer or Satellite
+servlet=Satellite
+mkdir -p results
+# size is  the size of the pages in bytes
+# c: number of concurrent user
+every=$((n/250))
+echo $every
+echo "<html><head><style>img.large {width:800px; border:1px solid black;} img.small { width:800px; border:none; } </style></head><body>" > results/results.html
+
+for size in 100 1024 8196 102400 256000
+  do
+  for c in 1 3 5 10 25
+    do
+    for servlet in Satellite ContentServer
+       do
+       echo -c $c -n $n -k "/cs/$servlet?cb=$cb&pagename=Support%2FPerformance%2FStandard%2Florem&size=$size"
+        fname=$c-$servlet-$cb-$size
+        ab -c $c -n $n -k -g $fname.log -C "$cookieval" "http://$host/cs/$servlet?cb=$cb&pagename=Support%2FPerformance%2FStandard%2Florem&size=$size" > results/$fname-result.txt
+        echo set terminal png  >  plot.script
+        echo set xlabel \"Request\" >> plot.script
+        echo set ylabel \"ms\" >> plot.script
+        echo set title \"$servlet concurrency: $c, number: $n, size: $size\" >> plot.script
+        echo set grid >> plot.script
+        echo set output \"results/$fname.png\" >> plot.script
+        echo set size 1.5,0.75 >> plot.script
+        echo plot \"$fname.log\" every $every using 0:8 title \"download time\" with lines lt 3 , \"$fname.log\" every $every using 0:9 title \"total time\" with lines lt 1 >> plot.script
+        gnuplot plot.script
+        rm -f plot.script
+        #rm -f $fname.log
+        echo "<a href=\"$fname-result.txt\"/>" >> results/results.html
+        echo "<img src=\"$fname.png\" alt=\"$fname\" class=\"small\" onmouseover=\"this.className=''\" onmouseout=\"this.className='small'\" /></a>" >> results/results.html
+       done
+     echo "<br/>" >> results/results.html
+  done
+done
+echo "</body></html>" >> results/results.html

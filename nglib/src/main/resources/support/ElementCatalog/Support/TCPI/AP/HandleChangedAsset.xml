@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!DOCTYPE ftcs SYSTEM "futuretense_cs.dtd">
+<ftcs version="1.2">
+<!-- Support/TCPI/AP/HandleChangedAsset
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<IF COND="IsVariable.assetid=true">
+<THEN>
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>
+            <IF COND="IsVariable.approvechanged=true">
+            <THEN>
+                <CATALOGMANAGER>
+                    <ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+                    <ARGUMENT NAME="tablename" VALUE="PubkeyTable" />
+                </CATALOGMANAGER>   
+                <SETVAR NAME="tablename" VALUE="PubkeyTable" />
+                <EXECSQL SQL="SELECT newkey FROM PubkeyTable WHERE newkey NOT IN ('N', 'I') AND assetid=Variables.assetid AND targetid=Variables.target" LIST="ptlist" TABLE="PubkeyTable" />
+                <IF COND="ptlist.#numRows!=0">
+                <THEN>
+                    <EXECSQL SQL="UPDATE PubkeyTable SET newkey='N' WHERE assetid=Variables.assetid AND targetid=Variables.target" LIST="ptuplist" TABLE="PubkeyTable" />
+                </THEN>
+                </IF>
+                <ics.clearerrno/>
+
+                <CALLELEMENT NAME="Support/TCPI/AP/ApproveAsset">
+                    <ARGUMENT NAME="type" VALUE="Variables.type"/>
+                    <ARGUMENT NAME="id" VALUE="Variables.assetid"/>
+                    <ARGUMENT NAME="target" VALUE="Variables.target"/>
+                    <ARGUMENT NAME="forceit" VALUE="true"/>
+                </CALLELEMENT>
+                <ics.clearerrno/>
+
+            </THEN>
+            </IF>
+        </td>
+    </tr>
+</THEN>
+</IF>
+</ftcs>

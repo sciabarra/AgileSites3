@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- Support/Audit/Start
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<!-- check if already logged in, if so, then log out 
+<IF COND="IsSessionVariable.activesession=true" >
+	<THEN>
+	<REMOVESSVAR NAME="activesession"/>
+	<REMOVESSVAR NAME="username"/>
+	</THEN>
+</IF>
+-->
+
+<SETVAR NAME="errno" VALUE="0"/>
+<h1>Login with SiteGod Privileges</h1>
+<FORM name="LoginForm" enctype="multipart/form-data" ACTION="CS.Property.ft.approotContentServer" METHOD="POST" REPLACEALL="CS.Property.ft.approot">
+<INPUT TYPE="HIDDEN" NAME="login" VALUE="true"/>
+<INPUT TYPE="HIDDEN" NAME="pagename" VALUE="Support/Audit/LoginPost"/>
+<TABLE style="border:none">
+    <TR> 
+      <TD style="text-align:right; border:none"><b>User ID: </b></TD>
+      <TD style="border:none"><INPUT TYPE="TEXT" NAME="username" size="20"/></TD>
+    </TR>
+    <TR> 
+      <TD style="text-align:right; border:none"><b>Password: </b></TD>
+      <TD style="border:none"><INPUT TYPE="PASSWORD" NAME="password" size="20"/></TD>
+    </TR>
+    <TR> 
+      <TD style="border:none">&nbsp;</TD>
+      <TD style="border:none"><INPUT TYPE="submit" VALUE="&nbsp;Login&nbsp;"/>&nbsp;<INPUT TYPE="reset" VALUE="&nbsp;Cancel&nbsp;"/></TD>
+    </TR>
+  </TABLE>
+</FORM>
+<script language="JavaScript">
+<![CDATA[
+    document.LoginForm.username.focus();
+]]>
+</script>
+</FTCS> 

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/SQL/Download
+-
+- INPUT
+- script variable from link
+- OUTPUT
+-
+-->
+<USERISMEMBER GROUP="SiteGod"/>
+<if COND="Variables.errno=1">
+	<then>
+
+			<ICS.STREAMHEADER NAME="Content-Type"        VALUE="text/sql; charset=iso-8859-1"/>
+			<ICS.STREAMHEADER NAME="Content-Disposition" VALUE="attachment; filename=Variables.script.sql"/>
+			<callelement NAME="Support/TCPI/SQL/Variables.script"/>
+
+	</then>
+<else>
+	<html>
+	<callelement NAME="Support/TCPI/HtmlHead"/>
+	<body topmargin="0">
+	<callelement NAME="Support/TCPI/Header"/>
+
+	You are not logged in as a 'SiteGod' user.<br/>
+	<callelement NAME="Support/TCPI/LoginForm"/>
+	</body>
+	</html>
+
+</else>
+</if>
+
+</FTCS>

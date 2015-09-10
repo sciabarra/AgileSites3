@@ -1,0 +1,419 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/Audit/V7/Security
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+
+<!-- Getting the eventhost is not the way to do it, CS.HTTP_HOST is.-->
+
+<center><h3>WebCenter Sites Security Audit</h3></center>
+
+<h3><b>Quick Reference</b></h3>
+<ul class="subnav">
+    <li><a href="#Settings">Security settings</a></li>
+    <li><a href="#Users">Standard Users and Passwords</a></li>
+    <li><a href="#URLs">Standard URLs</a></li>
+    <li><a href="#Utility">Utility URLs</a></li>
+</ul>
+
+<p>This utility goes into the db to collect the users, this breaks on LDAP use. It need to be rewritten for LDAP</p>
+<!-- get ACL for current user -->
+<SETVAR NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="SystemUsers"/>
+<EXECSQL SQL="SELECT acl FROM SystemUsers WHERE username = 'SessionVariables.username'" LIST="UserACL"/>
+
+<p>You're logged in as <b><CSVAR NAME="SessionVariables.username"/></b>
+<!-- create temp username variable -->
+<SETVAR NAME="tmpUsername" VALUE="SessionVariables.username"/>
+
+<!-- if the user has access to SystemInfo then also display the users ACL -->
+<IF COND="Variables.errno=0">
+	<THEN>
+	    and you have the following ACL(s): <b><CSVAR NAME="UserACL.acl"/></b>
+	</THEN>
+</IF>
+</p>
+
+<br/><h4><a name="Settings"></a>Security settings</h4>
+<table class="altClass">
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>bs.security</td>
+<td>
+<IF COND="CS.Property.bs.security=true">
+	<THEN>
+	<CSVAR NAME="CS.Property.bs.security"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.bs.security"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Tell BlobServer whether to check security before allowing database access and image retrieval. <br/>If security is on, images can not be cached in memory.
+</td>
+</tr>
+
+<tr>
+<td>cc.security</td>
+<td>
+<IF COND="CS.Property.cc.security=true">
+	<THEN>
+	<CSVAR NAME="CS.Property.cc.security"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.cc.security"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Tell ContentServer whether to check security before allowing database access.</td>
+</tr>
+
+<tr>
+<td>secure.CatalogManager</td>
+<td>
+<IF COND="CS.Property.secure.CatalogManager=true">
+	<THEN>
+	<CSVAR NAME="CS.Property.secure.CatalogManager"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.secure.CatalogManager"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Tell CatalogManager whether DefaultReader can connect to the specified servlet when security is on; true means DefaultReader can NOT connect.</td>
+</tr>
+
+<tr>
+<td>secure.DebugServer</td>
+<td>
+<IF COND="CS.Property.secure.DebugServer=true">
+	<THEN>
+	<CSVAR NAME="CS.Property.secure.DebugServer"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.secure.DebugServer"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Tell DebugServer whether DefaultReader can connect to the specified servlet when security is on; true means DefaultReader can NOT connect.</td>
+</tr>
+
+<tr>
+<td>secure.TreeManager</td>
+<td>
+<IF COND="CS.Property.secure.TreeManager=true">
+	<THEN>
+	<CSVAR NAME="CS.Property.secure.TreeManager"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.secure.TreeManager"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Tell TreeManager whether DefaultReader can connect to the specified servlet when security is on; true means DefaultReader can NOT connect.</td>
+</tr>
+
+<tr>
+<td>cs.wrapper</td>
+<td>
+<IF COND="CS.Property.cs.wrapper=false">
+	<THEN>
+	<CSVAR NAME="CS.Property.cs.wrapper"/>
+	</THEN>
+	<ELSE>
+	<font color="red"><CSVAR NAME="CS.Property.cs.wrapper"/></font>
+	</ELSE>
+</IF>
+</td>
+<td>Disable this for installations where HTTP is not available for use in constructing html wrapper pages.</td>
+</tr>
+</table>
+
+<p>It is strongly recommended for both development, production and live environments that security is turned on.</p>
+<p>From the internet only access to ContentServer, BlobServer, Satellite and CookieServer should be allowed.</p>
+
+<br/><h4><a name="Users"></a>Standard Users and Passwords</h4>
+<p>Below a login is attempted with all known usernames and passwords.</p> 
+<p>It is strongly recommended that all passwords for the standard users are changed before going live</p>
+
+<table class="altClass">
+<tr>
+<th align="left">Username</th>
+<th align="left">Password</th>
+<th align="left">ACL</th>
+<th align="left">Status</th>
+</tr>
+
+<!-- current CS standard users and passwords
+	ContentServer	password
+	DefaultReader	SomeReader
+	xceleditor	xceleditor
+	admin		admin
+	user_author	user
+	user_approver	user
+	user_checker	user
+	user_designer	user
+	user_editor	user
+	user_marketer	user
+	user_publisher	user
+	BFUser		BFUser
+-->
+<SETVAR NAME="errno" VALUE="0"/>
+<STRINGLIST NAME="CSUsers" STR="ContentServer,fwadmin,xceleditor,xceladmin,admin,editor,user_author,user_approver,user_checker,user_designer,user_editor,user_marketer,user_publisher,BFUser" DELIM=","/>
+	<IF COND="IsError.Variables.errno=true">
+	<THEN>
+	<br/>Oops, theres an error creating the list for CS users
+	</THEN>
+	</IF>
+
+<SETVAR NAME="errno" VALUE="0"/>
+<STRINGLIST NAME="CSPwds" STR="password,xceladmin,xceleditor,xceladmin,xceladmin,xceleditor,user,user,user,user,user,user,user,BFUser" DELIM=","/>
+	<IF COND="IsError.Variables.errno=true">
+	<THEN>
+	<br/>Oops, theres an error creating the list for CS users
+	</THEN>
+	</IF>
+
+<LOOP LIST="CSUsers">
+
+<tr>
+<td><CSVAR NAME="CSUsers.ITEM"/></td>
+<td><CSVAR NAME="CSPwds.ITEM"/></td>
+
+<!-- get ACL for current user -->
+<SETVAR NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="SystemUsers"/>
+<EXECSQL SQL="SELECT acl FROM SystemUsers WHERE username = 'CSUsers.ITEM'" LIST="UserACL"/>
+<IF COND="Variables.errno=0">
+	<THEN>
+	<td><CSVAR NAME="UserACL.acl"/></td>
+	<td>
+	<!-- attempting to su -->
+	<SETVAR NAME="errno" VALUE="0"/>
+	<USER.SU USERNAME="CSUsers.ITEM" PASSWORD="CSPwds.ITEM" />
+	<IF COND="Variables.errno=0">
+	<THEN>
+		<FONT 	COLOR="red">Succeeded</FONT>
+	</THEN>
+	<ELSE>
+		<FONT COLOR="yellow">Failed</FONT><br/>with errno: <CSVAR NAME="Variables.errno"/>
+	</ELSE>
+	</IF>
+	</td>
+	</THEN>
+	<ELSE>
+	<td>
+		<IF COND="Variables.errno=-101">
+		<THEN>
+			<i>user does not exist</i>
+		</THEN>
+		<ELSE>
+			<i>database issue</i>
+		</ELSE>
+		</IF>
+	</td>
+	<td>&nbsp;</td>
+	</ELSE>
+</IF>
+</tr>
+<!-- move to next password -->
+<SETROW LIST="CSPwds" ACTION="NEXT"/>
+</LOOP>
+</table>
+
+<br/>A <i>database issue</i> is most often caused by insufficient security privileges
+<p>In addition it is recommended that you delete the ContentServer user. However, do not delete
+the DefaultReader user login. It is automatically assigned to users and web site
+visitors who have no privileges in your site.</p>
+
+<br/><h4><a name="URLs"></a>Standard URLs</h4>
+<table class="altClass">
+<tr>
+<th>Title</th>
+<th>URL</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>HelloCS servlet</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotHelloCS">CS.Property.ft.cgipathCS.Property.ft.approotHelloCS</a>
+</REPLACEALL>
+</td>
+<td>CS servlet that display version and build information</td>
+</tr>
+
+<tr>
+<td>CS SamplePortal (XML)</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Samples/NewPortal/XML/main">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Samples/NewPortal/XML/main</a>
+</REPLACEALL>
+</td>
+<td>Sample Portal in XML tags</td>
+</tr>
+
+<tr>
+<td>CS SamplePortal (JSP)</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Samples/NewPortal/JSP/main">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Samples/NewPortal/JSP/main</a>
+</REPLACEALL>
+</td>
+<td>Sample Portal in JSP taglibs</td>
+</tr>
+
+<tr>
+<td>CS-Direct Login</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Xcelerate/UIFramework/LoginPage">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=OpenMarket/Xcelerate/UIFramework/LoginPage</a>
+</REPLACEALL>
+</td>
+<td>CD-Direct Login</td>
+</tr> 
+
+<tr>
+<td></td>
+<td>
+<a title="View" href="/Xcelerate/LoginPage.html">/Xcelerate/LoginPage.html</a>
+</td>
+<td></td>
+</tr> 
+
+<tr>
+<td colspan="3">For security reasons it is recommended that you uncomment the build information from ApplicationPage.xml (ElementCatalog/OpenMarket/UIFramework)
+</td>
+</tr>
+
+<tr>
+<td>Burlington Financial</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=BurlingtonFinancial/Home">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=BurlingtonFinancial/Home</a>
+</REPLACEALL>
+</td>
+<td>Burlington Financial Sample Site</td>
+</tr> 
+
+<tr>
+<td>GE Lighting</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=GE_Lighting/Home">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?pagename=GE_Lighting/Home</a>
+</REPLACEALL>
+</td>
+<td>GE Lighting Sample Site</td>
+</tr> 
+
+<tr>
+<td>CO</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotSatellite?c=Page&#38;childpagename=CO/CO_Container&#38;cid=1086623833113&#38;pagename=CO_WrapperPage&#38;rendermode=live">CS.Property.ft.cgipathCS.Property.ft.approotSatellite?c=Page&#38;childpagename=CO/CO_Container&#38;cid=1086623833113&#38;pagename=CO_WrapperPage&#38;rendermode=live</a>
+</REPLACEALL>
+</td>
+<td>Company Launchpad Sample Site</td>
+</tr>
+
+<tr>
+<td>FirstSiteII</td>
+<td>
+<REPLACEALL LIST="CS.Property.ft.approot,CS.Property.ft.cgipath">
+<a title="View" href="CS.Property.ft.cgipathCS.Property.ft.approotContentServer?c=Page&#38;childpagename=FirstSiteII/FSIILayout&#38;cid=1118867611403&#38;pagename=FSIIWrapper&#38;rendermode=live">CS.Property.ft.cgipathCS.Property.ft.approotContentServer?c=Page&#38;childpagename=FirstSiteII/FSIILayout&#38;cid=1118867611403&#38;pagename=FSIIWrapper&#38;rendermode=live</a>
+</REPLACEALL>
+</td>
+<td>FirstSiteII Sample Site</td>
+</tr> 
+</table>
+
+<br/><h4><a name="Utility"></a>Utility URLs</h4>
+
+<p>Security attention should be given to 'Utility URLs'. These are URLs that if called directly through the browser could potentially cause a corrupted system.</p>
+<p>Below is a listing of all Utility URLs found on this system</p>
+
+<table class="altClass">
+<tr>
+<th align="left">ElementCatalog name</th>
+<th align="left">SiteCatalog name</th>
+<th align="left">Description</th>
+</tr>
+
+<!-- Perform SiteCatalog search for Utility templates -->
+<SETVAR NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="SiteCatalog"/>
+<EXECSQL SQL="SELECT pagename,rootelement FROM SiteCatalog WHERE pagename LIKE'%Install%' OR pagename LIKE'%Power%' OR pagename LIKE'%Remove%' OR pagename LIKE'%Delete%'" LIST="UtilityURLs"/>
+<IF COND="Variables.errno!=0">
+	<THEN>
+	<tr>
+	<td colspan="3">No Utility URLs found</td>
+	</tr>
+	</THEN>
+	<ELSE>
+	<LOOP LIST="UtilityURLs">
+
+	<!-- for each Utility URL load elementname and description from ElementCatalog -->
+	<SETVAR NAME="errno" VALUE="0"/>
+	<SETVAR NAME="tablename" VALUE="ElementCatalog"/>
+	<EXECSQL SQL="SELECT elementname,description FROM ElementCatalog WHERE elementname='UtilityURLs.rootelement'" LIST="ElementCatalog"/>
+	<tr>
+	<td>
+	<IF COND="ElementCatalog.elementname!=Variables.empty">
+		<THEN>
+		<IF COND="Variables.errno=0">
+			<THEN>
+			<CSVAR NAME="ElementCatalog.elementname"/>
+			</THEN>
+			<ELSE>
+			<i>database issue</i>
+			</ELSE>
+		</IF>
+		</THEN>
+		<ELSE>
+		<i>No ElementCatalog name</i>
+		</ELSE>
+	</IF>
+	</td>
+
+	<td>
+	<CSVAR NAME="UtilityURLs.pagename"/>
+	</td>
+
+	<td>
+	<IF COND="ElementCatalog.description!=Variables.empty">
+		<THEN>
+		<IF COND="Variables.errno=0">
+			<THEN>
+			<CSVAR NAME="ElementCatalog.description"/>
+			</THEN>
+			<ELSE>
+			<i>database issue</i>
+			</ELSE>
+		</IF>
+		</THEN>
+		<ELSE>
+		<i>No ElementCatalog description</i>
+		</ELSE>
+	</IF>
+	</td>
+
+	</tr>
+	<REMOVEVAR NAME="errno"/>
+	</LOOP>
+	</ELSE>
+</IF>
+</table>
+
+<br/>A <i>database issue</i> is most often caused by insufficient security privileges
+</FTCS> 

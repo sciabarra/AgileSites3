@@ -69,7 +69,7 @@ addCommandAlias("p1", """; eval System.setProperty("profile", "11g") ; reload ; 
 
 addCommandAlias("r", """reload""")
 
-addCommandAlias("bb", """project bb""")
+addCommandAlias("demo", """project demo""")
 
 addCommandAlias("nl", """project nl""")
 

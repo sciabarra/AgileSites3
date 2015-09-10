@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- SysAdmin/ApprovalStats
+-
+- INPUT type for assettype
+-	target for pubtarget
+-	id for assetid
+-	forceit
+- OUTPUT
+-
+-->
+<!-- if we pass in id just get the blocking assets -->
+
+<IF COND="IsVariable.forceit=true">
+<THEN>
+	<SETVAR NAME="errno" VALUE="0"/>	
+	<SETVAR NAME="tablename" VALUE="BrokenAssets"/>
+
+	<EXECSQL SQL="SELECT id FROM Variables.tablename WHERE assetid = Variables.id" LIST="brokenassets"/>
+	
+	<IF COND="Variables.errno=-101">
+	<THEN>
+		Approve: <CSVAR NAME="Variables.type  (Variables.id)"/><br/>
+
+		<setvar NAME="errno" VALUE="0"/>
+		<TIME.SET NAME="loadTime"/>
+
+		<ASSET.LOAD NAME="a1" TYPE="Variables.type" OBJECTID="Variables.id"/>
+		<TIME.GET NAME="loadTime" OUTPUT="elapsedLoadTime" />
+
+		<if COND="Variables.errno!=0">
+			<then>
+			<CSVAR NAME="Error loading asset: Variables.errno Variables.errdetail"/><br/>
+			<LOGMSG STR="Error loading asset (Variables.type,Variables.id) errno: Variables.errno Variables.errdetail"/>
+			<CATALOGMANAGER SCOPED="LOCAL">
+				<ARGUMENT NAME="ftcmd" VALUE="addrow"/>
+				<ARGUMENT NAME="tablename" VALUE="BrokenAssets"/>
+				<ARGUMENT NAME="id" VALUE="CS.UniqueID"/>
+				<ARGUMENT NAME="assetid" VALUE="Variables.id"/>
+				<ARGUMENT NAME="assettype" VALUE="Variables.type"/>
+				<ARGUMENT NAME="reason" VALUE="Asset load failed errno: Variables.errno"/>
+				<ARGUMENT NAME="updateddate" VALUE="CS.SQLDate"/>
+			</CATALOGMANAGER>
+
+		</then>
+		<else>
+			<!-- 
+			<CATALOGMANAGER SCOPED="LOCAL">
+				<ARGUMENT NAME="ftcmd" VALUE="addrow"/>
+				<ARGUMENT NAME="tablename" VALUE="BrokenAssets"/>
+				<ARGUMENT NAME="id" VALUE="CS.UniqueID"/>
+				<ARGUMENT NAME="assetid" VALUE="Variables.id"/>
+				<ARGUMENT NAME="assettype" VALUE="Variables.type"/>
+				<ARGUMENT NAME="reason" VALUE="Asset load Success"/>
+				<ARGUMENT NAME="updateddate" VALUE="CS.SQLDate"/>
+			</CATALOGMANAGER>
+			-->
+			<TIME.SET NAME="approveTime"/>
+			<setvar NAME="errno" VALUE="0"/>
+			<APPROVEDASSETS.APPROVEASSET TARGET="Variables.target" ASSET="a1" TEMPLATEDEPS="true"/>
+
+			<if COND="Variables.errno!=0">
+			<then>
+				<font color="red"><CSVAR NAME="Error approving asset: Variables.errno Variables.errdetail"/></font><br/>
+				<LOGSMG STR="Error approving asset (Variables.type,Variables.id) errno: Variables.errno Variables.errdetail"/>
+				<CATALOGMANAGER SCOPED="LOCAL">
+					<ARGUMENT NAME="ftcmd" VALUE="addrow"/>
+					<ARGUMENT NAME="tablename" VALUE="BrokenAssets"/>
+					<ARGUMENT NAME="id" VALUE="CS.UniqueID"/>
+					<ARGUMENT NAME="assetid" VALUE="Variables.id"/>
+					<ARGUMENT NAME="assettype" VALUE="Variables.type"/>
+					<ARGUMENT NAME="reason" VALUE="Approve failed errno: Variables.errno"/>
+					<ARGUMENT NAME="updateddate" VALUE="CS.SQLDate"/>
+				</CATALOGMANAGER>
+			</then>
+			<else>
+				<font color="blue">Approved!</font> Asset loading took <CSVAR NAME="Variables.elapsedLoadTime"/> ms. Asset approving took <TIME.GET NAME="approveTime"/> ms.<br/>
+			</else>
+			</if>
+		</else>
+		</if>
+	</THEN>
+	</IF>
+</THEN>
+</IF>
+
+</FTCS>

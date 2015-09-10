@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/Audit/Default/TableCount
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<table class="altClass">
+
+<SETVAR NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+<EXECSQL SQL="Variables.sqlstatement" LIST="tables"/>
+<IF COND="Variables.wildcard=true">
+<THEN>
+	<LISTOBJECT.CREATE NAME="mylist" COLUMNS="tblname"/>
+	<LOOP LIST="tables">
+		<EXECSQL SQL="SELECT tblname FROM SystemInfo WHERE tblname LIKE ('tables.tblname%')" LIST="exttables"/>
+		<LOOP LIST="exttables">
+			<LISTOBJECT.ADDROW NAME="mylist" tblname="exttables.tblname"/>
+		</LOOP>
+	</LOOP>
+	<LISTOBJECT.TOLIST NAME="mylist" LISTVARNAME="tables"/>
+</THEN>
+<ELSE>
+    <IF COND="Variables.flexcard=true">
+    <THEN>
+    	<LISTOBJECT.CREATE NAME="mylist" COLUMNS="tblname"/>
+    	<LOOP LIST="tables">
+            <LISTOBJECT.ADDROW NAME="mylist" tblname="tables.tblname"/>
+    		<EXECSQL SQL="SELECT tblname FROM SystemInfo WHERE tblname LIKE ('tables.tblname!_%') escape '!'" LIST="exttables"/>
+    		<LOOP LIST="exttables">
+    			<LISTOBJECT.ADDROW NAME="mylist" tblname="exttables.tblname"/>
+    		</LOOP>
+    	</LOOP>
+    	<LISTOBJECT.TOLIST NAME="mylist" LISTVARNAME="tables"/>
+    </THEN>
+    </IF>
+</ELSE>
+</IF>
+
+<tr>
+	<th>Nr.</th>
+	<th>Tablename</th>
+	<th>Number of rows</th>
+	<th>CSz</th>
+	<th>Timeout</th>
+	<th>Abs</th>
+	<th>Special table key</th>
+	<th>Time to run sql</th>
+</tr>
+
+<LOOP LIST="tables">
+	<tr>
+		<td align="right"><CSVAR NAME="tables.#curRow"/></td>
+		<td><a href="ContentServer?pagename=Support/Audit/Default/BodyCheck&#38;tblname=tables.tblname" REPLACEALL="tables.tblname"><CSVAR NAME="tables.tblname"/></a></td>
+
+		<SETVAR NAME="errno" VALUE="0"/>
+		<TIME.SET NAME="mytabletime" />
+		<SETVAR NAME="tablename" VALUE="tables.tblname"/>
+		<SETVAR NAME="doneTables" VALUE="'tables.tblname',Variables.doneTables"/>
+
+		<EXECSQL SQL="SELECT COUNT(*) as cnt FROM tables.tblname" LIST="C"/>
+		<IF COND="Variables.errno=0">
+			<THEN>
+				<td align="right"><CSVAR NAME="C.cnt"/></td>
+			</THEN>
+			<ELSE>
+				<!-- check if no rows returned or other database issue -->
+				<IF COND="Variables.errno=-101">
+					<THEN>
+						<td align="right">0</td>
+					</THEN>
+					<ELSE>
+						<td><i>database issue</i></td>
+					</ELSE>
+				</IF>
+			</ELSE>
+		</IF>
+		<td align="right"><ICS.GETPROPERTY NAME="cc.tables.tblnameCSz" /></td>
+		<td align="right"><ICS.GETPROPERTY NAME="cc.tables.tblnameTimeout" /></td>
+		<td align="right"><ICS.GETPROPERTY NAME="cc.tables.tblnameAbs" /></td>
+		<td align="right"><ICS.GETPROPERTY NAME="cc.tables.tblnameKey" /></td>
+		<td align="right"><TIME.GET NAME="mytabletime" /> ms</td>
+	</tr>
+	</LOOP>
+</table>
+<!--CSVAR NAME="Variables.doneTables"/-->
+<SETVAR NAME="errno" VALUE="0"/>
+</FTCS>

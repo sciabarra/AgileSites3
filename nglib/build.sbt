@@ -1,0 +1,34 @@
+import sbt.Keys._
+
+name := "agilesitesng-lib"
+
+organization := "com.sciabarra"
+
+version := "11g-M4-SNAPSHOT"
+
+crossPaths := false
+
+libraryDependencies += "com.sciabarra" % "agilesites2-build" % "11g-M4-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+
+watchSources ++= ((baseDirectory.value / "src" / "main" / "resources") ** "*.jsp").get
+
+sitesPopulate := (baseDirectory.value / "src" / "main" / "resources").getAbsolutePath
+
+ngConcatJavaMap := Map(
+  (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileServices.txt") ->
+    (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
+  (baseDirectory.value / "src" / "test" / "groovy" / "AAAgileServices.groovy") ->
+    (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
+  (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileApi.txt") ->
+    ((baseDirectory.value / "src" / "main" / "java" / "agilesites" / "api" * "*.java") +++
+      (baseDirectory.value / "src" / "main" / s"java-${sitesVersion.value}" / "agilesites" / "api" * "*.java")))
+
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / s"java-${sitesVersion.value}"
+
+unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
+
+publishArtifact in(Compile, packageDoc) := false
+
+publishArtifact in packageDoc := false
+
+enablePlugins(AgileSitesNgPlugin)

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/PubKeys/UpdateBatchEvent
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<HTML>
+<HEAD>
+<PROPERTY.GET PARAM="xcelerate.charset" INIFILE="futuretense_xcel.ini" VARNAME="charset"/>
+<meta http-equiv="Content-Type" content="text/html; charset=Variables.charset" REPLACEALL="Variables.charset"/>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TIME.SET NAME="timer" />
+
+<LOGMSG STR="Starting UpdateBatchEvent at CS.Date"/>
+<PROPERTY.GET PARAM="xcelerate.batchuser" INIFILE="futuretense_xcel.ini" VARNAME="batchuser"/>
+<PROPERTY.GET PARAM="xcelerate.batchpass" INIFILE="futuretense_xcel.ini" VARNAME="batchpass"/>
+
+<USER.LOGIN USERNAME="Variables.batchuser" PASSWORD="Variables.batchpass"/>
+<IF COND="IsError.Variables.errno!=true">
+<THEN>
+     <CALLELEMENT NAME="Support/TCPI/PubKeys/UpdateBatch">
+        <ARGUMENT NAME="delete" VALUE="true" />
+        <ARGUMENT NAME="limit" VALUE="500" />
+     </CALLELEMENT>
+</THEN>
+</IF>
+<TIME.GET NAME="timer" OUTPUT="runtime"/>
+<LOGMSG STR="UpdateBatchEvent finished at CS.Date: ran for Variables.runtime ms."/>
+</BODY>
+</HTML>
+
+<CATALOGMANAGER>
+	<ARGUMENT NAME="ftcmd" VALUE="logout"/>
+	<ARGUMENT NAME="killsession" VALUE="true" />
+</CATALOGMANAGER>
+</FTCS> 

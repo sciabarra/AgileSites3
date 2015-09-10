@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- Support/CacheManager/flushByArg
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<h3>Flush Pages by Name-Value pair</h3>
+<P>This tool allows you to flush pages from cache based on name-value pairs in the query string.  <br/>Note that pagename is a valid value for the "name" field below, and thus you can flush a page by pagename below.</P>
+<SATELLITE.FORM METHOD="POST" SATELLITE="FALSE">
+	<INPUT TYPE="hidden" NAME="pagename" VALUE="Support/CacheManager/flushByArgPost"/>
+	<P>Flush all pages where
+	<INPUT TYPE="text" NAME="cmName"/> = 
+	<INPUT TYPE="text" NAME="cmValue" SIZE="40"/><br />
+	<INPUT TYPE="checkbox" NAME="cs-cs"/>Flush pages from Content Server cached for a browser<br />
+	<INPUT TYPE="checkbox" NAME="cs-ss"/>Flush pages from Content Server cached for a CS Satellite<br />
+	<INPUT TYPE="checkbox" NAME="ss"/>Flush pages from all Satellite engines</P>
+	<INPUT TYPE="Submit" NAME="Submit" VALUE="Submit"/>
+</SATELLITE.FORM>
+</FTCS> 

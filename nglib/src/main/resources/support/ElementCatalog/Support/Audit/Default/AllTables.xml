@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- Support/Audit/Default/AllTables
+-
+- OVERVIEW
+-
+- Counts the entries in all tables and displays the count
+-
+- HISTORY
+-
+- Developed by Joe Scanlon (joseph.scanlon@divine.com)
+- Added to Power Tool on December 21st by Janus Boye (janus.boye@divine.com)
+- Updated 4/3/2002 - jts
+- Update 7/3/2003 -dd Changed to tables, changed tablenames to proper case.
+-
+-
+-
+-->
+<H3><center>Overview of ContentServer Tables</center></H3>
+	<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+	<EXECSQL SQL="SELECT DISTINCT systable FROM SystemInfo ORDER BY systable DESC" LIST="A"/>
+
+	<LOOP LIST="A">
+	<table class="altClass">
+		<SETVAR NAME="errno" VALUE="0"/>
+		<SETVAR NAME="tablename" VALUE="SystemInfo"/>
+        <EXECSQL SQL="SELECT tblname FROM SystemInfo WHERE systable = 'A.systable' AND tblname NOT IN ('SystemAssets') ORDER BY LOWER(tblname) ASC" LIST="B"/>
+        <b>Total <CSVAR NAME="B.#numRows"/> tables of type: <CSVAR NAME="A.systable"/></b><br/>
+        <tr><th>Tablename</th><th>Number of Rows</th><th>CSz</th><th>Timeout</th><th>Abs</th><th>Time to Run SQL</th><th>Special TableKey</th></tr>
+	
+		<LOOP LIST="B">
+		<tr><td><a href="ContentServer?pagename=Support/Audit/Default/BodyCheck&#38;tblname=B.tblname" REPLACEALL="B.tblname"><CSVAR NAME="B.tblname"/></a></td>
+		<SETVAR NAME="errno" VALUE="0"/>
+		<SETVAR NAME="tablename" VALUE="B.tblname"/>
+		<TIME.SET NAME="mytabletime" />
+		<EXECSQL SQL="SELECT COUNT(*) as cnt FROM B.tblname" LIST="C"/>
+		<IF COND="Variables.errno=0">
+			<THEN>
+			<td><CSVAR NAME="C.cnt"/></td>
+			</THEN>
+		<ELSE>
+		<!-- check if no rows returned or other database issue -->
+			<IF COND="Variables.errno=-101">
+				<THEN>
+				<td>0</td>
+				</THEN>
+				<ELSE>
+				<td><i>database issue</i></td>
+				</ELSE>
+			</IF>
+		</ELSE>
+		</IF>
+		<td><ICS.GETPROPERTY NAME="cc.B.tblnameCSz" /></td>
+		<td><ICS.GETPROPERTY NAME="cc.B.tblnameTimeout" /></td>
+		<td><ICS.GETPROPERTY NAME="cc.B.tblnameAbs" /></td>
+		<td><TIME.GET NAME="mytabletime" /> ms</td>
+		<td><ICS.GETPROPERTY NAME="cc.B.tblnameKey" /></td>
+		</tr>
+		</LOOP>
+	</table><br/>
+	</LOOP>
+</FTCS> 

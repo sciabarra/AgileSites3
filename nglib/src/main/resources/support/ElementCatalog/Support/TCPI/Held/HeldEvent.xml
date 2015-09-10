@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/Held/HeldEvent
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<PROPERTY.GET PARAM="xcelerate.batchuser" INIFILE="futuretense_xcel.ini" VARNAME="batchuser"/>
+<PROPERTY.GET PARAM="xcelerate.batchpass" INIFILE="futuretense_xcel.ini" VARNAME="batchpass"/>
+
+<USER.LOGIN USERNAME="Variables.batchuser" PASSWORD="Variables.batchpass"/>
+<IF COND="IsError.Variables.errno!=true">
+<THEN>
+	<CALLELEMENT NAME="Support/TCPI/AP/ApprovalStats">
+		<ARGUMENT NAME="showBlocked" VALUE="true"/>
+		<ARGUMENT NAME="approve" VALUE="true"/>
+	</CALLELEMENT>
+</THEN>
+</IF>
+
+<CATALOGMANAGER>
+<ARGUMENT NAME="ftcmd" VALUE="logout"/>
+<ARGUMENT NAME="killsession" VALUE="true"/>
+</CATALOGMANAGER>   
+</FTCS> 

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/PubKeys/Install
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<CALLELEMENT NAME="Support/general"/>
+<div id="content">
+<CALLELEMENT NAME="Support/Topnav"/>
+<setvar NAME="errno" VALUE="0"/>
+<ICS.QUERYEVENTS LIST="events" NAME="MovePubKeys" TYPE="1" />
+<IF COND="Variables.errno=-101">
+<THEN>
+		Enabling PubKeys cleanup event <br/>
+		<setvar NAME="errno" VALUE="0"/>
+		<APPEVENT NAME="MovePubKeys" GUID="ContentServer" TIMES="*:1,11,21,31,41,51:30 */*/*">
+			<ARGUMENT NAME="pagename" VALUE="Support/TCPI/PubKeys/UpdateBatchEvent"/>
+		</APPEVENT>
+		<IF COND="IsError.Variables.errno=true">
+		<THEN>
+			Could not create app event!<br/>
+		</THEN>
+		</IF>
+</THEN>
+<ELSE>
+	<IF COND="Variables.errno=0">
+	<THEN>
+		The 'MovePubKeys' Event was already enabled.<BR/>
+	</THEN>		
+	<ELSE>
+		ics.queryevents returned <CSVAR NAME="Variables.errno"/>!<BR/>
+	</ELSE>
+	</IF>	
+</ELSE>
+</IF>
+<CALLELEMENT NAME="Support/Footer"/>
+</div>
+</FTCS>

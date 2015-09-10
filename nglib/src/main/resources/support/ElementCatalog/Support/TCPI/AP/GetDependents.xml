@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/AP/GetDependents
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<IF COND="IsVariable.assetid=true">
+<THEN>
+	<setvar NAME="errno" VALUE="0"/>
+	<APPROVEDASSETS.GETDEPENDENCIES TARGET="Variables.target" TYPE="Variables.type" ID="Variables.assetid" LISTVARNAME="dependents"/>
+	<IF COND="dependents.#numRows!=0">
+	<THEN>
+		<LOOP LIST="dependents">
+			<tr>
+                <td>&nbsp;</td>
+    			<td align="right" valign="top"><CSVAR NAME="dependents.#curRow"/></td>
+    			<td><font color="orange"><CSVAR NAME=" Dependent: dependents.assettype (dependents.assetid)"/></font><BR/>
+    			</td>
+            </tr>
+		</LOOP>
+	</THEN>
+    <ELSE>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td colspan="2"><font color="red">Asset not approved. Dependent assets not calculated.</font><BR/>
+            </td>
+        </tr>
+    </ELSE>
+    </IF>
+</THEN>
+</IF>
+</FTCS>

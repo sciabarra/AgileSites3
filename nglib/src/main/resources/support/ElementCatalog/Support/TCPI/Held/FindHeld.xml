@@ -1,0 +1,132 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- SysAdmin/ApprovalStats
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<h3>Held Assets</h3>
+
+<CATALOGMANAGER>
+	<ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+	<ARGUMENT NAME="tablename" VALUE="ApprovedAssets" />
+</CATALOGMANAGER> 
+<setvar NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="ApprovedAssets" />
+<!-- 
+<EXECSQL SQL="SELECT count(id) as num FROM ApprovedAssets WHERE locked='T'" LIST="lockedcount"/>
+<CSVAR NAME="number of locked ApprovedAssets is lockedcount.num"/><br/>
+
+<EXECSQL SQL="SELECT count(id) as num FROM ApprovedAssets WHERE tstate='H'" LIST="heldcount"/>
+<CSVAR NAME="number of held assets is heldcount.num"/><br/>
+
+<setvar NAME="errno" VALUE="0"/>
+<SETVAR NAME="tablename" VALUE="BrokenAssets" />
+<EXECSQL SQL="SELECT count(*) as num FROM BrokenAssets " LIST="brokencount" />
+<CSVAR NAME="number of broken assets is brokencount.num"/><br/>
+-->
+
+<setvar NAME="errno" VALUE="0"/>
+
+<IF COND="IsVariable.maxList=false">
+<THEN>
+	<setvar NAME="maxList" VALUE="100" />
+</THEN>
+</IF>
+
+<IF COND="IsVariable.targ=true">
+<THEN>
+	<SETVAR NAME="id" VALUE="Variables.targ"/>
+
+   <SELECTTO LIST="uiPubTgts" WHAT="name" FROM="PubTarget" WHERE="id" />
+
+	<LOGMSG STR="Starting Variables.pagename for uiPubTgts.name at CS.Date"/>
+	<TIME.SET NAME="heldoperation"/>
+	<SETVAR NAME="TARGET" VALUE="Variables.targ"/>
+	<!-- APPROVEDASSETS.GETHELDASSETS TARGET="Variables.TARGET" LISTVARNAME="heldlist" / -->
+	<SETVAR NAME="tablename" VALUE="ApprovedAssets" />
+
+	<EXECSQL SQL="SELECT assetid, assettype , treason as reason FROM ApprovedAssets WHERE targetid = Variables.TARGET AND tstate='H' AND locked='F' AND NOT EXISTS (SELECT 1 FROM BrokenAssets WHERE BrokenAssets.assetid = ApprovedAssets.assetid)" LIST="heldlist" LIMIT="Variables.maxList"/>
+	<if COND="IsList.heldlist=true">
+	<then>
+		List of Held Assets (<CSVAR NAME="heldlist.#numRows"/>)<br/>
+		<if COND="heldlist.#numRows!=0">
+		<then>
+		<table>
+		<tr><th>Nr</th><th>Assettype</th><th>Asset id</th><th>Reason</th>
+		<IF COND="IsVariable.showBlocked=false">
+		<THEN>
+			<th>Num of blocking</th>
+		</THEN>
+		</IF>
+		</tr>
+
+		<LOOP LIST="heldlist" COUNT="Variables.maxList">
+			<tr>
+			<td align="right"><CSVAR NAME="heldlist.#curRow"/></td>
+			<td><CSVAR NAME="heldlist.assettype" /></td>
+			<td><CSVAR NAME="heldlist.assetid" /></td>
+			<td align="right"><CSVAR NAME="heldlist.reason" /></td>
+			<IF COND="IsVariable.showBlocked=false">
+			<THEN>
+				<CALLELEMENT NAME="Support/TCPI/Held/CountBlockingAsset">
+					<ARGUMENT NAME="type" VALUE="heldlist.assettype"/>
+					<ARGUMENT NAME="assetid" VALUE="heldlist.assetid"/>
+					<ARGUMENT NAME="target" VALUE="Variables.targ"/>
+				</CALLELEMENT>
+			</THEN>
+			</IF>
+			</tr>
+			<IF COND="IsVariable.showBlocked=true">
+			<THEN>
+				<CALLELEMENT NAME="Support/TCPI/Held/HandleHeldAsset">
+					<ARGUMENT NAME="type" VALUE="heldlist.assettype"/>
+					<ARGUMENT NAME="assetid" VALUE="heldlist.assetid"/>
+					<ARGUMENT NAME="target" VALUE="Variables.targ"/>
+					<!-- ARGUMENT NAME="approve" VALUE="true"/ -->
+				</CALLELEMENT>
+			</THEN>
+			</IF>
+			
+		</LOOP>
+		</table>
+	</then>
+	</if>
+	End list of all held<br/><br/>
+	<TIME.GET NAME="heldoperation" OUTPUT="elapsed" />
+	It took <CSVAR NAME="Variables.elapsed"/> ms to do the work.<br/><br/>
+	<LOGMSG STR="Finished Variables.pagename for uiPubTgts.name at CS.Date, runtime Variables.elapsed ms for heldlist.#numRows assets."/>
+	<a href="ContentServer?pagename=Support/TCPI/Held/FindHeld&#38;targ=Variables.targ&#38;showBlocked=true&#38;maxList=Variables.maxList" REPLACEALL="Variables.targ,Variables.maxList">Show held assets</a><br/>
+
+	<IF COND="heldlist.#numRows!=0">
+	<THEN>
+		<a href="ContentServer?pagename=Support/TCPI/Held/FindHeld&#38;targ=Variables.targ&#38;showBlocked=true&#38;approve=true&#38;maxList=Variables.maxList" REPLACEALL="Variables.targ,Variables.maxList">ApproveAll</a><br/>
+	</THEN>
+	</IF>
+
+	<a href="ContentServer?pagename=Support/TCPI/Held/FindHeld&#38;targ=Variables.targ&#38;maxList=Variables.maxList" REPLACEALL="Variables.targ,Variables.maxList">Count blocking assets</a><br/>
+
+	</then>
+	</if>
+
+</THEN>
+<ELSE>
+	<p>Please select a pub target:</p>
+	<setvar NAME="errno" VALUE="0"/>
+   <selectto LIST="uiPubTgts" WHAT="id,name,description,type" FROM="PubTarget" ORDERBY="name"/>
+	    <if COND="IsError.Variables.errno=false">
+	    <then>
+		<loop LIST="uiPubTgts">
+		    <DELIVERYTYPE.LOAD NAME="dtype" OBJECTID="uiPubTgts.type"/>
+		    <DELIVERYTYPE.GET NAME="dtype" FIELD="name" OUTPUT="dtype:name"/>
+			<a href="ContentServer?pagename=Support/TCPI/Held/FindHeld&#38;targ=uiPubTgts.id" REPLACEALL="uiPubTgts.id">
+			<CSVAR NAME="uiPubTgts.name (Variables.dtype:name)"/></a><br/>
+		</loop>
+	</then>
+	</if>
+</ELSE>
+</IF>
+</FTCS>

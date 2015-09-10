@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.2">
+<!-- Support/TCPI/AP/ApproveAsset
+-
+- INPUT type for assettype
+-	target for pubtarget
+-	id for assetid
+-	forceit
+- OUTPUT
+-
+-->
+<!-- if we pass in id just get the blocking assets -->
+
+<IF COND="IsVariable.forceit=true">
+<THEN>
+	Approve: <CSVAR NAME="Variables.type  (Variables.id)"/><br/>
+
+	<setvar NAME="errno" VALUE="0"/>
+	<TIME.SET NAME="loadTime"/>
+
+	<ASSET.LOAD NAME="a1" TYPE="Variables.type" OBJECTID="Variables.id"/>
+	<if COND="Variables.errno!=0">
+		<then>
+		<CSVAR NAME="Error loading asset: Variables.errno Variables.errdetail"/><br/>
+	</then>
+	<else>
+	<TIME.GET NAME="loadTime" OUTPUT="elapsedLoadTime" />
+	<TIME.SET NAME="approveTime"/>
+
+        <MIRRORKEY.CREATE OBJVARNAME="mirrorkey" ASSET="a1"/>
+        <APPROVEDASSETS.RECORDKEY TARGET="Variables.target" KEY="mirrorkey"/>
+		<APPROVEDASSETS.APPROVEASSET TARGET="Variables.target" ASSET="a1" TEMPLATEDEPS="true"/>
+
+		<if COND="Variables.errno!=0">
+		<then>
+			<font color="red"><CSVAR NAME="Error approving asset: Variables.errno Variables.errdetail"/></font><br/>
+		</then>
+		<else>
+			<font color="blue">Approved!</font> Asset loading took <CSVAR NAME="Variables.elapsedLoadTime"/> ms. Asset approving took <TIME.GET NAME="approveTime"/> ms.<br/>
+		</else>
+		</if>
+	</else>
+	</if>
+</THEN>
+</IF>
+
+</FTCS>

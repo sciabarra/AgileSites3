@@ -1,0 +1,4 @@
+sites.focus=Demo
+sites.url=http://localhost:11800/cs
+sites.port=11800
+sites.directory=/data/sites/11g

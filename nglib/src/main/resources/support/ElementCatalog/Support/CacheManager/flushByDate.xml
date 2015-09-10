@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<!DOCTYPE FTCS SYSTEM "futuretense_cs.dtd">
+<FTCS Version="1.1">
+<!-- Support/CacheManager/flushByDate
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<h3>Flush Pages by Date</h3>
+<P>This tool allows you to flush pages from cache based on the expiration date of pages or the date of items on the page.</P>
+<SATELLITE.FORM METHOD="POST" SATELLITE="FALSE">
+	<INPUT TYPE="hidden" NAME="pagename" VALUE="Support/CacheManager/flushByDatePost"/>
+	<table style="width:75%">
+	<tr>
+    <td width="20%">Flush pages </td>
+	<td width="50%">
+        <INPUT TYPE="radio" NAME="flushtype" VALUE="pageAge" CHECKED="true"/> newer than <br />
+        <INPUT TYPE="radio" NAME="flushtype" VALUE="itemAge"/> older than their items, and newer than
+	</td>
+	<td width="30%">
+        <INPUT TYPE="text" NAME="cmDate" SIZE="23" VALUE="1987-06-05 04:32:01"/>
+	</td>
+	</tr>
+	</table><br/>
+	<INPUT TYPE="checkbox" NAME="cs-cs"/>Flush pages from Content Server cached for a browser<br />
+	<INPUT TYPE="checkbox" NAME="cs-ss"/>Flush pages from Content Server cached for a CS Satellite<br />
+	<INPUT TYPE="checkbox" NAME="ss"/>Flush pages from all Satellite engines<br /><br />
+	<INPUT TYPE="Submit" NAME="Submit" VALUE="Submit"/>
+</SATELLITE.FORM>
+</FTCS>

@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<!DOCTYPE ftcs SYSTEM "futuretense_cs.dtd">
+<ftcs version="1.2">
+<!-- Support/TCPI/AP/HandleUIModifiedAsset
+-
+- INPUT
+-
+- OUTPUT
+-
+-->
+<IF COND="IsVariable.assetid=true">
+<THEN>
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>
+            <IF COND="IsVariable.approveuimodified=true">
+            <THEN>
+                <CATALOGMANAGER>
+                    <ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+                    <ARGUMENT NAME="tablename" VALUE="PubkeyTable" />
+                </CATALOGMANAGER>
+                <SETVAR NAME="tablename" VALUE="PubkeyTable" />
+                <EXECSQL SQL="SELECT newkey FROM PubkeyTable WHERE newkey NOT IN ('N', 'I') AND assetid=Variables.assetid AND targetid=Variables.target" LIST="ptlist" TABLE="PubkeyTable" />
+                <IF COND="ptlist.#numRows!=0">
+                <THEN>
+                    <EXECSQL SQL="UPDATE PubkeyTable SET newkey='N' WHERE assetid=Variables.assetid AND targetid=Variables.target" LIST="ptuplist" TABLE="PubkeyTable" />
+                </THEN>
+                </IF>                
+        		<if COND="Variables.errno!=-502">
+        		<then>
+        			<font color="red"><CSVAR NAME="Error approving asset: Variables.errno Variables.errdetail"/></font><br/>
+        		</then>
+        		<else>
+                    <CATALOGMANAGER>
+                        <ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+                        <ARGUMENT NAME="tablename" VALUE="PubkeyTable" />
+                    </CATALOGMANAGER>   
+                    <CATALOGMANAGER>
+                        <ARGUMENT NAME="ftcmd" VALUE="flushcatalog" />
+                        <ARGUMENT NAME="tablename" VALUE="ApprovedAssets" />
+                    </CATALOGMANAGER>   
+        			<font color="blue">Approved!</font><br/>
+                </else>
+                </if>
+            </THEN>
+            </IF>
+        </td>
+    </tr>
+</THEN>
+</IF>                
+</ftcs>
