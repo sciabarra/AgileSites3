@@ -1,13 +1,9 @@
 package agilesitesng.deploy
 
-import java.net.URLEncoder
-
 import agilesites.config.AgileSitesConfigKeys._
 import agilesitesng.Utils
 import agilesitesng.deploy.actor.DeployProtocol._
 import agilesitesng.deploy.model.Spooler
-import agilesitesng.setup.NgSetupKeys
-import agilesitesng.setup.NgSetupPlugin._
 import akka.pattern.ask
 import akka.util.Timeout
 import sbt.{AutoPlugin, _}
@@ -76,8 +72,5 @@ trait DeploySettings {
     }
   }
 
-
   def deploySettings = Seq(serviceTask, deployTask, loginTask)
-
-
 }

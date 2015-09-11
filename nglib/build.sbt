@@ -6,6 +6,8 @@ organization := "com.sciabarra"
 
 version := "v3-M5-SNAPSHOT"
 
+scalaVersion := "2.10.5"
+
 crossPaths := false
 
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")

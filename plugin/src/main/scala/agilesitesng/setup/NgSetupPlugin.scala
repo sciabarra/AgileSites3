@@ -2,7 +2,6 @@ package agilesitesng.setup
 
 import agilesites.config.{AgileSitesConfigKeys, AgileSitesConfigPlugin}
 import agilesitesng.Utils
-import com.typesafe.sbt.web.SbtWeb
 import sbt._, Keys._
 
 /**
@@ -15,7 +14,7 @@ object NgSetupPlugin
 
   val autoImport = NgSetupKeys
 
-  override def requires = SbtWeb && AgileSitesConfigPlugin
+  override def requires = AgileSitesConfigPlugin
 
   //override def trigger = AllRequirements
 

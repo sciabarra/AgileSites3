@@ -203,6 +203,7 @@ public class ProxyServlet extends HttpServlet {
     } else {
       try {
         //noinspection unchecked
+
         val_obj = type.getMethod("valueOf",String.class).invoke(type,val_str);
       } catch (Exception e) {
         throw new RuntimeException(e);

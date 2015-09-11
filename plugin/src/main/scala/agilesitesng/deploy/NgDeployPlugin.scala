@@ -2,11 +2,8 @@ package agilesitesng.deploy
 
 import agilesites.config.AgileSitesConfigPlugin
 import agilesitesng.Utils
-import com.typesafe.sbt.jse.JsEngineImport.JsEngineKeys
-import com.typesafe.sbt.jse.SbtJsTask
 import com.typesafe.sbt.web.SbtWeb
-import sbt.Keys._
-import sbt._
+import sbt._, Keys._
 import sbt.plugins.JvmPlugin
 
 import scala.concurrent.duration._

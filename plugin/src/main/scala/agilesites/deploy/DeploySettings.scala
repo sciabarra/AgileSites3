@@ -82,7 +82,6 @@ trait DeploySettings extends Utils {
     uploadJar(new URL(sitesUrl.value), jar, log, site, siteId, user, pass)
   }
 
-
   val asDeployTask = asDeploy := Def.sequential(
     asCopyStatics,
     asPackage,
