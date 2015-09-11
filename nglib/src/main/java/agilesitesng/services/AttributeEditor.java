@@ -10,13 +10,9 @@ public class AttributeEditor extends Asset {
 
     public AttributeEditor(ICS ics) {
         super("AttrTypes", ics);
-        this.xml = xml;
+        this.xml = ics.GetVar("xml");
     }
 
-    private void initXml(String name, String xml) {
-
-        this.xml = xml;
-    }
 
     @Override
     public void setData(MutableAssetData ad) {
@@ -24,6 +20,6 @@ public class AttributeEditor extends Asset {
                 + ".xml", "AttrTypes",
                 xml.getBytes());
         ad.getAttributeData("urlxml").setData(blob);
-        //System.out.println(blob);
+        System.out.println(blob);
     }
 }
