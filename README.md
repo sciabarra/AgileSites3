@@ -2,7 +2,7 @@
 
 ## configure
 
-git clone https://github.com/sciabarra/AgileSites11g --recursive
+git clone https://github.com/sciabarra/AgileSites3
 
 copy AgileSites11g/nglib/agilesites.properties in nglib/agilesites.local.properties 
 edit it and set
@@ -16,7 +16,7 @@ Start sites
 
 Check http://<sites-host>/cs/HelloCS answers
 
-Execute init.sh
+Execute init.sh / init.cmd
 
 ## work
 
@@ -28,7 +28,7 @@ Notes
 
 Commands:
 
-- bb switch to project bigbang, nl switch to project nglib
+- bb switch to project demo, nd switch to ngdemo, nl switch to  nglib
 - lib imports any changes in the lib
 - ng:service op [value=]value [key=value...] invokes a service (try siteid AdminSite)
 - ng:spoon invokes spoon
@@ -36,7 +36,6 @@ Commands:
   - remember a nl/package if you change it
   - check output in target/spoon-spool.json
 - ng:deploy will run all the deployment (spoon -> akka -> sites)
-
 
 
 
