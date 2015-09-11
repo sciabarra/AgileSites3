@@ -32,7 +32,7 @@ lazy val publishedProjects = Seq[ProjectReference]()
 
 RepositoryBuilder.localRepo := file("/") / "data" / "sites" / "repo" / "local"
 
-val as = project.in(file("."))
+val as3root = project.in(file("."))
   .enablePlugins(SbtWeb)
   .enablePlugins(AgileSitesNgPlugin)
   .settings(RepositoryBuilder.localRepoCreationSettings: _*)
@@ -44,8 +44,7 @@ val as = project.in(file("."))
         , "org.scala-lang" % "scala-compiler" % "2.10.4" % "master"
         , "org.scala-lang" % "jline" % "2.10.4" % "master"
         , "org.fusesource.jansi" % "jansi" % "1.11" % "master"
-        , "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT" % "run"
-          extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+        , "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
       )).dependsOn(file("plugin").toURI)
 
 val nglib = project.in(file("nglib"))
@@ -62,11 +61,11 @@ addCommandAlias("p1", """; eval System.setProperty("profile", "11g") ; reload ; 
 
 addCommandAlias("r", """reload""")
 
-addCommandAlias("bb", """project demo""")
-
 addCommandAlias("nl", """project nglib""")
 
-addCommandAlias("nd", """project ngdemo""")
+addCommandAlias("ng", """; profile ng; project ngdemo""")
+
+addCommandAlias("bb", """; profile bb ; project demo""")
 
 addCommandAlias("dlib", s"""; nl; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 debug=${(file("nglib")/"src"/"test"/"groovy"/"AAAgileServices.groovy").getAbsolutePath}; bb""")
 
