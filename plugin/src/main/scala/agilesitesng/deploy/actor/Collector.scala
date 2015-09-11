@@ -21,8 +21,6 @@ object Collector {
 
   import DeployProtocol._
 
-  //import JavaConversions._
-
   def actor(services: ActorRef) = Props(classOf[CollectorActor], services)
 
   class CollectorActor(services: ActorRef)
@@ -30,59 +28,35 @@ object Collector {
     with ActorLogging
     with ActorUtils {
 
-    var count = 0
-    var answers = List.empty[String]
-    var decoder: Decoder = null
+    var decoder: Option[Decoder] = None
+    var requester: Option[ActorRef] = None
 
-    def receive: Receive = config
+    def receive: Receive = LoggingReceive {
 
-    def config: Receive = LoggingReceive {
       case SpoonBegin(url: URL, site: String, user: String, pass: String) =>
-        println(s">>> collector begin: ${url}")
-        decoder = new Decoder(site, user, pass)
-        count = 0
-        context.become(sending(sender()))
-        flushQueue
-
-      case obj: Object => enqueue(obj)
-    }
-
-    def sending(origin: ActorRef): Receive = LoggingReceive {
+        log.debug(s">>> collector begin: ${url}")
+        decoder = Some(new Decoder(site, user, pass))
+        requester = Some(context.sender)
 
       case SpoonData(model) =>
-        val map = decoder(model)
-        println(s">>> collector data: ${map} ---")
-        services ! ServicePost(map)
-        count = count +1
-
-      case Ask(origin, SpoonEnd(args)) =>
-        println(">>> collector end ---")
-        //context.become(replying(origin))
-        flushQueue
-
-      case ServiceReply(msg) =>
-        println(s"<<< collector reply #$count")
-        origin ! SpoonReply(answers.reverse.mkString("\n-----\n"))
-
-      case etc: Object => enqueue(etc)
-    }
-
-
- /*   def replying(origin: ActorRef): Receive = LoggingReceive {
-      case ServiceReply(msg) =>
-        println(s"<<< collector reply #${count}")
-        origin ! SpoonReply(answers.reverse.mkString("\n-----\n"))
-        count = count - 1
-        answers = msg :: answers
-
-        if (count == 0) {
-          origin ! SpoonReply(answers.reverse.mkString("\n-----\n"))
-          answers = List.empty
-          context.become(config)
-          flushQueue
+        if (decoder.nonEmpty) {
+          val map = decoder.get(model)
+          log.debug(s">>> collector data: ${map} ---")
+          services ! ServicePost(map)
+        } else {
+          log.warning("dropping request as  decoder not initialized")
         }
-      case etc: Object => enqueue(etc)
+
+      case SpoonEnd(args) =>
+        log.debug(">>> collector end.")
+
+      case ServiceReply(msg) =>
+        log.debug(s"<<< collector reply:")
+        if (requester.nonEmpty)
+          requester.get ! SpoonReply(msg)
+        else
+          log.warning("dropping reply as requester not initialized")
     }
-*/  }
+  }
 
 }

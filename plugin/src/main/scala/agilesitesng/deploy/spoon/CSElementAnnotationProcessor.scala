@@ -17,7 +17,6 @@ class CSElementAnnotationProcessor
     Spooler.insert(50,
       SpoonModel.CSElement(Uid.generate(s"CSElement.${name}"),
         name, class2file(name)))
-    println("...CSElement")
   }
 
 }

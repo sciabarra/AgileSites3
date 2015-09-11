@@ -1,0 +1,7 @@
+target/
+project/project/
+.classpath
+.project
+agilesites.properties.*
+export/
+spoon.sh

@@ -16,7 +16,6 @@ class TemplateAnnotationProcessor
     val name = cl.getQualifiedName
     Spooler.insert(50, SpoonModel.Template(
       Uid.generate(s"Template.${name}"), name, class2file(name)))
-    println("...Template!!!")
   }
 
 }

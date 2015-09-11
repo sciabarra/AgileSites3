@@ -42,6 +42,9 @@ public class DeployService implements Service {
 
         if (a == null)
             return "Deploy: what is " + what + " ?";
+        else {
+            System.out.println("deploying "+a.toString());
+        }
 
         //return a.deploy(ics.GetVar("site"), )
         Session session = SessionFactory.newSession(ics.GetVar("username"), ics.GetVar("password"));

@@ -7,9 +7,9 @@ import agilesitesng.deploy.model.Spooler
 import akka.pattern.ask
 import akka.util.Timeout
 import sbt.{AutoPlugin, _}
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import sbt._, Keys._
 
 /**
  * Created by msciab on 04/08/15.
@@ -21,37 +21,32 @@ trait DeploySettings {
 
   implicit val timeout = Timeout(10.seconds)
 
-  val loginTask = login in ng := {
-    val surl = sitesUrl.value
-    println(s">>> ServiceLogin(${surl}) ")
-    val hub = ngDeployHub.value
-    val r = hub ? ServiceLogin(url(surl), sitesUser.value, sitesPassword.value)
-    val msg = try {
-      val ServiceReply(msg) = Await.result(r, 3.second)
-      msg
-    } catch {
-      case ex: Exception => "ERR: " + ex.getMessage
-    }
-    println(s"<<< ServiceReply(${msg})")
-  }
 
   val deployTask = deploy in ng := {
 
+    val log = streams.value.log
+
     //(login in ng).value
+    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
 
     val hub = ngDeployHub.value
     val spool = (spoon in ng).toTask("").value
 
     // sending objects
-    hub ! SpoonBegin(new java.net.URL(sitesUrl.value), sitesFocus.value, sitesUser.value, sitesPassword.value)
     val deployObjects = Spooler.load(readFile(spool))
-    for (dobj <- deployObjects.deployObjects) {
-      //println(s" sending ${dobj}")
-      hub ! SpoonData(dobj)
-    }
-    val SpoonReply(result) = Await.result(hub ? SpoonEnd(""), 60.seconds)
-    println(result)
 
+
+    def filterAllSubstring(args: Seq[String], s: String) = args.map(s.indexOf(_) != -1).fold(true)(_ && _)
+
+    val objs = deployObjects.deployObjects.filter(x =>filterAllSubstring(args, x.toString))
+
+    hub ! SpoonBegin(new java.net.URL(sitesUrl.value), sitesFocus.value, sitesUser.value, sitesPassword.value)
+    for(obj <- objs) {
+      log.debug(obj.toString)
+      hub ! SpoonData(obj)
+    }
+    hub ! SpoonEnd("")
+    println(s"Deployed #${objs.size}")
   }
 
   val serviceTask = service in ng := {
@@ -72,5 +67,5 @@ trait DeploySettings {
     }
   }
 
-  def deploySettings = Seq(serviceTask, deployTask, loginTask)
+  def deploySettings = Seq(serviceTask, deployTask)
 }

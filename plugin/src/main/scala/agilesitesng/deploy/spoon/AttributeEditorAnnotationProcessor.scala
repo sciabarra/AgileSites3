@@ -27,9 +27,7 @@ class AttributeEditorAnnotationProcessor
      """.stripMargin)
     val uid = Uid.generate(s"AttrTypes.${name}")
     //cl.getDefaultExpression.
-    println("...AttributeEditor...");
     println(cl.getDeclaringType.getQualifiedName)
-
     Spooler.insert(95, SpoonModel.AttributeEditor(uid, name, outfile))
   }
 }

@@ -1,13 +1,8 @@
 package ngdemo;
-
 import agilesites.annotations.AttributeEditor;
 import agilesites.annotations.Site;
 import agilesites.annotations.FlexFamily;
 import agilesites.api.AgileSite;
-
-/**
- * Declaring the site with his types
- */
 @FlexFamily(
         flexAttribute = "NgAttribute",
         flexParentDefinition = "NgParentDefinition",

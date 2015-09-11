@@ -24,7 +24,3 @@ javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
 val demo = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
-ngSpoonProcessorJars := Seq(
-  baseDirectory.value.getParentFile / "plugin" / "target" / "scala-2.10" / "sbt-0.13" / "agilesites3-plugin-v3-M5-SNAPSHOT.jar",
-  baseDirectory.value.getParentFile / "nglib"  / "target" / "agilesites3-lib-v3-M5-SNAPSHOT.jar"
-).map(_.getAbsoluteFile)

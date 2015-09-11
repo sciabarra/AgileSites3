@@ -138,10 +138,15 @@ public abstract class Asset {
         return sb.toString();
     }
 
+
+    public String toString() {
+        return c+":"+name+"#"+cid+"@"+site;
+    }
+
     /**
      * Print it
      */
-    public String toString() {
+    public String dump() {
         StringBuilder sb = new StringBuilder();
         sb.append("name=").append(name);
         sb.append("\ndescription=").append(description);

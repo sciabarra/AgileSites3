@@ -15,6 +15,8 @@ object DeployProtocol {
 
   trait Asking
 
+  trait Marking
+
   trait ServiceMsg extends Msg
 
   trait SpoonMsg extends Msg
@@ -25,7 +27,7 @@ object DeployProtocol {
 
   case class SpoonData(model: SpoonModel) extends SpoonMsg
 
-  case class SpoonEnd(args: String) extends SpoonMsg with Asking
+  case class SpoonEnd(args: String) extends SpoonMsg
 
   case class SpoonReply(result: String) extends SpoonMsg
 

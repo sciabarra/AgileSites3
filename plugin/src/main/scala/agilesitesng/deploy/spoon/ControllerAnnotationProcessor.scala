@@ -17,7 +17,6 @@ class ControllerAnnotationProcessor
     Spooler.insert(50,
       SpoonModel.Controller(Uid.generate(s"Controller.${name}"),
         name, class2file(name)))
-    println("...Controller")
   }
 
 }

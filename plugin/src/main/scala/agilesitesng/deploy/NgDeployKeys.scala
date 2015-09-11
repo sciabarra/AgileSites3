@@ -8,8 +8,7 @@ import sbt._
  */
 object NgDeployKeys {
   val ng = config("ng")
-  val deploy = taskKey[Unit]("AgileSitesNg deploy")
-  val login = taskKey[Unit]("AgileSitesNg Login")
+  val deploy = inputKey[Unit]("AgileSitesNg deploy")
   val spoon = inputKey[File]("invoke spoon")
   val service = inputKey[String]("invoke a service")
   val sqlSelect = inputKey[String]("invoke an sql select")

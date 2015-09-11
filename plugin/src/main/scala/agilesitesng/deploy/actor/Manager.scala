@@ -23,19 +23,32 @@ object Manager {
     var services: ActorRef = context.actorOf(Services.actor())
     val collector = context.actorOf(Collector.actor(services))
 
+    var marker = System.currentTimeMillis()
+
     override def preStart: Unit = {
       services ! Ask(self, ServiceLogin(url, user, pass))
       context.watch(services)
     }
 
     def receive = LoggingReceive {
+      // restart terminated services
       case Terminated(_) =>
         context.actorOf(Services.actor())
         preStart
-      case ServiceReply(ticket) => println(s"logged in with ${ticket}")
-      case spm: SpoonMsg with Asking => collector ! Ask(context.sender, spm)
-      case spm: SpoonMsg => collector ! spm
-      case svm: ServiceMsg with Asking => services ! Ask(context.sender, svm)
+
+      // you can receive replies for services
+      case ServiceReply(ticket) =>
+        println(s"logged in with ${ticket}")
+
+      // service messages wait for a reply to the origin
+      case svm: ServiceMsg with Asking =>
+        services ! Ask(context.sender, svm)
+
+      // spoon messages are fire and forget
+      case spm: SpoonMsg  => collector ! spm
+
+      case SpoonReply(msg) =>
+        println(s"Collector: ${msg}")
     }
   }
 
