@@ -7,7 +7,7 @@ import agilesitesng.deploy.model.SpoonModel._
 /**
  * Created by msciab on 20/08/15.
  */
-class Decoder(site: String, username: String, password: String) extends Utils {
+class Decoder(site: String, username: String, password: String, map: Map[String,String]) extends Utils {
 
   /**
    * @return a map ready to be deployed

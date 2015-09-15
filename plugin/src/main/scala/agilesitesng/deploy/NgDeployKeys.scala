@@ -11,6 +11,7 @@ object NgDeployKeys {
   val deploy = inputKey[Unit]("AgileSitesNg deploy")
   val spoon = inputKey[File]("invoke spoon")
   val service = inputKey[String]("invoke a service")
+  val uid = taskKey[Map[String,String]]("load uids for the site")
   val sqlSelect = inputKey[String]("invoke an sql select")
   val sqlDelete = inputKey[String]("invoke an sql delete")
   val sqlInsert = inputKey[String]("invoke an sql insert")

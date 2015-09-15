@@ -33,9 +33,9 @@ object Collector {
 
     def receive: Receive = LoggingReceive {
 
-      case SpoonBegin(url: URL, site: String, user: String, pass: String) =>
-        log.debug(s">>> collector begin: ${url}")
-        decoder = Some(new Decoder(site, user, pass))
+      case SpoonBegin(url: URL, site: String, user: String, pass: String, map: Map[String,String]) =>
+        log.debug(s">>> collector begin: ${url} ${map}")
+        decoder = Some(new Decoder(site, user, pass, map))
         requester = Some(context.sender)
 
       case SpoonData(model) =>

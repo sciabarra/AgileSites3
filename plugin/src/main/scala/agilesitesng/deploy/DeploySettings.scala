@@ -22,6 +22,14 @@ trait DeploySettings {
   implicit val timeout = Timeout(10.seconds)
 
 
+  val uidTask = uid in ng := {
+    val prpFile = baseDirectory.value / "src" / "main" / "resources" / sitesFocus.value / "uid.properties"
+    val prp = new java.util.Properties
+    prp.load(new java.io.FileReader(prpFile))
+    import scala.collection.JavaConverters._
+    prp.asScala.toMap
+  }
+
   val deployTask = deploy in ng := {
 
     val log = streams.value.log
@@ -35,12 +43,17 @@ trait DeploySettings {
     // sending objects
     val deployObjects = Spooler.load(readFile(spool))
 
-
     def filterAllSubstring(args: Seq[String], s: String) = args.map(s.indexOf(_) != -1).fold(true)(_ && _)
 
     val objs = deployObjects.deployObjects.filter(x =>filterAllSubstring(args, x.toString))
 
-    hub ! SpoonBegin(new java.net.URL(sitesUrl.value), sitesFocus.value, sitesUser.value, sitesPassword.value)
+    import scala.collection.JavaConverters._
+
+    val map = (uid in ng).value
+    hub ! SpoonBegin(
+      new java.net.URL(sitesUrl.value),
+      sitesFocus.value, sitesUser.value,
+      sitesPassword.value, map)
     for(obj <- objs) {
       log.debug(obj.toString)
       hub ! SpoonData(obj)
@@ -67,5 +80,5 @@ trait DeploySettings {
     }
   }
 
-  def deploySettings = Seq(serviceTask, deployTask)
+  def deploySettings = Seq(serviceTask, deployTask, uidTask)
 }

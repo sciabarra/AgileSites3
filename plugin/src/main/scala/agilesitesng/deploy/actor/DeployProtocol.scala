@@ -23,7 +23,7 @@ object DeployProtocol {
 
   case class Ask(sender: ActorRef, message: Msg) extends Msg
 
-  case class SpoonBegin(url: URL, site: String, user: String, pass: String) extends SpoonMsg
+  case class SpoonBegin(url: URL, site: String, user: String, pass: String, uid: Map[String,String]) extends SpoonMsg
 
   case class SpoonData(model: SpoonModel) extends SpoonMsg
 
