@@ -6,10 +6,13 @@ organization := utilPropertyMap.value.getOrElse("organization", "org.agilesites"
 
 version := utilPropertyMap.value.getOrElse("version", "1.0")
 
+scalaVersion := "2.10.5"
+
 libraryDependencies ++= Seq(
-  "com.sciabarra" % "agilesites3-lib"  % "v3-M5-SNAPSHOT",
-  "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT"
+  "com.sciabarra" % "agilesites3-lib"  % "v3-M5-SNAPSHOT"
+  ,  "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT"
     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  , "com.novocode" % "junit-interface" % "0.11" % "test"
 )
 
 unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"

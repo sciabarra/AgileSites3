@@ -1,0 +1,3 @@
+[submodule "ngdemo/src/main/static"]
+	path = ngdemo/src/main/static
+	url = https://github.com/mcasimir/mobile-angular-ui

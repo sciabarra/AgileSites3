@@ -10,7 +10,10 @@ scalaVersion := "2.10.5"
 
 crossPaths := false
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies ++= Seq(
+  "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT"
+     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  , "org.jodd" % "jodd-lagarto" % "3.6.6")
 
 watchSources ++= ((baseDirectory.value / "src" / "main" / "resources") ** "*.jsp").get
 

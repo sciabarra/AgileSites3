@@ -8,24 +8,26 @@ import java.lang.annotation.Target;
 /**
  * Created by msciab on 14/06/15.
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
 public @interface Template {
     public String value() default "";
 
+    public String select() default "";
+
     public String description() default "";
 
-    boolean layout() default false;
+    public boolean layout() default false;
 
-    String type() default "";
+    public String type() default "";
 
-    String subtype() default "false";
+    public String subtype() default "false";
 
-    String ssCache() default "false";
+    public String ssCache() default "false";
 
-    String csCache() default "";
+    public String csCache() default "";
 
-    String extraCriteria() default "";
+    public String extraCriteria() default "";
 
-    String criteria() default "";
+    public String criteria() default "";
 }

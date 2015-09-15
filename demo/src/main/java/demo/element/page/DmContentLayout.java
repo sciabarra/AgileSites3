@@ -7,12 +7,10 @@ import demo.model.page.DmSection;
 
 import static agilesites.api.Api.*;
 
-@Template(layout = true)
+//@Template(layout = true)
 public class DmContentLayout implements TypedElement<DmSection> {
 
     Log log = Log.getLog(DmContentLayout.class);
-
-
 
     @Override
     public String apply(DmSection a, Env e) {

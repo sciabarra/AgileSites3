@@ -1,6 +1,7 @@
 package agilesites.api;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by msciab on 11/08/15.
@@ -288,6 +289,10 @@ public class AgileAsset implements Asset {
 
     @Override
     public String slot(String attribute, String type, String template, String emptyText, Arg... args) throws IllegalArgumentException {
+        return null;
+    }
+
+    public Map map() {
         return null;
     }
 
