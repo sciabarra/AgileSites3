@@ -63,12 +63,14 @@ addCommandAlias("r", """reload""")
 
 addCommandAlias("nl", """project nglib""")
 
-addCommandAlias("ng", """; profile ng; project ngdemo""")
+addCommandAlias("nd", """; profile ng; project ngdemo""")
 
-addCommandAlias("bb", """; profile bb ; project demo""")
+addCommandAlias("dm", """; profile - ; project demo""")
 
-addCommandAlias("dlib", s"""; nl; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 debug=${(file("nglib")/"src"/"test"/"groovy"/"AAAgileServices.groovy").getAbsolutePath}; bb""")
+addCommandAlias("flib", s"""; project nglib; ngConcatJava ; cmov import_all aaagile; ng:service version reload=1 ; project demo""")
 
-addCommandAlias("lib", s"""; nl ; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 ; bb""")
+addCommandAlias("lib", s"""; project nglib; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 ; project demo""")
+
+addCommandAlias("dlib", s"""; project nglib; ngConcatJava ; cmov import_all aaagile; ng:service version refresh=1 debug=${(file("nglib")/"src"/"test"/"groovy"/"AAAgileServices.groovy").getAbsolutePath}; project demo""")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")

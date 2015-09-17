@@ -69,16 +69,19 @@ trait PropertySettings extends Utils {
 
   def profileCmd = Command.args("profile", "<args>") { (state, args) =>
     if (args.size != 1) {
-      println("usage: profile <profile>")
+      println("usage: profile <profile>|- (- = noprofile)")
       state
     } else {
-      val profile= args.head
-      val prp = state.configuration.baseDirectory / s"agilesites.${profile}.properties"
-      if(!prp.exists())
-        println(s"WARNING! no ${prp.getName} file found - are you using the right profile name?")
+      val (profile, profileSetter) =
+        if(args.head == "-")
+            "" -> """System.getProperties.remove("profile")"""
+        else
+          args.head+"." -> s"""System.setProperty("profile", "${args.head}")"""
+      val prp = state.configuration.baseDirectory / s"agilesites${profile}.properties"
+      //if(!prp.exists())
+      //  println(s"WARNING! no ${prp.getName} file found - are you using the right profile name?")
       state.copy(remainingCommands =
-        Seq( s"""eval System.setProperty("profile", "${args.head}") """,
-          "reload") ++ state.remainingCommands)
+        Seq( s"""eval ${profileSetter} """, "reload") ++ state.remainingCommands)
     }
   }
 

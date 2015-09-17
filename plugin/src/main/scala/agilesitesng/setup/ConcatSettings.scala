@@ -27,7 +27,7 @@ trait ConcatSettings extends Utils {
     //val base = baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "core" * "*.java"
     //val out = file("src") / "main" / "resources" / "aaagile" / "ElementCatalog" / "AAAgileLib.java"
 
-    for ((output, input) <- ngConcatJavaMap.value) {
+    val out = for ((output, input) <- ngConcatJavaMap.value) yield {
 
       val lines = for {
         file <- input.get
@@ -41,7 +41,9 @@ trait ConcatSettings extends Utils {
       else line
 
       val thePackage = lines.filter(_.startsWith("package ")).head.toString
-      val imports = lines.filter(_.startsWith("import ")).toSeq
+
+      val imports = lines.filter(_.startsWith("import ")).toSeq.distinct
+
       val bodies = lines.filter(x => !(x.startsWith("import ") || x.startsWith("package "))).toSeq
       val helloWorld = s"Concat of ${thePackage} ${version.value} built on ${new Date()}"
       output.getParentFile.mkdirs
@@ -56,7 +58,11 @@ trait ConcatSettings extends Utils {
       //println(result)
       fw.write(result)
       fw.close
+
+      helloWorld
     }
+
+    out mkString "\n"
   }
 
   def concatSettings = Seq(ngConcatJavaTask,
