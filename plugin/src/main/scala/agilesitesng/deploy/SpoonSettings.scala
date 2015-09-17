@@ -73,10 +73,10 @@ trait SpoonSettings {
     , ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"
       , "SiteAnnotation"
-      , "ParentDefinitionAnnotation"
-      , "ContentDefinitionAnnotation"
       , "AttributeEditorAnnotation"
       , "AttributeAnnotation"
+      , "ParentDefinitionAnnotation"
+      , "ContentDefinitionAnnotation"
       , "NewStartMenuAnnotation"
       , "FindStartMenuAnnotation"
       , "SiteEntryAnnotation"
@@ -87,6 +87,6 @@ trait SpoonSettings {
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
-    , ngSpoonDebug := false
+    , ngSpoonDebug := true
   )
 }

@@ -34,11 +34,11 @@ object SpoonModel extends ModelUtil {
 
   case class AttributeEditor(id: Long, name: String, file: String) extends SpoonModel
 
-  case class Attribute(id: Long, name: String, description:String, mul:String, attibuteType:String, editor:Option[String], assetType:Option[String], subtypes: List[String]) extends SpoonModel
+  case class Attribute(id: Long, name: String, description:String, flexAttibuteType: String, mul:String, attibuteType:String, editor:Option[String], assetType:Option[String], subtypes: List[String]) extends SpoonModel
 
-  case class ContentDefinition(id: Long, name: String, description:String, contentType:String, parent:Option[String], attributes:List[AssetAttribute]) extends SpoonModel
+  case class ContentDefinition(id: Long, name: String, description:String, contentType:String, parentType:String, attributeType:String, parents:List[String], attributes:List[AssetAttribute]) extends SpoonModel
 
-  case class ParentDefinition(id: Long, name: String, description:String, parentType:String, parent:Option[String], attributes:List[AssetAttribute]) extends SpoonModel
+  case class ParentDefinition(id: Long, name: String, description:String, parentType:String, attributeType:String, parents:List[String], attributes:List[AssetAttribute]) extends SpoonModel
 
   case class StartMenu(id: Long, name: String, description:String, menuType:String, assetType:String, assetSubtype:String, args:List[Arg])  extends SpoonModel
 

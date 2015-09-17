@@ -5,8 +5,9 @@ import demo.model.DmParent;
 
 @FindStartMenu("Find Gallery")
 //@StartMenu("New Gallery")
-@ParentDefinition
-@Parent("DmGallery")
+@ParentDefinition(flexAttribute = "DemoAttribute",
+        flexParent = "DemoParentDefinition")
+@Parents("DmGallery")
 public class DmGallery extends DmParent {
 
     @Attribute

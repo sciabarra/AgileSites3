@@ -1,10 +1,12 @@
 package agilesitesng.deploy.spoon
 
+import java.lang.annotation.Annotation
+
 import agilesites.annotations._
 import agilesitesng.deploy.model.{Spooler, SpoonModel, Uid}
 import org.slf4j.LoggerFactory
 import spoon.processing.AbstractAnnotationProcessor
-import spoon.reflect.declaration.CtClass
+import spoon.reflect.declaration.{CtAnnotation, CtClass}
 import scala.collection.JavaConversions._
 
 
@@ -18,12 +20,17 @@ class ContentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[C
   def process(a: ContentDefinition, cl: CtClass[_]) {
     val name = cl.getSimpleName
     val description = if (a.description() == null || a.description().isEmpty) name else a.description()
-    val contentType = cl.getSuperclass.getSimpleName
+    val contentType = a.flexContent()
+    val attributeType = a.flexAttribute()
+    val parentType = a.flexParent()
     val attributes = cl.getFields collect {
       case b if b.getAnnotation(classOf[Attribute]) != null => SpoonModel.AssetAttribute(b.getSimpleName, b.getAnnotation(classOf[Required]) != null)
     }
-    val parent = if (cl.getAnnotation(classOf[Parent]) != null) Some(cl.getAnnotation(classOf[Parent]).value()) else None
-    Spooler.insert(70, SpoonModel.ContentDefinition(Uid.generate(s"ContentDefinition.${name}"), name, description, contentType, parent, attributes.toList))
-    logger.debug(s"Content definition - name:$name description: $description contentType: $contentType attributes: $attributes ")
+    val parents = if (cl.getAnnotation(classOf[Parents]) != null) cl.getAnnotation(classOf[Parents]).value().toList else Nil
+    Spooler.insert(70, SpoonModel.ContentDefinition(Uid.generate(s"$contentType.$name"), name, description, contentType, parentType, attributeType, parents, attributes.toList))
+    logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
   }
+
+  override def shoudBeConsumed(annotation: CtAnnotation[_ <: Annotation]): Boolean = false
+
 }

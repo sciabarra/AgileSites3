@@ -38,7 +38,7 @@ trait ActorUtils {
   }
 
   // default durations and timeout
-  val defaultDuration = 5.seconds
+  val defaultDuration = 60.seconds
   implicit val defaultTimeout = akka.util.Timeout.durationToTimeout(defaultDuration)
 
 }

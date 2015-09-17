@@ -5,8 +5,9 @@ import demo.model.DmParent;
 
 @FindStartMenu("Find Folder")
 //@StartMenu("New Folder")
-@ParentDefinition
-@Parent("DmFolder")
+@ParentDefinition(flexAttribute = "DemoAttribute",
+        flexParent = "DemoParentDefinition")
+@Parents("DmFolder")
 public class DmFolder extends DmParent {
 
     @Attribute

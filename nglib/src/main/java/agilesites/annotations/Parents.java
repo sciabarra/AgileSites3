@@ -10,10 +10,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
-public @interface Type {
-    String value() default "";
+public @interface Parents {
+    String[] value();
     String description() default "";
-    String flexAttribute();
-    String flexContent();
-    String flexParent() default "";
 }

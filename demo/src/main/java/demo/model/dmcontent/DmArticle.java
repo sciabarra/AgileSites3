@@ -8,8 +8,10 @@ import demo.model.DmContent;
         @NewStartMenu(value = "Blog Article", args = "path:blog")
 })
 @FindStartMenu("Find Article")
-@ContentDefinition
-@Parent("DmFolder")
+@ContentDefinition(flexAttribute = "DemoAttribute",
+        flexContent = "DemoContentDefinition",
+        flexParent = "DemoParentDefinition")
+@Parents({"DmFolder","DmGallery"})
 public class DmArticle extends DmContent {
 
     @Attribute()

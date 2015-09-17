@@ -1,11 +1,12 @@
 package demo.model.page;
 
 import agilesites.annotations.*;
+import agilesites.api.AgileAsset;
 import demo.model.Page;
 
 @FindStartMenu("Find HomePage")
-//@StartMenu("New HomePage")
-@ContentDefinition
+@ContentDefinition(flexAttribute = "PageAttribute",
+        flexContent = "PageDefinition")
 public class DmHome extends Page {
 
     @Attribute()

@@ -5,8 +5,10 @@ import demo.model.DmContent;
 
 //@StartMenu("New Image")
 @FindStartMenu("Find Image")
-@ContentDefinition
-@Parent("DmGallery")
+@ContentDefinition(flexAttribute = "DemoAttribute",
+        flexContent = "DemoContentDefinition",
+        flexParent = "DemoParentDefinition")
+@Parents("DmGallery")
 public class DmImage extends DmContent {
 
     @Attribute("Large Image")

@@ -34,6 +34,10 @@ public class DeployService implements Service {
             a = new AttributeEditor(ics);
         } else if (what.equals("Attribute")) {
             a = new Attribute(ics);
+        } else if (what.equals("ParentDefinition")) {
+            a = new ParentDefinition(ics);
+        } else if (what.equals("ContentDefinition")) {
+            a = new ContentDefinition(ics);
         }
 
         if (ics.GetVar("debug") != null)

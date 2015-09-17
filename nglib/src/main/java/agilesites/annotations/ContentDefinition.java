@@ -14,4 +14,7 @@ import java.lang.annotation.Target;
 public @interface ContentDefinition {
     String value() default "";
     String description() default "";
+    String flexAttribute();
+    String flexContent();
+    String flexParent() default "";
 }

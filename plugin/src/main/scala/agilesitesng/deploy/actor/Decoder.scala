@@ -23,6 +23,8 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       ("username" -> username) +
       ("password" -> password)
 
+  def readAssetId(c:String, name:String) = map.getOrElse(s"$c.$name", "-1")
+
   def apply(model: SpoonModel): Map[String, String] = model match {
 
     //TODO add description here
@@ -32,23 +34,34 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
         'xml -> readFile(file))
 
     // TODO mul cab be Single, Multiple and ORDERED - need another field
-    case Attribute(id, name, description, mul, attributeType, editor, assetType, subtypes) =>
+    case Attribute(id, name, description, flexAttributeType, mul, attributeType, editor, assetType, subtypes) =>
       deploy("Attribute", id, name, description,
         'type -> attributeType,
-        'c -> "PageAttribute",
+        'c -> flexAttributeType,
         'mul -> mul,
         'existDep -> "false",
         'notEmbedded -> "false",
-        'attributetype -> editor.getOrElse(""),
+        'attributetype -> readAssetId("AttrTypes", editor.getOrElse("")),
         'assettypename -> assetType.getOrElse(""),
         'assetsubtypename -> subtypes.mkString("|")
       )
 
-   case ParentDefinition(id, name, description, parentType, parent, attributes) =>
+   case ParentDefinition(id, name, description, parentType, attributeType, parents, attributes) =>
       deploy("ParentDefinition", id, name, description,
-        'type -> "STRING",
         'c -> parentType,
-        'parent -> parent.getOrElse("")
+        'attributeType -> attributeType,
+        'parent -> parents.mkString("|"),
+        'attributes -> attributes.map(x => s"${x.required}:${readAssetId(attributeType,x.name)}").mkString("|"),
+        'parents -> parents.map(x => s"${readAssetId(parentType,x)}").mkString("|")
+      )
+
+    case ContentDefinition(id, name, description, contentType, parentType, attributeType, parents, attributes) =>
+      deploy("ContentDefinition", id, name, description,
+        'c -> contentType,
+        'attributeType -> attributeType,
+        'parent -> parents.mkString("|"),
+        'attributes -> attributes.map(x => s"${x.required}:${readAssetId(attributeType,x.name)}").mkString("|"),
+        'parents -> parents.map(x => s"${readAssetId(parentType,x)}").mkString("|")
       )
 
     case FlexFamily(attr,contentDef,parentDef,content,parent,filter) => Map(
@@ -70,8 +83,17 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       'filename -> new java.io.File(file).getName,
       'filefolder -> name.split("\\.").init.mkString("WCS_Controller/", "/", "/"),
       'fileext -> file.split("\\.").last,
-      'filebody -> readFile(file)
-    )
+      'filebody -> readFile(file))
+
+    case StartMenu(id, name, description, menuType, assetType, assetSubtype, args) => Map(
+      "op" -> "startmenu",
+      "id" -> id.toString,
+      "name" -> name,
+      "description" -> description,
+      "menuType" -> menuType,
+      "assetType" -> assetType,
+      "assetSubtype" -> assetSubtype,
+      "args" -> args.mkString("|"))
 
     //case CSElement(id, name) => deploy("CSElement", id, name, name)
 
