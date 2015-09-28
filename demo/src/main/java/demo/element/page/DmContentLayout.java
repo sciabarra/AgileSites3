@@ -65,8 +65,8 @@ public class DmContentLayout implements TypedElement<DmSection> {
 
         html.replace("#topmenu", e.call("Topmenu"));
         html.replace(
-                "#breadcrump",
-                e.call("Breadcrump", arg("c", a.getC()),
+                "#breadcrumb",
+                e.call("Breadcrumb", arg("c", a.getC()),
                         arg("cid", a.getCid().toString())));
         html.replace("#tree", e.call("Tree"));
 

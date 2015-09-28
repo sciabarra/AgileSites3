@@ -12,15 +12,16 @@ import scala.collection.JavaConversions._
 /**
  * Created by msciab on 06/08/15.
  */
-class FindStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[ContentDefinition, CtClass[_]] {
+class FindStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[FindStartMenu, CtClass[_]] {
 
   def logger = LoggerFactory.getLogger(classOf[FindStartMenuAnnotationProcessor])
 
-  def process(a: ContentDefinition, cl: CtClass[_]) {
-    val name = cl.getSimpleName
+  def process(a: FindStartMenu, cl: CtClass[_]) {
+    val name = a.value()
     val description = if (a.description() == null || a.description().isEmpty) name else a.description()
     val assetType = cl.getSuperclass.getSimpleName
-    Spooler.insert(70, SpoonModel.StartMenu(Uid.generate(s"StartMenu.$name"), name, description, "Search", assetType, "", Nil))
+    val assetSubtype = cl.getSimpleName
+    Spooler.insert(111, SpoonModel.StartMenu(Uid.generate(s"StartMenu.${cl.getSimpleName}.Search"), name, description, "Search", assetType, assetSubtype, Nil))
     logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType menuType: Search ")
   }
 }

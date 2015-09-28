@@ -23,7 +23,7 @@ class ParentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[Pa
       case b if b.getAnnotation(classOf[Attribute]) != null => SpoonModel.AssetAttribute(b.getSimpleName, b.getAnnotation(classOf[Required]) != null)
     }
     val parents = if (cl.getAnnotation(classOf[Parents]) != null) cl.getAnnotation(classOf[Parents]).value().toList else Nil
-    Spooler.insert(70, SpoonModel.ParentDefinition(Uid.generate(s"$parentType.$name"), name, description, parentType, attributeType, parents, attributes.toList))
+    Spooler.insert(80, SpoonModel.ParentDefinition(Uid.generate(s"$parentType.$name"), name, description, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Parent definition - name:$name description: $description parentType: $parentType attributeType: $attributeType attributes: $attributes ")
   }
 

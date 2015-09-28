@@ -17,10 +17,12 @@ class NewStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[NewSta
   def logger = LoggerFactory.getLogger(classOf[NewStartMenuAnnotationProcessor])
 
   def process(a: NewStartMenu, cl: CtClass[_]) {
-    val name = cl.getSimpleName
+    val name = a.value()
     val description = if (a.description() == null || a.description().isEmpty) name else a.description()
     val assetType = cl.getSuperclass.getSimpleName
-    Spooler.insert(70, SpoonModel.StartMenu(Uid.generate(s"StartMenu.$name"), name, description, "Content", assetType, "", Nil))
-    logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType menuType: Content ")
+    val assetSubtype = cl.getSimpleName
+    val args = a.args().toList
+    Spooler.insert(110, SpoonModel.StartMenu(Uid.generate(s"StartMenu.${cl.getSimpleName}.ContentForm"), name, description, "ContentForm", assetType, assetSubtype, args))
+    logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType assetSubtype: $assetSubtype menuType: ContentForm ")
   }
 }

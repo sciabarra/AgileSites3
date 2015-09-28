@@ -21,11 +21,8 @@ public class StartMenuService implements Service {
     @Override
     public String exec(HttpServletRequest req, ICS ics, HttpServletResponse res) {
         StartMenu s = new StartMenu(ics);
-        Session session = SessionFactory.newSession(ics.GetVar("username"), ics.GetVar("password"));
-        AssetDataManager adm = (AssetDataManager) session.getManager(AssetDataManager.class
-                .getName());
         try {
-            return s.build(adm, ics);
+            return s.build(ics);
         } catch(Exception ex) {
             return ex.getMessage();
         }

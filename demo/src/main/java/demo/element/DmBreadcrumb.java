@@ -4,20 +4,19 @@ import static java.lang.String.format;
 
 import agilesites.annotations.CSElement;
 import agilesites.api.*;
-import static agilesites.api.Api.*;
 
 @CSElement
-public class DmBreadcrump implements Element {
+public class DmBreadcrumb implements Element {
 
-	final static Log log = Log.getLog(DmBreadcrump.class);
+	final static Log log = Log.getLog(DmBreadcrumb.class);
 
 	@Override
 	public String apply(Env e) {
 
 		if (log.debug())
-			log.debug("Demo Breadcrump");
+			log.debug("Demo Breadcrumb");
 
-		Picker html = Picker.load("/blueprint/template.html", "#breadcrump");
+		Picker html = Picker.load("/blueprint/template.html", "#breadcrumb");
 		StringBuilder sb = new StringBuilder();
 		String sep = "&nbsp;&raquo;&nbsp;";
 
@@ -40,6 +39,6 @@ public class DmBreadcrump implements Element {
 			}
 		}
 		sb.append("<b>").append(a.getName()).append("</b>");
-		return html.replace("#breadcrump", sb.toString()).dump(log).html();
+		return html.replace("#breadcrumb", sb.toString()).dump(log).html();
 	}
 }

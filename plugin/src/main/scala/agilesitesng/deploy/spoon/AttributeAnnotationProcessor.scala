@@ -7,6 +7,7 @@ import agilesitesng.deploy.model.{Spooler, SpoonModel, Uid}
 import org.slf4j.LoggerFactory
 import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.{CtAnnotation, CtField}
+import spoon.reflect.reference.CtTypeReference
 import spoon.support.reflect.reference.CtArrayTypeReferenceImpl
 
 import scala.collection.JavaConversions._
@@ -50,13 +51,21 @@ class AttributeAnnotationProcessor extends AbstractAnnotationProcessor[Attribute
           cl.getReference.getType.asInstanceOf[CtArrayTypeReferenceImpl[_]].getComponentType
         else
           cl.getReference.getType
-        (Some(componentType.getActualTypeArguments.get(0).getSimpleName), subtypes.flatten.toList)
+        val assetType =  componentType.getActualTypeArguments.get(0)
+        val assetSubtypes = getSubtype(assetType)  match {
+          case x:Some[CtTypeReference[_]] => subtypes.flatten.toList :+ x.get.getSimpleName
+          case None => subtypes.flatten.toList
+        }
+        (Some(assetType.getSimpleName), assetSubtypes)
       case _ => (None, Nil)
     }
     val mul = if (multiple) "O" else "S"
     logger.debug(s"$flexAttributeType - name:$name description: $description attributeType: $attributeType mul: $mul editor: $editor assetType: $assetType subtypes: $assetSubtypes")
     Spooler.insert(90, SpoonModel.Attribute(Uid.generate(s"$flexAttributeType.$name"), name, description, flexAttributeType, mul, attributeType, editor, assetType, assetSubtypes))
+  }
 
+  def getSubtype(ctTypeReference: CtTypeReference[_]) = {
+    ctTypeReference.getActualTypeArguments.headOption
   }
 
   override def shoudBeConsumed(annotation: CtAnnotation[_ <: Annotation]): Boolean = false

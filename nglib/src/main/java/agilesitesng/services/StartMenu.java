@@ -45,20 +45,28 @@ public class StartMenu {
         this.site = ics.GetVar("site");
         this.name = ics.GetVar("name");
         this.description = Utils.nnOr(ics.GetVar("description"), this.name);
-        this.menuType = Utils.nnOr(menuType, "");
+        this.menuType = ics.GetVar("menuType");
         this.assetType = ics.GetVar("assetType");
-        this.assetSubtype = ics.GetVar("assetSubtype");
-        this.arguments = Utils.splitOnPipe("args");
+        this.assetSubtype = Utils.nnOr(ics.GetVar("assetSubtype"),"");
+        this.arguments = Utils.splitOnPipe(ics.GetVar("args"));
     }
 
+    public StartMenu(String name, String site, String menuType, String assetType) {
+        this.site = site;
+        this.name = name;
+        this.description = name;
+        this.menuType = menuType;
+        this.assetType = assetType;
+        this.assetSubtype = "";
+        this.arguments = new String[0];
+    }
 
-    public String build(AssetDataManager adm, ICS ics) {
+    public String build(ICS ics) {
         ISiteList siteList  =new SiteList();
-        siteList.addSite(Long.parseLong(ics.GetSSVar("pubid")));
+        siteList.addSite(Long.valueOf(Utils.siteid(ics, site)));
         IRoleList roleList = new RoleList();
         roleList.addRole("");
         StringBuilder sb = new StringBuilder();
-        String prefix = site + "_";
         sb.append("START MENU " + description);
         try {
 
@@ -75,16 +83,17 @@ public class StartMenu {
             startMenuItem.setDescription(description);
             startMenuItem.setItemType(menuType);
             startMenuItem.setAssetType(assetType);
-            if (!assetSubtype.startsWith(prefix) && assetSubtype.length() > 0)
-                assetSubtype = prefix + assetSubtype;
-
             startMenuItem.setAssetSubtype(assetSubtype);
             startMenuItem.setLegalSites(siteList);
             startMenuItem.setLegalRoles(roleList);
-
+            IInputArgList inputArgList = new InputArgList();
             IArgumentList argumentList = startMenuItem.getArguments();
             if (argumentList.get("subtype") == null) {
                 argumentList.set("subtype", assetSubtype);
+                inputArgList.add("subtype",true);
+            }
+            else {
+                inputArgList.add("subtype",false);
             }
             if (arguments != null) {
                 for (String argument : arguments) {
@@ -95,15 +104,13 @@ public class StartMenu {
                     argumentList.set(nameValue[0],nameValue[1]);
                 }
             }
-            IInputArgList inputArgList = new InputArgList();
-            inputArgList.add("subtype",false);
             inputArgList.add("Group_%", false);
             startMenuItem.setLegalArguments(inputArgList);
             menu.setMenuItem(startMenuItem);
             sb.append(" OK\n");
         } catch (AssetException e) {
             e.printStackTrace();
-            sb.append(" ERR " + e.getMessage() + "\n");
+            sb.append(" ERR ").append(e.getMessage()).append("\n");
         }
         return sb.toString();
     }

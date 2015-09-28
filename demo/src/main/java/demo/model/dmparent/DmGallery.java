@@ -1,10 +1,11 @@
 package demo.model.dmparent;
 
 import agilesites.annotations.*;
+import agilesites.api.AgileAsset;
 import demo.model.DmParent;
 
 @FindStartMenu("Find Gallery")
-//@StartMenu("New Gallery")
+@NewStartMenu("New Gallery")
 @ParentDefinition(flexAttribute = "DemoAttribute",
         flexParent = "DemoParentDefinition")
 @Parents("DmGallery")

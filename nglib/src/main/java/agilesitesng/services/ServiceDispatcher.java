@@ -19,6 +19,8 @@ public class ServiceDispatcher {
             return new SiteService();
         if (name.equals("flexFamily"))
             return new FlexFamilyService();
+        if (name.equals("startmenu"))
+            return new StartMenuService();
         if (name.equals("login"))
             return new LoginService();
         if (name.equals("authkey"))

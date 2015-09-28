@@ -4,6 +4,8 @@ import agilesites.annotations.AttributeEditor;
 import agilesites.annotations.Site;
 import agilesites.annotations.FlexFamily;
 import agilesites.api.AgileSite;
+import agilesites.editors.RichTextEditor;
+import agilesites.editors.UploaderEditor;
 
 /**
  * Declaring the site with his types
@@ -19,14 +21,16 @@ import agilesites.api.AgileSite;
 @Site(enabledTypes = {"DemoAttribute",
         "DemoParentDefinition",
         "DemoContentDefinition",
-        "DmContent",
-        "DmParent",
+        "DmContent:F",
+        "DmParent:F",
         "PageAttribute",
         "PageDefinition",
-        "Page"})
+        "Page:F"})
 public class Demo extends AgileSite {
 
     @AttributeEditor
     private String DmRichTextEditor = "<CKEDITOR/>";
 
+    @AttributeEditor
+    private String DmUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
 }

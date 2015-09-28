@@ -31,6 +31,4 @@ class ContentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[C
     logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
   }
 
-  override def shoudBeConsumed(annotation: CtAnnotation[_ <: Annotation]): Boolean = false
-
 }

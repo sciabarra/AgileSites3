@@ -1,9 +1,10 @@
 package demo.model.dmcontent;
 
 import agilesites.annotations.*;
+import agilesites.api.AgileAsset;
 import demo.model.DmContent;
 
-//@StartMenu("New Image")
+@NewStartMenu("New Image")
 @FindStartMenu("Find Image")
 @ContentDefinition(flexAttribute = "DemoAttribute",
         flexContent = "DemoContentDefinition",
@@ -11,16 +12,17 @@ import demo.model.DmContent;
 @Parents("DmGallery")
 public class DmImage extends DmContent {
 
-    @Attribute("Large Image")
+    @Attribute(value = "Large Image", editor = "DmUploaderEditor" )
     private BlobAttribute largeImage;
 
-    @Attribute("Medium Image")
+    @Attribute(value = "Medium Image", editor = "DmUploaderEditor")
     private BlobAttribute mediumImage;
 
-    @Attribute("Small Image")
+    @Attribute(value = "Small Image", editor = "DmUploaderEditor")
     private BlobAttribute smallImage;
 
     @Attribute("Alt Text Image")
+    @Required
     private String altTextImageString;
 
     public BlobAttribute getLargeImage() {

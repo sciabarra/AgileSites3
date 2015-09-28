@@ -21,35 +21,4 @@ public class ContentDefinition extends ParentDefinition {
         super(ics);
         this.parentType = ics.GetVar("parentType");
     }
-
-
-    @Override
-    public void setData(MutableAssetData ad) {
-        int i = 0;
-        for (Long id : attributeIds) {
-            if (id > 0) {
-                boolean req = isRequireds.get(i);
-                Map<?, ?> map = attributeMap(id, req, i + 1);
-                ad.getAttributeData("Attributes").addData(map);
-            } else {
-                System.out.println("skipping attribute " + id);
-            }
-            i++;
-        }
-
-        //TODO manage parents
-/*
-
-        i = 0;
-        for (Long id : parentIds) {
-            boolean mul = isMultipleParents.get(i);
-            boolean req = isRequiredParents.get(i);
-            Map<?, ?> map = groupMap(id.longValue(), mul, req);
-            ad.getAttributeData("Groups").addData(map);
-            i++;
-        }
-*/
-
-    }
-
 }

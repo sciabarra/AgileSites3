@@ -18,7 +18,6 @@ object SpoonModel extends ModelUtil {
     classOf[Attribute],
     classOf[AttributeEditor],
     classOf[StartMenu],
-    classOf[Arg],
     classOf[Template],
     classOf[CSElement],
     classOf[SiteEntry],
@@ -40,7 +39,7 @@ object SpoonModel extends ModelUtil {
 
   case class ParentDefinition(id: Long, name: String, description:String, parentType:String, attributeType:String, parents:List[String], attributes:List[AssetAttribute]) extends SpoonModel
 
-  case class StartMenu(id: Long, name: String, description:String, menuType:String, assetType:String, assetSubtype:String, args:List[Arg])  extends SpoonModel
+  case class StartMenu(id: Long, name: String, description:String, menuType:String, assetType:String, assetSubtype:String, args:List[String])  extends SpoonModel
 
   case class Template(id: Long, name: String, file: String) extends SpoonModel
 
@@ -51,7 +50,4 @@ object SpoonModel extends ModelUtil {
   case class Controller(id: Long, name: String, file: String) extends SpoonModel
 
   case class AssetAttribute(name: String, required: Boolean)
-
-  case class Arg(name:String, value:String)
-
 }

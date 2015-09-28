@@ -1,10 +1,11 @@
 package demo.model.dmparent;
 
 import agilesites.annotations.*;
+import agilesites.api.AgileAsset;
 import demo.model.DmParent;
 
 @FindStartMenu("Find Folder")
-//@StartMenu("New Folder")
+@NewStartMenu("New Folder")
 @ParentDefinition(flexAttribute = "DemoAttribute",
         flexParent = "DemoParentDefinition")
 @Parents("DmFolder")

@@ -79,6 +79,7 @@ trait SpoonSettings {
       , "ContentDefinitionAnnotation"
       , "NewStartMenuAnnotation"
       , "FindStartMenuAnnotation"
+      , "MultipleStartMenuAnnotation"
       , "SiteEntryAnnotation"
       , "TemplateAnnotation"
       , "ControllerAnnotation"

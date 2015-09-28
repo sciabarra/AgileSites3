@@ -4,13 +4,16 @@ import agilesites.annotations.*;
 import agilesites.api.AgileAsset;
 import demo.model.DmContent;
 import demo.model.Page;
+import demo.model.dmcontent.DmArticle;
 
 @FindStartMenu("Find Content Page")
+@NewStartMenu("New Content Page")
 @ContentDefinition(flexAttribute = "PageAttribute",
         flexContent = "PageDefinition")
 public class DmSection extends Page {
 
-    @Attribute()
+    @Attribute
+    @Required
     private String title;
 
     @Attribute(editor = "DmRichTextEditor")
@@ -36,11 +39,13 @@ public class DmSection extends Page {
     private AssetAttribute<Page>[] related;
 
     @Attribute(description = "similar pages")
-    private AssetAttribute<Page>[] seeAlso;
+    private AssetAttribute<Page<DmSection>>[] seeAlso;
 
     @Attribute
-    @AssetSubtypes(values = {"DmImage", "DmArticle"})
-    private AssetAttribute<DmContent>[] content;
+    private AssetAttribute<DmContent<DmArticle>> head;
+
+    @Attribute
+    private AssetAttribute<DmContent<DmArticle>>[] content;
 
     public String getTitle() {
         return title;
@@ -85,8 +90,15 @@ public class DmSection extends Page {
         return related;
     }
 
-
-    public AssetAttribute<Page>[] getSeeAlso() {
+    public AssetAttribute<Page<DmSection>>[] getSeeAlso() {
         return seeAlso;
+    }
+
+    public AssetAttribute<DmContent<DmArticle>> getHead() {
+        return head;
+    }
+
+    public AssetAttribute<DmContent<DmArticle>>[] getContent() {
+        return content;
     }
 }

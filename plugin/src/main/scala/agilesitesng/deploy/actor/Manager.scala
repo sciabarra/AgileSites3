@@ -38,7 +38,7 @@ object Manager {
 
       // you can receive replies for services
       case ServiceReply(ticket) =>
-        println(s"logged in with ${ticket}")
+        println(s"logged in with $ticket")
 
       // service messages wait for a reply to the origin
       case svm: ServiceMsg with Asking =>
@@ -48,7 +48,7 @@ object Manager {
       case spm: SpoonMsg  => collector ! spm
 
       case SpoonReply(msg) =>
-        println(s"Collector: ${msg}")
+        println(s"Collector: $msg")
     }
   }
 

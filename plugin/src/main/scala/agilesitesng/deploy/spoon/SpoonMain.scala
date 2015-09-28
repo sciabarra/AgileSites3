@@ -23,7 +23,7 @@ object SpoonMain extends App {
   Uid.init(uid)
 
   // run and save the spool file
-  val spoon = new Launcher();
+  val spoon = new Launcher()
   spoon.run(args)
   writeFile(out, Spooler.save)
 

@@ -5,11 +5,13 @@ import agilesites.api.AgileAsset;
 import demo.model.Page;
 
 @FindStartMenu("Find HomePage")
+@NewStartMenu("New HomePage")
 @ContentDefinition(flexAttribute = "PageAttribute",
         flexContent = "PageDefinition")
 public class DmHome extends Page {
 
-    @Attribute()
+    @Attribute
+    @Required
     private String title;
 
     @Attribute(editor = "DmRichTextEditor")
@@ -22,8 +24,7 @@ public class DmHome extends Page {
     private String detail;
 
     @Attribute
-    @AssetSubtypes(values = "DmSection")
-    private AssetAttribute<Page>[] sections;
+    private AssetAttribute<Page<DmSection>>[] sections;
 
 
     public String getTitle() {
@@ -42,4 +43,7 @@ public class DmHome extends Page {
         return detail;
     }
 
+    public AssetAttribute<Page<DmSection>>[] getSections() {
+        return sections;
+    }
 }

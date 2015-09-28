@@ -198,21 +198,31 @@ public class SiteInit {
             sb.append("Created Static.\n");
 
         if (createSiteIfDoesNotExist(siteName, siteId))
-            sb.append("Created ").append(siteName + "(" + siteId + ")");
+            sb.append("Created ").append(siteName).append("(").append(siteId).append(")");
 
         if (enableType(siteName, "Jar"))
-            sb.append("Enabled Jar for").append(siteName + "(" + siteId + ")");
+            sb.append("Enabled Jar for").append(siteName).append("(").append(siteId).append(")");
 
         if (enableType(siteName, "Static"))
-            sb.append("Enabled Static for").append(siteName + "(" + siteId + ")");
+            sb.append("Enabled Static for").append(siteName).append("(").append(siteId).append(")");
         for (String enabledType : enabledTypes) {
-            if (enableType(siteName,enabledType)) {
-                sb.append("Enabled ").append(enabledType).append(" for ").append(siteName + "(" + siteId + ")");
-
+            String[] typeToEnable = enabledType.split(":");
+            if (enableType(siteName,typeToEnable[0])) {
+                sb.append("Enabled ").append(enabledType).append(" for ").append(siteName).append("(").append(siteId).append(")");
+                if (typeToEnable.length == 1 || !"f".equalsIgnoreCase(typeToEnable[1])) {
+                    createStartMenus(siteName, enabledType);
+                }
             }
         }
 
         return sb.toString();
+    }
+
+    private void createStartMenus(String siteName, String enabledType) {
+        StartMenu sf = new StartMenu(enabledType, siteName, "Search", enabledType);
+        sf.build(ics);
+        StartMenu sn = new StartMenu(enabledType, siteName, "ContentForm", enabledType);
+        sn.build(ics);
     }
 
     /**
