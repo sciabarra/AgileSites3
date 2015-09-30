@@ -14,8 +14,9 @@ class ControllerAnnotationProcessor
 
   def process(a: Controller, cl: CtClass[_]) {
     val name = cl.getQualifiedName
-    Spooler.insert(50,
-      SpoonModel.Controller(Uid.generate(s"Controller.${name}"),
+    val key = s"Controller.$name"
+    Spooler.insert(50, key,
+      SpoonModel.Controller(Uid.generate(key),
         name, class2file(name)))
   }
 

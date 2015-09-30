@@ -25,9 +25,10 @@ class AttributeEditorAnnotationProcessor
        |${lit}
        |</PRESENTATIONOBJECT>
      """.stripMargin)
-    val uid = Uid.generate(s"AttrTypes.${name}")
+    val key = s"AttrTypes.$name"
+    val uid = Uid.generate(key)
     //cl.getDefaultExpression.
     println(cl.getDeclaringType.getQualifiedName)
-    Spooler.insert(95, SpoonModel.AttributeEditor(uid, name, outfile))
+    Spooler.insert(95, key, SpoonModel.AttributeEditor(uid, name, outfile))
   }
 }

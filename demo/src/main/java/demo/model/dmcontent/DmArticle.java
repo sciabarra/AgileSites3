@@ -5,8 +5,8 @@ import agilesites.api.AgileAsset;
 import demo.model.DmContent;
 
 @MultipleStartMenu(items = {
-        @NewStartMenu(value = "News Article", args = "path:news"),
-        @NewStartMenu(value = "Blog Article", args = "path:blog")
+        @NewStartMenu(value = "News Article", args = "articleType(S):news"),
+        @NewStartMenu(value = "Blog Article", args = "articleType(S):blog")
 })
 @FindStartMenu("Find Article")
 @ContentDefinition(flexAttribute = "DemoAttribute",
@@ -22,11 +22,8 @@ public class DmArticle extends DmContent {
     @Attribute(editor = "DmRichTextEditor")
     private String subtitle;
 
-    @Attribute
-    private String summary;
-
-    @Attribute(editor = "DmRichTextEditor")
-    private String detail;
+    @Attribute(editor = "ArticleTypeSelector")
+    private String articleType;
 
     @Attribute
     private AssetAttribute<DmContent<DmImage>> image;
@@ -45,22 +42,6 @@ public class DmArticle extends DmContent {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 
     public AssetAttribute<DmContent<DmImage>> getImage() {

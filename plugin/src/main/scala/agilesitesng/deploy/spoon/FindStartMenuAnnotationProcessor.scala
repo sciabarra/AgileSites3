@@ -21,7 +21,8 @@ class FindStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[FindS
     val description = if (a.description() == null || a.description().isEmpty) name else a.description()
     val assetType = cl.getSuperclass.getSimpleName
     val assetSubtype = cl.getSimpleName
-    Spooler.insert(111, SpoonModel.StartMenu(Uid.generate(s"StartMenu.${cl.getSimpleName}.Search"), name, description, "Search", assetType, assetSubtype, Nil))
+    val key = s"StartMenu.${name.filter(_ > ' ')}.Search"
+    Spooler.insert(111, key, SpoonModel.StartMenu(Uid.generate(key), name, description, "Search", assetType, assetSubtype, Nil))
     logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType menuType: Search ")
   }
 }

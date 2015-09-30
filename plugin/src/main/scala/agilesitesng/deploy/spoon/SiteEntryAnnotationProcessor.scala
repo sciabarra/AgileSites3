@@ -12,7 +12,8 @@ class SiteEntryAnnotationProcessor extends AbstractAnnotationProcessor[SiteEntry
 
   def process(a: SiteEntry, cl: CtClass[_]) {
     val name = cl.getQualifiedName
-    Spooler.insert(50, SpoonModel.SiteEntry(Uid.generate(s"SiteEntry.${name}"), name))
+    val key = s"SiteEntry.$name"
+    Spooler.insert(50, key, SpoonModel.SiteEntry(Uid.generate(key), name))
   }
 
 }

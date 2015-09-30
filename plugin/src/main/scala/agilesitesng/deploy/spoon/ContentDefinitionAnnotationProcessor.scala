@@ -27,7 +27,8 @@ class ContentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[C
       case b if b.getAnnotation(classOf[Attribute]) != null => SpoonModel.AssetAttribute(b.getSimpleName, b.getAnnotation(classOf[Required]) != null)
     }
     val parents = if (cl.getAnnotation(classOf[Parents]) != null) cl.getAnnotation(classOf[Parents]).value().toList else Nil
-    Spooler.insert(70, SpoonModel.ContentDefinition(Uid.generate(s"$contentType.$name"), name, description, contentType, parentType, attributeType, parents, attributes.toList))
+    val key = s"$contentType.$name"
+    Spooler.insert(70, key, SpoonModel.ContentDefinition(Uid.generate(key), name, description, contentType, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
   }
 

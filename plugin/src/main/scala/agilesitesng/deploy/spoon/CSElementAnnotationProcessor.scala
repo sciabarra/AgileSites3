@@ -14,8 +14,9 @@ class CSElementAnnotationProcessor
 
   def process(a: CSElement, cl: CtClass[_]) {
     val name = cl.getQualifiedName
-    Spooler.insert(50,
-      SpoonModel.CSElement(Uid.generate(s"CSElement.${name}"),
+    val key = s"CSElement.$name"
+    Spooler.insert(50, key,
+      SpoonModel.CSElement(Uid.generate(key),
         name, class2file(name)))
   }
 

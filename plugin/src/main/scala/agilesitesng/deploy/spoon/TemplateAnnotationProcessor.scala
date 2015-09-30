@@ -14,9 +14,10 @@ class TemplateAnnotationProcessor
 
   def process(a: Template, mt: CtMethod[_]) {
     val name =  mt.getDeclaringType.getQualifiedName+"."+mt.getSimpleName
+    val key = s"Template.$name"
     //cl.getDeclaringType
-    Spooler.insert(50, SpoonModel.Template(
-      Uid.generate(s"Template.${name}"), name, class2file(name)))
+    Spooler.insert(50, key, SpoonModel.Template(
+      Uid.generate(key), name, class2file(name)))
   }
 
 }

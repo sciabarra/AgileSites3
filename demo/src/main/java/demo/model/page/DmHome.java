@@ -2,7 +2,10 @@ package demo.model.page;
 
 import agilesites.annotations.*;
 import agilesites.api.AgileAsset;
+import demo.model.DmContent;
 import demo.model.Page;
+import demo.model.dmcontent.DmArticle;
+import demo.model.dmcontent.DmImage;
 
 @FindStartMenu("Find HomePage")
 @NewStartMenu("New HomePage")
