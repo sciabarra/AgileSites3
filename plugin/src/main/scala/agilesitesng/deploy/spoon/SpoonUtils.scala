@@ -2,6 +2,8 @@ package agilesitesng.deploy.spoon
 
 import java.io.File
 
+import agilesitesng.deploy.model.{Uid, SpoonModel, Spooler}
+
 /**
  * Created by msciab on 18/08/15.
  */
@@ -30,5 +32,12 @@ trait SpoonUtils {
     val base = new File(System.getProperty("spoon.outdir"))
     val file = new File(base, className.replace('.', File.separatorChar)+".java")
     file.getAbsolutePath
+  }
+
+  def addController(name: String) = {
+    val key = s"Controller.$name"
+    Spooler.insert(50, key,
+      SpoonModel.Controller(Uid.generate(key),
+        name, class2file(name)))
   }
 }

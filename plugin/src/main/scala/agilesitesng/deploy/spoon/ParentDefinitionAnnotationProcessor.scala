@@ -10,8 +10,10 @@ import scala.collection.JavaConversions._
 /**
  * Created by msciab on 06/08/15.
  */
-class ParentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[ParentDefinition, CtClass[_]] {
-
+class ParentDefinitionAnnotationProcessor
+  extends AbstractAnnotationProcessor[ParentDefinition, CtClass[_]]
+  with SpoonUtils
+{
   def logger =  LoggerFactory.getLogger(classOf[ParentDefinitionAnnotationProcessor])
 
   def process(a: ParentDefinition, cl: CtClass[_]) {
@@ -26,6 +28,6 @@ class ParentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[Pa
     val key = s"$parentType.$name"
     Spooler.insert(80, key, SpoonModel.ParentDefinition(Uid.generate(key), name, description, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Parent definition - name:$name description: $description parentType: $parentType attributeType: $attributeType attributes: $attributes ")
+    addController(cl.getQualifiedName)
   }
-
 }

@@ -13,7 +13,9 @@ import scala.collection.JavaConversions._
 /**
  * Created by msciab on 06/08/15.
  */
-class ContentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[ContentDefinition, CtClass[_]] {
+class ContentDefinitionAnnotationProcessor
+  extends AbstractAnnotationProcessor[ContentDefinition, CtClass[_]]
+  with SpoonUtils {
 
   def logger = LoggerFactory.getLogger(classOf[ContentDefinitionAnnotationProcessor])
 
@@ -30,6 +32,7 @@ class ContentDefinitionAnnotationProcessor extends AbstractAnnotationProcessor[C
     val key = s"$contentType.$name"
     Spooler.insert(70, key, SpoonModel.ContentDefinition(Uid.generate(key), name, description, contentType, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
+    addController(cl.getQualifiedName)
   }
 
 }

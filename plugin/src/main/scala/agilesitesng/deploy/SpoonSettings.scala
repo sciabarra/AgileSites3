@@ -88,6 +88,6 @@ trait SpoonSettings {
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
-    , ngSpoonDebug := true
+    , ngSpoonDebug := false
   )
 }
