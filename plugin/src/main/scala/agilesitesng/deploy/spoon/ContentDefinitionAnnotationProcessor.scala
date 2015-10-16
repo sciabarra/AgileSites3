@@ -1,12 +1,16 @@
 package agilesitesng.deploy.spoon
 
 import java.lang.annotation.Annotation
+import java.util
 
 import agilesites.annotations._
 import agilesitesng.deploy.model.{Spooler, SpoonModel, Uid}
 import org.slf4j.LoggerFactory
 import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.{CtAnnotation, CtClass}
+import spoon.support.reflect.declaration.CtMethodImpl
+import spoon.support.reflect.reference.CtTypeReferenceImpl
+import templates.ContentDefinitionTemplate
 import scala.collection.JavaConversions._
 
 
@@ -32,7 +36,14 @@ class ContentDefinitionAnnotationProcessor
     val key = s"$contentType.$name"
     Spooler.insert(70, key, SpoonModel.ContentDefinition(Uid.generate(key), name, description, contentType, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
-    addController(cl.getQualifiedName)
+    val amap = attributes.map( attribute => {
+      val attributeModel = Spooler.get(90, s"$attributeType.${attribute.name}") match {
+        case Some(x) => val attributeModel = x.asInstanceOf[SpoonModel.Attribute]
+          s"${attributeModel.name}~${attributeModel.attributeType}~${attributeModel.assetType.getOrElse("")}~${attributeModel.mul}"
+        case None => ""
+    }; attributeModel})
+    val t = new ContentDefinitionTemplate(amap.mkString("|"))
+    t.apply(cl)
   }
 
 }

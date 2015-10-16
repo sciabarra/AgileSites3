@@ -14,7 +14,7 @@ public class Page<S> extends AgileAsset {
     public Page() {
     }
 
-   public Page(S definition) {
+    public Page(S definition) {
         this.definition = definition;
     }
 

@@ -22,7 +22,7 @@ public class DmSummary implements Element {
 
 		Asset a = e.getAsset();
 		Picker html = Picker.load("/blueprint/template.html", "#related");
-		html.replace("#related-title", a.getString("Title"));
+		html.replace("#related-title", a.getString("a.Title"));
 		html.replace("#related-body", a.getString("Summary"));
 		html.removeAttrs("*[id^=related]", "id");
 		return html.outerHtml();

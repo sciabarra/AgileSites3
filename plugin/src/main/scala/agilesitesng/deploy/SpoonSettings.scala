@@ -73,21 +73,28 @@ trait SpoonSettings {
     , ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"
       , "SiteAnnotation"
+      , "TypeAnnotation"
       , "AttributeEditorAnnotation"
       , "AttributeAnnotation"
       , "ParentDefinitionAnnotation"
       , "ContentDefinitionAnnotation"
+      , "RequiredAnnotation"
+      , "AttributeAnnotationClean"
+      , "ParentsAnnotation"
       , "NewStartMenuAnnotation"
       , "FindStartMenuAnnotation"
       , "MultipleStartMenuAnnotation"
+/*
       , "SiteEntryAnnotation"
       , "TemplateAnnotation"
+      , "CSElementAnnotation"
+*/
       , "ControllerAnnotation"
-      , "CSElementAnnotation")
+      )
       .map(x => s"agilesitesng.deploy.spoon.${x}Processor")
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
-    , ngSpoonDebug := false
+    , ngSpoonDebug := true
   )
 }

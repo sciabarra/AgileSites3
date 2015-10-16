@@ -30,4 +30,6 @@ public @interface Template {
     public String extraCriteria() default "";
 
     public String criteria() default "";
+
+    public String controller() default "";
 }
