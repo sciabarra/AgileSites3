@@ -92,13 +92,10 @@ public class Picker {
         return new Picker(null, html, cssq);
     }
 
-
     //Create a picker for a string
-    private Picker(InputStream is, String html, String cssq) {
-
+    protected Picker(InputStream is, String html, String cssq) {
         Element elem = null;
         Document doc = null;
-
         // parse
         try {
             if (is != null) {
@@ -111,7 +108,6 @@ public class Picker {
         } catch (Exception e) {
             warn(e, "cannot parse template");
         }
-
         // select internally
         if (doc != null) {
             if (cssq != null) {
@@ -125,7 +121,6 @@ public class Picker {
         } else {
             throw new IllegalArgumentException("cannot load document");
         }
-
         // finally assign....
         bottom = elem;
         push(elem);
@@ -157,8 +152,7 @@ public class Picker {
     }
 
     /**
-     * @return a picker with replaced where indicated with the specified html
-     * @throws Exception
+     * @return an helper to inject data for a replacement
      */
     public Picker replace(String where, String what) {
         if (select(where).selectOk) {
@@ -170,17 +164,14 @@ public class Picker {
 
     // private method to implement both single and remove
     private Picker removeOrSingle(String where, boolean keepFirst) {
-
         Iterator<Element> it = top.select(where).iterator();
         // keep the first
         if (keepFirst)
             if (it.hasNext())
                 it.next();
-
         // remove others
         while (it.hasNext())
             it.next().remove();
-
         return this;
     }
 
@@ -223,8 +214,6 @@ public class Picker {
         top.empty();
         return this;
     }
-
-
 
     private static Pattern moupat = Pattern.compile("\\{\\{(\\w+)\\}\\}");
 
@@ -360,7 +349,7 @@ public class Picker {
     }
 
     /**
-     * Replace tag selected by "where" with String "What"
+     * Replace tag selected by "where" with String "what"
      *
      * @param where Selection criteria (placeholder)
      * @param what  The string to replace the "where" with, this must be valid
@@ -379,6 +368,43 @@ public class Picker {
 
     }
 
+
+    /**
+     * @return  an injector for a "replace" call
+     */
+    public PickerInjector replace(String where) {
+        return new PickerInjector(PickerInjector.REPLACE, where);
+    }
+
+    /**
+     * @return  an injector for a "after" call
+     */
+    public PickerInjector after(String where) {
+        return new PickerInjector(PickerInjector.AFTER, where);
+    }
+
+    /**
+     * @return  an injector for a "before" call
+     */
+    public PickerInjector before(String where) {
+        return new PickerInjector(PickerInjector.BEFORE, where);
+    }
+
+    /**
+     * @return  an injector for a "attr" call
+     */
+    public PickerInjector attr(String where, String attr) {
+        return new PickerInjector(PickerInjector.ATTR, where, attr);
+    }
+
+    /**
+     * @return  an injector for a "append" call
+     */
+    public PickerInjector append() {
+        return new PickerInjector(PickerInjector.APPEND);
+    }
+
+
     /**
      * Print the current selected node as a string
      */
@@ -386,4 +412,5 @@ public class Picker {
         // log.debug(doc.toString());
         return top.toString();
     }
+
 }

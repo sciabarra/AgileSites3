@@ -13,16 +13,16 @@ import scala.concurrent.duration._
 /**
  * Created by msciab on 25/04/15.
  */
-class Cas1Spec extends TestKit(ActorSystem("sbt-web", ConfigFactory.load().getConfig("sbt-web")))
+class CasSpec extends TestKit(ActorSystem("sbt-web", ConfigFactory.load().getConfig("sbt-web")))
 with WordSpecLike
 with MustMatchers
 with BeforeAndAfterAll {
   override def afterAll = TestKit.shutdownActorSystem(system)
 
-  import Cas1._
+  import Cas._
   import Protocol._
 
-  val cas = TestActorRef[Cas1Actor]
+  val cas = TestActorRef[CasActor]
 
   "cas" in {
     implicit val timeout = Timeout(3.second)
@@ -31,7 +31,7 @@ with BeforeAndAfterAll {
     val user = Some("fwadmin")
     val pass = Some("xceladmin")
 
-    val f = cas ? Connect(url, user, pass, "1")
+    val f = cas ? Connect(url, user, pass)
     val Ticket(ticket) = Await.result(f, 3.second).asInstanceOf[Ticket]
     info(ticket)
 

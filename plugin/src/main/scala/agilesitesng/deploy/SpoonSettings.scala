@@ -66,9 +66,9 @@ trait SpoonSettings {
     spool
   }
 
-  val spoonSettings = Seq(ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars) map {
-    (report, extraJars) =>
-      extraJars ++ report.select(configurationFilter("spoon"))
+  val spoonSettings = Seq(ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars, unmanagedJars in Compile) map {
+    (report, extraJars, unmanaged) =>
+      extraJars ++ report.select(configurationFilter("spoon")) ++ unmanaged.files
   } , ngSpoonProcessorJars := Nil
     , ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"

@@ -24,9 +24,9 @@ deploySetup := {
 
 assemblySettings
 
-scalacOptions ++= Seq("-feature", "-target:jvm-1.6")
+scalacOptions ++= Seq("-feature", "-target:jvm-1.7")
 
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
 
 lazy val publishedProjects = Seq[ProjectReference]()
 

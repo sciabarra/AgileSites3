@@ -25,8 +25,7 @@ class HubSpec
   import Protocol._
 
   val hub = TestActorRef[HubActor]
-  val url1 = Some(new java.net.URL("http://localhost:11800/cs"))
-  val url3 = Some(new java.net.URL("http://localhost:7001/cs"))
+  val url = Some(new java.net.URL("http://10.0.2.15:7003/sites"))
   var user = Some("fwadmin")
   val pass = Some("xceladmin")
 
@@ -34,21 +33,9 @@ class HubSpec
   implicit val timeout = Timeout(s3)
 
 
-  "hub1" in {
+  "hub" in {
 
-    val f = hub ? Connect(url1, user, pass, "1")
-    Await.result(f, s3) === Status(OK)
-
-    val Reply(json) = Await.result(hub ? Get("/sites"), s3)
-    info(pretty(render(json)))
-
-    Await.result(hub ? Disconnect(), s3) === Status(OK)
-
-  }
-
-  "hub3" in {
-
-    val f = hub ? Connect(url3, user, pass, "3")
+    val f = hub ? Connect(url, user, pass)
     Await.result(f, s3) === Status(OK)
 
     val Reply(json) = Await.result(hub ? Get("/sites"), s3)

@@ -19,8 +19,8 @@ scalacOptions ++= Seq("-feature", "-target:jvm-1.6", "-deprecation")
 libraryDependencies ++= Seq(
     "ch.qos.logback" % "logback-classic" % "1.1.3"  % "test;compile"
   , "net.openhft"               % "spoon-core"      % "4.3.0" % "compile"
-  ,  "javax.servlet"            % "servlet-api"     % "2.5" % "compile"
-  ,  "org.apache.tomcat.embed"  % "tomcat-embed-core" % "7.0.59" % "compile"
+  , "javax.servlet"            % "servlet-api"     % "2.5" % "compile"
+  , "org.apache.tomcat.embed"  % "tomcat-embed-core" % "7.0.59" % "compile"
   , "com.typesafe.akka"         %% "akka-actor"     % "2.3.9"
   , "com.typesafe.akka"         %% "akka-slf4j"     % "2.3.9"
   , "com.typesafe.akka"         %% "akka-testkit"   % "2.3.9" % "test"
@@ -74,5 +74,3 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
   //println(res)
   res
 }
-
-

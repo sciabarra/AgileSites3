@@ -164,7 +164,6 @@ trait Utils {
 
   // Utils
   def exec(args: Seq[String], home: File, cp: Seq[File]) = {
-
     Fork.java(ForkOptions(
       runJVMOptions = "-cp" :: cp.map(_.getAbsolutePath).mkString(java.io.File.pathSeparator) :: Nil,
       workingDirectory = Some(home)), args)

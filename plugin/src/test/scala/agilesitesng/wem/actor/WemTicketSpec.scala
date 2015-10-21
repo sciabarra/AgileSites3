@@ -2,7 +2,7 @@ package agilesitesng.wem.actor
 
 import java.net.URL
 
-import agilesitesng.wem.actor.Cas1.Cas1Actor
+import agilesitesng.wem.actor.Cas.Cas1Actor
 import agilesitesng.wem.actor.Protocol.{Ticket, Connect}
 import akka.actor.ActorSystem
 import akka.testkit.{TestActorRef, TestKit}
@@ -27,9 +27,9 @@ class WemTicketSpec
   override def afterAll = TestKit.shutdownActorSystem(system)
 
    implicit val timeout = Timeout(3.second)
-  val url = Some(new URL("http://localhost:11800/cs"))
-  val cas = TestActorRef[Cas1Actor]
-  val f = cas ? Connect(url, Some("fwadmin"), Some("xceladmin"), "1")
+  val url = Some(new URL("http://10.0.2.15/sites"))
+  val cas = TestActorRef[CasActor]
+  val f = cas ? Connect(url, Some("fwadmin"), Some("xceladmin"))
   val Ticket(ticket) = Await.result(f, 3.second).asInstanceOf[Ticket]
 
   "wem" in {
