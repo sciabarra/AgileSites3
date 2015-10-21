@@ -2,7 +2,7 @@ package agilesitesng.wem.actor
 
 import java.net.URL
 
-import agilesitesng.wem.actor.Cas.Cas1Actor
+import agilesitesng.wem.actor.Cas.CasActor
 import agilesitesng.wem.actor.Protocol.{Ticket, Connect}
 import akka.actor.ActorSystem
 import akka.testkit.{TestActorRef, TestKit}

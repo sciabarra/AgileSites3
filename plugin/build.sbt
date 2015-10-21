@@ -17,10 +17,11 @@ javacOptions ++= Seq("-source", "1.6", "-target", "1.6", "-Xlint:unchecked")
 scalacOptions ++= Seq("-feature", "-target:jvm-1.6", "-deprecation")
 
 libraryDependencies ++= Seq(
-    "ch.qos.logback" % "logback-classic" % "1.1.3"  % "test;compile"
+    "ch.qos.logback"            % "logback-classic" % "1.1.3" % "test;compile"
   , "net.openhft"               % "spoon-core"      % "4.3.0" % "compile"
-  , "javax.servlet"            % "servlet-api"     % "2.5" % "compile"
-  , "org.apache.tomcat.embed"  % "tomcat-embed-core" % "7.0.59" % "compile"
+  , "javax.servlet"             % "servlet-api"     % "2.5"   % "compile"
+  , "org.apache.tomcat.embed"   % "tomcat-embed-core" % "7.0.59" % "compile"
+  , "org.apache.httpcomponents" % "httpclient"      % "4.3.6"
   , "com.typesafe.akka"         %% "akka-actor"     % "2.3.9"
   , "com.typesafe.akka"         %% "akka-slf4j"     % "2.3.9"
   , "com.typesafe.akka"         %% "akka-testkit"   % "2.3.9" % "test"
@@ -29,7 +30,6 @@ libraryDependencies ++= Seq(
   , "io.spray"                  %% "spray-http"     % "1.3.2"
   , "io.spray"                  %% "spray-httpx"    % "1.3.2"
   , "net.databinder.dispatch"   %% "dispatch-core"  % "0.11.2"
-  , "org.apache.httpcomponents" % "httpclient"      % "4.3.6"
 )
 
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
@@ -74,3 +74,5 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
   //println(res)
   res
 }
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"

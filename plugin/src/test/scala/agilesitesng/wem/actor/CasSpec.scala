@@ -24,16 +24,17 @@ with BeforeAndAfterAll {
 
   val cas = TestActorRef[CasActor]
 
+  val config = testKitSettings.config
+
   "cas" in {
     implicit val timeout = Timeout(3.second)
 
-    val url = Some(new java.net.URL("http://localhost:11800/cs"))
-    val user = Some("fwadmin")
-    val pass = Some("xceladmin")
+    val url = new java.net.URL(config.getString("sites.url"))
+    val user = config.getString("sites.user")
+    val pass = config.getString("sites.pass")
 
-    val f = cas ? Connect(url, user, pass)
+    val f = cas ? Connect(Some(url), Some(user), Some(pass))
     val Ticket(ticket) = Await.result(f, 3.second).asInstanceOf[Ticket]
     info(ticket)
-
   }
 }

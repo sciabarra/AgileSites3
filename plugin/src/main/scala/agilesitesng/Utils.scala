@@ -7,7 +7,6 @@ import sbt._
 
 trait Utils {
 
-
   def readFile(s: String): String = readFile(new java.io.File(s))
 
   // read a file
@@ -22,7 +21,6 @@ trait Utils {
     fr.close
     sb.toString
   }
-
 
   // read a file
   def readStream(is: InputStream) = {

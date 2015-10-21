@@ -24,18 +24,18 @@ class HubSpec
   import Hub._
   import Protocol._
 
+  val config = testKitSettings.config
   val hub = TestActorRef[HubActor]
-  val url = Some(new java.net.URL("http://10.0.2.15:7003/sites"))
-  var user = Some("fwadmin")
-  val pass = Some("xceladmin")
+  val url = new java.net.URL(config.getString("sites.url"))
+  val user = config.getString("sites.user")
+  val pass = config.getString("sites.pass")
 
   val s3 = 3.second
   implicit val timeout = Timeout(s3)
 
-
   "hub" in {
 
-    val f = hub ? Connect(url, user, pass)
+    val f = hub ? Connect(Some(url), Some(user), Some(pass))
     Await.result(f, s3) === Status(OK)
 
     val Reply(json) = Await.result(hub ? Get("/sites"), s3)

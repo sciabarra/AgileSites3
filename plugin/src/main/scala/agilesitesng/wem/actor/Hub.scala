@@ -1,6 +1,6 @@
 package agilesitesng.wem.actor
 
-import agilesitesng.wem.actor.Cas.Cas1Actor
+import agilesitesng.wem.actor.Cas.CasActor
 import agilesitesng.wem.actor.Protocol.Connect
 import akka.actor._
 import akka.event.LoggingReceive
