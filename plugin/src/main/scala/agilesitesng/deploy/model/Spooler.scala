@@ -63,6 +63,11 @@ object Spooler {
       spool = q
       Some(h)
     }
+
+  }
+
+  def get[T](i:Int, key:String) = {
+    spool.get(i,key)
   }
 
   import net.liftweb.json.Serialization.{read, write}
@@ -84,4 +89,5 @@ object Spooler {
   }
 
   def load(ser: String): DeployObjects = read[DeployObjects](ser)
+
 }
