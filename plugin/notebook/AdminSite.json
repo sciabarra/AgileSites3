@@ -1,0 +1,25 @@
+{
+  "name":"AdminSite",
+  "id":1253041378564,
+  "description":"AdminSite",
+  "pubroot":"",
+  "CSpreview":"",
+  "enabledAssetTypes":{
+    "href":"http://10.0.2.15:7003/sites/REST/sites/AdminSite/types",
+    "type":[{
+      "href":"http://10.0.2.15:7003/sites/REST/types/FW_Application",
+      "name":"FW_Application"
+    },{
+      "href":"http://10.0.2.15:7003/sites/REST/types/FW_View",
+      "name":"FW_View"
+    }]
+  },
+  "siteUsers":{
+    "href":"http://10.0.2.15:7003/sites/REST/sites/AdminSite/users",
+    "user":[{
+      "href":"http://10.0.2.15:7003/sites/REST/sites/AdminSite/users/fwadmin",
+      "name":"fwadmin",
+      "roles":["Analytics","AdvancedUser","SiteAdmin","WorkflowAdmin","SitesUser","ConnectorAdmin","GeneralAdmin"]
+    }]
+  }
+}

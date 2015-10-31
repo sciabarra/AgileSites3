@@ -76,3 +76,5 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
 }
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"

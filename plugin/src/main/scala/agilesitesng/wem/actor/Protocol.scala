@@ -59,7 +59,7 @@ object Protocol extends Enumeration {
 
   case class Delete(request: String) extends IO
 
-  case class Reply(json: JValue) extends IO
+  case class Reply(json: JValue, status: Int) extends IO
 
   /**
    * Actual  Wem messages to Wem actors

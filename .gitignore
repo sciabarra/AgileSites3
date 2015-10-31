@@ -3,3 +3,4 @@
 target/
 agilesites.local.properties
 spoon.sh
+.ipynb_checkpoints/

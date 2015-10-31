@@ -5,7 +5,7 @@ import java.util.Date
 /**
  * Created by msciab on 15/07/15.
  */
-object WemModel extends WemModelUtil {
+object WemModel extends Encoding {
 
   case class Asset(id: String
                   ,subtype: String

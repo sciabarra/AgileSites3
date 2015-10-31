@@ -58,7 +58,7 @@ object Hub {
         val sjson = pretty(render(json))
 
         if (sjson.isEmpty) {
-          sender ! Protocol.Reply(JString("error: empty post"))
+          sender ! Protocol.Reply(JString("error: empty post"), 404)
           log.debug("Post with empty body")
         } else {
           log.debug("Post {} sender {} json {}", request, sender, json)
@@ -69,7 +69,7 @@ object Hub {
         val sender = context.sender()
         val sjson = pretty(render(json))
         if (sjson.isEmpty) {
-          sender ! Protocol.Reply(JString("error: empty post"))
+          sender ! Protocol.Reply(JString("error: empty post"), 404)
           log.debug("Put with empty body")
         } else {
           log.debug("Put {} sender {}", request, sender)

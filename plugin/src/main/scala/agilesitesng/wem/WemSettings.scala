@@ -47,6 +47,7 @@ trait WemSettings {
     if (arg.isEmpty) {
       s"""{ "error": "no args" }"""
     } else {
+
       val msg = action match {
         case 'get => Get(arg.getOrElse(""))
         case 'delete => Delete(arg.getOrElse(""))
@@ -62,8 +63,10 @@ trait WemSettings {
 
       log.debug(">>> sending " + msg.toString)
       val rf = ref ? msg
-      val Reply(json) = Await.result(rf, 3.second).asInstanceOf[Reply]
-      val res = pretty(render(json))
+      val Reply(json, status) = Await.result(rf, 3.second).asInstanceOf[Reply]
+      val res = if(status==200)
+      pretty(render(json))
+      else """{ "error": "${status}" }"""
       log.debug("<<< received " + res)
       val out = m.get('out)
       if (out.isEmpty) {
@@ -103,48 +106,8 @@ trait WemSettings {
     process(ref, 'delete, args, streams.value.log)
   }
 
-  def cselement(id: Long, name: String, file: java.io.File, sitename: String, log: Logger): JValue = {
-    import WemModel._
-    val test = CSElement(id, name, blobFromFile(file))(sitename)
-    import Serialization.{read, writePretty}
-    implicit val formats = Serialization.formats(NoTypeHints)
-    val pretty = writePretty(test)
-    log.info(pretty)
-    parse(pretty)
-  }
-
-  def setupTask = setup in wem := {
-    import Protocol._
-    import AgileSitesConfigKeys._
-
-    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val ref = (hub in wem).value
-    val log = streams.value.log
-
-    val sitename = sitesFocus.value
-
-    val tuples = Seq(
-      (1000l, "Dispatcher", file("Dispatcher.groovy.groovy"))
-      , (1001l, "Controller", file("HelloCtl.java"))
-      , (1002l, "View", file("HelloView.jsp"))
-    )
-
-    for ((id, name, file) <- tuples) {
-      val asset = cselement(id, name, file, sitename, log)
-
-      val cmd = s"/sites/${sitename}/types/CSElement/assets/${id}"
-      val msg = Put(cmd, asset)
-
-      log.debug(">>> sending " + msg.toString)
-      val res = ref ? msg
-      val Reply(json) = Await.result(res, 3.second).asInstanceOf[Reply]
-      log.debug("<<< received " + res)
-    }
-    "setup: OK"
-  }
-
   val wemSettings = Seq(
     ivyConfigurations += wem,
-    getTask, postTask, putTask, deleteTask, setupTask)
+    getTask, postTask, putTask, deleteTask)
 
 }
