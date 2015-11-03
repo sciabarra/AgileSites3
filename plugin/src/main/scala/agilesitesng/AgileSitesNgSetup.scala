@@ -23,41 +23,56 @@ object AgileSitesNgSetup
   val password = config.getString("sites.pass")
   val system = ActorSystem("sbt-web", config)
 
-  val importFolder = new java.io.File("/Users/msciab/Dropbox/Work/MacBookPro/Sciabarra/AgileSites3/nglib/src/main/resources/aaagile/ElementCatalog")
+  val importFolder = new File("/Users/msciab/Dropbox/Work/MacBookPro/Sciabarra/AgileSites3/nglib/src/main/resources/aaagile/ElementCatalog")
+  val libFolder = new File(new File(sys.props("user.dir")), "lib")
+  libFolder.mkdirs
 
   val types = Seq("CSElement", "SiteEntry")
 
-  //val csElements = Seq("AAAgileInfo.jsp","AAAgileService.jsp",  "AAAgileApi.txt", "AAAgileServices.txt")
-  //val siteEntries = Seq("AAAgileInfo", "AAAgileService")
+  val csElements = Seq("AAAgileInfo.jsp", "AAAgileService.jsp", "AAAgileApi.txt", "AAAgileServices.txt")
+  val siteEntries = Seq("AAAgileInfo", "AAAgileService", "AAAgileApi", "AAAgileServices")
 
-  val csElements = Seq("AAAgileInfo.jsp")
-  val siteEntries = Seq("AAAgileInfo")
+  //val csElements = Seq("AAAgileInfo.jsp")
+  //val siteEntries = Seq("AAAgileInfo")
+  val (tPrefix, nPrefix) = args.length match {
+    case 0 => "" -> ""
+    case 1 => "" -> args(0)
+    case _ => args(0) -> args(1)
+  }
 
   val wem = new WemFrontend(system, url, user, password)
   try {
 
-
-    println(">> Enabing Types")
-
+    println(">> Enabling Types")
     types foreach {
       enableType(wem, "AdminSite", _)
     }
 
     println(">> Loading Asset Map")
     val map = loadAssetMap(wem, "AdminSite", importFolder)
-
     println(map)
 
-    csElements foreach { filename: String =>
-      println(s">> Importing CSElement:${filename}")
-      importCSElement(wem, map, "AdminSite",
-        new File(importFolder, filename))
-    }
+    if ("CSElement".startsWith(tPrefix))
+      csElements foreach { filename: String =>
+        if (filename.startsWith(nPrefix)) {
+          println(s">> Importing CSElement:${filename}")
+          importCSElement(wem, map, "AdminSite",
+            new File(importFolder, filename))
+        }
+      }
 
-    siteEntries foreach { filename: String =>
-      println(s">> Importing SiteEntry:${filename}")
-      importSiteEntry(wem, map, "AdminSite", filename)
-    }
+    if ("SiteEntry".startsWith(tPrefix))
+      siteEntries foreach { filename: String =>
+        if (filename.startsWith(nPrefix)) {
+          println(s">> Importing SiteEntry:${filename}")
+          importSiteEntry(wem, map, "AdminSite", filename)
+        }
+      }
+
+    val version = map("Info:sites.version")
+    val files = s"jars.${version}.txt";
+    val lib = new File(libFolder, sys.props.getOrElse("profile", "") + version)
+    downloadJars(wem, files, lib)
 
     /*templates foreach { filename: String =>
       importTemplate(wem, "AdminSite", new File(importFolder, filename))

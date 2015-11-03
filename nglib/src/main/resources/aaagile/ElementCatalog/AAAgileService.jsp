@@ -22,8 +22,9 @@ try {
         gcl = (GroovyClassLoader) application.getAttribute("_" + LIB + "_");
     if (gcl == null) {
         application.setAttribute("_" + LIB + "_", gcl = new groovy.lang.GroovyClassLoader());
-        System.out.println("=== Loading API ===");
+        System.out.println("=== Loading API ==="+API);
         String code = ics.ReadPage(API, new FTValList());
+        System.out.println(code);
         gcl.parseClass(code);
         refresh = true;
     }

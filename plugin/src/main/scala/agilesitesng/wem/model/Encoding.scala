@@ -98,6 +98,13 @@ trait Encoding {
 
   def base64file(file: File): String = readFile(file).toBase64
 
+  def writeFileBase64(file: File, body: String) = {
+    val array: Array[Byte] = body.toByteArray
+    val fos = new java.io.FileOutputStream(file)
+    fos.write(array)
+    fos.close()
+  }
+
   val jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
   jsonDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 

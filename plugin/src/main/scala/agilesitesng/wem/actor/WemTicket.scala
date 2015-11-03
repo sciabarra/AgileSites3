@@ -9,6 +9,7 @@ import akka.io.IO
 import net.liftweb.json._
 import spray.http._
 import spray.httpx.RequestBuilding._
+import akka.util._
 
 import scala.collection._
 
@@ -75,19 +76,41 @@ object WemTicket {
         context.become(waitForHttpReply(ref), false)
     }
 
+    var chunkedResponse: HttpResponse = null
+    var chunkCollector: ByteStringBuilder  = null
+
+    def completeHttpRequest(ref: ActorRef, body: String, res: HttpResponse): Unit = {
+      val json = try {
+        parse(body)
+      } catch {
+        case e : Throwable =>
+          parse(s"""{ "error": "${res.message}" } """)
+      }
+      ref ! Protocol.Reply(json , res.status.intValue)
+      context.unbecome()
+      flushQueue
+    }
+
     def waitForHttpReply(ref: ActorRef): Receive = {
+      case ChunkedResponseStart(res) =>
+        //println("chunk begin!")
+        chunkCollector = new ByteStringBuilder
+        chunkedResponse = res
+
+      case MessageChunk(data, _) =>
+        print("*")
+        chunkCollector ++=   data.toByteString
+
+      case ChunkedMessageEnd(_,_) =>
+        //println()
+        val body = chunkCollector.result.decodeString("UTF-8")
+        completeHttpRequest(ref, body, chunkedResponse)
+
       case res: HttpResponse =>
+        //println("response!")
         val body = res.entity.asString
-        log.debug("res={}", res.toString)
-        val json = try {
-            parse(body)
-        } catch {
-          case e : Throwable =>
-            parse(s"""{ "error": "${res.message}" } """)
-        }
-        ref ! Protocol.Reply(json , res.status.intValue)
-        context.unbecome()
-        flushQueue
+        completeHttpRequest(ref, body, res)
+
       case msg: WemMsg =>
         enqueue(msg)
     }

@@ -18,7 +18,7 @@ class WemFrontend(system: ActorSystem,
                   password: String)
 /*extends Logging */ {
 
-  implicit val timeout = Timeout(3.second)
+  implicit val timeout = Timeout(300.second)
 
   val hub = system.actorOf(Hub.actor(), "Hub")
   val connect = hub ? Protocol.Connect(Some(url), Some(user), Some(password))
@@ -45,7 +45,9 @@ class WemFrontend(system: ActorSystem,
         (parse( s"""{ "status": ${status} }"""), status)
     } catch {
       case e: Throwable =>
-        (parse( s"""{ "error: "${e.getMessage().replaceAll("\"", "'")}"}"""), -1)
+        val msg = s"""{ "error": "${e.getMessage().replaceAll("\"", "'").replaceAll("\\n", " ")}"}"""
+        println(msg)
+        (parse(msg ), -1)
     }
   }
 

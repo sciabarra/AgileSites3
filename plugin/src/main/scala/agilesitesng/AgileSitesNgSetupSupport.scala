@@ -3,18 +3,22 @@ package agilesitesng
 import java.io.File
 
 import agilesitesng.wem.WemFrontend
-import agilesitesng.wem.actor.Protocol.{Reply, Get, Post, Put}
-import agilesitesng.wem.model.{WemCSElement, WemSiteEntry}
+import agilesitesng.wem.actor.Protocol._
+import agilesitesng.wem.model.{Encoding, WemCSElement, WemSiteEntry}
 import com.typesafe.scalalogging.slf4j.LazyLogging
-import net.liftweb.json.JsonAST.{JArray, JNothing}
+import net.liftweb.json.JsonAST.{JString, JArray, JNothing}
 import net.liftweb.json._
+
+import scala.io.Source
 
 /**
  * Functions for setting up AgileSites 3
  *
  * Created by msciab on 22/10/15.
  */
-trait AgileSitesNgSetupSupport extends LazyLogging {
+trait AgileSitesNgSetupSupport
+  extends LazyLogging
+  with Encoding {
 
   /**
    * Enable a type in the given site
@@ -26,7 +30,6 @@ trait AgileSitesNgSetupSupport extends LazyLogging {
   def enableType(wem: WemFrontend, site: String, stype: String): Unit = {
 
     val siteJson = wem.request(Get(s"/sites/${site}"))
-
     //logger.debug(pretty(render(siteJson._1)))
 
     val newEntry = parse(
@@ -47,9 +50,6 @@ trait AgileSitesNgSetupSupport extends LazyLogging {
       wem.request(Post(s"/sites/${site}", newJson))
     }
   }
-
-  def findAssetIdByName(assetMap: Map[String, String], assetType: String, assetName: String): Option[String]
-  = assetMap.get(s"${assetType}:${assetName}")
 
   /**
    * Load an asset map eventually deploying the info
@@ -87,36 +87,56 @@ trait AgileSitesNgSetupSupport extends LazyLogging {
     ls.toSeq.toMap
   }
 
-  /**
-   * If you do not have a CSElement in the map it will create one otherwise it will update
-   *
-   * @param wem
-   * @param map
-   * @param site
-   * @param file
-   */
   def importCSElement(wem: WemFrontend, map: Map[String, String], site: String, file: java.io.File): Unit = {
     // search for a cselement with a given value
     val assetName = file.getName.split("\\.").head
     val id = map.get(s"CSElement:${assetName}")
-    val url = new java.net.URL(wem.base)
-    val msg = if (id.isEmpty) {
-      val u = s"/sites/${site}/types/CSElement/assets/0"
-      val j = WemCSElement.build(site, file)
-      println(s">>>>Put ${u}")
-      Put(u, j)
-    } else {
+
+    if (id.nonEmpty) {
       val u = s"/sites/${site}/types/CSElement/assets/${id.get}"
-      val (cur, _) = wem.request(Get(u))
-      val j = WemCSElement.update(cur, site, file, id.get)
-      println(s">>>>Post ${u}")
-      Post(u, j)
+      print(s">>>>Delete ${u}")
+      val (cur, st) = wem.request(Delete(u))
+      println(s":${st}")
     }
-    val (_,s) = wem.request(msg)
-    println(s":${s}")
+
+    val u = s"/sites/${site}/types/CSElement/assets/0"
+    val msg = WemCSElement.build(site, file)
+    print(s">>>>Put ${u}")
+    val (cur, st) = wem.request(Put(u, msg))
+    println(s":${st}")
   }
 
   def importSiteEntry(wem: WemFrontend, map: Map[String, String], site: String, assetName: String): Unit = {
+    // search for a cselement with a given value
+    val id = map.get(s"SiteEntry:${assetName}")
+    //val u = new java.net.URL(wem.base)
+
+    if (id.nonEmpty) {
+      val u = s"/sites/${site}/types/SiteEntry/assets/${id.get}"
+      print(s">>Delete ${u}")
+      val (cur, st) = wem.request(Delete(u))
+      print(s"${st}\n")
+    }
+
+    val u = s"/sites/${site}/types/SiteEntry/assets/0"
+    //println(s"${assetName}: Put(${u}: ${pretty(render(j))}")
+    print(s">>Put ${u}")
+    val msg = Put(u, WemSiteEntry.build(site, assetName))
+    val (cur, st) = wem.request(msg)
+    println(s":${st}")
+  }
+
+
+  /**
+   *
+   * This one does not work because update does not update the site entry
+   *
+   * @param wem
+   * @param map
+   * @param site
+   * @param assetName
+   */
+  def importSiteEntryNotWorking(wem: WemFrontend, map: Map[String, String], site: String, assetName: String): Unit = {
     // search for a cselement with a given value
     val id = map.get(s"SiteEntry:${assetName}")
     val csid = map.get(s"CSElement:${assetName}")
@@ -136,8 +156,61 @@ trait AgileSitesNgSetupSupport extends LazyLogging {
       Post(s"/types/CSElement/sites/${site}/assets", j)
     }
     wem.request(msg)
-    val (_,s) = wem.request(msg)
+    val (_, s) = wem.request(msg)
     println(s":${s}")
+  }
+
+  /**
+   * If you do not have a CSElement in the map it will create one otherwise it will update
+   *
+   * This one does not work because the POST does not to update the URL
+   *
+   * @param wem
+   * @param map
+   * @param site
+   * @param file
+   */
+  def importCSElementNotWorking(wem: WemFrontend, map: Map[String, String], site: String, file: java.io.File): Unit = {
+    // search for a cselement with a given value
+    val assetName = file.getName.split("\\.").head
+    val id = map.get(s"CSElement:${assetName}")
+    val url = new java.net.URL(wem.base)
+    val msg = if (id.isEmpty) {
+      val u = s"/sites/${site}/types/CSElement/assets/0"
+      val j = WemCSElement.build(site, file)
+      print(s">>>>Put ${u}")
+      Put(u, j)
+    } else {
+      val u = s"/sites/${site}/types/CSElement/assets/${id.get}"
+      print(s">>>>Get ${u}")
+      val (cur, st) = wem.request(Get(u))
+      val j = WemCSElement.update(cur, site, file, id.get)
+      println(pretty(render(j)))
+      print(s":${st}\n>>>>Post ${u}")
+      Post(u, j)
+    }
+    val (_, s) = wem.request(msg)
+    println(s":${s}")
+  }
+
+
+  def downloadJars(wem: WemFrontend, list: String, target: File): Unit = {
+    println(s">>>> Download ${list}")
+    target.mkdirs()
+    val is = this.getClass.getClassLoader.getResourceAsStream(list)
+    for (filename <- Source.fromInputStream(is).getLines()) {
+      val file = new File(target, filename)
+      if (file.exists) {
+        println(s"Exist ${filename}, skipping.")
+      } else {
+        println(s">>>>${filename}")
+        val u = s"?pagename=AAAgileInfo&d=&jar=/WEB-INF/lib/${filename}"
+        println(u)
+        val req = Get(u)
+        val JString(body) = wem.request(req)._1
+        writeFileBase64(file, body)
+      }
+    }
   }
 
 }
