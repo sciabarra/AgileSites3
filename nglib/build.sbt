@@ -11,8 +11,7 @@ scalaVersion := "2.10.5"
 crossPaths := false
 
 libraryDependencies ++= Seq(
-  "com.sciabarra" % "agilesites3-plugin" % "v3-M5"
-     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
+  "com.sciabarra" % "agilesites3-plugin" % "3.0.0-M5" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
 
 libraryDependencies += "junit" % "junit" % "4.11" % "test"
 

@@ -13,7 +13,7 @@ trait SetupSettings extends Utils {
   import NgSetupKeys._
 
   lazy val ngSetupTask = ngSetup := {
-    println("doing the setup..., #2")
+    println("doing the setup..., #3")
   }
 
   val setupSettings = Seq(ngSetupTask)
