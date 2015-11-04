@@ -37,11 +37,25 @@
         <appender-ref ref="FILE" />
     </logger>
 
+    <logger name="agilesitesng.wem.actor.Cas$CasActor" level="INFO"
+            additivity="false">
+        <appender-ref ref="Lilith"/>
+        <appender-ref ref="FILE" />
+    </logger>
+
+
+
+    <logger name="agilesitesng.wem.actor.Hub$HubActor" level="INFO"
+            additivity="false">
+        <appender-ref ref="Lilith"/>
+        <appender-ref ref="FILE" />
+    </logger>
+
     <!--
-        <root level="DEBUG">
-           <appender-ref ref="Lilith"/>
-           <appender-ref ref="STDOUT" />
-       <appender-ref ref="FILE" />
-    </root>
-    -->
+            <root level="DEBUG">
+               <appender-ref ref="Lilith"/>
+               <appender-ref ref="STDOUT" />
+           <appender-ref ref="FILE" />
+        </root>
+        -->
 </configuration>
