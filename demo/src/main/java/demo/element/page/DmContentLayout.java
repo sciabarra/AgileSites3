@@ -19,6 +19,7 @@ public class DmContentLayout implements TypedElement<DmSection> {
 
         html.prefixAttrs("img", "src", "/cs/blueprint/");
 
+        /*
         html.replace("#title", a.getTitle()); //todo edit
         html.replace("#subtitle", a.getSubtitle()); //todo edit
         html.replace("#summary", a.getSummary());// todo edit
@@ -33,7 +34,6 @@ public class DmContentLayout implements TypedElement<DmSection> {
         html.replace("#teaser-body2", a.getTeaserTitle(1));
         html.replace("#teaser-body3", a.getTeaserTitle(2));
 
-        /*
         html.replace("#teaser-title1", a.editString("TeaserTitle", 1,
 				"{noValueIndicator: \"Enter Teaser Title\"}"));
 		html.replace("#teaser-body1", a.editString("TeaserText", 1,
@@ -44,6 +44,7 @@ public class DmContentLayout implements TypedElement<DmSection> {
 				"{noValueIndicator: \"Enter Teaser Text\"}"));
 		*/
 
+/*
         html.remove("div.related");
         html.append("#related-container",
                 a.slotList("Related", "Page", "Summary"));
@@ -69,6 +70,7 @@ public class DmContentLayout implements TypedElement<DmSection> {
                 e.call("Breadcrumb", arg("c", a.getC()),
                         arg("cid", a.getCid().toString())));
         html.replace("#tree", e.call("Tree"));
+*/
 
         return html.dump(log).html();
 

@@ -23,6 +23,10 @@ import agilesites.editors.UploaderEditor;
         "DemoContentDefinition",
         "DmContent:F",
         "DmParent:F",
+        "Template",
+        "CSElement",
+        "SiteEntry",
+        "Controller",
         "PageAttribute",
         "PageDefinition",
         "Page:F"})

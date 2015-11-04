@@ -1,7 +1,6 @@
 package demo.model.page;
 
 import agilesites.annotations.*;
-import agilesites.api.AgileAsset;
 import demo.model.DmContent;
 import demo.model.Page;
 import demo.model.dmcontent.DmArticle;
@@ -26,7 +25,7 @@ public class DmSection extends Page {
     private String detail;
 
     @Attribute
-    private BlobAttribute image;
+    private agilesitesng.api.BlobAttribute image;
 
     @Attribute
     private String[] teaserTitle;
@@ -36,69 +35,15 @@ public class DmSection extends Page {
 
     @Attribute(description = "related pages")
     @AssetSubtypes(values = {"DmSection", "DmHome"})
-    private AssetAttribute<Page>[] related;
+    private agilesitesng.api.AssetAttribute<Page> related[];
 
     @Attribute(description = "similar pages")
-    private AssetAttribute<Page<DmSection>>[] seeAlso;
+    private agilesitesng.api.AssetAttribute<Page<DmSection>> seeAlso[];
 
     @Attribute
-    private AssetAttribute<DmContent<DmArticle>> head;
+    private agilesitesng.api.AssetAttribute<DmContent<DmArticle>> head;
 
     @Attribute
-    private AssetAttribute<DmContent<DmArticle>>[] content;
+    private agilesitesng.api.AssetAttribute<DmContent<DmArticle>> content[];
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public BlobAttribute getImage() {
-        return image;
-    }
-
-    public String[] getTeaserTitle() {
-        return teaserTitle;
-    }
-
-    public String[] getTeaserText() {
-        return teaserText;
-    }
-
-    public String getTeaserTitle(int n) {
-        if (n < teaserTitle.length) return "";
-        return teaserTitle[n];
-    }
-
-
-    public String getTeaserText(int n) {
-        if (n < teaserText.length) return "";
-        return teaserTitle[n];
-    }
-
-    public AssetAttribute<Page>[] getRelated() {
-        return related;
-    }
-
-    public AssetAttribute<Page<DmSection>>[] getSeeAlso() {
-        return seeAlso;
-    }
-
-    public AssetAttribute<DmContent<DmArticle>> getHead() {
-        return head;
-    }
-
-    public AssetAttribute<DmContent<DmArticle>>[] getContent() {
-        return content;
-    }
 }

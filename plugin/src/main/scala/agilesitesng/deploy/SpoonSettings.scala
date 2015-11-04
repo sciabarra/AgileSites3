@@ -66,10 +66,10 @@ trait SpoonSettings {
     spool
   }
 
-  val spoonSettings = Seq(ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars) map {
-    (report, extraJars) =>
-      extraJars ++ report.select(configurationFilter("spoon"))
-  } , ngSpoonProcessorJars := Nil
+  val spoonSettings = Seq(ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars, unmanagedJars in Compile) map {
+    (report, extraJars, unmanaged) =>
+      extraJars ++ report.select(configurationFilter("spoon")) ++ unmanaged.files
+  }, ngSpoonProcessorJars := Nil
     , ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"
       , "SiteAnnotation"
@@ -81,14 +81,13 @@ trait SpoonSettings {
       , "RequiredAnnotation"
       , "AttributeAnnotationClean"
       , "ParentsAnnotation"
+      , "AssetSubtypesAnnotation"
       , "NewStartMenuAnnotation"
       , "FindStartMenuAnnotation"
       , "MultipleStartMenuAnnotation"
-/*
       , "SiteEntryAnnotation"
       , "TemplateAnnotation"
       , "CSElementAnnotation"
-*/
       , "ControllerAnnotation"
       )
       .map(x => s"agilesitesng.deploy.spoon.${x}Processor")

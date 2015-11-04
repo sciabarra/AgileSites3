@@ -20,7 +20,7 @@ class ControllerAnnotationProcessor
       SpoonModel.Controller(Uid.generate(key),
         name, class2file(name)))
     */
-    addController(cl.getQualifiedName)
+    addController(cl.getQualifiedName, cl.getQualifiedName)
   }
 
 }

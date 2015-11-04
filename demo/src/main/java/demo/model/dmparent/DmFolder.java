@@ -15,9 +15,4 @@ public class DmFolder extends DmParent {
     @Required
     private String categoryString;
 
-    private String testField;
-
-    public String getCategoryString() {
-        return categoryString;
-    }
 }

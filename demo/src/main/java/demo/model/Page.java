@@ -1,13 +1,13 @@
 package demo.model;
 
 import agilesites.annotations.Type;
-import agilesites.api.AgileAsset;
+import agilesitesng.api.ASAsset;
 
 /**
  * Declaring a type for Pages
  */
 @Type
-public class Page<S> extends AgileAsset {
+public class Page<S> extends ASAsset {
 
     S definition;
 

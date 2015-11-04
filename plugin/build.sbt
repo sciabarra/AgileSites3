@@ -65,11 +65,15 @@ mappings in (Compile, packageBin) ~= { _.filter(!_._1.getName.equals("logback-te
 sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map { (dir, base) =>
   val annSrc = base.getParentFile / "nglib" / "src" / "main" / "java" / "agilesites" / "annotations"
   val annTgt = dir / "agilesites" / "annotations"
+  val apiSrc = base.getParentFile / "nglib" / "src" / "main" / "java" / "agilesitesng" / "api"
+  val apiTgt = dir / "agilesitesng" / "api"
   //println("src="+annSrc.toString)
   //println("tgt="+annTgt.toString)
   annTgt.mkdirs
+  apiTgt.mkdirs
   IO.copyDirectory(annSrc, annTgt)
-  val out = annTgt * "*.java"
+  IO.copyDirectory(apiSrc, apiTgt)
+  val out = annTgt * "*.java" +++ apiTgt * "*.java"
   val res = out.get
   //println(res)
   res

@@ -1,6 +1,6 @@
 package templates;
 
-import agilesitesng.deploy.model.SpoonModel;
+import agilesitesng.api.ASAsset;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtType;
 import spoon.template.Local;
@@ -8,13 +8,10 @@ import spoon.template.Parameter;
 import spoon.template.Substitution;
 import spoon.template.Template;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by jelerak on 15/10/2015.
  */
-public class ContentDefinitionTemplate implements Template {
+public class ContentDefinitionTemplate extends ASAsset implements Template {
 
     @Parameter
     String attributes;
@@ -24,12 +21,8 @@ public class ContentDefinitionTemplate implements Template {
         this.attributes = attributes;
     }
 
-    public List<String> getAttributes() {
-        ArrayList<String> temp = new ArrayList<String>();
-        for (String attribute : attributes.split("|")) {
-            temp.add(attribute);
-        }
-        return temp;
+    public String readAttributes() {
+        return attributes;
     }
 
     @Override
@@ -38,4 +31,5 @@ public class ContentDefinitionTemplate implements Template {
         Substitution.insertAllMethods(target, this);
         return target;
     }
+
 }
