@@ -81,14 +81,13 @@ trait SpoonSettings {
       , "RequiredAnnotation"
       , "AttributeAnnotationClean"
       , "ParentsAnnotation"
+      , "AssetSubtypesAnnotation"
       , "NewStartMenuAnnotation"
       , "FindStartMenuAnnotation"
       , "MultipleStartMenuAnnotation"
-/*
       , "SiteEntryAnnotation"
       , "TemplateAnnotation"
       , "CSElementAnnotation"
-*/
       , "ControllerAnnotation"
       )
       .map(x => s"agilesitesng.deploy.spoon.${x}Processor")

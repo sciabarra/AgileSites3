@@ -1,13 +1,14 @@
 package demo.model;
 
 import agilesites.annotations.Type;
-import agilesites.api.AgileAsset;
+import agilesitesng.api.ASAsset;
 
 /**
  * Declaring a parent type for flex families
  */
 @Type
-public class DmParent<S> extends AgileAsset {
+public class DmParent<S> extends ASAsset {
+
     S definition;
 
     public DmParent() {
@@ -24,4 +25,5 @@ public class DmParent<S> extends AgileAsset {
     public S get() {
         return definition;
     }
+
 }

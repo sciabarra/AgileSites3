@@ -15,10 +15,4 @@ public class DmGallery extends DmParent {
     @Required
     private String categoryString;
 
-    @Attribute
-    private String testAttribute;
-
-    public String getCategoryString() {
-        return categoryString;
-    }
 }

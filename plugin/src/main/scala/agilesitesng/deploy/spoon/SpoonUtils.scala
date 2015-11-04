@@ -34,10 +34,23 @@ trait SpoonUtils {
     file.getAbsolutePath
   }
 
-  def addController(name: String) = {
-    val key = s"Controller.$name"
+  def classes2file(path: String) = {
+    val base = new File(System.getProperty("spoon.outdir"))
+    val file = new File(base, path.replace('.', File.separatorChar)+".java")
+    file.getAbsolutePath
+  }
+
+  def addController(name: String, classname:String ) = {
+    val key = s"Controller.$classname"
     Spooler.insert(50, key,
       SpoonModel.Controller(Uid.generate(key),
-        name, class2file(name)))
+        name, classname, class2file(classname)))
+  }
+
+  def addApiController(name: String, classname:String ) = {
+    val key = s"Controller.$classname"
+    Spooler.insert(50, key,
+      SpoonModel.Controller(Uid.generate(key),
+        name, classname, class2file(classname)))
   }
 }

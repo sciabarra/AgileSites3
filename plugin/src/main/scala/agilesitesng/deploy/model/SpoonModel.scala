@@ -47,7 +47,7 @@ object SpoonModel extends ModelUtil {
 
   case class SiteEntry(id: Long, name: String) extends SpoonModel
 
-  case class Controller(id: Long, name: String, file: String) extends SpoonModel
+  case class Controller(id: Long, name: String, classname:String, file: String) extends SpoonModel
 
   case class AssetAttribute(name: String, required: Boolean)
 }

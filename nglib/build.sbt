@@ -25,6 +25,10 @@ ngConcatJavaMap := Map(
     (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
   (baseDirectory.value / "src" / "test" / "groovy" / "AAAgileServices.groovy") ->
     (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
+/*
+  (baseDirectory.value / "src" / "test" / "groovy" / "AAAgileApi.groovy") ->
+    (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "api" * "*.java"),
+*/
   (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileApi.txt") ->
     ((baseDirectory.value / "src" / "main" / "java" / "agilesites" / "api" * "*.java") +++
       (baseDirectory.value / "src" / "main" / s"java-${sitesVersion.value}" / "agilesites" / "api" * "*.java")))

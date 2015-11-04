@@ -79,7 +79,7 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       "name" -> name,
       "enabledTypes" -> enabledTypes.mkString("|"))
 
-    case Controller(id, name, file) => deploy("Controller", id, name, name,
+    case Controller(id, name, classname, file) => deploy("Controller", id, name, classname,
       'filename -> new java.io.File(file).getName,
       'filefolder -> name.split("\\.").init.mkString("WCS_Controller/", "/", "/"),
       'fileext -> file.split("\\.").last,

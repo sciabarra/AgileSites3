@@ -1,7 +1,7 @@
 package demo.model.dmcontent;
 
 import agilesites.annotations.*;
-import agilesites.api.AgileAsset;
+import agilesitesng.api.AssetAttribute;
 import demo.model.DmContent;
 
 @MultipleStartMenu(items = {
@@ -15,40 +15,20 @@ import demo.model.DmContent;
 @Parents({"DmFolder","DmGallery"})
 public class DmArticle extends DmContent {
 
-    @Attribute()
+    @Attribute
     @Required
-    private String title;
+    public String title;
 
     @Attribute(editor = "DmRichTextEditor")
-    private String subtitle;
+    public String subtitle;
 
     @Attribute(editor = "ArticleTypeSelector")
-    private String articleType;
+    public String articleType;
 
     @Attribute
-    private AssetAttribute<DmContent<DmImage>> image;
+    public agilesitesng.api.AssetAttribute<DmContent<DmImage>> image;
 
-    public String getTitle() {
-        return title;
-    }
+    @Attribute
+    public agilesitesng.api.AssetAttribute<DmContent<DmTextBlock>> blocks[];
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public AssetAttribute<DmContent<DmImage>> getImage() {
-        return image;
-    }
-
-    public void setImage(AssetAttribute<DmContent<DmImage>> image) {
-        this.image = image;
-    }
 }
