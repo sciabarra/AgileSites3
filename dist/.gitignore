@@ -2,3 +2,5 @@ agilesites.properties
 setenv.sh
 mysetenv.sh
 .sbt.ivy.lock
+project/boot/
+project/*.txt

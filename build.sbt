@@ -52,9 +52,6 @@ val nglib = project.in(file("nglib"))
 val demo = project.in(file("demo"))
   .dependsOn(nglib)
 
-val ngdemo = project.in(file("ngdemo"))
-  .dependsOn(nglib)
-
 addCommandAlias("p2", """; eval System.setProperty("profile", "12c") ; reload ; project bb""")
 
 addCommandAlias("p1", """; eval System.setProperty("profile", "11g") ; reload ; project bb""")

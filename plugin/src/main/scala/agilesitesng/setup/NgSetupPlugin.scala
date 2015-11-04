@@ -10,7 +10,8 @@ import sbt._, Keys._
 object NgSetupPlugin
   extends AutoPlugin
   with ConcatSettings
-  with TagSettings {
+  with TagSettings
+  with SetupSettings {
 
   val autoImport = NgSetupKeys
 
@@ -21,6 +22,6 @@ object NgSetupPlugin
   import AgileSitesConfigKeys._
 
 
-  override val projectSettings = concatSettings ++ tagSettings
+  override val projectSettings = concatSettings ++ tagSettings ++ setupSettings
 
 }

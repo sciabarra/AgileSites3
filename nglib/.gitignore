@@ -8,3 +8,4 @@ src/main/java-11.1.1.8.0/agilesites/api/*Tag.java
 src/main/resources/aaagile/ElementCatalog/AAAgile*.txt
 agilesites.local.properties
 src/test/groovy
+version.txt

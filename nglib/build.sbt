@@ -1,17 +1,17 @@
 val nglib = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
-name := "agilesites3-lib"
+name := "agilesites3-nglib"
 
 organization := "com.sciabarra"
 
-version := "v3-M5-SNAPSHOT"
+version := "3.0.0-M5"
 
 scalaVersion := "2.10.5"
 
 crossPaths := false
 
 libraryDependencies ++= Seq(
-  "com.sciabarra" % "agilesites3-plugin" % "v3-M5-SNAPSHOT"
+  "com.sciabarra" % "agilesites3-plugin" % "v3-M5"
      extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
 
 libraryDependencies += "junit" % "junit" % "4.11" % "test"
@@ -41,3 +41,11 @@ publishArtifact in(Compile, packageDoc) := false
 
 publishArtifact in packageDoc := false
 
+TaskKey[String]("snapshot") := {
+  val fmt = new java.text.SimpleDateFormat("yyyy.MMdd.HHmm");
+  val snapshot = fmt.format(new java.util.Date)+"-SNAPSHOT"
+  IO.write(baseDirectory.value / "version.txt", snapshot)
+  snapshot
+}
+
+addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")

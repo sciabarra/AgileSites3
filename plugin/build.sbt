@@ -1,14 +1,12 @@
-val v = "v3-M5-SNAPSHOT"
-
-isSnapshot := v.endsWith("-SNAPSHOT")
-
 name := "agilesites3-plugin"
 
 organization := "com.sciabarra"
 
-sbtPlugin := true
+version := "3.0.0-M5"
 
-version := v
+isSnapshot := version.value.endsWith("-SNAPSHOT")
+
+sbtPlugin := true
 
 scalaVersion := "2.10.5"
 
@@ -82,3 +80,12 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
+
+TaskKey[String]("snapshot") := {
+  val fmt = new java.text.SimpleDateFormat("yyyy.MMdd.HHmm");
+  val snapshot = fmt.format(new java.util.Date)+"-SNAPSHOT"
+  IO.write(baseDirectory.value / "version.txt", snapshot)
+  snapshot
+}
+
+addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")
