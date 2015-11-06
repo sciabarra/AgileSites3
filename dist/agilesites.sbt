@@ -1,8 +1,8 @@
-name := "MySite"
+name := "agilesites"
 
-organization := "my.organization"
+organization := "com.sciabarra"
 
-version := "1.0"
+version := "3.0.0"
 
 crossPaths := false
 
@@ -14,10 +14,10 @@ resolvers ++= Seq(
 
 val nglibVer = try {
   scala.io.Source.fromFile(file("project") / "nglib.txt").getLines.next.trim
-} catch { case _: Throwable => "3.0.0-M5"}
+} catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
 libraryDependencies += "com.sciabarra" % "agilesites3-nglib" % nglibVer
 
+unmanagedBase := file("project") / "WEB-INF" / "lib"
+
 enablePlugins(AgileSitesNgPlugin)
-
-

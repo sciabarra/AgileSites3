@@ -14,11 +14,11 @@ import scala.collection.generic.SeqFactory
  */
 object WemCSElement extends Encoding {
 
-  def build(site: String, file: File) = {
+  def build(site: String, resource: String) = {
 
-    val fileName = file.getName
+    val fileName = resource.split("/").last
     val elementName = fileName.split("\\.").head
-    val fileData = base64file(file)
+    val fileData = base64Resource(resource)
     val now = jsonFormatDate(new java.util.Date())
     parse(
       s"""
@@ -55,11 +55,11 @@ object WemCSElement extends Encoding {
   }
 
 
-  def update(json: JValue, site: String, file: java.io.File, id: String) = {
+  def update(json: JValue, site: String, resource: String, id: String) = {
     // update file
 
-    val name = file.getName.split("\\.").head
-    val fileData = base64file(file)
+    val name = resource.split("/").last.split("\\.").head
+    val fileData = base64Resource(resource)
     val now = jsonFormatDate(new java.util.Date())
 
     json transform {
@@ -87,7 +87,6 @@ object WemCSElement extends Encoding {
 
       case JField("updateddate", _) =>
         JField("updatedby", JString(now))
-
     }
   }
 }

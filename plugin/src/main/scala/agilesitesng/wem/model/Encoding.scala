@@ -9,17 +9,22 @@ import java.util.TimeZone
  */
 trait Encoding {
 
-  def readStream(in: InputStream, len: Long): Array[Byte] = {
+  /*def readStream(in: InputStream, len: Long): Array[Byte] = {
     val r = new Array[Byte](len.toInt)
     in.read(r)
     r
-  }
+  }*/
 
-  def readFile(file: File): Array[Byte] = {
-    val fis = new FileInputStream(file)
-    val res = readStream(fis, file.length)
-    fis.close
-    res
+  def readResourceAsArray(resource: String): Array[Byte] = {
+    println("***"+resource)
+    val is = getClass.getClassLoader.getResourceAsStream(resource)
+    val baos = new java.io.ByteArrayOutputStream
+    var c = is.read
+    while(c != -1) {
+      baos.write(c)
+      c = is.read
+    }
+    baos.toByteArray
   }
 
   import scala.collection.immutable.HashMap
@@ -96,7 +101,7 @@ trait Encoding {
 
   import Base64._
 
-  def base64file(file: File): String = readFile(file).toBase64
+  def base64Resource(res: String): String = readResourceAsArray(res).toBase64
 
   def writeFileBase64(file: File, body: String) = {
     val array: Array[Byte] = body.toByteArray

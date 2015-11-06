@@ -6,7 +6,7 @@ resolvers ++= Seq(
 
 val pluginVer = try {
   scala.io.Source.fromFile(file("project") / "plugin.txt").getLines.next.trim
-} catch { case _: Throwable => "3.0.0-M5"}
+} catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
 addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer  )
 

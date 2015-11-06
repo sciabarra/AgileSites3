@@ -1,5 +1,6 @@
 package agilesitesng
 
+import agilesitesng.setup.NgSetupSupport
 import agilesitesng.wem.WemFrontend
 import agilesitesng.wem.actor.Protocol.Get
 import akka.actor.ActorSystem
@@ -12,9 +13,8 @@ import net.liftweb.json._
  */
 object WemQuery
   extends App
-  with AgileSitesNgSetupSupport
+  with NgSetupSupport
   with LazyLogging {
-
 
   val config = ConfigFactory.load().getConfig("sbt-web")
   val url = new java.net.URL(config.getString("sites.url"))

@@ -2,7 +2,7 @@ name := "agilesites3-plugin"
 
 organization := "com.sciabarra"
 
-version := "3.0.0-M5"
+version := "3.0.0-SNAPSHOT"
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
@@ -75,6 +75,18 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
   val res = out.get
   //println(res)
   res
+}
+
+resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory)  map { (dir, base) =>
+  val resSrc = base.getParentFile / "nglib" / "src" / "main" / "resources" / "aaagile" / "ElementCatalog"
+  val resTgt = dir / "aaagile" / "ElementCatalog"
+  //println("src="+annSrc.toString)
+  //println("tgt="+annTgt.toString)
+  resTgt.mkdirs
+  IO.copyDirectory(resSrc, resTgt)
+  val res = resTgt * "*"
+  //println(res)
+  res.get
 }
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"

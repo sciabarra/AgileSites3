@@ -22,6 +22,9 @@ object NgSetupPlugin
   import AgileSitesConfigKeys._
 
 
-  override val projectSettings = concatSettings ++ tagSettings ++ setupSettings
+  override val projectSettings =
+    concatSettings ++
+      tagSettings ++
+      setupSettings
 
 }

@@ -8,10 +8,10 @@ import sbt._, Keys._
 object AgileSitesConstants {
 
   val agilesitesPlugin =
-    Seq("com.sciabarra" % "agilesites3-plugin" % "3.0.0-M5" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
+    Seq("com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
 
   val agilesitesLib =
-    Seq("com.sciabarra" % "agilesites3-lib" % "3.0.0-M5")
+    Seq("com.sciabarra" % "agilesites3-lib" % "3.0.0-SNAPSHOT")
 
   val spoonDependencies = Seq(
       "net.openhft" % "spoon-core" % "4.3.0" % "spoon"
@@ -19,7 +19,6 @@ object AgileSitesConstants {
     , "org.scala-lang" % "scala-library" % "2.10.5" % "spoon"
     , "net.liftweb" % "lift-json_2.10" % "2.6" % "spoon"
     , "ch.qos.logback" % "logback-classic" % "1.1.3" % "spoon"
-    , "org.jodd" % "jodd-lagarto" % "3.6.6" % "spoon"
   )
 
   val tomcatVersion = "7.0.59"
