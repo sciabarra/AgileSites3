@@ -36,9 +36,28 @@ unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / 
 
 unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
 
-publishArtifact in(Compile, packageDoc) := false
+
+publishMavenStyle := true
+
+publishTo := {
+    val nexus = "http://nexus.sciabarra.com/"
+    if (isSnapshot.value)
+      Some("snapshots" at nexus + "content/repositories/snapshots")
+    else
+      Some("releases"  at nexus + "content/repositories/releases")
+  }
+
+publishArtifact in Test := false
 
 publishArtifact in packageDoc := false
+
+licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+
+credentials += Credentials(Path.userHome / ".ivy2" / "credentials")
+
+resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
+  "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
+  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
 
 TaskKey[String]("snapshot") := {
   val fmt = new java.text.SimpleDateFormat("yyyy.MMdd.HHmm");
