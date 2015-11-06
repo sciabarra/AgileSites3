@@ -30,7 +30,7 @@ trait SetupSettings
       val url = new java.net.URL(if (args.length > 0)
         args(0)
       else if(prp.getProperty("sites.url")==null) {
-        print("Sites URL: ")
+        println("Sites URL: ")
         scanner.next()
       } else prp.getProperty("sites.url"))
 
