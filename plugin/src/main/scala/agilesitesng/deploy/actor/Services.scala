@@ -69,7 +69,7 @@ object Services {
                  authKey: Option[String]): Receive = LoggingReceive {
 
       case Ask(origin, ServiceLogin(url, username, password)) =>
-        log.debug(s"${username} -> ${url}")
+        log.debug(s"${username}/${password} -> ${url}")
         http ! buildGet("login", "username" -> username, "password" -> password)(url, cookie)
         context.become(preLogin(Some(origin), Some(url), cookie, None))
 

@@ -26,7 +26,7 @@ object Manager {
     var marker = System.currentTimeMillis()
 
     override def preStart: Unit = {
-      println(" ***** hello *****")
+      println(" ***** hello! *****")
       services ! Ask(self, ServiceLogin(url, user, pass))
       context.watch(services)
     }
