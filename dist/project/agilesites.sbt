@@ -1,3 +1,5 @@
+val conf = project.in(file(".")).dependsOn((file("project") / "conf") .toURI)
+
 resolvers ++= Seq(
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",

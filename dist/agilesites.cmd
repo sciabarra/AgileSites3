@@ -5,9 +5,12 @@ set BOOT=%BASE%\project\boot
 set JAVA=%JAVA_HOME%\bin\java
 set LATEST=http://www.sciabarra.com/agilesites/
 set LAUNCHER=%BASE%\project\sbt-launch.jar
+set JOPTS=
+REM set JOPTS=%JOPTS% -XX:MaxPermSize=256M
+set JOPTS=%JOPTS% -Dlogback.debug=true
 if exist setenv.bat call setenv.bat
 if exist mysetenv.bat call mysetenv.bat
-set SBT=-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -Dsbt.boot.directory=%BOOT% -Dsbt.ivy.home=%REPO% -Dagilesites.latest=%LATEST% -jar %LAUNCHER%
+set SBT=-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -Dsbt.boot.directory=%BOOT% -Dsbt.ivy.home=%REPO% -Dagilesites.latest=%LATEST% %JOPTS% -jar %LAUNCHER% 
 if not exist agilesites.properties "%JAVA%" %SBT% upgrade update ng:setup reload
 if not exist agilesites.properties goto error
 "%JAVA%" %SBT%

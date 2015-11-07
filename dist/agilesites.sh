@@ -7,9 +7,12 @@ BOOT="$BASE/project/boot"
 JAVA="$JAVA_HOME/bin/java"
 LATEST=http://www.sciabarra.com/agilesites/
 LAUNCHER="$BASE/project/sbt-launch.jar"
+JOPTS=
+#JOPTS=-XX:MaxPermSize=256M
+JOPTS="$JOPTS -Dlogback.debug=true"
 test -e setenv.sh && source setenv.sh
 test -e mysetenv.sh && source mysetenv.sh
-SBT="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M -Dsbt.boot.directory=$BOOT -Dsbt.ivy.home=$REPO -Dagilesites.latest=$LATEST -jar $LAUNCHER"
+SBT="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -Dsbt.boot.directory=$BOOT -Dsbt.ivy.home=$REPO -Dagilesites.latest=$LATEST $JOPTS -jar $LAUNCHER"
 test -e agilesites.properties || "$JAVA" $SBT "upgrade" "update" "ng:setup" "reload"
 if test -e agilesites.properties 
 then "$JAVA" $SBT "$@"
