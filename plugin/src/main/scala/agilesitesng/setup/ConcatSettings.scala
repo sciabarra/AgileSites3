@@ -4,8 +4,8 @@ import java.io.File
 import java.util.Date
 
 import agilesites.Utils
+import sbt._
 import sbt.Keys._
-import sbt.{AutoPlugin, PathFinder}
 
 import scala.io.Source
 
@@ -22,10 +22,13 @@ trait ConcatSettings extends Utils {
    * (decomment  all the lines ending with //+)
    * (add all the lines ending in //-)
    */
-  lazy val ngConcatJavaTask = ngConcatJava := {
+  //lazy val ngConcatJavaTask = ngConcatJava := {
 
+  val ngConcatJavaTask = ngConcatJava <<= Def.task {
     //val base = baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "core" * "*.java"
     //val out = file("src") / "main" / "resources" / "aaagile" / "ElementCatalog" / "AAAgileLib.java"
+
+    println("%%% concatenating %%%")
 
     val out = for ((output, input) <- ngConcatJavaMap.value) yield {
 
@@ -34,10 +37,10 @@ trait ConcatSettings extends Utils {
         line <- Source.fromFile(file).getLines()
       } yield line
 
-      def removeMinus(line: String) = if(line.trim.endsWith("//-")) "\n" else line
+      def removeMinus(line: String) = if (line.trim.endsWith("//-")) "\n" else line
 
-      def deCommentPlus(line: String) = if(line.trim.startsWith("//+"))
-        line.trim.substring(3)+"\n"
+      def deCommentPlus(line: String) = if (line.trim.startsWith("//+"))
+        line.trim.substring(3) + "\n"
       else line
 
       val thePackage = lines.filter(_.startsWith("package ")).head.toString
@@ -52,21 +55,16 @@ trait ConcatSettings extends Utils {
         .map(removeMinus(_))
         .map(deCommentPlus(_))
         .mkString(s"${thePackage}\n\n", "\n",
-       s"""
-           |public class Version { public String toString() { return "${helloWorld}"; } }
+          s"""
+             |public class Version { public String toString() { return "${helloWorld}"; } }
         """.stripMargin)
       //println(result)
       fw.write(result)
       fw.close
-
-      helloWorld
     }
-
     out mkString "\n"
-  }
+  }.triggeredBy(compile in Compile)
 
   def concatSettings = Seq(ngConcatJavaTask,
     ngConcatJavaMap := Map.empty[File, PathFinder])
-  //override def projectSettings = this.projectSettings ++ Seq(ngConcatJavaTask,
-  //  ngConcatJavaMap := Map.empty[File, PathFinder])
 }

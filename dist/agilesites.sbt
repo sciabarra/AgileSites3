@@ -1,4 +1,4 @@
-val AS = project.in(file("."))
+val αΣ = project.in(file("."))
 
 name := "Demo"
 
@@ -28,3 +28,5 @@ libraryDependencies += "com.sciabarra" % "agilesites3-nglib" % nglibVer
 unmanagedBase := file("project") / "WEB-INF" / "lib"
 
 enablePlugins(AgileSitesNgPlugin)
+
+addCommandAlias("dbg", """set logLevel := Level.Debug""")

@@ -10,6 +10,10 @@ scalaVersion := "2.10.5"
 
 crossPaths := false
 
+sitesVersion := "12.1.4.0.1"
+
+unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
+
 libraryDependencies ++= Seq(
   "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT"
     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
@@ -18,24 +22,22 @@ libraryDependencies += "junit" % "junit" % "4.11" % "test"
 
 watchSources ++= ((baseDirectory.value / "src" / "main" / "resources") ** "*.jsp").get
 
+// to use with catalog mover
 sitesPopulate := (baseDirectory.value / "src" / "main" / "resources").getAbsolutePath
 
+// to use with catalog mover & debugger
 ngConcatJavaMap := Map(
-  (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileServices.txt") ->
-    (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
   (baseDirectory.value / "src" / "test" / "groovy" / "AAAgileServices.groovy") ->
     (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
-/*
   (baseDirectory.value / "src" / "test" / "groovy" / "AAAgileApi.groovy") ->
     (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "api" * "*.java"),
-*/
+  (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileServices.txt") ->
+    (baseDirectory.value / "src" / "main" / "java" / "agilesitesng" / "services" * "*.java"),
   (file(sitesPopulate.value) / "aaagile" / "ElementCatalog" / "AAAgileApi.txt") ->
     ((baseDirectory.value / "src" / "main" / "java" / "agilesites" / "api" * "*.java") +++
       (baseDirectory.value / "src" / "main" / s"java-${sitesVersion.value}" / "agilesites" / "api" * "*.java")))
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / s"java-${sitesVersion.value}"
-
-unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
 
 publishMavenStyle := true
 
@@ -66,4 +68,4 @@ TaskKey[String]("snapshot") := {
   snapshot
 }
 
-addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")
+//addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")

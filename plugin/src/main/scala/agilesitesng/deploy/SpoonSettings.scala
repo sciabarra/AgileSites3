@@ -15,6 +15,9 @@ trait SpoonSettings {
   import NgDeployKeys._
 
   val spoonTask = spoon in ng := {
+
+    println("**** new spoon ****")
+
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val uid = baseDirectory.value / "src" / "main" / "resources" / name.value / "uid.properties"
     val source = baseDirectory.value / "src" / "main" / "java"
@@ -26,21 +29,22 @@ trait SpoonSettings {
     target.mkdirs
     spool.getParentFile.mkdirs
 
-    val sourceClasspath = (extraJars ++ (managedClasspath in Compile).value.files.map(_.getAbsolutePath)).mkString(File.pathSeparator)
-    val spoonClasspath = extraJars ++ ngSpoonClasspath.value.map(_.getAbsoluteFile)
+    val sourceClasspath = (fullClasspath in Compile).value.files.filter(_.exists).map(_.getAbsolutePath)
+    val spoonClasspath = ngSpoonClasspath.value.filter(_.exists).map(_.getAbsoluteFile)
+    val sourceAndSpoonClasspath = spoonClasspath ++ sourceClasspath
 
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
     val spoonDebug = if (ngSpoonDebug.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
 
     val jvmOpts = Seq(
-      "-cp", (fullClasspath in Compile).value.files.mkString(File.pathSeparator),
+      "-cp", sourceAndSpoonClasspath.mkString(File.pathSeparator),
       s"-Dspoon.spool=${spool.getAbsolutePath}",
       s"-Duid.properties=${uid.getAbsolutePath}",
       s"-Dspoon.outdir=${target.getAbsolutePath}"
     ) ++ spoonDebug
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",
-      "--source-classpath", sourceClasspath,
+      "--source-classpath", sourceClasspath.mkString(File.pathSeparator),
       "--processors", processors,
       "-i", source.getAbsolutePath,
       "-o", target.getAbsolutePath
@@ -51,6 +55,15 @@ trait SpoonSettings {
 
     val file = baseDirectory.value / "spoon.sh"
     val fw = new java.io.FileWriter(file)
+    for (src <- sourceClasspath) {
+      log.debug(s"src-cp: ${src}")
+      fw.write(s"#src: ${src}\n")
+    }
+    for (cp <- spoonClasspath) {
+      log.debug(s"spoon-cp: ${cp}")
+      fw.write(s"#spn: ${cp}\n")
+    }
+
     val s = s"""java ${jvmOpts.mkString(" ")} ${runOpts.mkString(" ")}"""
     fw.write(s.replaceAll(":", ":\\\n"))
     fw.close
@@ -66,10 +79,11 @@ trait SpoonSettings {
     spool
   }
 
-  val spoonSettings = Seq(ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars, unmanagedJars in Compile) map {
-    (report, extraJars, unmanaged) =>
-      extraJars ++ report.select(configurationFilter("spoon")) ++ unmanaged.files
-  } , ngSpoonProcessorJars := Nil
+  val spoonSettings = Seq(
+    ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars) map {
+      (report, extraJars) =>
+        extraJars ++ report.select(configurationFilter("spoon"))
+    }, ngSpoonProcessorJars := Nil
     , ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"
       , "SiteAnnotation"
@@ -89,7 +103,7 @@ trait SpoonSettings {
       , "TemplateAnnotation"
       , "CSElementAnnotation"
       , "ControllerAnnotation"
-      )
+    )
       .map(x => s"agilesitesng.deploy.spoon.${x}Processor")
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies

@@ -77,6 +77,7 @@ sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map {
   res
 }
 
+/*
 resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory)  map { (dir, base) =>
   val resSrc = base.getParentFile / "nglib" / "src" / "main" / "resources" / "aaagile" / "ElementCatalog"
   val resTgt = dir / "aaagile" / "ElementCatalog"
@@ -87,7 +88,7 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory)  m
   val res = resTgt * "*"
   //println(res)
   res.get
-}
+}*/
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 
@@ -100,4 +101,4 @@ TaskKey[String]("snapshot") := {
   snapshot
 }
 
-addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")
+//addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")
