@@ -1,6 +1,8 @@
 agilesites.properties
 agilesites.log
+setenv.cmd
 setenv.sh
+mysetenv.cmd
 mysetenv.sh
 .sbt.ivy.lock
 project/boot/

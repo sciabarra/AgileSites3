@@ -36,7 +36,6 @@ unmanagedSourceDirectories in Compile += baseDirectory.value / "src" / "main" / 
 
 unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
 
-
 publishMavenStyle := true
 
 publishTo := {

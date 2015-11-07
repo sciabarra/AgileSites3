@@ -7,7 +7,7 @@ sbt-web {
   }
 
   akka {
-  // use logback for logging
+    // use logback for logging
     loggers = ["akka.event.slf4j.Slf4jLogger"]
     logging-filter = "akka.event.slf4j.Slf4jLoggingFilter"
     log-dead-letters-during-shutdown = true

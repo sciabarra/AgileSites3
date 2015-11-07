@@ -1,1 +1,3 @@
+set -x
+JOPTS="$JOPTS -Dlogback.debug=true"
 LATEST=..
