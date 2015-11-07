@@ -1,4 +1,4 @@
-name := "agilesites"
+name := "Demo"
 
 organization := "com.sciabarra"
 
@@ -7,10 +7,15 @@ version := "3.0.0"
 crossPaths := false
 
 resolvers ++= Seq(
-  Resolver.file("homeivy", Path.userHome.getAbsoluteFile / ".ivy2" / "local")(Resolver.ivyStylePatterns),
-  Resolver.sonatypeRepo("releases"),
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
-  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
+  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
+  "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
+
+libraryDependencies ++= Seq(
+  "com.sciabarra" % "agilesites3-nglib"  % "3.0.0-SNAPSHOT",
+  "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT"
+    extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+)
 
 val nglibVer = try {
   scala.io.Source.fromFile(file("project") / "nglib.txt").getLines.next.trim

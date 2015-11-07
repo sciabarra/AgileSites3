@@ -33,7 +33,7 @@ trait SpoonSettings {
     val spoonDebug = if (ngSpoonDebug.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
 
     val jvmOpts = Seq(
-      //"-cp", spoonClasspath.mkString(File.pathSeparator),
+      "-cp", (fullClasspath in Compile).value.files.mkString(File.pathSeparator),
       s"-Dspoon.spool=${spool.getAbsolutePath}",
       s"-Duid.properties=${uid.getAbsolutePath}",
       s"-Dspoon.outdir=${target.getAbsolutePath}"
