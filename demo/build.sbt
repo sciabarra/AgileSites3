@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
       extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 )  
 
-unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
+unmanagedBase := file("..") / "dist" / "project" / "WEB-INF" / "lib"
 
 //resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
 
@@ -27,4 +27,7 @@ resolvers ++= Seq(
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-val demo = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
+val demo = project.in(file("."))
+  .enablePlugins(AgileSitesNgPlugin)
+  .dependsOn(file("..")/ "nglib")
+

@@ -1,3 +1,5 @@
+val AS = project.in(file("."))
+
 name := "Demo"
 
 organization := "com.sciabarra"
