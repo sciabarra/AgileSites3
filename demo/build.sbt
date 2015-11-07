@@ -16,9 +16,16 @@ unmanagedBase := file(sitesWebapp.value) / "WEB-INF" / "lib"
 
 resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
 
-resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
+//resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
+//  "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
+//  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
+
+
+resolvers ++= Seq(
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
-  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
+  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
+  "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
+
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
