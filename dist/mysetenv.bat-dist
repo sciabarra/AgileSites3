@@ -1,0 +1,1 @@
+set JOPTS=%JOPTS% -Dlogback.debug=true
