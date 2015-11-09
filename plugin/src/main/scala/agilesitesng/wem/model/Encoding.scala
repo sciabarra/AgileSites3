@@ -9,14 +9,8 @@ import java.util.TimeZone
  */
 trait Encoding {
 
-  /*def readStream(in: InputStream, len: Long): Array[Byte] = {
-    val r = new Array[Byte](len.toInt)
-    in.read(r)
-    r
-  }*/
-
   def readResourceAsArray(resource: String): Array[Byte] = {
-    println("***"+resource)
+    //println("***"+resource)
     val is = getClass.getClassLoader.getResourceAsStream(resource)
     val baos = new java.io.ByteArrayOutputStream
     var c = is.read

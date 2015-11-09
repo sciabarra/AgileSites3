@@ -1,0 +1,12 @@
+*  elimino la lib
+
+* lancio l'installer
+  * scarica il plugin (buildato e pubblicato)
+  * deploia i services presi dal jar
+
+* buildo il plugin
+   * concatena le api nel posto giusto
+
+TODO
+  - scarica i tld che mi servono
+  - builda i wrapper per i tld

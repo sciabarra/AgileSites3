@@ -87,31 +87,11 @@ trait PropertySettings extends Utils {
     }
   }
 
-  def upgradeCmd = Command.args("upgrade", "<args>") { (state, args) =>
-    val (plugin, nglib) = if (args.size > 2) {
-      args(0) -> args(1)
-    } else if (args.size == 1) {
-      args(0) -> args(0)
-    } else {
-      val base = sys.props.getOrElse("agilesites.latest", "http://www.sciabarra.com/agilesites/")
-      val url = if (base.startsWith("http://"))
-        new java.net.URL(base)
-      else new java.io.File(base).toURI.toURL
-      Source.fromURL(url + "plugin/version.txt").getLines.next ->
-        Source.fromURL(url + "nglib/version.txt").getLines.next
-    }
-    IO.write(file("project") / "plugin.txt", plugin+"\n")
-    IO.write(file("project") / "nglib.txt", nglib+"\n")
-    println(s"upgrading to plugin: ${plugin} lib: ${nglib}")
-    state.copy(remainingCommands =
-      Seq("reload") ++ state.remainingCommands)
-  }
-
   val propertySettings = Seq(
     utilProperties := propertyFiles,
     utilShellPromptTask,
     utilPropertyMapTask,
     uidPropertyMapTask,
-    commands ++= Seq(profileCmd, upgradeCmd)
+    commands ++= Seq(profileCmd)
   )
 }

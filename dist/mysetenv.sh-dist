@@ -1,3 +1,6 @@
 #set -x
+#debug which log file used
 #JOPTS="$JOPTS -Dlogback.debug=true"
-#JOPTS="$JOPTS -Dagilesites.devel=true"
+# enable development using souce plugin
+#JOPTS="$JOPTS -Duse.source.luke=../plugin"
+

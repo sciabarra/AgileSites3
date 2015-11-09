@@ -5,13 +5,13 @@ resolvers ++= Seq(
 )
 
 val pluginVer = try {
-  scala.io.Source.fromFile(file("project") / "plugin.txt").getLines.next.trim
+  scala.io.Source.fromFile(file("project") / "plugin/version.txt").getLines.next.trim
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
-val conf = if(sys.props.get("agilesites.plugin.source").isEmpty) {
+val conf = if(sys.props.get("use.source.luke").isEmpty) {
             project.in(file(".")).dependsOn((file("project") / "conf") .toURI)
 	   } else {
-  	     project.in(file(".")).dependsOn((file(sys.props("agilesites.plugin.source"))).toURI)
+  	     project.in(file(".")).dependsOn((file(sys.props("use.source.luke"))).toURI)
      }
 
 

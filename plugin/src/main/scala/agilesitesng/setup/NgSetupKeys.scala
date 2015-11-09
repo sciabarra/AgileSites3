@@ -15,6 +15,8 @@ object NgSetupKeys {
 
   lazy val ngConcatJava = taskKey[String]("Concatenate Java source files")
 
-  lazy val setup = inputKey[Unit]("Installing AgileSites")
+  lazy val setup = inputKey[Option[String]]("Installing AgileSites")
+
+  lazy val isetup = inputKey[Option[String]]("Incremental Installing AgileSites")
 
 }

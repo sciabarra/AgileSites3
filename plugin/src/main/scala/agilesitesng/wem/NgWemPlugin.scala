@@ -14,7 +14,6 @@ import com.typesafe.sbt.web.SbtWeb
 import agilesites.config.{AgileSitesConfigKeys, AgileSitesConfigPlugin}
 import agilesitesng.wem.actor.{Protocol, Hub}
 
-
 object NgWemPlugin
   extends AutoPlugin
   with WemSettings

@@ -1,6 +1,6 @@
 package agilesitesng.deploy.actor
 
-import agilesitesng.Utils
+import agilesites.Utils
 import agilesitesng.deploy.model.SpoonModel
 import agilesitesng.deploy.model.SpoonModel._
 

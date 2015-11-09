@@ -9,3 +9,5 @@ target/
 *.iml
 .DS_Store
 version.txt
+src/test/groovy/
+src/main/resources/aaagile/ElementCatalog/AAA*.txt

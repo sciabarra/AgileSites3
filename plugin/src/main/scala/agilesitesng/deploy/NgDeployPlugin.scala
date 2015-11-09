@@ -1,7 +1,7 @@
 package agilesitesng.deploy
 
 import agilesites.config.AgileSitesConfigPlugin
-import agilesitesng.Utils
+import agilesites.Utils
 import com.typesafe.sbt.web.SbtWeb
 import sbt._, Keys._
 import sbt.plugins.JvmPlugin

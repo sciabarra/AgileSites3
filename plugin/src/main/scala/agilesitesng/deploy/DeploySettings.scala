@@ -1,7 +1,7 @@
 package agilesitesng.deploy
 
 import agilesites.config.AgileSitesConfigKeys._
-import agilesitesng.Utils
+import agilesites.Utils
 import agilesitesng.deploy.actor.DeployProtocol._
 import agilesitesng.deploy.model.Spooler
 import akka.pattern.ask
@@ -62,8 +62,8 @@ trait DeploySettings {
     println(s"Deployed #${objs.size}")
   }
 
-  val serviceTask = service in ng := {
 
+  val serviceTask = service in ng := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     if (args.size == 0) {
       println("usage: ng:service <op> <key=value>")

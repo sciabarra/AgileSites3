@@ -1,18 +1,30 @@
+////////////////////////////////////
+// naming
+
 name := "agilesites3-plugin"
 
 organization := "com.sciabarra"
 
 version := "3.0.0-SNAPSHOT"
 
-isSnapshot := version.value.endsWith("-SNAPSHOT")
-
 sbtPlugin := true
 
 scalaVersion := "2.10.5"
 
-javacOptions ++= Seq("-source", "1.6", "-target", "1.6", "-Xlint:unchecked")
+isSnapshot := version.value.endsWith("-SNAPSHOT")
 
-scalacOptions ++= Seq("-feature", "-target:jvm-1.6", "-deprecation")
+val sitesVersion = "12.1.4.0.1"
+
+
+/////////////////////////////////////
+//jar & generated src
+
+unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
+
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-${sitesVersion}"
+
+////////////////////////////////////
+// dependencies
 
 libraryDependencies ++= Seq(
     "ch.qos.logback"            % "logback-classic" % "1.1.3" % "test;compile"
@@ -28,9 +40,14 @@ libraryDependencies ++= Seq(
   , "io.spray"                  %% "spray-http"     % "1.3.2"
   , "io.spray"                  %% "spray-httpx"    % "1.3.2"
   , "net.databinder.dispatch"   %% "dispatch-core"  % "0.11.2"
+  , "org.scalatest"             %% "scalatest"      % "2.2.4" % "test"
+  , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
 )
 
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
+
+////////////////////////////////////
+// publishing
 
 pomIncludeRepository := { _ => false }
 
@@ -56,49 +73,17 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
 
+
+////////////////////////////////////
+// build for java 6
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
+
+scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
+
+////////////////////////////////////
+// debugging
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 mappings in (Compile, packageBin) ~= { _.filter(!_._1.getName.equals("logback-test.xml")) }
 
-sourceGenerators in Compile <+= (sourceManaged in Compile, baseDirectory)  map { (dir, base) =>
-  val annSrc = base.getParentFile / "nglib" / "src" / "main" / "java" / "agilesites" / "annotations"
-  val annTgt = dir / "agilesites" / "annotations"
-  val apiSrc = base.getParentFile / "nglib" / "src" / "main" / "java" / "agilesitesng" / "api"
-  val apiTgt = dir / "agilesitesng" / "api"
-  //println("src="+annSrc.toString)
-  //println("tgt="+annTgt.toString)
-  annTgt.mkdirs
-  apiTgt.mkdirs
-  IO.copyDirectory(annSrc, annTgt)
-  IO.copyDirectory(apiSrc, apiTgt)
-  val out = annTgt * "*.java" +++ apiTgt * "*.java"
-  val res = out.get
-  //println(res)
-  res
-}
-
-/*
-resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory)  map { (dir, base) =>
-  val resSrc = base.getParentFile / "nglib" / "src" / "main" / "resources" / "aaagile" / "ElementCatalog"
-  val resTgt = dir / "aaagile" / "ElementCatalog"
-  //println("src="+annSrc.toString)
-  //println("tgt="+annTgt.toString)
-  resTgt.mkdirs
-  IO.copyDirectory(resSrc, resTgt)
-  val res = resTgt * "*"
-  //println(res)
-  res.get
-}*/
-
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
-
-libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
-
-TaskKey[String]("snapshot") := {
-  val fmt = new java.text.SimpleDateFormat("yyyy.MMdd.HHmm");
-  val snapshot = fmt.format(new java.util.Date)+"-SNAPSHOT"
-  IO.write(baseDirectory.value / "version.txt", snapshot)
-  snapshot
-}
-
-//addCommandAlias("snap", """; snapshot ; set version := scala.io.Source.fromFile("version.txt").getLines.next ; publishLocal""")
+mainClass := Some("agilesites.Main")

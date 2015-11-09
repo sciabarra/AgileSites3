@@ -3,7 +3,6 @@ package agilesitesng.wem
 import agilesites.Utils
 import agilesitesng.wem.actor.Protocol
 import Protocol.{Reply, Put}
-import agilesitesng.wem.model.WemModel
 import akka.actor.ActorRef
 import akka.pattern.ask
 import akka.util.Timeout

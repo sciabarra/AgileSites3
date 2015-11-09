@@ -3,7 +3,7 @@ package agilesitesng.deploy
 import java.net.URLEncoder
 
 import agilesites.config.AgileSitesConfigKeys._
-import agilesitesng.Utils
+import agilesites.Utils
 import agilesitesng.deploy.actor.DeployProtocol._
 import agilesitesng.deploy.model.Spooler
 import akka.pattern.ask

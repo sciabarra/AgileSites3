@@ -2,6 +2,9 @@ package agilesitesng.setup
 
 import java.io.File
 import java.net.URL
+import agilesites.config.AgileSitesConfigKeys._
+import agilesites.Utils
+
 import scala.io.Source
 import akka.actor.ActorSystem
 import agilesitesng.wem.WemFrontend
@@ -19,7 +22,8 @@ import net.liftweb.json._
  */
 trait NgSetupSupport
   extends LazyLogging
-  with Encoding {
+  with Encoding
+  with Utils {
 
   val libFolder = new File(new File(sys.props("user.dir")), "project/WEB-INF/lib")
   val typesToEnable = Seq("CSElement", "SiteEntry")
@@ -64,7 +68,7 @@ trait NgSetupSupport
    * @param site
    * @return
    */
-  def loadAssetMap(wem: WemFrontend, site: String): Map[String, String] = {
+  def loadAssetMap(wem: WemFrontend, site: String, log: sbt.Logger): Map[String, String] = {
 
     val map = Map.empty[String, String]
 
@@ -73,8 +77,8 @@ trait NgSetupSupport
     val jsonMap = wem.request(req)._1
 
     val jsonMap1 = if ((jsonMap \ "info") == JNothing) {
-      importCSElement(wem, map, site, info)
-      importSiteEntry(wem, map, site, "AAAgileInfo")
+      importCSElement(wem, map, site, info, log)
+      importSiteEntry(wem, map, site, "AAAgileInfo", log)
       wem.request(req)._1
     } else jsonMap
 
@@ -92,7 +96,7 @@ trait NgSetupSupport
     ls.toSeq.toMap
   }
 
-  def importCSElement(wem: WemFrontend, map: Map[String, String], site: String, resource: String): Unit = {
+  def importCSElement(wem: WemFrontend, map: Map[String, String], site: String, resource: String, log: sbt.Logger): Unit = {
     // search for a cselement with a given value
 
     val fileName = resource.split("/").last
@@ -101,57 +105,54 @@ trait NgSetupSupport
 
     if (id.nonEmpty) {
       val u = s"/sites/${site}/types/CSElement/assets/${id.get}"
-      print(s">>>>Delete ${u}")
       val (cur, st) = wem.request(Delete(u))
-      println(s":${st}")
+      log.debug(s"Delete ${u}:${st}")
+      //print("-")
     }
 
     val u = s"/sites/${site}/types/CSElement/assets/0"
     val msg = WemCSElement.build(site, resource)
-    print(s">>>>Put ${u}")
     val (cur, st) = wem.request(Put(u, msg))
-    println(s":${st}")
+    log.debug(s"Put ${u}:${st}")
+    print(s"${assetName} ")
   }
 
-  def importSiteEntry(wem: WemFrontend, map: Map[String, String], site: String, assetName: String): Unit = {
+  def importSiteEntry(wem: WemFrontend, map: Map[String, String], site: String, assetName: String, log: sbt.Logger): Unit = {
     // search for a cselement with a given value
     val id = map.get(s"SiteEntry:${assetName}")
     //val u = new java.net.URL(wem.base)
 
     if (id.nonEmpty) {
       val u = s"/sites/${site}/types/SiteEntry/assets/${id.get}"
-      print(s">>Delete ${u}")
       val (cur, st) = wem.request(Delete(u))
-      print(s"${st}\n")
+      //print("-")
+      log.debug("Delete ${u}:${st}")
     }
 
     val u = s"/sites/${site}/types/SiteEntry/assets/0"
     //println(s"${assetName}: Put(${u}: ${pretty(render(j))}")
-    print(s">>Put ${u}")
     val msg = Put(u, WemSiteEntry.build(site, assetName))
     val (cur, st) = wem.request(msg)
-    println(s":${st}")
+    log.debug("Put ${u}:${st}")
+    print(s"${assetName} ")
   }
 
-  def downloadJars(wem: WemFrontend, list: String, target: File): Unit = {
-    println(s">>>> Download ${list}")
+  def downloadJars(wem: WemFrontend, list: String, target: File, log: sbt.Logger): Unit = {
+    log.debug(s"Download ${list}")
     target.mkdirs()
     val is = this.getClass.getClassLoader.getResourceAsStream(list)
     for (filename <- Source.fromInputStream(is).getLines()) {
       val file = new File(target, filename)
-      if (file.exists) {
-        println(s"Exist ${filename}, skipping.")
-      } else {
-        println(s">>>>${filename}")
+      if (!file.exists) {
         val u = s"?pagename=AAAgileInfo&d=&jar=/WEB-INF/lib/${filename}"
-        println(u)
+        log.debug(s"${u}")
         val req = Get(u)
         val JString(body) = wem.request(req)._1
         writeFileBase64(file, body)
+        println(filename)
       }
     }
   }
-
 
   def akka = {
     val cl = getClass.getClassLoader
@@ -161,55 +162,59 @@ trait NgSetupSupport
     ActorSystem("sbt-web", config, cl)
   }
 
+
   // return None if ok, Some(error) otherwise
-  def doSetup(url: URL, user: String, password: String): Option[String] = {
-
+  def doSetup(url: URL, user: String, password: String, incremental: Boolean, log: sbt.Logger): Option[String] = {
     try {
-
-      //println("Reading: ")
-      //println(this.getClass.getClassLoader.getResourceAsStream("application.conf").read())
-
       val wem = new WemFrontend(akka, url, user, password)
 
-      println(">> Enabling Types")
-      typesToEnable foreach {
-        enableType(wem, "AdminSite", _)
-      }
+      if (!incremental) {
+        println("Initializing")
+        typesToEnable foreach {
+          enableType(wem, "AdminSite", _)
+        }
+        val map = loadAssetMap(wem, "AdminSite", log)
+        //println(map)
 
-      println(">> Loading Asset Map")
-      val map = loadAssetMap(wem, "AdminSite")
-      println(map)
+        // import cselements
+        print(s"Importing CSElements: ")
+        csElements foreach { it: String =>
+          importCSElement(wem, map, "AdminSite",
+            s"aaagile/ElementCatalog/${it}", log)
+        }
+        println()
 
-      // import cselements
-      csElements foreach { it: String =>
-        println(s">> Importing CSElement:${it}")
+        // import site entries
+        print(s"Importing SiteEntries: ")
+        siteEntries foreach { it: String =>
+          importSiteEntry(wem, map, "AdminSite", it, log)
+        }
+        println()
+
+        val version = map("Info:sites.version")
+        val files = s"jars.${version}.txt";
+        val lib = libFolder
+        downloadJars(wem, files, lib, log)
+      } else {
+        val map = loadAssetMap(wem, "AdminSite", log)
         importCSElement(wem, map, "AdminSite",
-          s"aaagile/ElementCatalog/${it}")
+          s"aaagile/ElementCatalog/AAAgileServices.txt", log)
+
       }
-
-      // import site entries
-      siteEntries foreach { it: String =>
-        println(s">> Importing SiteEntry:${it}")
-        importSiteEntry(wem, map, "AdminSite", it)
-      }
-
-      val version = map("Info:sites.version")
-      val files = s"jars.${version}.txt";
-      val lib = libFolder // new File(libFolder, sys.props.getOrElse("profile", "") + version)
-
-      downloadJars(wem, files, lib)
       wem.quit
-      /*templates foreach { filename: String =>
-        importTemplate(wem, "AdminSite", new File(importFolder, filename))
-      }*/
+
+      // completing setup asking for version and forcing reload
+      val req = s"${url}/ContentServer?pagename=AAAgileService" +
+        s"&op=version&username=${user}&password=${password}&" +
+        (if (incremental) "refresh=1" else "reload=1")
+      println(httpCallRaw(req))
 
       None
     } catch {
       case ex: Throwable =>
         ex.printStackTrace
-        logger.error("Error in setup", ex)
+        log.error(ex.getMessage)
         Some(ex.getMessage)
     }
   }
-
 }

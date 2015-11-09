@@ -1,1 +1,4 @@
-set JOPTS=%JOPTS% -Dlogback.debug=true
+REM debug which log file used
+REM set JOPTS=%JOPTS% -Dlogback.debug=true
+REM enable development using souce plugin
+REM set JOPTS=%JOPTS% -Duse.source.luke=..\plugin

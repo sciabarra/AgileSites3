@@ -1,7 +1,7 @@
 package agilesitesng.setup
 
 import agilesites.config.{AgileSitesConfigKeys, AgileSitesConfigPlugin}
-import agilesitesng.Utils
+import agilesites.Utils
 import sbt._, Keys._
 
 /**
@@ -9,22 +9,17 @@ import sbt._, Keys._
  */
 object NgSetupPlugin
   extends AutoPlugin
-  with ConcatSettings
   with TagSettings
-  with SetupSettings {
+  with SetupSettings
+  with UpgradeSettings {
 
   val autoImport = NgSetupKeys
 
   override def requires = AgileSitesConfigPlugin
 
-  //override def trigger = AllRequirements
 
-  import AgileSitesConfigKeys._
-
-
-  override val projectSettings =
-    concatSettings ++
-      tagSettings ++
-      setupSettings
+  override val projectSettings = setupSettings ++
+    upgradeSettings ++
+    tagSettings
 
 }
