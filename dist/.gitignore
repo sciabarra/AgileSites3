@@ -8,3 +8,5 @@ mysetenv.sh
 project/boot/
 project/*.txt
 project/WEB-INF/
+project/conf/application.conf
+project/conf/logback-test.xml

@@ -14,12 +14,11 @@ import scala.collection.generic.SeqFactory
  */
 object WemCSElement extends Encoding {
 
-  def build(site: String, resource: String) = {
-
-    val fileName = resource.split("/").last
-    val elementName = fileName.split("\\.").head
-    val fileData = base64Resource(resource)
+  def makeJson(site: String,
+               fileName: String,
+               fileData: String) = {
     val now = jsonFormatDate(new java.util.Date())
+    val elementName = fileName.split("\\.").head
     parse(
       s"""
         |{
@@ -54,22 +53,29 @@ object WemCSElement extends Encoding {
         |}""".stripMargin)
   }
 
+  def build(site: String, resource: String) = {
+    val fileName = resource.split("/").last
+    val fileData = base64resource(resource)
+    makeJson(site, fileName, fileData)
+  }
+
+  def build(site: String, file: File) = {
+    val fileName = file.getName
+    val fileData = base64file(file)
+    makeJson(site, fileName, fileData)
+  }
 
   def update(json: JValue, site: String, resource: String, id: String) = {
     // update file
-
     val name = resource.split("/").last.split("\\.").head
-    val fileData = base64Resource(resource)
+    val fileData = base64resource(resource)
     val now = jsonFormatDate(new java.util.Date())
-
     json transform {
-
       case JField("blobValue", JObject(List(
       JField("filename", JString(filename)),
       JField("foldername", JString(foldername)),
       JField("filedata", JString(_)),
       JField("webreferences", webref)))) =>
-
         JField("blobValue", JObject(List(
           JField("filename", JString(filename)),
           JField("foldername", JString(foldername)),

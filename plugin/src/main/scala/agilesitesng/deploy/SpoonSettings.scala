@@ -15,9 +15,6 @@ trait SpoonSettings {
   import NgDeployKeys._
 
   val spoonTask = spoon in ng := {
-
-    println("**** new spoon ****")
-
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val uid = baseDirectory.value / "src" / "main" / "resources" / name.value / "uid.properties"
     val source = baseDirectory.value / "src" / "main" / "java"
@@ -31,6 +28,7 @@ trait SpoonSettings {
 
     val sourceClasspath = (fullClasspath in Compile).value.files.filter(_.exists).map(_.getAbsolutePath)
     val spoonClasspath = ngSpoonClasspath.value.filter(_.exists).map(_.getAbsoluteFile)
+
     val sourceAndSpoonClasspath = spoonClasspath ++ sourceClasspath
 
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
@@ -74,6 +72,7 @@ trait SpoonSettings {
       runJVMOptions = jvmOpts,
       workingDirectory = Some(baseDirectory.value))
 
+    // println("** hello from plugin **")
     Fork.java(forkOpt, runOpts)
 
     spool

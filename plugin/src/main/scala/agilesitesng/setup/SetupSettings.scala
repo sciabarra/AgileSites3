@@ -1,10 +1,10 @@
 package agilesitesng.setup
 
-import java.util.{Scanner, Properties}
 
-import agilesites.Utils
 import sbt._
 import Keys._
+import agilesites.Utils
+import java.util.{Scanner, Properties}
 
 /**
  * Created by msciab on 04/11/15.
@@ -17,20 +17,24 @@ trait SetupSettings
   import NgSetupKeys._
   import agilesites.config.AgileSitesConfigKeys._
 
-
-  lazy val iSetupTask = isetup in ng := {
-    doSetup(new java.net.URL(sitesUrl.value), sitesUser.value, sitesPassword.value,
-      true,
-      streams.value.log)
+  lazy val setupOnlyTask = setupOnly in ng := {
+    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
+    val args1 = if(args.isEmpty) Seq(setupOnlyDefault.value) else args
+    for (filename <- args1) {
+      val file = new java.io.File(filename)
+      if (file.exists)
+        doSetupOnly(new java.net.URL(sitesUrl.value), sitesUser.value, sitesPassword.value,
+          "AdminSite", file, streams.value.log)
+      else
+        println(s"${file} does not exist")
+    }
   }
-
 
   lazy val setupTask = setup in ng := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val log = streams.value.log
 
     try {
-
       val scanner = new Scanner(System.in);
       val prp = new Properties
       val file = new java.io.File("agilesites.properties")
@@ -63,7 +67,7 @@ trait SetupSettings
       prp.setProperty("sites.pass", pass)
       prp.setProperty("sites.port", url.getPort.toString)
 
-      val err = doSetup(url, user, pass, false, streams.value.log)
+      val err = doSetup(url, user, pass, streams.value.log)
       if (err.isEmpty) {
         val fw = new java.io.FileWriter("agilesites.properties")
         prp.store(fw, "Created by AgileSites")
@@ -79,5 +83,6 @@ trait SetupSettings
     }
   }
 
-  val setupSettings = Seq(setupTask, iSetupTask)
+  val setupSettings = Seq(setupTask, setupOnlyTask,
+  setupOnlyDefault := "../plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt")
 }

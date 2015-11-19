@@ -17,6 +17,8 @@ object NgSetupKeys {
 
   lazy val setup = inputKey[Option[String]]("Installing AgileSites")
 
-  lazy val isetup = inputKey[Option[String]]("Incremental Installing AgileSites")
+  lazy val setupOnly = inputKey[Unit]("Incremental Installing AgileSites")
+
+  lazy val setupOnlyDefault = settingKey[String]("Default setupOnlyFile")
 
 }

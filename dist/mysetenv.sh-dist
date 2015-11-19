@@ -1,6 +1,4 @@
 #set -x
-#debug which log file used
-#JOPTS="$JOPTS -Dlogback.debug=true"
-# enable development using souce plugin
-#JOPTS="$JOPTS -Duse.source.luke=../plugin"
+# decomment debug which logback/akka file is used
+#JOPTS="$JOPTS -Dlogback.debug=true -Dconfig.trace=loads"
 

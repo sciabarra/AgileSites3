@@ -2,7 +2,6 @@ package agilesitesng.setup
 
 import java.io.File
 import java.net.URL
-import agilesites.config.AgileSitesConfigKeys._
 import agilesites.Utils
 
 import scala.io.Source
@@ -162,51 +161,42 @@ trait NgSetupSupport
     ActorSystem("sbt-web", config, cl)
   }
 
-
   // return None if ok, Some(error) otherwise
-  def doSetup(url: URL, user: String, password: String, incremental: Boolean, log: sbt.Logger): Option[String] = {
+  def doSetup(url: URL, user: String, password: String, log: sbt.Logger): Option[String] = {
     try {
       val wem = new WemFrontend(akka, url, user, password)
 
-      if (!incremental) {
-        println("Initializing")
-        typesToEnable foreach {
-          enableType(wem, "AdminSite", _)
-        }
-        val map = loadAssetMap(wem, "AdminSite", log)
-        //println(map)
-
-        // import cselements
-        print(s"Importing CSElements: ")
-        csElements foreach { it: String =>
-          importCSElement(wem, map, "AdminSite",
-            s"aaagile/ElementCatalog/${it}", log)
-        }
-        println()
-
-        // import site entries
-        print(s"Importing SiteEntries: ")
-        siteEntries foreach { it: String =>
-          importSiteEntry(wem, map, "AdminSite", it, log)
-        }
-        println()
-
-        val version = map("Info:sites.version")
-        val files = s"jars.${version}.txt";
-        val lib = libFolder
-        downloadJars(wem, files, lib, log)
-      } else {
-        val map = loadAssetMap(wem, "AdminSite", log)
-        importCSElement(wem, map, "AdminSite",
-          s"aaagile/ElementCatalog/AAAgileServices.txt", log)
-
+      println("Initializing")
+      typesToEnable foreach {
+        enableType(wem, "AdminSite", _)
       }
+      val map = loadAssetMap(wem, "AdminSite", log)
+      //println(map)
+
+      // import cselements
+      print(s"Importing CSElements: ")
+      csElements foreach { it: String =>
+        importCSElement(wem, map, "AdminSite",
+          s"aaagile/ElementCatalog/${it}", log)
+      }
+      println()
+
+      // import site entries
+      print(s"Importing SiteEntries: ")
+      siteEntries foreach { it: String =>
+        importSiteEntry(wem, map, "AdminSite", it, log)
+      }
+      println()
+
+      val version = map("Info:sites.version")
+      val files = s"jars.${version}.txt";
+      val lib = libFolder
+      downloadJars(wem, files, lib, log)
       wem.quit
 
       // completing setup asking for version and forcing reload
       val req = s"${url}/ContentServer?pagename=AAAgileService" +
-        s"&op=version&username=${user}&password=${password}&" +
-        (if (incremental) "refresh=1" else "reload=1")
+        s"&op=version&username=${user}&password=${password}&reload=1"
       println(httpCallRaw(req))
 
       None
@@ -217,4 +207,44 @@ trait NgSetupSupport
         Some(ex.getMessage)
     }
   }
+
+  // return None if ok, Some(error) otherwise
+  def doSetupOnly(url: URL, user: String, password: String, site: String, file: File, log: sbt.Logger): Option[String] = {
+    try {
+      val wem = new WemFrontend(akka, url, user, password)
+
+      val fileName = file.getName
+      val assetName = fileName.split("\\.").head
+      val map = loadAssetMap(wem, "AdminSite", log)
+      val id = map.get(s"CSElement:${assetName}")
+
+      print(s"Importing CSElements: ${assetName} ")
+      if (id.nonEmpty) {
+        val u = s"/sites/${site}/types/CSElement/assets/${id.get}"
+        val (cur, st) = wem.request(Delete(u))
+        log.debug(s"Delete ${u}:${st}")
+        //print("-")
+      }
+      val u = s"/sites/${site}/types/CSElement/assets/0"
+      val msg = WemCSElement.build(site, file)
+      val (cur, st) = wem.request(Put(u, msg))
+      log.debug(s"Put ${u}:${st}")
+      print(s"${assetName} ")
+
+      // completing setup asking for version and forcing reload
+      val req = s"${url}/ContentServer?pagename=AAAgileService" +
+        s"&op=version&username=${user}&password=${password}&" +
+        "refresh=1"
+      println(httpCallRaw(req))
+      wem.quit
+
+      None
+    } catch {
+      case ex: Throwable =>
+        ex.printStackTrace
+        log.error(ex.getMessage)
+        Some(ex.getMessage)
+    }
+  }
+
 }

@@ -1,3 +1,14 @@
+
+- problemi con lilith se non ci sta
+
+- metti un settings setupOnlyDefault e impostalo di default
+
+TODO
+  - scarica i tld che mi servono
+  - builda i wrapper per i tld
+
+DONE
+
 *  elimino la lib
 
 * lancio l'installer
@@ -6,7 +17,3 @@
 
 * buildo il plugin
    * concatena le api nel posto giusto
-
-TODO
-  - scarica i tld che mi servono
-  - builda i wrapper per i tld

@@ -21,6 +21,18 @@ trait Encoding {
     baos.toByteArray
   }
 
+  def readFileAsArray(file: File): Array[Byte] = {
+    //println("***"+resource)
+    val is = new FileInputStream(file)
+    val baos = new java.io.ByteArrayOutputStream
+    var c = is.read
+    while(c != -1) {
+      baos.write(c)
+      c = is.read
+    }
+    baos.toByteArray
+  }
+
   import scala.collection.immutable.HashMap
 
   /**
@@ -95,7 +107,9 @@ trait Encoding {
 
   import Base64._
 
-  def base64Resource(res: String): String = readResourceAsArray(res).toBase64
+  def base64resource(res: String): String = readResourceAsArray(res).toBase64
+
+  def base64file(file: File): String = readFileAsArray(file).toBase64
 
   def writeFileBase64(file: File, body: String) = {
     val array: Array[Byte] = body.toByteArray

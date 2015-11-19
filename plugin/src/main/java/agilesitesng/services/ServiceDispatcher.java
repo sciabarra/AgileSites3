@@ -33,6 +33,8 @@ public class ServiceDispatcher {
             return new ScatterGatherService();
         if (name.equals("echo"))
             return new MiscService();
+        if (name.equals("hello"))
+            return new MiscService();
         if (name.equals("reverse"))
             return new MiscService();
         if (name.equals("sql"))
