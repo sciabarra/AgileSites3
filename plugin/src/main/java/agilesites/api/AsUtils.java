@@ -18,7 +18,6 @@ import java.util.*;
  */
 public class AsUtils {
 
-
     /**
      * Create a list from multiple arguments
      */

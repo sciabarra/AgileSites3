@@ -38,7 +38,7 @@ class HubSpec
     val f = hub ? Connect(Some(url), Some(user), Some(pass))
     Await.result(f, s3) === Status(OK)
 
-    val Reply(json) = Await.result(hub ? Get("/sites"), s3)
+    val Reply(json, status) = Await.result(hub ? Get("/sites"), s3)
     info(pretty(render(json)))
 
     Await.result(hub ? Disconnect(), s3) === Status(OK)

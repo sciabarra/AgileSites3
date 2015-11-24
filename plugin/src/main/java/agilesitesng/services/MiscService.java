@@ -1,7 +1,8 @@
 package agilesitesng.services;
 
 import COM.FutureTense.Interfaces.ICS;
-
+import agilesites.api.IcsTag;
+import agilesites.api.Log;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,8 +11,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MiscService implements Service {
 
+    final static long loadTime = System.currentTimeMillis();
+
+    final static Log log = Log.getLog(MiscService.class);
+
     public String hello(ICS ics) {
-        return "hello #2";
+        String msg = "hello, "+loadTime;
+        log.debug(msg);
+        //System.out.println("hello");
+        return msg;
     }
 
     public String echo(ICS ics) {

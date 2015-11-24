@@ -29,7 +29,7 @@ public class Api {
     /**
      * Create an arg holder
      *
-     * @param name of the arg
+     * @param name  of the arg
      * @param value of the arg
      * @return the arg object
      */
@@ -40,7 +40,7 @@ public class Api {
     /**
      * Create list of args
      *
-     * @param name of the arg
+     * @param name   of the arg
      * @param values of the arg
      * @return the multiple args object
      */
@@ -71,7 +71,7 @@ public class Api {
     /**
      * Create an id
      *
-     * @param c the content type
+     * @param c   the content type
      * @param cid the content id
      * @return the id object
      */
@@ -184,13 +184,13 @@ public class Api {
     }
 
 
-
     /**
      * Stream an exceptions in a string
      */
     public static String ex2str(Throwable ex) {
         CharArrayWriter caw = new CharArrayWriter();
-        ex.printStackTrace(new PrintWriter(caw));
+        if (ex != null)
+            ex.printStackTrace(new PrintWriter(caw));
         return caw.toString();
     }
 

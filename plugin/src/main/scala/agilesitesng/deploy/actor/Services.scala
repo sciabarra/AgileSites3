@@ -1,20 +1,22 @@
 package agilesitesng.deploy.actor
 
 import java.net.URL
-import akka.actor.{ActorRef, Actor, ActorLogging, Props}
-import akka.event.LoggingReceive
+
+import agilesitesng.wem.actor.Protocol
+import agilesitesng.wem.actor.Protocol.WemMsg
+import akka.actor.{ActorRef, ActorLogging, Actor, Props}
+import akka.event.LoggingAdapter
 import akka.io.IO
+import akka.util.ByteStringBuilder
+import net.liftweb.json._
+import org.slf4j.Logger
 import spray.http.HttpHeaders.{Cookie, `Set-Cookie`}
-import spray.http.{FormData, HttpResponse, Uri}
+import spray.http._
 import spray.http.Uri.{Query, Path, Host, Authority}
 import spray.httpx.RequestBuilding._
 
-import scala.concurrent.Await
-import scala.util.{Failure, Success}
-import akka.pattern.ask
-
 /**
- * Created by msciab on 04/08/15.
+ * Created by msciab on 21/11/15.
  */
 object Services {
 
@@ -22,127 +24,158 @@ object Services {
 
   def actor() = Props[ServicesActor]
 
+  // build a get request
+  def buildGet(op: String, params: Tuple2[String, String]*)
+              (url: URL, cookie: Cookie, log: LoggingAdapter) =
+    buildGetMap(op, params.toMap)(url, cookie, log)
+
+  // build a get request out of a map
+  def buildGetMap(op: String, params: Map[String, String])
+                 (url: URL, cookie: Cookie, log: LoggingAdapter) = {
+    val uri = Uri(url.getProtocol,
+      authority = Authority(Host(url.getHost), url.getPort),
+      path = Path(url.getPath + "/ContentServer"),
+      query = Query(params + ("pagename" -> "AAAgileService") + ("op" -> op) + ("d" -> "")))
+    val req = Get(uri) ~> addHeaders(cookie)
+    println(req.toString)
+    log.debug(req.toString)
+    req
+  }
+
+  def buildPostMap(op: String, params: Map[String, String])
+                  (url: URL, cookie: Cookie, authKey: String, log: LoggingAdapter) = {
+    val uri = Uri(url.getProtocol,
+      authority = Authority(Host(url.getHost), url.getPort),
+      path = Path(url.getPath + "/ContentServer"))
+    val data = params.toSeq ++
+      Seq("pagename" -> "AAAgileService", "op" -> op, "_authkey_" -> authKey)
+    val req = Post(uri, FormData(data)) ~> addHeaders(cookie)
+    log.debug(req.toString)
+    req
+  }
+
   class ServicesActor
     extends Actor
     with ActorLogging
     with ActorUtils {
 
     implicit val system = context.system
-
     val http = IO(spray.can.Http)
+    var url: java.net.URL = null
+    var cookie = Cookie(Seq())
+    var authKey = Option.empty[String]
 
-    def receive: Receive = preLogin(None, None, Cookie(Seq()), None)
+    def receive = {
+      case Ask(origin, ServiceLogin(_url, username, password)) =>
+        if (authKey.nonEmpty) {
+          origin ! ServiceReply("OK - already logged in")
+        } else {
+          url = _url
+          http ! buildGet("login", "username" -> username,
+            "password" -> password)(url, cookie, log)
+          log.debug(s"${username}/${password} -> ${url}")
+          context.become(waitForHttpReply(origin))
+        }
 
-    // build a get request
-    def buildGet(op: String, params: Tuple2[String, String]*)
-                (url: URL, cookie: Cookie) = buildGetMap(op, params.toMap)(url, cookie)
+      case ServiceLogin(_url, username, password) =>
+        if (authKey.nonEmpty) {
+          context.sender ! ServiceReply("OK - already logged in")
+        } else {
+          url = _url
+          http ! buildGet("login", "username" -> username,
+            "password" -> password)(url, cookie, log)
+          log.debug(s"${username}/${password} -> ${url}")
+          context.become(waitForHttpReply(context.sender))
+        }
 
-    // build a get request out of a map
-    def buildGetMap(op: String, params: Map[String, String])
-                   (url: URL, cookie: Cookie) = {
+      case ServiceGet(args) =>
+        val op = args.get("op")
+        log.debug(s"op=${op}")
+        if (op.isEmpty) {
+          log.info(s"sender ${context.sender}")
+          context.sender ! ServiceReply("ERROR: missing op")
+        } else {
+          http ! buildGetMap(op.get, args - "op")(url, cookie, log)
+          context.become(waitForHttpReply(context.sender))
+        }
 
-      val uri = Uri(url.getProtocol,
-        authority = Authority(Host(url.getHost), url.getPort),
-        path = Path(url.getPath + "/ContentServer"),
-        query = Query(params + ("pagename" -> "AAAgileService") + ("op" -> op)))
+      case ServicePost(args) =>
+        log.debug(args.toString)
+        val op = args.get("op")
+        if (op.isEmpty) {
+          sender ! ServiceReply("ERROR: missing op")
+        } else {
+          http ! buildPostMap(op.get, args - "op")(url, cookie, authKey.get, log)
+          context.become(waitForHttpReply(context.sender))
+        }
 
-      val req = Get(uri) ~> addHeaders(cookie)
-      log.debug(s"buildGet=${req.toString}")
-      req
+
     }
 
-    def buildPostMap(op: String, params: Map[String, String])
-                    (url: URL, cookie: Cookie, authKey: String) = {
-      val uri = Uri(url.getProtocol,
-        authority = Authority(Host(url.getHost), url.getPort),
-        path = Path(url.getPath + "/ContentServer"))
-      val data = params.toSeq ++
-        Seq("pagename" -> "AAAgileService", "op" -> op, "_authkey_" -> authKey)
-      val req = Post(uri, FormData(data)) ~> addHeaders(cookie)
-      log.debug(s"buildPost=${data} ${cookie}")
-      req
-    }
+    var chunkedResponse: HttpResponse = null
+    var chunkCollector: ByteStringBuilder = null
 
-    def preLogin(origin: Option[ActorRef],
-                 url: Option[URL],
-                 cookie: Cookie,
-                 authKey: Option[String]): Receive = LoggingReceive {
-
-      case Ask(origin, ServiceLogin(url, username, password)) =>
-        log.debug(s"${username}/${password} -> ${url}")
-        http ! buildGet("login", "username" -> username, "password" -> password)(url, cookie)
-        context.become(preLogin(Some(origin), Some(url), cookie, None))
-
-      case res: HttpResponse =>
-        val body = res.entity.asString.trim
+    /** Process requests - either normal and authentication */
+    def processRequest(origin: ActorRef, res: HttpResponse, body: String) = {
+      println(s"Process Request: ${body}")
+      if (authKey.nonEmpty) {
+        println(s"Sending ${origin} !${body}")
+        // we are running request/response loop
+        origin ! ServiceReply(body)
+        context.unbecome()
+        flushQueue
+      } else {
+        // we still need autheticate
+        //val body = res.entity.asString.trim
         val headers = res.headers
-        log.debug(s"body: ${body} headers: ${headers}")
-
         if (cookie.cookies.isEmpty) {
-          // no cookie waiting for Set-Cookie
-          // get Seq[HttpHeader] for Set-Cookie
+          println("Looking for cookies")
           val cookies = headers.filter(_.isInstanceOf[`Set-Cookie`]).map(_.asInstanceOf[`Set-Cookie`].cookie).toSeq
-          if (cookies.isEmpty || !body.equals("0")) {
-            origin.get ! ServiceReply(s"KO code=${body} cookies=${cookies.mkString(";")}")
+          log.debug(cookies.toString)
+          if (cookies.isEmpty) {
+            origin ! ServiceReply(s"KO code=${body} cookies=${cookies.mkString(";")}")
             context.unbecome()
           } else {
-            val ncookie = Cookie(cookies)
-            http ! buildGet("authkey")(url.get, ncookie)
-            context.become(preLogin(origin, url, ncookie, None))
+            cookie = Cookie(cookies)
+            http ! buildGet("authkey")(url, cookie, log)
           }
         } else {
-          // got cookie, lookign for authkey
-          val authKey = body
-          origin.get ! ServiceReply(s"OK ${authKey}")
-          context.become(postLogin(url.get, cookie, authKey))
+          // got cookie, looking for authkey
+          println("Looking for session key (" + cookie + ")")
+          authKey = Some(body)
+          origin ! ServiceReply(s"OK ${authKey}")
+          context.unbecome()
           flushQueue
         }
-      case msg: Object => enqueue(msg)
+      }
     }
 
-    def postLogin(url: URL, cookie: Cookie, authKey: String): Receive = LoggingReceive {
+    def waitForHttpReply(ref: ActorRef): Receive = {
+      case ChunkedResponseStart(res) =>
+        print("chunk:")
+        chunkCollector = new ByteStringBuilder
+        chunkedResponse = res
 
-      case Ask(origin, ServiceLogin(url, username, password)) =>
-        origin ! ServiceReply("OK - already logged in")
+      case MessageChunk(data, _) =>
+        print(".")
+        chunkCollector ++= data.toByteString
 
-      // send a get request wait for an answer
-      case ServiceGet(args) =>
-        val op = args("op")
-        if (op.isEmpty) {
-          sender ! ServiceReply("ERROR: missing op")
-        } else {
-          val msg = buildGetMap(op, args - "op")(url, cookie)
-          val origin = context.sender()
+      case ChunkedMessageEnd(_, _) =>
+        val body = chunkCollector.result.decodeString("UTF-8")
+        println(";" + body)
+        processRequest(ref, chunkedResponse, body)
 
-          Await.result(http ? msg, defaultDuration) match {
-            case res: HttpResponse =>
-              val body = res.entity.asString
-              origin ! ServiceReply(body)
-            case etc =>
-              origin ! ServiceReply(s"ERROR: ${etc.toString}")
-              throw new Exception("restarting")
-          }
-        }
+      case res: HttpResponse =>
+        //println("response!")
+        val body = res.entity.asString
+        ref ! ServiceReply(body)
+        context.unbecome()
+        flushQueue
 
-      // send a post request wait for an answer
-      case ServicePost(args) =>
-        val op = args("op")
-        if (op.isEmpty) {
-          sender ! ServiceReply("ERROR: missing op")
-        } else {
-          val msg = buildPostMap(op, args - "op")(url, cookie, authKey)
-          val origin = context.sender()
-          Await.result(http ? msg, defaultDuration) match {
-            case res: HttpResponse =>
-              val body = res.entity.asString
-              origin ! ServiceReply(body)
-            case etc =>
-              origin ! ServiceReply(s"ERROR: ${etc.toString}")
-          }
-        }
+      case msg: WemMsg =>
+        enqueue(msg)
     }
+
   }
 
 }
-
-

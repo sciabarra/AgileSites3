@@ -1,6 +1,7 @@
 package agilesitesng.services;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.api.Log;
 import agilesites.api.UserTag;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
  * Created by msciab on 10/08/15.
  */
 public class LoginService implements Service {
+
+    Log log = Log.getLog(LoginService.class);
 
     @Override
     public String exec(HttpServletRequest req, ICS ics, HttpServletResponse res) throws Exception {

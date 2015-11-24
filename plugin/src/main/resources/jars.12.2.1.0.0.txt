@@ -176,8 +176,6 @@ sites-ucm-poller.jar
 sites-ui.jar
 sites-utilities.jar
 sites-wurfl.jar
-slf4j-api-1.7.5.jar
-slf4j-log4j12-1.7.5.jar
 snakeyaml-1.13.jar
 spring-aop-3.2.6.RELEASE.jar
 spring-beans-3.2.6.RELEASE.jar

@@ -1,15 +1,14 @@
 package agilesitesng.deploy
 
 import java.net.URL
-
+import akka.util.Timeout
+import scala.concurrent.duration._
 import agilesites.config.AgileSitesConfigKeys._
 import agilesitesng.deploy.actor.Manager
 import akka.actor.{ActorRef, PoisonPill}
-import akka.util.Timeout
 import com.typesafe.sbt.web.SbtWeb
 import sbt.Keys._
 import sbt._
-import scala.concurrent.duration._
 
 /**
  * Created by msciab on 04/08/15.

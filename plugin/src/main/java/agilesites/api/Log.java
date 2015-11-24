@@ -11,17 +11,22 @@ import org.apache.log4j.Logger;
  */
 public class Log {
 
+    private final boolean printIt = true;
+    private String className = "";
+
     private Logger logger = null;
 
-    private Log(Logger logger) {
+    private Log(Logger logger, String className) {
+        this.className = className;
         this.logger = logger;
     }
 
     /**
      * Log a trace level message - Use message as a format string for the other
      * args.
-     * @param message    to log
-     * @param args to the message
+     *
+     * @param message to log
+     * @param args    to the message
      */
     public void trace(String message, Object... args) {
         trace(null, message, args);
@@ -37,9 +42,10 @@ public class Log {
     /**
      * Log an exception then a trace level message - Use message as a format
      * string for the other args.
-     * @param exception  the exception
-     * @param message the message
-     * @param args arguments to the message
+     *
+     * @param exception the exception
+     * @param message   the message
+     * @param args      arguments to the message
      */
     public void trace(Throwable exception, String message, Object... args) {
         if (logger != null)
@@ -57,8 +63,9 @@ public class Log {
     /**
      * Write a debug message - Use message as a format string for the other
      * args.
+     *
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void debug(String message, Object... args) {
         debug(null, message, args);
@@ -67,12 +74,14 @@ public class Log {
     /**
      * Log an exception then a debug level message - Use message as a format
      * string for the other args.
-     * @param ex  the exception
+     *
+     * @param ex      the exception
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void debug(Throwable ex, String message, Object... args) {
-        // System.out.println("[DEBUG]" + className + message + e2s(ex));
+        if (printIt)
+            System.out.println("[DEBUG:" + className + "] " + message + Api.ex2str(ex));
         if (logger != null && logger.isDebugEnabled())
             logger.debug(args.length > 0 ? String.format(message, args)
                     : message, ex);
@@ -81,8 +90,9 @@ public class Log {
     /**
      * Log an info level message - Use message as a format string for the other
      * args.
+     *
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void info(String message, Object... args) {
         info(null, message, args);
@@ -91,12 +101,14 @@ public class Log {
     /**
      * Log an exception then an info level message - Use message as a format
      * string for the other args.
-     * @param ex  the exception
+     *
+     * @param ex      the exception
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void info(Throwable ex, String message, Object... args) {
-        // System.out.println("[ INFO]" + className + message + e2s(ex));
+        if (printIt)
+            System.out.println("[ INFO:" + className + "] " + message + Api.ex2str(ex));
         if (logger != null)
             logger.info(args.length > 0 ? String.format(message, args)
                     : message, ex);
@@ -112,8 +124,9 @@ public class Log {
     /**
      * Log a warn level message - Use message as a format string for the other
      * args.
+     *
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void warn(String message, Object... args) {
         warn(null, message, args);
@@ -122,13 +135,15 @@ public class Log {
     /**
      * Log an exception then a warn level message - Use message as a format
      * string for the other args.
-     * @param ex  the exception
+     *
+     * @param ex      the exception
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
     public void warn(Throwable ex, String message, Object... args) {
-        // System.out.println("[WARN ]" + className + String.format(message,
-        // args) + e2s(ex));
+        if (printIt)
+            System.out.println("[WARN :" + className + "] " + String.format(message,
+                    args) + Api.ex2str(ex));
         if (logger != null)
             logger.warn(args.length > 0 ? String.format(message, args)
                     : message, ex);
@@ -137,8 +152,9 @@ public class Log {
     /**
      * Log an error level message - Use message as a format string for the other
      * args.
+     *
      * @param message the message
-     * @param args arguments to the message
+     * @param args    arguments to the message
      */
 
     public void error(String message, Object... args) {
@@ -148,14 +164,15 @@ public class Log {
     /**
      * Log an exception then a error level message - Use message as a format
      * string for the other args.
-     * @param ex  the exception
-     * @param message the message
-     * @param args arguments to the message
      *
+     * @param ex      the exception
+     * @param message the message
+     * @param args    arguments to the message
      */
     public void error(Throwable ex, String message, Object... args) {
-        // System.out.print("[ERROR]" + className + String.format(message, args)
-        // + e2s(ex));
+        if (printIt)
+            System.out.print("[ERROR:" + className + "] " + String.format(message, args)
+                    + Api.ex2str(ex));
         if (logger != null)
             logger.error(args.length > 0 ? String.format(message, args)
                     : message, ex);
@@ -173,7 +190,7 @@ public class Log {
             logger = Logger.getLogger(className);
         else
             logger = Logger.getRootLogger();
-        return new Log(logger);
+        return new Log(logger, className);
     }
 
     /**
@@ -185,5 +202,6 @@ public class Log {
     public static Log getLog(Class<?> clazz) {
         return getLog(clazz == null ? null : clazz.getCanonicalName());
     }
+
 
 }

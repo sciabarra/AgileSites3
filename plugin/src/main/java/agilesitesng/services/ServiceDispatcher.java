@@ -1,6 +1,7 @@
 package agilesitesng.services;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.api.Log;
 import agilesites.api.UserTag;
 
 import javax.servlet.http.Cookie;
@@ -9,10 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ServiceDispatcher {
 
+    Log log = Log.getLog(ServiceDispatcher.class);
+
     public ServiceDispatcher() {
     }
 
     Service getService(String name) throws Exception {
+        log.debug(">>>"+name);
         if (name.equals("siteid"))
             return new SiteService();
         if (name.equals("site"))
@@ -65,7 +69,7 @@ public class ServiceDispatcher {
         String op = ics.GetVar("op");
         login(ics);
         Service svc = getService(op);
-        System.out.println("*** " + svc.getClass() + dumpCookie(req.getCookies()));
+        //System.out.println("*** " + svc.getClass() + dumpCookie(req.getCookies()));
         return svc.exec(req, ics, res);
 
     }

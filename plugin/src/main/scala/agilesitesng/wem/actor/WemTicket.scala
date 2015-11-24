@@ -1,7 +1,5 @@
 package agilesitesng.wem.actor
 
-import java.net.URL
-
 import agilesitesng.wem.actor.Protocol.{WemMsg, WemGet, WemPut, WemPost, WemDelete}
 import akka.actor.{Actor, ActorLogging, ActorRef, Props}
 import akka.event.LoggingReceive
@@ -10,8 +8,6 @@ import net.liftweb.json._
 import spray.http._
 import spray.httpx.RequestBuilding._
 import akka.util._
-
-import scala.collection._
 
 /**
  * Created by msciab on 25/04/15.
@@ -42,7 +38,7 @@ object WemTicket {
 
       case WemGet(ref, what) =>
         val req = Get(Uri(uri(what))) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~> // create problems with 12c
+          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
           addHeader("Accept", "application/json")
 
         log.debug("get {}", req.toString)
@@ -51,7 +47,7 @@ object WemTicket {
 
       case WemDelete(ref, what) =>
         val req = Delete(Uri(uri(what))) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~>
+          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
           addHeader("Accept", "application/json")
         log.debug("delete {}", req.toString)
         http ! req
@@ -60,7 +56,7 @@ object WemTicket {
       case WemPost(ref, what, body) =>
         val req = HttpRequest(method = HttpMethods.POST, uri = uri(what),
           entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~>
+          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
           addHeader("Accept", "application/json")
         log.debug("post {}", req.toString)
         http ! req
@@ -69,7 +65,7 @@ object WemTicket {
       case WemPut(ref, what, body) =>
         val req = HttpRequest(method = HttpMethods.PUT, uri = uri(what),
           entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
-          // ~> addHeader("X-CSRF-Token", ticket)
+          // ~> addHeader("X-CSRF-Token", ticket) // for 11g
           addHeader("Accept", "application/json")
         log.debug("put {}", req.toString)
         http ! req
@@ -93,21 +89,17 @@ object WemTicket {
 
     def waitForHttpReply(ref: ActorRef): Receive = {
       case ChunkedResponseStart(res) =>
-        //println("chunk begin!")
         chunkCollector = new ByteStringBuilder
         chunkedResponse = res
 
       case MessageChunk(data, _) =>
-        //print("*")
         chunkCollector ++= data.toByteString
 
       case ChunkedMessageEnd(_, _) =>
-        //println()
         val body = chunkCollector.result.decodeString("UTF-8")
         completeHttpRequest(ref, body, chunkedResponse)
 
       case res: HttpResponse =>
-        //println("response!")
         val body = res.entity.asString
         completeHttpRequest(ref, body, res)
 

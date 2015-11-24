@@ -27,7 +27,7 @@ class WemTicketSpec
   override def afterAll = TestKit.shutdownActorSystem(system)
 
    implicit val timeout = Timeout(3.second)
-  val url = Some(new URL("http://10.0.2.15/sites"))
+  val url = Some(new URL("http://10.0.2.15:7003/sites"))
   val cas = TestActorRef[CasActor]
   val f = cas ? Connect(url, Some("fwadmin"), Some("xceladmin"))
   val Ticket(ticket) = Await.result(f, 3.second).asInstanceOf[Ticket]
@@ -37,7 +37,7 @@ class WemTicketSpec
     val wem = TestActorRef(WemTicket.actor(ticket, url))
     wem ! Protocol.WemGet(testActor, "/sites")
     expectMsgPF(5.second) {
-      case Protocol.Reply(json) => info(pretty(render(json)))
+      case Protocol.Reply(json, status) => info(pretty(render(json)))
     }
   }
 }

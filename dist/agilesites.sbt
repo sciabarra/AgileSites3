@@ -1,5 +1,7 @@
 val ας = project.in(file("."))
 
+enablePlugins(AgileSitesNgPlugin)
+
 name := "Demo"
 
 organization := "com.sciabarra"
@@ -17,12 +19,8 @@ val pluginVer = try {
   scala.io.Source.fromFile(file("project") / "plugin" / "version.txt").getLines.next.trim
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
-libraryDependencies +=
-  "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 unmanagedBase := file("project") / "WEB-INF" / "lib"
-
-enablePlugins(AgileSitesNgPlugin)
-
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")

@@ -10,7 +10,6 @@ object NgDeployKeys {
   val ng = config("ng")
   val deploy = inputKey[Unit]("AgileSitesNg deploy")
   val spoon = inputKey[File]("invoke spoon")
-  val service = inputKey[String]("invoke a service")
   val uid = taskKey[Map[String,String]]("load uids for the site")
   val sqlSelect = inputKey[String]("invoke an sql select")
   val sqlDelete = inputKey[String]("invoke an sql delete")
@@ -21,4 +20,6 @@ object NgDeployKeys {
   val ngSpoonProcessorJars = settingKey[Seq[File]]("processors jar")
   val ngSpoonProcessors = settingKey[Seq[String]]("spoon processors")
   val ngSpoonDebug = settingKey[Boolean]("spoon debug")
+  val ngService = inputKey[String]("invoke service via http")
+  val service = inputKey[String]("invoke a service via akka")
 }
