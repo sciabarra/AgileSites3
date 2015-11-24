@@ -18,10 +18,9 @@ trait DeploySettings {
   this: AutoPlugin with Utils =>
 
   import NgDeployKeys._
-
   implicit val timeout = Timeout(10.seconds)
 
-  val uidTask = uid in ng := {
+  val ngUidTask = ngUid := {
     val prpFile = baseDirectory.value / "src" / "main" / "resources" / sitesFocus.value / "uid.properties"
     val prp = new java.util.Properties
     prp.load(new java.io.FileReader(prpFile))
@@ -33,8 +32,8 @@ trait DeploySettings {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val log = streams.value.log
 
-    /*
     val hub = ngDeployHub.value
+    val map = ngUid.value
     val spool = (spoon in ng).toTask("").value
 
     // sending objects
@@ -44,7 +43,6 @@ trait DeploySettings {
 
     val objs = deployObjects.deployObjects.filter(x => filterAllSubstring(args, x.toString))
 
-    val map = (uid in ng).value
     hub ! SpoonBegin(
       new java.net.URL(sitesUrl.value),
       sitesFocus.value, sitesUser.value,
@@ -55,7 +53,7 @@ trait DeploySettings {
     }
     hub ! SpoonEnd("")
     println(s"Deployed #${objs.size}")
-    */
+
   }
 
   val ngServiceTask = ngService := {
@@ -81,7 +79,6 @@ trait DeploySettings {
       println("usage: ng:service <op> <key=value>")
       "no args"
     } else {
-      val hub = ngDeployHub.value
 
       // input hello 0 a=1 b=2
       val opts = args.tail.map(s => if (s.indexOf("=") == -1) "value=" + s else s)
@@ -89,7 +86,7 @@ trait DeploySettings {
       val map = opts.map(_.split("=")).map(x => x(0) -> x(1)).toMap
       // output Map("value"->"0" "a" -> "1", "b" -> "2")
 
-
+      val hub = ngDeployHub.value
       var req = ServiceGet(map)
       println(">>> " + req)
       val ServiceReply(res) = Await.result(hub ? req, 10.second).asInstanceOf[ServiceReply]
@@ -98,5 +95,5 @@ trait DeploySettings {
     }
   }
 
-  def deploySettings = Seq(deployTask, uidTask, serviceTask, ngServiceTask)
+  def deploySettings = Seq(deployTask, ngUidTask, serviceTask, ngServiceTask)
 }

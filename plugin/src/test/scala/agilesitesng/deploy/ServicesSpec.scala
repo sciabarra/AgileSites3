@@ -27,6 +27,7 @@ with BeforeAndAfterAll {
 
   val config = testKitSettings.config
 
+  /*
   "login" in {
     implicit val timeout = Timeout(3.second)
 
@@ -55,4 +56,27 @@ with BeforeAndAfterAll {
       //}
     }
   }
+*/
+
+  "synclogin" in {
+    implicit val timeout = Timeout(10.second)
+    val dur = timeout.duration
+    import DeployProtocol._
+    val url = new URL("http://10.0.2.15:7003/sites")
+    val user = "fwawmin"
+    val pass = "xceladmin"
+
+    val f = svc ? ServiceLogin(url, user, pass)
+    val r = Await.result(f, dur).asInstanceOf[ServiceReply]
+    info(r.result)
+
+    val f1 = svc ? ServiceGet(Map("op" -> "version"))
+    val r1 = Await.result(f1, timeout.duration).asInstanceOf[ServiceReply]
+    info(r1.toString)
+    r1.result must startWith("Concat ")
+
+    svc ! ServiceLogout()
+  }
+
+
 }

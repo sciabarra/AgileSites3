@@ -88,6 +88,10 @@ object Services {
           context.become(waitForHttpReply(context.sender))
         }
 
+      case ServiceLogout() =>
+        log.debug("logging out")
+        authKey = None
+
       case ServiceGet(args) =>
         val op = args.get("op")
         log.debug(s"op=${op}")

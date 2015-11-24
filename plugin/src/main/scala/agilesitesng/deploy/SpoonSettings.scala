@@ -108,5 +108,8 @@ trait SpoonSettings {
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
     , ngSpoonDebug := false
+    , ngSpoon := {
+      (spoon in ng).toTask("").value
+    }
   )
 }

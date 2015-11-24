@@ -30,6 +30,7 @@ trait ActorSettings {
 
   private def init(url: java.net.URL, user: String, pass: String, state: State): State = {
     //createLogger("agilesitesng.wem")
+
     SbtWeb.withActorRefFactory(state, "Ng") {
       arf =>
         val interval = 3.second

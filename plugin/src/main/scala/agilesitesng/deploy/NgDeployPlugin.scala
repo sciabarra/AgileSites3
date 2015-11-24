@@ -14,13 +14,14 @@ object NgDeployPlugin
   with DeploySettings
   with SpoonSettings
   with SqlSettings
+  with ActorCommands
   with Utils {
 
   override def requires = JvmPlugin && SbtWeb && AgileSitesConfigPlugin
 
   val autoImport = NgDeployKeys
 
-  override def globalSettings: Seq[Setting[_]] = super.globalSettings ++ actorGlobalSettings
+  //override def globalSettings: Seq[Setting[_]] = super.globalSettings ++ actorGlobalSettings
 
-  override lazy val projectSettings = actorSettings ++ deploySettings ++ spoonSettings ++ sqlSettings
+  override lazy val projectSettings = actorCommands ++ actorSettings ++ deploySettings ++ spoonSettings ++ sqlSettings
 }
