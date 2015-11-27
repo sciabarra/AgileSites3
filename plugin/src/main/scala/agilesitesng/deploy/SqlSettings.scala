@@ -50,7 +50,6 @@ trait SqlSettings {
     }
   }
 
-
   val deleteTask = sqlDelete := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     if (args.size < 2) {

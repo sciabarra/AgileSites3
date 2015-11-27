@@ -1,21 +1,19 @@
 package agilesitesng.deploy
 
-import agilesitesng.deploy.NgDeployKeys._
-import agilesites.config.AgileSitesConfigKeys._
-
+import sbt._
+import Keys._
+import akka.pattern.ask
+import scala.concurrent.Await
+import scala.concurrent.duration._
+import agilesites.Utils
 import agilesitesng.deploy.actor.DeployProtocol._
 import agilesitesng.deploy.actor.{Collector, Services}
 import agilesitesng.deploy.model.Spooler
 import akka.actor.ActorRef
 import akka.util.Timeout
 import com.typesafe.sbt.web.SbtWeb
-import sbt._
-import akka.pattern.ask
-
-import scala.concurrent.Await
-import scala.concurrent.duration._
-import Keys._
-import agilesites.Utils
+import agilesitesng.deploy.NgDeployKeys._
+import agilesites.config.AgileSitesConfigKeys._
 
 /**
  * Created by msciab on 24/11/15.
@@ -36,13 +34,12 @@ trait ActorCommands {
     (url, focus, user, password)
   }
 
-  def serviceCmd = Command.args("nservice", "<args>") { (state, args) =>
+
+  def serviceCmd = Command.args("service", "<args>") { (state, args) =>
 
     if (args.size == 0) {
-      println("usage: ng:service <op> <key=value>")
-      "no args"
+      println("usage: service <op> <key=value>")
     } else {
-
       // input hello 0 a=1 b=2
       val opts = args.map(s => if (s.indexOf("=") == -1) "value=" + s else s)
       // output List("value=0", "a=1", "b=2")
@@ -62,7 +59,7 @@ trait ActorCommands {
     state
   }
 
-  def doDeploy(spool: File, hub: ActorRef, map: Map[String,String], args: Seq[String]) {
+  def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String]) {
     val deployObjects = Spooler.load(readFile(spool))
 
     def filterAllSubstring(args: Seq[String], s: String) = args.map(s.indexOf(_) != -1).fold(true)(_ && _)
@@ -70,6 +67,7 @@ trait ActorCommands {
     val objs = deployObjects.deployObjects.filter(x => filterAllSubstring(args, x.toString))
 
     for (obj <- objs) {
+      println(obj.toString)
       //log.debug(obj.toString)
       hub ! SpoonData(obj)
     }
@@ -78,7 +76,7 @@ trait ActorCommands {
 
   }
 
-  def deployCmd = Command.args("ndeploy", "<args>") { (state, args) =>
+  def deployCmd = Command.args("deploy", "<args>") { (state, args) =>
 
     val result: Option[(State, Result[File])] = Project.runTask(ngSpoon, state)
     result match {
@@ -92,6 +90,7 @@ trait ActorCommands {
             val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
             result match {
               case Some((newState, Value(map))) =>
+                println(">>> begin")
                 coll ! SpoonBegin(url, focus, user, password, map)
                 doDeploy(spool, coll, map, args)
               case _ => println("cannot get uid map")

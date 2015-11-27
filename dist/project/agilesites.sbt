@@ -12,4 +12,4 @@ addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0")
 
-resourceDirectory in Compile := baseDirectory.value / "conf"
+val plugin = project.in(file(".")).dependsOn((file("project")/"conf").toURI)

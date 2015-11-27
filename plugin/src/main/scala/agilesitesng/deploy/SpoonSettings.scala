@@ -3,6 +3,7 @@ package agilesitesng.deploy
 import java.io.File
 
 import agilesites.AgileSitesConstants
+import agilesites.config.AgileSitesConfigKeys._
 import sbt.Keys._
 import sbt._
 
@@ -13,6 +14,14 @@ trait SpoonSettings {
   this: AutoPlugin =>
 
   import NgDeployKeys._
+
+  val ngUidTask = ngUid := {
+    val prpFile = baseDirectory.value / "src" / "main" / "resources" / sitesFocus.value / "uid.properties"
+    val prp = new java.util.Properties
+    prp.load(new java.io.FileReader(prpFile))
+    import scala.collection.JavaConverters._
+    prp.asScala.toMap
+  }
 
   val spoonTask = spoon in ng := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
@@ -33,17 +42,20 @@ trait SpoonSettings {
 
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
     val spoonDebug = if (ngSpoonDebug.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
+    val templates = baseDirectory.value / "target" / "templates"
 
     val jvmOpts = Seq(
       "-cp", sourceAndSpoonClasspath.mkString(File.pathSeparator),
       s"-Dspoon.spool=${spool.getAbsolutePath}",
       s"-Duid.properties=${uid.getAbsolutePath}",
-      s"-Dspoon.outdir=${target.getAbsolutePath}"
+      s"-Dspoon.outdir=${target.getAbsolutePath}",
+      s"-Dspoon.templates=${templates.getAbsolutePath}"
     ) ++ spoonDebug
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",
       "--source-classpath", sourceClasspath.mkString(File.pathSeparator),
       "--processors", processors,
+      "-t", templates.getAbsolutePath,
       "-i", source.getAbsolutePath,
       "-o", target.getAbsolutePath
     ) ++ args
@@ -64,6 +76,7 @@ trait SpoonSettings {
 
     val s = s"""java ${jvmOpts.mkString(" ")} ${runOpts.mkString(" ")}"""
     fw.write(s.replaceAll(":", ":\\\n"))
+
     fw.close
     println(s" +++${file}")
 
@@ -107,6 +120,7 @@ trait SpoonSettings {
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
+    , ngUidTask
     , ngSpoonDebug := false
     , ngSpoon := {
       (spoon in ng).toTask("").value

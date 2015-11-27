@@ -2,16 +2,13 @@ package agilesitesng.deploy.actor
 
 import java.net.URL
 
-import agilesitesng.wem.actor.Protocol
+import spray.http._
+import akka.io.IO
 import agilesitesng.wem.actor.Protocol.WemMsg
 import akka.actor.{ActorRef, ActorLogging, Actor, Props}
 import akka.event.LoggingAdapter
-import akka.io.IO
 import akka.util.ByteStringBuilder
-import net.liftweb.json._
-import org.slf4j.Logger
 import spray.http.HttpHeaders.{Cookie, `Set-Cookie`}
-import spray.http._
 import spray.http.Uri.{Query, Path, Host, Authority}
 import spray.httpx.RequestBuilding._
 
@@ -66,16 +63,6 @@ object Services {
     var authKey = Option.empty[String]
 
     def receive = {
-      case Ask(origin, ServiceLogin(_url, username, password)) =>
-        if (authKey.nonEmpty) {
-          origin ! ServiceReply("OK - already logged in")
-        } else {
-          url = _url
-          http ! buildGet("login", "username" -> username,
-            "password" -> password)(url, cookie, log)
-          log.debug(s"${username}/${password} -> ${url}")
-          context.become(waitForHttpReply(origin))
-        }
 
       case ServiceLogin(_url, username, password) =>
         if (authKey.nonEmpty) {
@@ -112,8 +99,6 @@ object Services {
           http ! buildPostMap(op.get, args - "op")(url, cookie, authKey.get, log)
           context.become(waitForHttpReply(context.sender))
         }
-
-
     }
 
     var chunkedResponse: HttpResponse = null

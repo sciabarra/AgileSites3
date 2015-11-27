@@ -10,8 +10,6 @@ import scala.concurrent.duration._
 
 object NgDeployPlugin
   extends AutoPlugin
-  with ActorSettings
-  with DeploySettings
   with SpoonSettings
   with SqlSettings
   with ActorCommands
@@ -23,5 +21,5 @@ object NgDeployPlugin
 
   //override def globalSettings: Seq[Setting[_]] = super.globalSettings ++ actorGlobalSettings
 
-  override lazy val projectSettings = actorCommands ++ actorSettings ++ deploySettings ++ spoonSettings ++ sqlSettings
+  override lazy val projectSettings = actorCommands ++ spoonSettings ++ sqlSettings
 }

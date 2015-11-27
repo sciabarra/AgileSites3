@@ -3,6 +3,7 @@ package agilesitesng.deploy.actor
 import java.io.File
 import java.net.URL
 
+import agilesitesng.wem.actor.Protocol.Post
 import spoon.Launcher
 import agilesitesng.deploy.model.SpoonModel
 
@@ -29,20 +30,20 @@ object Collector {
     with ActorUtils {
 
     var decoder: Option[Decoder] = None
-    var requester: Option[ActorRef] = None
 
     def receive: Receive = LoggingReceive {
 
       case SpoonBegin(url: URL, site: String, user: String, pass: String, map: Map[String,String]) =>
         log.debug(s">>> collector begin: ${url} ${map}")
         decoder = Some(new Decoder(site, user, pass, map))
-        requester = Some(context.sender)
 
       case SpoonData(model) =>
         if (decoder.nonEmpty) {
           val map = decoder.get(model)
           log.debug(s">>> collector data: ${map} ---")
-          services ! ServicePost(map)
+          val f = services ? ServicePost(map)
+          val r = Await.result(f, 10.seconds).asInstanceOf[ServiceReply]
+          log.debug(r.result)
         } else {
           log.warning("dropping request as  decoder not initialized")
         }
@@ -50,12 +51,6 @@ object Collector {
       case SpoonEnd(args) =>
         log.debug(">>> collector end.")
 
-      case ServiceReply(msg) =>
-        log.debug(s"<<< collector reply:")
-        if (requester.nonEmpty)
-          requester.get ! SpoonReply(msg)
-        else
-          log.warning("dropping reply as requester not initialized")
     }
   }
 

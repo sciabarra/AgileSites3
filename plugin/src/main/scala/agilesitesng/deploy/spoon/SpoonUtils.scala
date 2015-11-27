@@ -28,6 +28,21 @@ trait SpoonUtils {
     w.close()
   }
 
+  def streamFile(file: File, input: java.io.InputStream) = {
+    //println("*** %s%s****\n".format(file.toString, body))
+    if (file.getParentFile != null)
+      file.getParentFile.mkdirs
+    val out = new java.io.FileOutputStream(file)
+    var c = input.read()
+    while(c!= -1) {
+      out.write(c)
+      c = input.read
+    }
+    out.close()
+  }
+
+
+
   def class2file(className: String) = {
     val base = new File(System.getProperty("spoon.outdir"))
     val file = new File(base, className.replace('.', File.separatorChar)+".java")
