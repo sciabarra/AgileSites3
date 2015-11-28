@@ -6,7 +6,7 @@ import static agilesites.api.Api.*;
 
 @CSElement
 @SiteEntry(wrapper=true)
-public class DmWrapper implements Element {
+public class DmWrapper implements AgileElement {
 
 	private final static Log log = Log.getLog(DmWrapper.class);
 

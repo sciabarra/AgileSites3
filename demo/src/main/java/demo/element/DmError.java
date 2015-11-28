@@ -5,7 +5,7 @@ import agilesites.api.*;
 import static agilesites.api.Api.*;
 
 @CSElement
-public class DmError implements Element {
+public class DmError implements AgileElement {
 
     final static Log log = Log.getLog(DmError.class);
 

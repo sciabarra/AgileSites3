@@ -5,7 +5,7 @@ import agilesites.api.*;
 import static agilesites.api.Api.*;
 
 @CSElement
-public class DmTree implements Element {
+public class DmTree implements AgileElement {
 
 	final static Log log = Log.getLog(DmTree.class);
 	private SitePlan sp;

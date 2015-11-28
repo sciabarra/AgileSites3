@@ -7,7 +7,7 @@ import agilesites.api.*;
 import static agilesites.api.Api.*;
 
 @CSElement
-public class DmTopmenu implements Element {
+public class DmTopmenu implements AgileElement {
 
 	final static Log log = Log.getLog(Error.class);
 

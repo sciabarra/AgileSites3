@@ -2,7 +2,7 @@ package demo.element.page;
 
 import agilesites.api.*;
 
-public class DmSummary implements Element {
+public class DmSummary implements AgileElement {
 
 	final static Log log = Log.getLog(DmSummary.class);
 

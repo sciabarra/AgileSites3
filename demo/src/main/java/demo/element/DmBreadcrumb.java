@@ -6,7 +6,7 @@ import agilesites.annotations.CSElement;
 import agilesites.api.*;
 
 @CSElement
-public class DmBreadcrumb implements Element {
+public class DmBreadcrumb implements AgileElement {
 
 	final static Log log = Log.getLog(DmBreadcrumb.class);
 

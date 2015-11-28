@@ -17,9 +17,9 @@ trait SetupSettings
   import NgSetupKeys._
   import agilesites.config.AgileSitesConfigKeys._
 
-  lazy val setupOnlyTask = setupOnly in ng := {
+  lazy val setupOnlyTask = setupOnly := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val args1 = if(args.isEmpty) Seq(setupOnlyDefault.value) else args
+    val args1 = if (args.isEmpty) Seq(setupOnlyDefault.value) else args
     for (filename <- args1) {
       val file = new java.io.File(filename)
       if (file.exists)
@@ -30,7 +30,7 @@ trait SetupSettings
     }
   }
 
-  lazy val setupTask = setup in ng := {
+  lazy val setupTask = setup := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val log = streams.value.log
 
@@ -84,5 +84,5 @@ trait SetupSettings
   }
 
   val setupSettings = Seq(setupTask, setupOnlyTask,
-  setupOnlyDefault := "../plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt")
+    setupOnlyDefault := "../plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt")
 }

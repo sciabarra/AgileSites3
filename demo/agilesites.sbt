@@ -1,8 +1,10 @@
-val ας = project.in(file("."))
+val αdemoς = project.in(file("."))
 
 scalaVersion := "2.10.5"
 
 enablePlugins(AgileSitesNgPlugin)
+
+unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
 crossPaths := false
 
@@ -16,7 +18,5 @@ val pluginVer = try {
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
-
-unmanagedBase := file("project") / "WEB-INF" / "lib"
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
