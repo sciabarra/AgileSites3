@@ -1,11 +1,9 @@
+- generate una jsp da html
 
-- problemi con lilith se non ci sta
+- impacchettare tutto con un installer
 
-- metti un settings setupOnlyDefault e impostalo di default
+- generate "Templates" per il plugin dai source dei template in modo da evitare di dimenticarsene se si modificano
 
-TODO
-  - scarica i tld che mi servono
-  - builda i wrapper per i tld
 
 DONE
 
@@ -17,3 +15,4 @@ DONE
 
 * buildo il plugin
    * concatena le api nel posto giusto
+

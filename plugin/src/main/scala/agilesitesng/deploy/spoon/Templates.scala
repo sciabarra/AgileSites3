@@ -9,9 +9,9 @@ object Templates extends SpoonUtils {
 
   def extractTemplates(tgt: File): Unit = {
     tgt.mkdirs
-
-    writeFile(new File(tgt, "ContentDefinitionTemplate.java"),
-      """package templates;
+    val cdt = new File(tgt, "ContentDefinitionTemplate.java")
+    //if (!cdt.exists)
+    writeFile(cdt, """package templates;
 
 import agilesitesng.api.ASAsset;
 import spoon.reflect.declaration.CtElement;
@@ -47,8 +47,10 @@ public class ContentDefinitionTemplate extends ASAsset implements Template {
 
 }
       """)
-    writeFile(new File(tgt, "FieldAccessTemplate.java"),
-      """package templates;
+
+    val fat = new File(tgt, "FieldAccessTemplate.java")
+    //if (!fat.exists)
+    writeFile(fat, """package templates;
 
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtType;
@@ -111,6 +113,6 @@ public class FieldAccessTemplate<_FieldType_> implements Template {
         return null;
     }
 }
-      """)
+                   """)
   }
 }

@@ -9,10 +9,22 @@ import java.lang.annotation.Target;
 /**
  * Created by msciab on 14/06/15.
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
 public @interface SiteEntry {
-    String value() default "";
-    String description() default "";
-    boolean wrapper() default false;
+
+    public String name () default "";
+
+    public String description() default "";
+
+    public String ssCache() default "false";
+
+    public String csCache() default "false";
+
+    public String criteria() default "";
+
+    public String extraCriteria() default "";
+
+    public boolean wrapper() default false;
+
 }

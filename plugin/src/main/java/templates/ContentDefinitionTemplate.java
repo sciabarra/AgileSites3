@@ -1,5 +1,6 @@
 package templates;
 
+import agilesitesng.api.ASAsset;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtType;
 import spoon.template.Local;
@@ -10,7 +11,7 @@ import spoon.template.Template;
 /**
  * Created by jelerak on 15/10/2015.
  */
-public class ContentDefinitionTemplate implements Template {
+public class ContentDefinitionTemplate extends ASAsset implements Template {
 
     @Parameter
     String attributes;

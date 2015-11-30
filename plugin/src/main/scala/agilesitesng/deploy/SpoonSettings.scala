@@ -23,21 +23,19 @@ trait SpoonSettings {
     prp.asScala.toMap
   }
 
-  val spoonTask = spoon in ng := {
+  val spoonTask = spoon := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val uid = baseDirectory.value / "src" / "main" / "resources" / name.value / "uid.properties"
     val source = baseDirectory.value / "src" / "main" / "java"
     val target = baseDirectory.value / "target" / "groovy"
     val spool = baseDirectory.value / "target" / "spoon-spool.json"
-    val extraJars = ngSpoonProcessorJars.value
     val log = streams.value.log
 
     target.mkdirs
     spool.getParentFile.mkdirs
 
-    val sourceClasspath = (fullClasspath in Compile).value.files.filter(_.exists).map(_.getAbsolutePath)
+    val sourceClasspath = (fullClasspath in Runtime).value.files.filter(_.exists).map(_.getAbsolutePath)
     val spoonClasspath = ngSpoonClasspath.value.filter(_.exists).map(_.getAbsoluteFile)
-
     val sourceAndSpoonClasspath = spoonClasspath ++ sourceClasspath
 
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
@@ -85,18 +83,16 @@ trait SpoonSettings {
       runJVMOptions = jvmOpts,
       workingDirectory = Some(baseDirectory.value))
 
-    // println("** hello from plugin **")
     Fork.java(forkOpt, runOpts)
 
     spool
   }
 
   val spoonSettings = Seq(
-    ngSpoonClasspath <<= (Keys.update, ngSpoonProcessorJars) map {
-      (report, extraJars) =>
-        extraJars ++ report.select(configurationFilter("spoon"))
-    }, ngSpoonProcessorJars := Nil
-    , ngSpoonProcessors := Seq(
+    ngSpoonClasspath <<= (Keys.update) map {
+      (report) =>
+        report.select(configurationFilter("spoon"))
+    }, ngSpoonProcessors := Seq(
       "FlexFamilyAnnotation"
       , "SiteAnnotation"
       , "TypeAnnotation"
@@ -123,7 +119,7 @@ trait SpoonSettings {
     , ngUidTask
     , ngSpoonDebug := false
     , ngSpoon := {
-      (spoon in ng).toTask("").value
+      (spoon).toTask("").value
     }
   )
 }

@@ -16,8 +16,9 @@ class TemplateAnnotationProcessor
     val name =  mt.getDeclaringType.getQualifiedName+"."+mt.getSimpleName
     val key = s"Template.$name"
     //cl.getDeclaringType
-    Spooler.insert(50, key, SpoonModel.Template(
-      Uid.generate(key), name, class2file(name)))
+    println("**** Template "+key)
+    //Spooler.insert(50, key, SpoonModel.Template(
+    //  Uid.generate(key), name, class2file(name)))
   }
 
 }

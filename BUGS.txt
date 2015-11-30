@@ -1,0 +1,5 @@
+- nella uid.properties genera 
+.altTextImageString=1444836512441
+elminare
+
+- per qualche motivo da qualche parte riferisce Demo.properties anche se non è quello il sites.focus

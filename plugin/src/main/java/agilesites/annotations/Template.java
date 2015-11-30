@@ -11,25 +11,27 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
 public @interface Template {
-    public String value() default "";
-
-    public String select() default "";
+    public String name () default "";
 
     public String description() default "";
+
+    public String from() default "";
+
+    public String pick() default "";
+
+    public String ssCache() default "false";
+
+    public String csCache() default "false";
+
+    public String criteria() default "";
+
+    public String extraCriteria() default "";
 
     public boolean layout() default false;
 
     public String type() default "";
 
-    public String subtype() default "false";
-
-    public String ssCache() default "false";
-
-    public String csCache() default "";
-
-    public String extraCriteria() default "";
-
-    public String criteria() default "";
+    public String subtype() default "";
 
     public String controller() default "";
 }

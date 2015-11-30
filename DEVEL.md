@@ -22,7 +22,7 @@ If you change a service, you need to do ng:setupOnly (it will update service)
 
 If you change spoon, it is automatically picked up if you performed a publishLocal
 
-# Use the debuggers
+# Using the debuggers
 
 All the code for the groovy code executed in Sites is under
 

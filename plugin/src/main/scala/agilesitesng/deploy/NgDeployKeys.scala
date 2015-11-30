@@ -14,7 +14,6 @@ object NgDeployKeys {
   val sqlUpdate = inputKey[String]("invoke an sql update")
 
   val ngSpoonClasspath = taskKey[Seq[File]]("spoon classpath")
-  val ngSpoonProcessorJars = settingKey[Seq[File]]("processors jar")
   val ngSpoonProcessors = settingKey[Seq[String]]("spoon processors")
   val ngSpoonDebug = settingKey[Boolean]("spoon debug")
 

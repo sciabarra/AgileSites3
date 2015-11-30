@@ -9,14 +9,13 @@ import agilesitesng.deploy.model.{Uid, Spooler}
  */
 object SpoonMain extends App with SpoonUtils {
 
-
   // initialize spoon
   val out = new java.io.File(System.getProperty("spoon.spool"))
   val uid = new java.io.File(System.getProperty("uid.properties"))
 
   // init
   Uid.init(uid)
-  SpoonPre.init()
+  Templates.extractTemplates(new File(System.getProperty("spoon.templates")))
 
   // run and save the spool file
   val spoon = new Launcher()

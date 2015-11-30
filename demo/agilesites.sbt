@@ -1,8 +1,6 @@
-val αdemoς = project.in(file("."))
+val αdemoς = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
-
-enablePlugins(AgileSitesNgPlugin)
 
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
@@ -14,7 +12,7 @@ resolvers ++= Seq(
   "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
 
 val pluginVer = try {
-  scala.io.Source.fromFile(file("project") / "plugin" / "version.txt").getLines.next.trim
+  scala.io.Source.fromFile(file("project") / "agilesites.ver").getLines.next.trim
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
