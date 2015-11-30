@@ -41,13 +41,15 @@ trait SpoonSettings {
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
     val spoonDebug = if (ngSpoonDebug.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
     val templates = baseDirectory.value / "target" / "templates"
+    val assets = baseDirectory.value / "src" / "main" / "assets"
 
     val jvmOpts = Seq(
       "-cp", sourceAndSpoonClasspath.mkString(File.pathSeparator),
       s"-Dspoon.spool=${spool.getAbsolutePath}",
       s"-Duid.properties=${uid.getAbsolutePath}",
       s"-Dspoon.outdir=${target.getAbsolutePath}",
-      s"-Dspoon.templates=${templates.getAbsolutePath}"
+      s"-Dspoon.templates=${templates.getAbsolutePath}",
+      s"-Dspoon.assets=${assets.getAbsolutePath}"
     ) ++ spoonDebug
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",

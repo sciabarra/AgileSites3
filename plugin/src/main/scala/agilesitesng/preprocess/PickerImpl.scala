@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 import java.util.Iterator
 import java.util.Stack
-import java.io.InputStream
+import java.io.{FileInputStream, File, InputStream}
 import agilesites.api.Api.nn
 
 class PickerImpl extends Picker {
@@ -321,21 +321,20 @@ class PickerImpl extends Picker {
  */
 object PickerImpl {
   private var log: Log = Log.getLog(classOf[PickerImpl])
+
   private val baseUrl: String = "http://localhost:8080/"
+
+  private val assets = new java.io.File(System.getProperty("spoon.assets"))
 
   /**
    * @return a new PickerImp from a given resource in the classpath selected with a css query
    */
   def load(resource: String, cssq: String): PickerImpl = {
-    return new PickerImpl(classOf[PickerImpl].getResourceAsStream(resource), null, cssq)
-  }
-
-  /**
-   * @return a PickerImp from a given resource in the classpath selected with a
-   *         css query
-   */
-  def load(resource: String): PickerImpl = {
-    return new PickerImpl(classOf[PickerImpl].getResourceAsStream(resource), null, null)
+    val file = new File(assets, resource.replace('/', File.separatorChar).replace('\\', File.separatorChar))
+    if (cssq == null || cssq.trim.size == 0)
+      new PickerImpl(new FileInputStream(file), null, null)
+    else
+      new PickerImpl(new FileInputStream(file), null, null)
   }
 
   /**

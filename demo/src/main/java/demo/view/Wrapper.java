@@ -8,9 +8,6 @@ public class Wrapper  {
 	@CSElement(from="/blueprint/template.html")
 	public String apply(Picker html) {
 
-		System.out.println("salve, sono il wrapper");
-		/*
-
 		// change relative references to absolute
 		html.prefixAttrs("link[rel=stylesheet]", "href", "/cs/blueprint/");
 		html.prefixAttrs("script[id=js-import]", "src", "/cs/blueprint/");
@@ -22,7 +19,5 @@ public class Wrapper  {
 		html.replace("#content", "<p>insert a call here</p>");
 
 		return html.outerHtml();
-		*/
-		return "Wrapper";
 	}
 }

@@ -3,6 +3,7 @@ package agilesitesng.deploy.spoon
 import agilesites.annotations.CSElement
 import agilesites.api.Picker
 import agilesitesng.deploy.model.{Spooler, SpoonModel, Uid}
+import agilesitesng.preprocess.PickerImpl
 import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.{CtMethod, CtClass}
 
@@ -21,13 +22,11 @@ class CSElementAnnotationProcessor
 
     val cls = Class.forName(className)
     val obj = cls.newInstance
-
-    //val argTypes = Array[Class[_]]()
-
     val method = cls.getDeclaredMethod(mt.getSimpleName, classOf[Picker])
 
     println("**** CSElement "+key)
-    method.invoke(obj, null)
+    val out = method.invoke(obj, PickerImpl.load(a.from(), a.pick())).asInstanceOf[String]
+    println(out)
 
     //Spooler.insert(50, key,
     //  SpoonModel.CSElement(Uid.generate(key),
