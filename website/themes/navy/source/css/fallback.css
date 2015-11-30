@@ -1,0 +1,13 @@
+body #hero {
+  min-height: 650px !important;
+  height: auto !important; }
+  body #hero h1 {
+    font-size: 55px; }
+  body #hero div.hr {
+    width: 80px; }
+  body #hero h2 {
+    font-size: 30px; }
+  body #hero div.rocket {
+    background-size: 885px;
+    bottom: -306px;
+    left: 200px; }
