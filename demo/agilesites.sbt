@@ -15,6 +15,6 @@ val pluginVer = try {
   scala.io.Source.fromFile(file("project") / "agilesites.ver").getLines.next.trim
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer changing() extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
