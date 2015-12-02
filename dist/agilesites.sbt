@@ -1,4 +1,4 @@
-val ας = project.in(file("."))
+val ADT = project.in(file("."))
 
 scalaVersion := "2.10.5"
 
