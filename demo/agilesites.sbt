@@ -1,4 +1,4 @@
-val αdemoς = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
+val demo = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
