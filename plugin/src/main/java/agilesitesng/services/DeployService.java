@@ -22,8 +22,8 @@ public class DeployService implements Service {
             // return Utils.dumpVars(ics);
             a = new Controller(ics);
         } else if (what.equals("CSElement")) {
-            return Utils.dumpVars(ics);
-            //a = new CSElement(ics);
+            //return Utils.dumpVars(ics);
+            a = new CSElement(ics);
         } else if (what.equals("Template")) {
             return Utils.dumpVars(ics);
             //a = new Template(ics);

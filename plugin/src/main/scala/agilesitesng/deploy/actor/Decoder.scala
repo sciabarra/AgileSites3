@@ -96,8 +96,12 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       "assetSubtype" -> assetSubtype,
       "args" -> args.mkString("|"))
 
-    //case CSElement(id, name) => deploy("CSElement", id, name, name)
-
+    case CSElement(id, name, file) => deploy("CSElement", id, name, name,
+      'filename -> new java.io.File(file).getName,
+      'filefolder -> site,
+      'fileext -> file.split("\\.").last,
+      'filebody -> readFile(file))
+  
     //case Template(id, name) => deploy("Template", id, name, name)
 
     //case SiteEntry(id, name) => deploy("SiteEntry", id, name, name)

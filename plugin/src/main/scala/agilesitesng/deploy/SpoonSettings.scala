@@ -49,7 +49,8 @@ trait SpoonSettings {
       s"-Duid.properties=${uid.getAbsolutePath}",
       s"-Dspoon.outdir=${target.getAbsolutePath}",
       s"-Dspoon.templates=${templates.getAbsolutePath}",
-      s"-Dspoon.assets=${assets.getAbsolutePath}"
+      s"-Dspoon.assets=${assets.getAbsolutePath}",
+      s"-Dspoon.site=${sitesFocus.value}"
     ) ++ spoonDebug
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",

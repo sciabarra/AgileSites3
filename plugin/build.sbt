@@ -92,7 +92,6 @@ mainClass := Some("agilesites.Main")
 resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) map { (outDir: File, baseDir: File) =>
   val src = baseDir / "src" / "main" / "java" / "templates"
   val tgt = outDir / "templates"
-  println("hello!")
   IO.copyDirectory(src, tgt, overwrite=true)
   IO.listFiles(tgt).toSeq
 }

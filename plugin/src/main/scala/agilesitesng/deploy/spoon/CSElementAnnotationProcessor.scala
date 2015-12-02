@@ -15,22 +15,27 @@ class CSElementAnnotationProcessor
   with SpoonUtils {
 
   def process(a: CSElement, mt: CtMethod[_]) {
-    val name = mt.getDeclaringType.getQualifiedName+"."+mt.getSimpleName
+    val name = orEmpty(a.name(), mt.getSimpleName)
     val key = s"CSElement.$name"
 
     val className = mt.getDeclaringType.getQualifiedName
-
     val cls = Class.forName(className)
     val obj = cls.newInstance
     val method = cls.getDeclaredMethod(mt.getSimpleName, classOf[Picker])
 
-    println("**** CSElement "+key)
-    val out = method.invoke(obj, PickerImpl.load(a.from(), a.pick())).asInstanceOf[String]
-    println(out)
+    //println("**** CSElement " + key)
 
-    //Spooler.insert(50, key,
-    //  SpoonModel.CSElement(Uid.generate(key),
-    //    name, class2file(name)))
+    val from = a.from()
+    val input = PickerImpl.load(from, a.pick())
+    val output = method.invoke(obj, input).asInstanceOf[String]
+    val filename = s"jsp/${sys.props("spoon.site")}/${name}.jsp"
+
+    // TODO rimuovere il metodo
+
+    Spooler.insert(50, key,
+      SpoonModel.CSElement(Uid.generate(key),
+        name,
+        writeFileOutdir(filename, JspUtils.wrapAsJsp(output))))
   }
 
 }

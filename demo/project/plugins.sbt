@@ -8,3 +8,5 @@ addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT")
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0")
 
 val plugin = project.in(file(".")).dependsOn(  (file("..")/"plugin").toURI )
+
+val config = project.in(file(".")).dependsOn((file("project")/"conf").toURI)

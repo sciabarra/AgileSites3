@@ -29,7 +29,6 @@ public class CSElement extends Asset {
                 "rootelement", "url", "resdetails1", "resdetails2");
     }
 
-
     public void setData(MutableAssetData data) {
 
         // root element

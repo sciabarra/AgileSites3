@@ -6,7 +6,7 @@ import agilesites.api.Picker;
 public class Wrapper  {
 
 	@CSElement(from="/blueprint/template.html")
-	public String apply(Picker html) {
+	public String wrapper(Picker html) {
 
 		// change relative references to absolute
 		html.prefixAttrs("link[rel=stylesheet]", "href", "/cs/blueprint/");

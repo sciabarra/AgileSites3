@@ -5,7 +5,6 @@ import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObjectImpl;
 import com.fatwire.assetapi.data.MutableAssetData;
 
-import java.util.List;
 
 /**
  * CSElement definition class
