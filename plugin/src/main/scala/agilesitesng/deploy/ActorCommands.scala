@@ -67,7 +67,7 @@ trait ActorCommands {
     val objs = deployObjects.deployObjects.filter(x => filterAllSubstring(args, x.toString))
 
     for (obj <- objs) {
-      println(obj.toString)
+      //println(obj.toString)
       //log.debug(obj.toString)
       hub ! SpoonData(obj)
     }
@@ -90,7 +90,7 @@ trait ActorCommands {
             val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
             result match {
               case Some((newState, Value(map))) =>
-                println(">>> begin")
+                //println(">>> begin")
                 coll ! SpoonBegin(url, focus, user, password, map)
                 doDeploy(spool, coll, map, args)
               case _ => println("cannot get uid map")

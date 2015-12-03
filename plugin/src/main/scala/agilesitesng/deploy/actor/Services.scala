@@ -34,7 +34,7 @@ object Services {
       path = Path(url.getPath + "/ContentServer"),
       query = Query(params + ("pagename" -> "AAAgileService") + ("op" -> op) + ("d" -> "")))
     val req = Get(uri) ~> addHeaders(cookie)
-    println(req.toString)
+    //println(req.toString)
     log.debug(req.toString)
     req
   }
@@ -106,19 +106,18 @@ object Services {
 
     /** Process requests - either normal and authentication */
     def processRequest(origin: ActorRef, res: HttpResponse, body: String) = {
-      println(s"Process Request: ${body}")
+      //println(s"Process Request: ${body}")
       if (authKey.nonEmpty) {
-        println(s"Sending ${origin} !${body}")
+        //println(s"Sending ${origin} !${body}")
         // we are running request/response loop
         origin ! ServiceReply(body)
         context.unbecome()
         flushQueue
       } else {
-        // we still need autheticate
+        // we still need authenticate
         //val body = res.entity.asString.trim
         val headers = res.headers
         if (cookie.cookies.isEmpty) {
-          println("Looking for cookies")
           val cookies = headers.filter(_.isInstanceOf[`Set-Cookie`]).map(_.asInstanceOf[`Set-Cookie`].cookie).toSeq
           log.debug(cookies.toString)
           if (cookies.isEmpty) {
@@ -130,7 +129,6 @@ object Services {
           }
         } else {
           // got cookie, looking for authkey
-          println("Looking for session key (" + cookie + ")")
           authKey = Some(body)
           origin ! ServiceReply(s"OK ${authKey}")
           context.unbecome()
@@ -141,21 +139,18 @@ object Services {
 
     def waitForHttpReply(ref: ActorRef): Receive = {
       case ChunkedResponseStart(res) =>
-        print("chunk:")
         chunkCollector = new ByteStringBuilder
         chunkedResponse = res
 
       case MessageChunk(data, _) =>
-        print(".")
+        //print(".")
         chunkCollector ++= data.toByteString
 
       case ChunkedMessageEnd(_, _) =>
         val body = chunkCollector.result.decodeString("UTF-8")
-        println(";" + body)
         processRequest(ref, chunkedResponse, body)
 
       case res: HttpResponse =>
-        //println("response!")
         val body = res.entity.asString
         ref ! ServiceReply(body)
         context.unbecome()

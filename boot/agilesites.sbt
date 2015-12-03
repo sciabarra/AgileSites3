@@ -18,3 +18,9 @@ val pluginVer = try {
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
+
+name := utilPropertyMap.value.getOrElse("sites.focus", "Unnamed")
+
+organization := utilPropertyMap.value.getOrElse("organization", "com.sciabarra")
+
+version := utilPropertyMap.value.getOrElse("version", "1.0-SNAPSHOT")

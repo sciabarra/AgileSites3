@@ -61,25 +61,22 @@ trait SpoonSettings {
       "-o", target.getAbsolutePath
     ) ++ args
 
-    //log.debug(s"spoonClasspath=${spoonClasspath.replace(File.pathSeparator, "\n")}")
-    //log.debug( (jvmOpts++runOpts).mkString("\n"))
-
-    val file = baseDirectory.value / "spoon.sh"
-    val fw = new java.io.FileWriter(file)
-    for (src <- sourceClasspath) {
-      log.debug(s"src-cp: ${src}")
-      fw.write(s"#src: ${src}\n")
+    if (ngSpoonDebug.value) {
+      val file = baseDirectory.value / "spoon.sh"
+      val fw = new java.io.FileWriter(file)
+      for (src <- sourceClasspath) {
+        log.debug(s"src-cp: ${src}")
+        fw.write(s"#src: ${src}\n")
+      }
+      for (cp <- spoonClasspath) {
+        log.debug(s"spoon-cp: ${cp}")
+        fw.write(s"#spn: ${cp}\n")
+      }
+      val s = s"""java ${jvmOpts.mkString(" ")} ${runOpts.mkString(" ")}"""
+      fw.write(s.replaceAll(":", ":\\\n"))
+      fw.close
+      println(s" +++${file}")
     }
-    for (cp <- spoonClasspath) {
-      log.debug(s"spoon-cp: ${cp}")
-      fw.write(s"#spn: ${cp}\n")
-    }
-
-    val s = s"""java ${jvmOpts.mkString(" ")} ${runOpts.mkString(" ")}"""
-    fw.write(s.replaceAll(":", ":\\\n"))
-
-    fw.close
-    println(s" +++${file}")
 
     val forkOpt = ForkOptions(
       bootJars = spoonClasspath,

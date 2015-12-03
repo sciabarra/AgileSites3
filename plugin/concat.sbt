@@ -18,7 +18,7 @@ def javaConcatToGroovy(map: Map[File, PathFinder], version: String) = {
 
     val bodies = lines.filter(x => !(x.startsWith("import ") || x.startsWith("package "))).toSeq
     val helloWorld = s"Concat of ${thePackage} ${version} built on ${new java.util.Date}"
-    println(output)
+    //println(output)
     output.getParentFile.mkdirs
     val fw = new java.io.FileWriter(output)
     val result = (imports ++ bodies)
@@ -38,7 +38,7 @@ def javaConcatToGroovy(map: Map[File, PathFinder], version: String) = {
 // generating groovy for debug
 TaskKey[Seq[File]]("concat by compile") <<= Def.task {
 
-  println("%%% generating groovy & resources for debug %%%")
+  //println("%%% generating groovy & resources for debug %%%")
 
   val tgtG = baseDirectory.value / "src" / "test" / "groovy"
   val tgtR = baseDirectory.value / "src" / "main" / "resources" / "aaagile" / "ElementCatalog"

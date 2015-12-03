@@ -3,10 +3,9 @@ resolvers ++= Seq(
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
   "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
 
-addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT")
-
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0")
 
-val plugin = project.in(file(".")).dependsOn(  (file("..")/"plugin").toURI )
+val plugin = (file("..")/"plugin").toURI
 
-val config = project.in(file(".")).dependsOn((file("project")/"conf").toURI)
+val root = project.in(file(".")).dependsOn( plugin )
+

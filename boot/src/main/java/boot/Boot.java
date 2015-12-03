@@ -1,4 +1,4 @@
-package bs;
+package boot;
 
 import agilesites.annotations.AttributeEditor;
 import agilesites.annotations.Site;
@@ -9,18 +9,18 @@ import agilesites.api.AgileSite;
  * Declaring the site with his types
  */
 @FlexFamily(
-        flexAttribute = "BsAttribute",
-        flexParentDefinition = "BsParentDefinition",
-        flexContentDefinition = "BsContentDefinition",
-        flexFilter = "BsFilter",
-        flexContent = "BsContent",
-        flexParent = "BsParent"
+        flexAttribute = "BootAttribute",
+        flexParentDefinition = "BootParentDefinition",
+        flexContentDefinition = "BootContentDefinition",
+        flexFilter = "BootFilter",
+        flexContent = "BootContent",
+        flexParent = "BootParent"
 )
-@Site(enabledTypes = {"BsAttribute",
-        "BsParentDefinition",
-        "BsContentDefinition",
-        "BsContent:F",
-        "BsParent:F",
+@Site(enabledTypes = {"BootAttribute",
+        "BootParentDefinition",
+        "BootContentDefinition",
+        "BootContent:F",
+        "BootParent:F",
         "Template",
         "CSElement",
         "SiteEntry",
@@ -28,7 +28,7 @@ import agilesites.api.AgileSite;
         "PageAttribute",
         "PageDefinition",
         "Page:F"})
-public class Bs extends AgileSite {
+public class Boot extends AgileSite {
 
     @AttributeEditor
     private String BsRichTextEditor = "<CKEDITOR/>";

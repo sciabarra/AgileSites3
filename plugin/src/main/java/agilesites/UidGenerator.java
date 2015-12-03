@@ -28,7 +28,7 @@ public class UidGenerator {
      * @param filename
      */
     public UidGenerator(String filename) throws Exception {
-        System.out.println("<<< "+filename);
+        //System.out.println("<<< "+filename);
         file = new File(filename);
 
         if (file.exists()) {
