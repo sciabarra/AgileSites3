@@ -24,15 +24,15 @@ import agilesites.api.AgileSite;
         "Template",
         "CSElement",
         "SiteEntry",
-        "Controller",
+        "WCS_Controller",
         "PageAttribute",
         "PageDefinition",
         "Page:F"})
 public class Boot extends AgileSite {
 
     @AttributeEditor
-    private String BsRichTextEditor = "<CKEDITOR/>";
+    private String BootRichTextEditor = "<CKEDITOR/>";
 
     @AttributeEditor
-    private String BsUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
+    private String BootUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
 }
