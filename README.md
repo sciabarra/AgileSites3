@@ -8,4 +8,4 @@ it will setup it all.
 
 Then you can start developing your site accoding the documentation in http://www.agilesites.org
 
-// test for integration 5
+// test for integration 6
