@@ -1,11 +1,13 @@
 package agilesitesng.api;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.BaseController;
 
 /**
  * Created by jelerak on 19/10/2015.
  */
+@Controller
 public class ASContentController<T extends ASAsset> extends BaseController {
 
     protected T load() {

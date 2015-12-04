@@ -98,9 +98,8 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
 
     case CSElement(id, name, file) => deploy("CSElement", id, name, name,
       'filename -> new java.io.File(file).getName,
-      'filefolder -> site,
-      'fileext -> file.split("\\.").last,
-      'filebody -> readFile(file))
+      'folder -> site,
+      'body -> readFile(file))
   
     //case Template(id, name) => deploy("Template", id, name, name)
 

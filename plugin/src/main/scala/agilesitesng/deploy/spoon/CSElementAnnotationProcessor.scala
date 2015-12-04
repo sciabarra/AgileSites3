@@ -26,16 +26,19 @@ class CSElementAnnotationProcessor
     //println("**** CSElement " + key)
 
     val from = a.from()
+    val pick = a.pick()
+    println(s"from ${from} pick=${pick}")
     val input = PickerImpl.load(from, a.pick())
     val output = method.invoke(obj, input).asInstanceOf[String]
     val filename = s"jsp/${sys.props("spoon.site")}/${name}.jsp"
 
-    // TODO rimuovere il metodo
+    mt.getDeclaringType.removeMethod(mt)
 
     Spooler.insert(50, key,
       SpoonModel.CSElement(Uid.generate(key),
-        name,
-        writeFileOutdir(filename, JspUtils.wrapAsJsp(output))))
+        name, writeFileOutdir(filename,
+          JspUtils.wrapAsJsp(output))))
+
   }
 
 }

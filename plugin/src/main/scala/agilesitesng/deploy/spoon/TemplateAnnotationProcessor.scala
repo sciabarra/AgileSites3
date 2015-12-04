@@ -19,6 +19,7 @@ class TemplateAnnotationProcessor
     println("**** Template "+key)
     //Spooler.insert(50, key, SpoonModel.Template(
     //  Uid.generate(key), name, class2file(name)))
+    mt.getDeclaringType.removeMethod(mt)
   }
 
 }

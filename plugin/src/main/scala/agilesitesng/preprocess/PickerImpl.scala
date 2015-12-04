@@ -334,7 +334,7 @@ object PickerImpl {
     if (cssq == null || cssq.trim.size == 0)
       new PickerImpl(new FileInputStream(file), null, null)
     else
-      new PickerImpl(new FileInputStream(file), null, null)
+      new PickerImpl(new FileInputStream(file), null, cssq)
   }
 
   /**

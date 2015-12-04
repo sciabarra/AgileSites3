@@ -1,6 +1,7 @@
 package agilesitesng.api;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
@@ -14,8 +15,8 @@ import java.util.Map;
 /**
  * Created by jelerak on 15/10/2015.
  */
+@Controller
 public class ContentFactory<T extends ASAsset> extends BaseController {
-
 
     private static final ThreadLocal<ICS> context = new ThreadLocal<ICS>();
 

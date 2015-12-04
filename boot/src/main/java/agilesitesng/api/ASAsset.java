@@ -1,5 +1,6 @@
 package agilesitesng.api;
 
+import agilesites.annotations.Controller;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * Created by jelerak on 20/10/2015.
  */
+@Controller
 public class ASAsset {
 
     public Map<String, String>[] getAttributes() {

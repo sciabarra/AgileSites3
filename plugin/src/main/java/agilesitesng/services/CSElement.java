@@ -11,17 +11,21 @@ import com.fatwire.assetapi.data.MutableAssetData;
  */
 public class CSElement extends Asset {
 
-    private String elementName;
+    private String fileName;
+    private String folder;
     private String elementCode;
+    private String elementName;
+
 
     /**
      * Create a CSElement invoking the given elementClass
      */
     public CSElement(ICS ics) {
         super("CSElement", ics);
-        this.elementName = ics.GetVar("element");
+        this.fileName = ics.GetVar("filename");
+        this.folder = ics.GetVar("folder");
         this.elementCode = ics.GetVar("body");
-        this.elementName = ics.GetVar("ext");
+        this.elementName = ics.GetVar("name");
     }
 
     public List<String> getAttributes() {
@@ -47,7 +51,7 @@ public class CSElement extends Asset {
 
         // blob
         byte[] bytes = elementCode.getBytes();
-        BlobObject blob = new BlobObjectImpl(elementCode, "AgileSites", bytes);
+        BlobObject blob = new BlobObjectImpl(fileName, folder, bytes);
         data.getAttributeData("url").setData(blob);
 
         // data.getAttributeData("createdby").setData("agilesites");

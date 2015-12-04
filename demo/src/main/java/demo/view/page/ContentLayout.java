@@ -3,7 +3,7 @@ package demo.view.page;
 import agilesites.annotations.Template;
 import agilesites.api.Picker;
 
-public class ContentLayout  {
+public class ContentLayout   {
 
 
 	@Template(from="/blueprint/template.html", pick="#content")

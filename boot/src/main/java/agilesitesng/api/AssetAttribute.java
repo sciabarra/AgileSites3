@@ -1,8 +1,10 @@
 package agilesitesng.api;
 
+import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.services.beans.AssetIdImpl;
 
+@Controller
 public class AssetAttribute<T extends ASAsset> {
 
     T attributeAssetType;
