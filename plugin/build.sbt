@@ -13,15 +13,13 @@ scalaVersion := "2.10.5"
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
-val sitesVersion = "12.1.4.0.1"
-
 
 /////////////////////////////////////
 //jar & generated src
 
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
-unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-${sitesVersion}"
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
 
 ////////////////////////////////////
 // dependencies

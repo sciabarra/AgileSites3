@@ -17,8 +17,8 @@ public class BootHomeLayout extends ASContentController<BootHome> {
     @Template(from="demo.html")
     String bootHomeLayout(Picker p) {
         p.replace("#title", "${home.bootTitle}");
+        return p.html();
     }
-
 
     @Override
     protected void doWork(Map models) {

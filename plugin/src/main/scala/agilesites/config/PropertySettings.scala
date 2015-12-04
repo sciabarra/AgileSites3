@@ -25,7 +25,7 @@ trait PropertySettings extends Utils {
     profile.map(x =>
       s"agilesites.${x}.properties")
 
-  lazy val utilPropertyMapTask = utilPropertyMap in ThisBuild := {
+  lazy val utilPropertyMapTask = utilPropertyMap := {
     try {
       val prp: Properties = new Properties
       val loaded = for {
@@ -52,7 +52,7 @@ trait PropertySettings extends Utils {
     }
   }
 
-  lazy val uidPropertyMapTask = uidPropertyMap in ThisBuild := {
+  lazy val uidPropertyMapTask = uidPropertyMap := {
     val prp: Properties = new Properties
     val prpFile = baseDirectory.value / "src" / "main" / "resources" / sitesFocus.value / "uid.properties"
     if (prpFile.exists) {

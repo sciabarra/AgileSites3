@@ -1,4 +1,4 @@
-val bootstrap = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
+val boot = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 

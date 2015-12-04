@@ -1,0 +1,23 @@
+resolvers ++= Seq(
+  "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
+  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
+  "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
+assemblySettings
+
+lazy val publishedProjects = Seq[ProjectReference]()
+
+RepositoryBuilder.localRepo := file("dist") / "project" / "repo" / "local"
+
+RepositoryBuilder.localRepoCreationSettings
+
+RepositoryBuilder.localRepoProjectsPublished <<= (publishedProjects map (publishLocal in _))
+
+RepositoryBuilder.addProjectsToRepository(publishedProjects)
+
+RepositoryBuilder.localRepoArtifacts ++= Seq(
+          "org.scala-sbt" % "sbt" % "0.13.9"
+        , "org.scala-lang" % "scala-compiler" % "2.10.4" % "master"
+        , "org.scala-lang" % "jline" % "2.10.4" % "master"
+        , "org.fusesource.jansi" % "jansi" % "1.11" % "master"
+      )
+
