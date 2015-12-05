@@ -103,9 +103,8 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
         'body -> readFile(file))
 
     case Template(id, name, description,
-    forType, forSubtype, templateType,
-    ssCache, csCache, criteria, extraCriteria,
-    controller, file) =>
+    forType, forSubtype, templateType, controller,
+    ssCache, csCache, criteria, extraCriteria, file) =>
       deploy("Template", id, name, description,
         'subtype -> forType,
         'forSubtype -> forSubtype,
