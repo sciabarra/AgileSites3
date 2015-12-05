@@ -46,7 +46,7 @@ object SpoonModel extends ModelUtil {
                       description: String,
                       forType: String,
                       forSubtype: String,
-                      templateType: Char,
+                      templateType: String,
                       controller: String,
                       ssCache: String,
                       csCache: String,

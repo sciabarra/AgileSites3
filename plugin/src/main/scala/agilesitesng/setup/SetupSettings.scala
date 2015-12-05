@@ -84,5 +84,5 @@ trait SetupSettings
   }
 
   val setupSettings = Seq(setupTask, setupOnlyTask,
-    setupOnlyDefault := "../plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt")
+    setupOnlyDefault := "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt")
 }

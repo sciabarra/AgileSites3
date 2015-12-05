@@ -30,8 +30,8 @@ class TemplateAnnotationProcessor
     val name = orEmpty(a.name(), mt.getSimpleName)
     val key = s"Template.$name"
     val className = mt.getDeclaringType.getQualifiedName
-    val templateType = if (a.layout()) 'l'
-    else if (a.external()) 'x' else 'b'
+    val templateType = if (a.layout()) "l"
+    else if (a.external()) "x" else "b"
 
     Spooler.insert(60, key,
       SpoonModel.Template(

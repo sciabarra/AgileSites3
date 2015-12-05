@@ -15,7 +15,7 @@ import java.util.Map;
 public class BootHomeLayout extends ASContentController<BootHome> {
 
     @Template(from="demo.html", layout=true)
-    String bootHomeLayout(Picker p) {
+    public String bootHomeLayout(Picker p) {
         p.replace("#title", "${home.bootTitle}");
         return p.html();
     }
