@@ -35,8 +35,11 @@ class CSElementAnnotationProcessor
     mt.getDeclaringType.removeMethod(mt)
 
     Spooler.insert(50, key,
-      SpoonModel.CSElement(Uid.generate(key),
-        name, writeFileOutdir(filename,
+      SpoonModel.CSElement(
+        id=Uid.generate(key),
+        name=name,
+        description=s"CSElement for ${name}",
+        file=writeFileOutdir(filename,
           JspUtils.wrapAsJsp(output))))
 
   }

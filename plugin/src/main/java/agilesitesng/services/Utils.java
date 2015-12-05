@@ -334,10 +334,10 @@ public class Utils {
         return t;
     }
 
-    public static String[] splitOnPipe(String s) {
-        if (s == null)
+    public static String[] splitOn(String s, String sep) {
+        if (s == null || s.trim().length()==0)
             return new String[0];
-        StringTokenizer st = new StringTokenizer(s, "|");
+        StringTokenizer st = new StringTokenizer(s, sep);
         String[] res;
         int n = st.countTokens();
         if (n == 0) {
@@ -349,6 +349,15 @@ public class Utils {
         }
         return res;
     }
+
+    public static String[] splitOnPipe(String s) {
+        return splitOn(s, "|");
+    }
+
+    public static String[] splitOnComma(String s) {
+        return splitOn(s, ",");
+    }
+
 
     private static SimpleDateFormat fmt = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
@@ -364,5 +373,10 @@ public class Utils {
             }
         }
         return null;
+    }
+
+
+    public static boolean isEmpty(String s) {
+        return s==null || s.trim().length()==0;
     }
 }

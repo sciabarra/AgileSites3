@@ -19,6 +19,16 @@ public @interface Template {
 
     public String pick() default "";
 
+    public String forType() default "";
+
+    public String forSubtype() default "";
+
+    public String controller() default "";
+
+    public boolean layout() default false;
+
+    public boolean external() default false;
+
     public String ssCache() default "false";
 
     public String csCache() default "false";
@@ -26,12 +36,4 @@ public @interface Template {
     public String criteria() default "";
 
     public String extraCriteria() default "";
-
-    public boolean layout() default false;
-
-    public String type() default "";
-
-    public String subtype() default "";
-
-    public String controller() default "";
 }

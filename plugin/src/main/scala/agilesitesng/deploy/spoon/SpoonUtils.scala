@@ -5,8 +5,8 @@ import java.io.File
 import agilesitesng.deploy.model.{Uid, SpoonModel, Spooler}
 
 /**
- * Created by msciab on 18/08/15.
- */
+  * Created by msciab on 18/08/15.
+  */
 trait SpoonUtils {
 
   val outdir = new java.io.File(System.getProperty("spoon.outdir"))
@@ -41,7 +41,6 @@ trait SpoonUtils {
     out.close()
   }
 
-
   def class2file(className: String) = {
     val base = new File(System.getProperty("spoon.outdir"))
     val file = new File(base, className.replace('.', File.separatorChar) + ".java")
@@ -54,18 +53,20 @@ trait SpoonUtils {
     file.getAbsolutePath
   }
 
-  def addController(name: String, classname: String) = {
-    val key = s"Controller.$classname"
-    Spooler.insert(50, key,
-      SpoonModel.Controller(Uid.generate(key),
-        name, classname, class2file(classname)))
-  }
-
   def addApiController(name: String, classname: String) = {
     val key = s"Controller.$classname"
     Spooler.insert(50, key,
       SpoonModel.Controller(Uid.generate(key),
-        name, classname, class2file(classname)))
+        name, s"Controller ${name}",
+        classname, class2file(classname)))
+  }
+
+  def addController(name: String, classname: String) = {
+    val key = s"Controller.$classname"
+    Spooler.insert(50, key,
+      SpoonModel.Controller(Uid.generate(key),
+        name, s"Controller ${name}",
+        classname, class2file(classname)))
   }
 
   def orEmpty(name: String, alternative: String) =
