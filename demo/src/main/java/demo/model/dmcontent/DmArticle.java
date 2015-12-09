@@ -4,6 +4,8 @@ import agilesites.annotations.*;
 import agilesitesng.api.AssetAttribute;
 import demo.model.DmContent;
 
+import java.util.Date;
+
 @MultipleStartMenu(items = {
         @NewStartMenu(value = "News Article", args = "articleType(S):news"),
         @NewStartMenu(value = "Blog Article", args = "articleType(S):blog")
@@ -24,6 +26,9 @@ public class DmArticle extends DmContent {
 
     @Attribute(editor = "ArticleTypeSelector")
     public String articleType;
+
+    @Attribute
+    public Date startDate;
 
     @Attribute
     public agilesitesng.api.AssetAttribute<DmContent<DmImage>> image;

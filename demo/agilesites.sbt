@@ -2,6 +2,8 @@ val demo = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
+//javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked")
+
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
 crossPaths := false

@@ -10,7 +10,6 @@ import spoon.reflect.declaration.{CtClass, CtAnnotation, CtField}
 import spoon.reflect.reference.{CtFieldReference, CtTypeReference}
 import spoon.support.reflect.reference.CtArrayTypeReferenceImpl
 import spoon.template.Substitution
-import templates.FieldAccessTemplate
 
 import scala.collection.JavaConversions._
 
@@ -22,7 +21,7 @@ class AttributeAnnotationProcessor extends AbstractAnnotationProcessor[Attribute
   def logger = LoggerFactory.getLogger(classOf[AttributeAnnotationProcessor])
 
   def process(a: Attribute, cl: CtField[_]) {
-    Substitution.insertAll(cl.getParent(classOf[CtClass[_]]),new FieldAccessTemplate[Attribute](cl.getType, cl.getSimpleName))
+    //Substitution.insertAll(cl.getParent(classOf[CtClass[_]]),new FieldAccessTemplate[Attribute](cl.getType, cl.getSimpleName))
     val name = cl.getSimpleName
 
     val description = if (a.description() == null || a.description().isEmpty) name else a.description()

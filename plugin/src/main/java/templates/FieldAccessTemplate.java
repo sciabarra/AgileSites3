@@ -57,6 +57,7 @@ public class FieldAccessTemplate<_FieldType_> implements Template {
     }
 
     @Override
+    @Local
     public CtElement apply(CtType ctType) {
         return null;
     }

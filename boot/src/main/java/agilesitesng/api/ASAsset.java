@@ -30,4 +30,24 @@ public class ASAsset {
     protected String readAttributes() {
         return null;
     }
+
+    protected String getString(String assetName, String value) {
+        return String.format("${%s.%s}", assetName, value);
+    }
+
+    protected String getDate(String assetName,String value, String format) {
+        return  String.format("<fmt:formatDate pattern='%s' value='%s' />", format, editString(assetName, value));
+    }
+
+    protected String editString(String assetName, String value) {
+        return String.format("${%s.%s}", assetName, value);
+    }
+
+    protected String editDate(String assetName, String value, String format) {
+        return  String.format("<fmt:formatDate pattern='%s' value='%s' />", format, editString(assetName,value));
+    }
+
+    protected String editText(String assetName, String value) {
+        return editString(assetName, value);
+    }
 }

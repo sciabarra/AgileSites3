@@ -3,9 +3,11 @@ package agilesitesng.deploy.spoon
 import agilesites.api.Picker
 import agilesites.annotations.Template
 import agilesitesng.preprocess.PickerImpl
+import agilesitesng.processors.DefinitionHelper
 import spoon.processing.AbstractAnnotationProcessor
 import agilesitesng.deploy.model.{Spooler, SpoonModel, Uid}
-import spoon.reflect.declaration.{CtMethod, CtClass}
+import spoon.reflect.declaration.{CtParameter, CtMethod, CtClass}
+import scala.collection.JavaConversions._
 
 /**
   * Created by msciab on 06/08/15.
@@ -18,11 +20,20 @@ class TemplateAnnotationProcessor
     val name = orEmpty(a.name(), mt.getSimpleName)
     val className = mt.getDeclaringType.getQualifiedName
     val cls = Class.forName(className)
-    val method = cls.getDeclaredMethod(mt.getSimpleName, classOf[Picker])
+    val params = mt.getParameters map (x => x.getReference.getType.getActualClass)
+    // create an instance of the annotated method
+    val method = cls.getDeclaredMethod(mt.getSimpleName, params:_*)
     val obj = cls.newInstance
     val input = PickerImpl.load(a.from(), a.pick())
-    val output = method.invoke(obj, input).asInstanceOf[String]
-    val filename = s"jsp/${orEmpty(a.forType(), "Typeless")}/${name}.jsp"
+    // create instances of all the parameters of type DefinitionHelper
+    val objs = input +: (params filter(x => x == classOf[DefinitionHelper]) map(x => {
+        val assetName = s"${mt.getSimpleName}_${x.getSimpleName}"
+        val objParam = x.getConstructor(classOf[String]).newInstance(assetName)
+        objParam.asInstanceOf[Object]
+      }
+    )).toSeq
+    val output = method.invoke(obj, objs:_*).asInstanceOf[String]
+    val filename = s"jsp/${orEmpty(a.forType(), "Typeless")}/$name.jsp"
     writeFileOutdir(filename, JspUtils.wrapAsJsp(output))
   }
 

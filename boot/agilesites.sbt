@@ -2,6 +2,8 @@ val boot = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
+javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked")
+
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
 crossPaths := false
@@ -15,7 +17,7 @@ val pluginVer = try {
   scala.io.Source.fromFile(file("project") / "agilesites.ver").getLines.next.trim
 } catch { case _: Throwable => "3.0.0-SNAPSHOT"}
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer changing() extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
 

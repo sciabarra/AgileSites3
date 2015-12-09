@@ -25,20 +25,22 @@ unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s
 // dependencies
 
 libraryDependencies ++= Seq(
-    "ch.qos.logback"            % "logback-classic" % "1.1.3" % "test;compile"
-  , "net.openhft"               % "spoon-core"      % "4.3.0" % "compile"
-  , "javax.servlet"             % "servlet-api"     % "2.5"   % "compile"
-  , "org.apache.tomcat.embed"   % "tomcat-embed-core" % "7.0.59" % "compile"
-  , "org.apache.httpcomponents" % "httpclient"      % "4.3.6"
-  , "com.typesafe.akka"         %% "akka-actor"     % "2.3.9"
-  , "com.typesafe.akka"         %% "akka-slf4j"     % "2.3.9"
-  , "com.typesafe.akka"         %% "akka-testkit"   % "2.3.9" % "test"
-  , "net.liftweb"               %% "lift-json"      % "2.6"
-  , "io.spray"                  %% "spray-can"      % "1.3.2"
-  , "io.spray"                  %% "spray-http"     % "1.3.2"
-  , "io.spray"                  %% "spray-httpx"    % "1.3.2"
-  , "net.databinder.dispatch"   %% "dispatch-core"  % "0.11.2"
-  , "org.scalatest"             %% "scalatest"      % "2.2.4" % "test"
+    "ch.qos.logback"             % "logback-classic"      % "1.1.3" % "test;compile"
+  , "net.openhft"                % "spoon-core"           % "4.3.0" % "compile"
+  , "javax.servlet"              % "servlet-api"          % "2.5"   % "compile"
+  , "org.apache.tomcat.embed"    % "tomcat-embed-core"    % "7.0.59" % "compile"
+  , "org.apache.httpcomponents"  % "httpclient"           % "4.3.6"
+  , "org.kohsuke.metainf-services" % "metainf-services"   % "1.6"
+  , "com.squareup"               % "javapoet"             % "1.4.0"
+  , "com.typesafe.akka"          %% "akka-actor"          % "2.3.9"
+  , "com.typesafe.akka"          %% "akka-slf4j"          % "2.3.9"
+  , "com.typesafe.akka"          %% "akka-testkit"        % "2.3.9" % "test"
+  , "net.liftweb"                %% "lift-json"           % "2.6"
+  , "io.spray"                   %% "spray-can"           % "1.3.2"
+  , "io.spray"                   %% "spray-http"          % "1.3.2"
+  , "io.spray"                   %% "spray-httpx"         % "1.3.2"
+  , "net.databinder.dispatch"    %% "dispatch-core"       % "0.11.2"
+  , "org.scalatest"              %% "scalatest"           % "2.2.4" % "test"
   , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
 )
 
@@ -73,8 +75,8 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
 
 
 ////////////////////////////////////
-// build for java 6
-javacOptions ++= Seq("-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
+// build for java 7
+javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
 

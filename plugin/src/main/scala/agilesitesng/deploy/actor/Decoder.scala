@@ -83,7 +83,9 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       'filename -> new java.io.File(file).getName,
       'filefolder -> name.split("\\.").init.mkString("WCS_Controller/", "/", "/"),
       'fileext -> file.split("\\.").last,
-      'filebody -> readFile(file))
+      'filebody -> readFile(file),
+      'path -> classname
+    )
 
     case StartMenu(id, name, description, menuType, assetType, assetSubtype, args) => Map(
       "op" -> "startmenu",

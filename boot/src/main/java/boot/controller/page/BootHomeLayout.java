@@ -5,6 +5,7 @@ import agilesites.annotations.Template;
 import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
 import boot.model.page.BootHome;
+import boot.model.page.BootHomeHelper;
 
 import java.util.Map;
 
@@ -14,15 +15,11 @@ import java.util.Map;
 @Controller
 public class BootHomeLayout extends ASContentController<BootHome> {
 
-    @Template(from="demo.html", layout=true)
-    public String bootHomeLayout(Picker p) {
-        p.replace("#title", "${home.bootTitle}");
+    @Template(from="demo.html", layout=true, pick = "body")
+    public String bootHomeLayout(Picker p, BootHomeHelper helper) {
+        p.replace("#title", helper.getBootTitle());
+        p.replace("#date", helper.getBootDate("dd/mm/yyyy"));
         return p.html();
     }
 
-    @Override
-    protected void doWork(Map models) {
-        BootHome home = load();
-        models.put("home", home);
-    }
 }

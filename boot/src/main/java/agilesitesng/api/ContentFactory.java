@@ -6,6 +6,10 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.search.SearchException;
+import com.fatwire.services.beans.AssetIdImpl;
+import com.openmarket.assetframework.complexasset.ComplexAsset;
+import com.openmarket.xcelerate.asset.ControllerAsset;
+import com.openmarket.xcelerate.asset.ControllerAssetManager;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.ArrayList;
@@ -42,6 +46,7 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
                     .selectImmediateOnlyParents(true)
                     .includeLinks(true)
                     .includeLinksForBlobs(true)
+                    .includeFeatures(true)
                     .read();
             String assetSubtype = (String) assetMap.get("subtype");
             String assetClass = getAssetClass((String) assetMap.get("name"), assetSubtype);
@@ -59,11 +64,16 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
         return t;
     }
 
-    private String getAssetClass(String assetName, String assetSubtype) throws SearchException {
+    private String getAssetClass(String assetName, String assetSubtype) throws Exception {
         List<Map<String, String>> results = newSearcher().from("WCS_Controller").selectAll().searchFor(assetSubtype);
         String assetClass = assetName;
         if (results.size() > 0) {
-            assetClass = results.get(0).get("description");
+            AssetId assetId = new AssetIdImpl(results.get(0).get("AssetType"), new Long(results.get(0).get("id")));
+            Map assetMap = newAssetReader()
+                    .forAsset(assetId)
+                    .selectAll(true)
+                    .read();
+            assetClass = (String)assetMap.get("path");
         }
         return assetClass;
     }
