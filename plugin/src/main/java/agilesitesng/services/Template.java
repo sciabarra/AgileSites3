@@ -31,6 +31,7 @@ public class Template extends Asset {
     private String ssCache;
     private String forSubtype;
     private String body;
+    private String controller;
 
     // todo read default cache criteria
     private List<String> cacheCriteria =
@@ -59,6 +60,7 @@ public class Template extends Asset {
         }
         fileElement = name + ".jsp";
         this.body = ics.GetVar("body");
+        this.controller = ics.GetVar("controller");
 
         // template types
         this.tType = ics.GetVar("ttype").charAt(0);
@@ -131,6 +133,8 @@ public class Template extends Asset {
 
         data.getAttributeData("element").setData(
                 Utils.list(attrStruct("Structure Element", mapElement)));
+
+        data.getAttributeData("controller").setData(controller);
 
         // default page criteria
         Collections.sort(cacheCriteria);

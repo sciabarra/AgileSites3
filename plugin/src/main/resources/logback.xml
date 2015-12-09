@@ -38,11 +38,12 @@
 
     <!-- send logger to file, console, logger -->
     <logger name="agilesitesng" level="DEBUG"
-            additivity="false">
+            additivity="true">
         <appender-ref ref="Lilith"/>
         <appender-ref ref="FILE"/>
     </logger>
 
+<!--
     <logger name="agilesitesng.wem.actor.Cas$CasActor" level="INFO"
             additivity="false">
     </logger>
@@ -55,9 +56,9 @@
             additivity="false">
     </logger>
 
-    <logger name="agilesitesng.deploy.actor.Services$ServicesActor" level="INFO"
+    <logger name="agilesitesng.deploy.actor.Services$ServicesActor" level="DEBUG"
             additivity="false">
     </logger>
-
+-->
 
 </configuration>

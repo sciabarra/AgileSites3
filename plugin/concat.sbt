@@ -18,7 +18,7 @@ def javaConcatToGroovy(map: Map[File, PathFinder], version: String) = {
 
     val bodies = lines.filter(x => !(x.startsWith("import ") || x.startsWith("package "))).toSeq
     val helloWorld = s"Concat of ${thePackage} ${version} built on ${new java.util.Date}"
-    //println(output)
+    println(output)
     output.getParentFile.mkdirs
     val fw = new java.io.FileWriter(output)
     val result = (imports ++ bodies)
