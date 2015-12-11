@@ -18,9 +18,9 @@ trait UpgradeSettings
       val url = if (base.startsWith("http://"))
         new java.net.URL(base)
       else new java.io.File(base).toURI.toURL
-      Source.fromURL(url + "plugin/version.txt").getLines.next
+      Source.fromURL(url + "agilesites.ver").getLines.next
     }
-    IO.write(file("project") / "plugin" / "version.txt", plugin + "\n")
+    IO.write(file("project") / "agilesites.ver", plugin + "\n")
     println(s"upgrading to plugin: ${plugin}")
     state.copy(remainingCommands =
       Seq("reload") ++ state.remainingCommands)

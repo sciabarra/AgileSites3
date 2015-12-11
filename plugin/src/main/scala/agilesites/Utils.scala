@@ -25,7 +25,7 @@ trait Utils {
 
   // read a file
   def readStream(is: InputStream) = {
-    var sb = new StringBuilder
+    val sb = new StringBuilder
     var c = is.read
     while(c != -1) {
       sb.append(c.asInstanceOf[Char])

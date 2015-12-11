@@ -4,8 +4,6 @@ import agilesites.annotations.AttributeEditor;
 import agilesites.annotations.Site;
 import agilesites.annotations.FlexFamily;
 import agilesites.api.AgileSite;
-import agilesites.editors.RichTextEditor;
-import agilesites.editors.UploaderEditor;
 
 /**
  * Declaring the site with his types

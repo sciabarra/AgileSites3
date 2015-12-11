@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="com.sciabarra" module="agilesites3-plugin" revision="3.0.0-SNAPSHOT" status="integration" publication="20151210131004" e:sbtVersion="0.13" e:scalaVersion="2.10">
+	<info organisation="com.sciabarra" module="agilesites3-plugin" revision="3.0.0-SNAPSHOT" status="integration" publication="20151211110411" e:sbtVersion="0.13" e:scalaVersion="2.10">
 		<license name="Apache-2.0" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
 		<description>
 		agilesites3-plugin

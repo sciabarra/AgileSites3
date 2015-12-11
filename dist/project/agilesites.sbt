@@ -1,3 +1,5 @@
+val pluginCurrentVer = "3.0.0-SNAPSHOT"
+
 resolvers ++= Seq(
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
@@ -5,11 +7,11 @@ resolvers ++= Seq(
 )
 
 val pluginVer = try {
-  scala.io.Source.fromFile(file("project") / "plugin/version.txt").getLines.next.trim
-} catch { case _: Throwable => "3.0.0-SNAPSHOT" }
+  scala.io.Source.fromFile(file("project") / "agilesites.ver").getLines.next.trim
+} catch { case _: Throwable =>  pluginCurrentVer }
 
 addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
 
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0")
+//val plugin = project.in(file(".")).dependsOn((file("project")/"conf").toURI)
 
-val plugin = project.in(file(".")).dependsOn((file("project")/"conf").toURI)
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "4.0.0")

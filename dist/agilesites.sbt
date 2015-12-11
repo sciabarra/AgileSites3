@@ -1,4 +1,6 @@
-val ADT = project.in(file("."))
+val pluginCurrentVer = "3.0.0-SNAPSHOT"
+
+val ASDT = project.in(file("."))
 
 scalaVersion := "2.10.5"
 
@@ -17,6 +19,12 @@ val pluginVer = try {
 
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
-unmanagedBase := file("project") / "WEB-INF" / "lib"
+//unmanagedBase := baseDirectory.value.getAbsoluteFile / "project" / "WEB-INF" / "lib"
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
+
+name := sitesFocus.value
+
+organization := "org.agilesites"
+
+version := "1.0"

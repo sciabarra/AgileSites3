@@ -20,4 +20,3 @@ libraryDependencies +=  "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT
 val demo = project.in(file("demo"))
 
 val boot = project.in(file("boot"))
-
