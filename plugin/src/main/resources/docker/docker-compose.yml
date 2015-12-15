@@ -1,0 +1,16 @@
+database:
+  build: oraclexe
+  hostname: database
+  domainname: loc
+  container_name: database
+  ports:
+    - 1521:1521
+    - 8080:8080
+weblogic:
+  build: weblogic
+  hostname: weblogic
+  domainname: loc
+  container_name: weblogic
+  ports: 
+   - 7003:7003
+
