@@ -11,3 +11,6 @@ setenv.cmd
 setenv.sh
 mysetenv.cmd
 mysetenv.sh
+.classpath
+.project
+.settings/

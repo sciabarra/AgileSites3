@@ -2,7 +2,8 @@ FROM oraclelinux:7
 RUN yum -y update && yum clean all
 RUN yum install -y libaio bc net-tools less telnet 
 COPY oraclexe.rpm.link .
-RUN curl $(cat oraclexe.rpm.link) >oraclexe.rpm && rpm -Uvh oraclexe.rpm ; rm *.rpm
+RUN curl $(cat oraclexe.rpm.link) >oraclexe.rpm 
+RUN rpm -Uvh oraclexe.rpm ; rm *.rpm
 
 # Environment variables 
 # -------------------------------------------------------------
