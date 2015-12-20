@@ -1,4 +1,4 @@
-# build
+#!/bin/bash
 
 DB=${1:-shared.loc:1521:XE}
 PASS=${2:-Welcome1}

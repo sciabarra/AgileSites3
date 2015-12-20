@@ -1,5 +1,5 @@
 BASE=${1:?where the files are in http}
-eval $(docker-machine env sites12c)
+eval $(docker-machine env owcs)
 echo >base-java/jdk.rpm.link \
  $BASE/jdk-8u66-linux-x64.rpm
 echo >base-oracle/oraclexe.rpm.link \
@@ -8,8 +8,8 @@ echo >base-weblogic/weblogic.jar.link \
  $BASE/fmw_12.2.1.0.0_infrastructure.jar
 echo >base-sites/sites.jar.link \
  $BASE/fmw_12.2.1.0.0_wcsites_generic.jar
-docker build -t sites12c-base-java base-java
-docker build -t sites12c-base-weblogic base-weblogic
-docker build -t sites12c-base-sites base-sites
-docker build -t sites12c-base-oracle base-oracle
-docker-compose build
+for i in \
+  base-oracle base-java base-sites base-weblogic  \
+  install-shared install-staging install-admin
+do docker build -t owcs-$i $i
+done

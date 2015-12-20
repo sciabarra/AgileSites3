@@ -1,4 +1,4 @@
-FROM sites12c-base-java
+FROM owcs-base-java
 USER app
 WORKDIR /app
 ADD oraInst.loc /app/oraInst.loc
