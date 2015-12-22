@@ -1,4 +1,4 @@
-FROM owcs-base-weblogic
+FROM owcs/base-weblogic:latest
 USER app
 WORKDIR /app
 ADD oraInst.loc /app/oraInst.loc

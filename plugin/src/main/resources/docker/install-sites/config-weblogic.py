@@ -19,7 +19,9 @@ for res in jdbcsystemresources:
     cd ('/JDBCSystemResource/' + res.getName() + '/JdbcResource/' + res.getName() + '/JDBCDriverParams/NO_NAME_0');
     cmo.setUrl(sys.argv[1]);
     cmo.setPasswordEncrypted(sys.argv[2])
- 
+
+cd("/JDBCSystemResource/wcsitesDS/JdbcResource/wcsitesDS/JdbcDriverParams/NO_NAME_0/Properties/NO_NAME_0/Property/user")
+cmo.setValue(sys.argv[3]+"_WCSITES") 
 setOption('OverwriteDomain', 'true')
 #setOption('NoDependencyCheck', 'true')
 writeDomain('%s/weblogic/user_projects/domains/base_domain' % os.environ['PWD'])

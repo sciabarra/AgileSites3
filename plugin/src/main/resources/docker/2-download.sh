@@ -1,5 +1,6 @@
-BASE=${1:?where the files are in http}
-eval $(docker-machine env owcs)
+BASE1=${1:?where the files are in http}
+BASE=${BASE1%/}
+eval $(bash _machine.sh)
 echo >base-java/jdk.rpm.link \
  $BASE/jdk-8u66-linux-x64.rpm
 echo >base-oracle/oraclexe.rpm.link \
@@ -8,8 +9,8 @@ echo >base-weblogic/weblogic.jar.link \
  $BASE/fmw_12.2.1.0.0_infrastructure.jar
 echo >base-sites/sites.jar.link \
  $BASE/fmw_12.2.1.0.0_wcsites_generic.jar
-for i in \
-  base-oracle base-java base-sites base-weblogic  \
-  install-shared install-staging install-admin
-do docker build -t owcs-$i $i
+for i in base-java base-oracle base-weblogic base-sites 
+do echo ============  docker build -t owcs/$i:latest $i
+sleep 3
+docker build -t owcs/$i:latest $i
 done
