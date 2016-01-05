@@ -4,6 +4,7 @@ import java.io.File
 
 import agilesites.AgileSitesConstants
 import agilesites.config.AgileSitesConfigKeys._
+import agilesites.deploy.AgileSitesDeployKeys._
 import sbt.Keys._
 import sbt._
 
@@ -87,6 +88,37 @@ trait SpoonSettings {
 
     spool
   }
+
+  val processAnnotations = Def.task {
+
+    val comp: Compiler.Compilers = (compilers in Compile).value
+    val mcp: Seq[File] = (managedClasspath in Compile).value.files
+    val src: File = (sourceDirectory in Compile).value
+    val out: File = (sourceDirectory in Compile).value
+    val log = streams.value.log
+    val in = (src ** "*.java").get
+
+    val opt = Seq(
+      "-proc:only",
+      "-processor",
+      "agilesitesng.processors.HelperAnnotationProcessor",
+      "-s",
+      out.getAbsolutePath)
+
+    //log.info(in.mkString("in:", " ", ""))
+    //log.info(mcp.mkString("mcp: ", " ", ""))
+    //log.info(dcp.mkString("dcp: ", " ", ""))
+    //log.info(opt.mkString("opt: ", " ", ""))
+
+    try {
+      out.mkdirs()
+      comp.javac(in, mcp , out, opt)(log)
+    } catch {
+      case ex: Throwable =>
+        log.error(ex.getMessage)
+    }
+  }
+
 
   val spoonSettings = Seq(
     ngSpoonClasspath <<= (Keys.update) map {

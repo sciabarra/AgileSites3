@@ -62,7 +62,7 @@ public class DefinitionHelperClass {
         String packageName = pkg.isUnnamed() ? null : pkg.getQualifiedName().toString();
         List<MethodSpec> methods = new ArrayList<>();
 
-        TypeSpec.Builder typeSpecBuilder = TypeSpec.classBuilder(factoryClassName).addModifiers(Modifier.PUBLIC).superclass(TypeName.get(superclassName));
+        TypeSpec.Builder typeSpecBuilder = TypeSpec.classBuilder(factoryClassName).addModifiers(Modifier.PUBLIC).superclass(TypeName.get(superclassName)).addOriginatingElement(className);
 
         typeSpecBuilder.addSuperinterface(DefinitionHelper.class);
 
@@ -90,6 +90,7 @@ public class DefinitionHelperClass {
 
         // Write file
         JavaFile.builder(packageName, typeSpec).build().writeTo(filer);
+
     }
 
     private List<MethodSpec> getMethodsForAttribute(HelperAttribute attribute) {

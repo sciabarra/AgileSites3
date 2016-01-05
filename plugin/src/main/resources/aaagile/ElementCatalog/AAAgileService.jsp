@@ -47,6 +47,10 @@ try {
                 + "\n"
                 + gcl.loadClass("agilesitesng.services.Version").newInstance().toString();
     } else {
+        if (op.equals("deploy")) {
+            System.out.println("=== cleaning gcl cache ===");
+            gcl.clearCache();
+        }
         Class clazz = gcl.loadClass(SVC);
         Method method = clazz.getMethod("exec", new Class[]{HttpServletRequest.class, COM.FutureTense.Interfaces.ICS.class, HttpServletResponse.class});
         result = method.invoke(clazz.newInstance(), new Object[] { request, ics, response}).toString();

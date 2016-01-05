@@ -17,8 +17,7 @@ import java.util.Map;
 public class ArticleDetailController extends ASContentController<DmArticle> {
 
     @Template(from = "article-detail.html", pick = "#body")
-    public String preProcess(Picker html) {
-        ArticleHelper article = new ArticleHelper();
+    public String preProcess(Picker html, ArticleHelper article) {
         html.replace("#article-title", article.getTitle("dm"));
         html.replace("#article-subtitle", article.getSubtitle("dm"));
         html.replace("#article-start_date", article.getStartDate("dm", "mm/dd/yyyy"));

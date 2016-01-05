@@ -20,4 +20,5 @@ object NgDeployKeys {
   val spoon = inputKey[File]("invoke spoon with parameters")
   val ngSpoon = taskKey[File]("invoke spoon without parameters")
   val ngUid = taskKey[Map[String,String]]("load uids for the site")
+  val processAnnotations = taskKey[Unit]("Process annotations")
 }

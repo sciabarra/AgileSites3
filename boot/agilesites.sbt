@@ -2,7 +2,7 @@ val boot = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
-javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked")
+javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked", "-J-Xdebug", "-J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006")
 
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
@@ -26,3 +26,5 @@ name := utilPropertyMap.value.getOrElse("sites.focus", "Unnamed")
 organization := utilPropertyMap.value.getOrElse("organization", "com.sciabarra")
 
 version := utilPropertyMap.value.getOrElse("version", "1.0-SNAPSHOT")
+
+

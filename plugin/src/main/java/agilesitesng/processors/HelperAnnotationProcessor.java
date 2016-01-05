@@ -22,13 +22,14 @@ import java.util.Set;
 /**
  * Created by jelerak on 04/12/2015.
  */
-@MetaInfServices(Processor.class)
+//@MetaInfServices(Processor.class)
 public class HelperAnnotationProcessor extends AbstractProcessor {
 
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
+    private boolean isRoundOne = false;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -57,6 +58,7 @@ public class HelperAnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
         try {
+
 
 
             // Scan classes

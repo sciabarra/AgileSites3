@@ -5,11 +5,7 @@ import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
-import com.fatwire.assetapi.data.search.SearchException;
 import com.fatwire.services.beans.AssetIdImpl;
-import com.openmarket.assetframework.complexasset.ComplexAsset;
-import com.openmarket.xcelerate.asset.ControllerAsset;
-import com.openmarket.xcelerate.asset.ControllerAssetManager;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.ArrayList;
@@ -19,7 +15,6 @@ import java.util.Map;
 /**
  * Created by jelerak on 15/10/2015.
  */
-@Controller
 public class ContentFactory<T extends ASAsset> extends BaseController {
 
     private static final ThreadLocal<ICS> context = new ThreadLocal<ICS>();

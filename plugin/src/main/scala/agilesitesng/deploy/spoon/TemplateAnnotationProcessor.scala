@@ -24,15 +24,30 @@ class TemplateAnnotationProcessor
     // create an instance of the annotated method
     val method = cls.getDeclaredMethod(mt.getSimpleName, params:_*)
     val obj = cls.newInstance
-    val input = PickerImpl.load(a.from(), a.pick())
+    //val input = PickerImpl.load(a.from(), a.pick())
     // create instances of all the parameters of type DefinitionHelper
+
+    /*
     val objs = input +: (params filter(x => x == classOf[DefinitionHelper]) map(x => {
         val assetName = s"${mt.getSimpleName}_${x.getSimpleName}"
         val objParam = x.getConstructor(classOf[String]).newInstance(assetName)
         objParam.asInstanceOf[Object]
       }
     )).toSeq
-    val output = method.invoke(obj, objs:_*).asInstanceOf[String]
+
+     */
+    val objs = params map {
+      case dh if classOf[DefinitionHelper].isAssignableFrom(dh) => {
+        val assetName = s"${mt.getSimpleName}_${dh.getSimpleName}"
+        val objParam = dh.getConstructor(classOf[String]).newInstance(assetName)
+        objParam.asInstanceOf[Object]
+      }
+      case p if p == classOf[Picker] =>
+        PickerImpl.load(a.from(), a.pick())
+      case x => x.newInstance().asInstanceOf[Object]
+    }
+
+    val output = method.invoke(obj, objs.toSeq:_*).asInstanceOf[String]
     val filename = s"jsp/${orEmpty(a.forType(), "Typeless")}/$name.jsp"
     writeFileOutdir(filename, JspUtils.wrapAsJsp(output))
   }

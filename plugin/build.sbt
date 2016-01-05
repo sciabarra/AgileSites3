@@ -76,7 +76,7 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
 
 ////////////////////////////////////
 // build for java 7
-javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
+javacOptions ++= Seq("-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
 

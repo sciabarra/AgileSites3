@@ -1,8 +1,13 @@
 package agilesitesng.api;
 
+import agilesites.annotations.Controller;
+import com.fatwire.assetapi.data.AssetId;
+import com.fatwire.services.beans.AssetIdImpl;
+
 public class AssetAttribute<T extends ASAsset> {
 
     T attributeAssetType;
+    String name;
     String c;
     long cid;
 
@@ -15,9 +20,26 @@ public class AssetAttribute<T extends ASAsset> {
         this.cid = cid;
     }
 
+    public AssetAttribute(String c, long cid, String name) {
+        this.c = c;
+        this.cid = cid;
+        this.name = name;
+    }
 
-    public T at() {
+    public T getValue() {
+        if (attributeAssetType == null) {
+            ContentFactory<T> cf = new ContentFactory<T>();
+            attributeAssetType = cf.load(new AssetIdImpl(c,cid));
+        }
         return attributeAssetType;
+    }
+
+    public AssetId getAssetId() {
+        return new AssetIdImpl(c,cid);
+    }
+
+    public String getName() {
+        return name;
     }
 
 }
