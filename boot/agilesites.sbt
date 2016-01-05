@@ -2,7 +2,7 @@ val boot = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
-javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked", "-J-Xdebug", "-J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006")
+javacOptions ++= Seq("-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-Xlint:unchecked") //, "-J-Xdebug", "-J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006")
 
 unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
 
