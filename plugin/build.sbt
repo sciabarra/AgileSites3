@@ -42,6 +42,7 @@ libraryDependencies ++= Seq(
   , "net.databinder.dispatch"    %% "dispatch-core"       % "0.11.2"
   , "org.scalatest"              %% "scalatest"           % "2.2.4" % "test"
   , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
+  , "com.squareup"               % "javapoet"             % "1.4.0"
 )
 
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
@@ -95,3 +96,5 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
   IO.copyDirectory(src, tgt, overwrite=true)
   IO.listFiles(tgt).toSeq
 }
+
+compileOrder := CompileOrder.JavaThenScala

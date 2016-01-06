@@ -9,8 +9,8 @@ import sbt.Keys._
 import sbt._
 
 /**
- * Created by msciab on 06/08/15.
- */
+  * Created by msciab on 06/08/15.
+  */
 trait SpoonSettings {
   this: AutoPlugin =>
 
@@ -93,6 +93,7 @@ trait SpoonSettings {
 
     val comp: Compiler.Compilers = (compilers in Compile).value
     val mcp: Seq[File] = (managedClasspath in Compile).value.files
+    val ucp: Seq[File] = (unmanagedClasspath in Compile).value.files
     val src: File = (sourceDirectory in Compile).value
     val out: File = (sourceDirectory in Compile).value
     val log = streams.value.log
@@ -107,16 +108,16 @@ trait SpoonSettings {
 
     //log.info(in.mkString("in:", " ", ""))
     //log.info(mcp.mkString("mcp: ", " ", ""))
-    //log.info(dcp.mkString("dcp: ", " ", ""))
     //log.info(opt.mkString("opt: ", " ", ""))
 
     try {
       out.mkdirs()
-      comp.javac(in, mcp , out, opt)(log)
+      comp.javac(in, mcp++ucp, out, opt)(log)
     } catch {
       case ex: Throwable =>
         log.error(ex.getMessage)
     }
+    Seq.empty[File]
   }
 
 
@@ -143,8 +144,7 @@ trait SpoonSettings {
       , "TemplateAnnotation"
       , "CSElementAnnotation"
       , "ControllerAnnotation"
-    )
-      .map(x => s"agilesitesng.deploy.spoon.${x}Processor")
+    ).map(x => s"agilesitesng.deploy.spoon.${x}Processor")
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies
     , spoonTask
@@ -153,5 +153,6 @@ trait SpoonSettings {
     , ngSpoon := {
       (spoon).toTask("").value
     }
+    ,sourceGenerators in Compile ++= Seq(processAnnotations.taskValue)
   )
 }

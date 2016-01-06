@@ -3,7 +3,7 @@ package agilesitesng.processors;
 import agilesites.annotations.Attribute;
 import agilesites.annotations.ContentDefinition;
 import agilesites.annotations.ParentDefinition;
-import org.kohsuke.MetaInfServices;
+//import org.kohsuke.MetaInfServices;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -14,7 +14,6 @@ import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
-import javax.ws.rs.ProcessingException;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -59,12 +58,8 @@ public class HelperAnnotationProcessor extends AbstractProcessor {
 
         try {
 
-
-
             // Scan classes
             for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(ContentDefinition.class)) {
-
-
 
                 // Check if a class has been annotated with @ContentDefinition
                 if (annotatedElement.getKind() != ElementKind.CLASS) {
@@ -109,9 +104,8 @@ public class HelperAnnotationProcessor extends AbstractProcessor {
             }
 
             // Generate code
-        } catch (ProcessingException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {e.printStackTrace();
 
         }
 

@@ -14,8 +14,9 @@ val ASBuilder = project.in(file("."))
     .enablePlugins(SbtWeb)
     .dependsOn(file("plugin").toURI)
         
-libraryDependencies +=  "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
+compileOrder := CompileOrder.JavaThenScala
 
 val demo = project.in(file("demo"))
 
