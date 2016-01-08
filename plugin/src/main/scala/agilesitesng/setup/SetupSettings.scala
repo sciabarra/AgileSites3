@@ -108,10 +108,16 @@ trait SetupSettings
       if (file.exists())
         prp.load(new java.io.FileReader(file))
 
-      val url = new java.net.URL(checkArg(0, "sites.url", "Sites URL (a valid URL)", isUrl))
-      val user = checkArg(1, "sites.user", "Sites Admin Username (not empty)", _.trim.size > 0)
-      val pass = checkArg(2, "sites.pass", "Sites Admin Password (not empty)", _.trim.size > 0)
-      val focus = checkArg(3, "sites.focus", "Your new Site name (short, alphanumeric, no spaces)", isAlphaNumeric)
+      println(
+        """********** Configuring AgileSites **********
+          |* Please answer to the following questions *
+          |********************************************
+          |""".stripMargin)
+
+      val url = new java.net.URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
+      val user = checkArg(1, "sites.user", "Type a Sites Admin Username\n (example: fwadmin) :", _.trim.size > 0)
+      val pass = checkArg(2, "sites.pass", "Type a Sites Admin Password\n (example: xceladmin) :", _.trim.size > 0)
+      val focus = checkArg(3, "sites.focus", "Type you new Site name (short, alphanumeric, no spaces)\n (example: Site ) :", isAlphaNumeric)
 
       prp.setProperty("sites.url", url.toString)
       prp.setProperty("sites.port", url.getPort.toString)
@@ -125,7 +131,7 @@ trait SetupSettings
         prp.store(fw, "Created by AgileSites")
         fw.close
         log.info("Created agilesites.properties")
-        println(s"Creating ${focus} in ${base} ")
+        //println(s"Creating ${focus} in ${base} ")
         mkSite(base, focus, log)
         None
       } else err

@@ -5,4 +5,6 @@ agilesites.local.properties
 spoon.sh
 .ipynb_checkpoints/
 agilesites.log
-project/WEB-INF/lib/
+WEB-INF
+dist/project/WEB-INF/
+dist/project/agilesites.ver

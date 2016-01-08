@@ -17,7 +17,17 @@ isSnapshot := version.value.endsWith("-SNAPSHOT")
 /////////////////////////////////////
 //jar & generated src
 
-unmanagedBase := baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
+
+unmanagedBase := {
+  val dist = baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
+   val fallback = baseDirectory.value.getParentFile / "WEB-INF" / "lib"
+   if(dist.exists) dist else {
+      if(!fallback.exists) {
+	println(s"ERROR! Jars not found. Plese place Sites WEB-INF/lib in ${fallback}")
+      }
+      fallback
+   }
+}
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
 
@@ -42,7 +52,6 @@ libraryDependencies ++= Seq(
   , "net.databinder.dispatch"    %% "dispatch-core"       % "0.11.2"
   , "org.scalatest"              %% "scalatest"           % "2.2.4" % "test"
   , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
-  , "com.squareup"               % "javapoet"             % "1.4.0"
 )
 
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
@@ -77,7 +86,7 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
 
 ////////////////////////////////////
 // build for java 7
-javacOptions ++= Seq("-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
+javacOptions ++= Seq("-proc:none", "-s", s"${(javaSource in Compile).value.getAbsolutePath}", "-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
 
@@ -96,5 +105,3 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
   IO.copyDirectory(src, tgt, overwrite=true)
   IO.listFiles(tgt).toSeq
 }
-
-compileOrder := CompileOrder.JavaThenScala
