@@ -147,8 +147,12 @@ trait NgSetupSupport
         log.debug(s"${u}")
         val req = Get(u)
         val JString(body) = wem.request(req)._1
-        writeFileBase64(file, body)
-        println(filename)
+        if(body == "") {
+          println(s"not found ${filename}")
+        } else  {
+          writeFileBase64(file, body)
+          println(filename)
+        }
       }
     }
   }

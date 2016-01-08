@@ -7,13 +7,18 @@
 %><cs:ftcs><%
 String jar = ics.GetVar("jar");
 if(jar!=null) {
-   byte[] bytes = org.apache.commons.io.IOUtils.toByteArray(application.getResourceAsStream(jar));
-   System.out.println(bytes.length);
-   String file = new String(org.apache.commons.codec.binary.Base64.encodeBase64(bytes));
-   ics.StreamText("\"");
-   ics.StreamText(file);
-   ics.StreamText("\"");
-   System.out.println("sent");
+   java.io.InputStream is = application.getResourceAsStream(jar);
+   if(is == null) {
+     ics.StreamText("\"\"");
+   } else {
+       byte[] bytes = org.apache.commons.io.IOUtils.toByteArray(is);
+       System.out.println(bytes.length);
+       String file = new String(org.apache.commons.codec.binary.Base64.encodeBase64(bytes));
+       ics.StreamText("\"");
+       ics.StreamText(file);
+       ics.StreamText("\"");
+       System.out.println("sent");
+   }
 } else {
 %>{"info":[<%
 String[] types = new String[]{ "CSElement", "SiteEntry" };
