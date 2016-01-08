@@ -89,6 +89,7 @@ trait SpoonSettings {
     spool
   }
 
+/*
   val processAnnotations = Def.task {
 
     val comp: Compiler.Compilers = (compilers in Compile).value
@@ -119,6 +120,7 @@ trait SpoonSettings {
     }
     Seq.empty[File]
   }
+*/
 
 
   val spoonSettings = Seq(
