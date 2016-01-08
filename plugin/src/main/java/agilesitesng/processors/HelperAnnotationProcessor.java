@@ -4,7 +4,6 @@ import agilesites.annotations.Attribute;
 import agilesites.annotations.ContentDefinition;
 import agilesites.annotations.ParentDefinition;
 import org.kohsuke.MetaInfServices;
-//import org.kohsuke.MetaInfServices;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;

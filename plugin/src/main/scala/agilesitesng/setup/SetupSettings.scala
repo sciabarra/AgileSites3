@@ -144,7 +144,7 @@ trait SetupSettings
   }
 
   val setupSettings = Seq(setupTask, setupOnlyTask,
-    setupOnlyDefault := (if ((baseDirectory.value / "plugin").exists) "../" else "") +
+    setupOnlyDefault := (if ((baseDirectory.value / "plugin").exists) "" else "../") +
       "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
   )
 }

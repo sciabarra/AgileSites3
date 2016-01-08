@@ -2,7 +2,7 @@ package agilesitesng.api;
 
 import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.services.beans.AssetIdImpl;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 public class AssetAttribute<T extends ASAsset> {
 

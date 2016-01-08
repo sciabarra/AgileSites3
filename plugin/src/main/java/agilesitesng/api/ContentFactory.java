@@ -1,11 +1,10 @@
 package agilesitesng.api;
 
 import COM.FutureTense.Interfaces.ICS;
-import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
-import com.fatwire.services.beans.AssetIdImpl;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.ArrayList;

@@ -190,14 +190,14 @@ trait SetupSettings extends Utils {
     asSetupOnline := {
       cmov.toTask(" setup").value
     },
-    asSetupWeblogic := Def.sequential(
+    asSetupWeblogic := Seq(
       asSetupOffline,
       weblogicRedeployCs,
       asSetupOnline
-    ).value,
-    asSetup := Def.sequential(
+    ),
+    asSetup := Seq(
       serverStop,
       asSetupOffline,
       serverStart,
-      asSetupOnline).value)
+      asSetupOnline))
 }

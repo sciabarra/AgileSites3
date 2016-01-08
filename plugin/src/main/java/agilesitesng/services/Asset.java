@@ -3,14 +3,13 @@ package agilesitesng.services;
 import COM.FutureTense.Interfaces.ICS;
 import agilesites.api.DateformatTag;
 import agilesites.api.IcsTag;
-import agilesites.api.Log;
 import com.fatwire.assetapi.common.AssetAccessException;
 import com.fatwire.assetapi.common.AssetNotExistException;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.MutableAssetData;
-import com.fatwire.services.beans.AssetIdImpl;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import java.util.*;
 

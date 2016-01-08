@@ -3,14 +3,12 @@ package agilesitesng.services;
 import COM.FutureTense.Interfaces.ICS;
 import agilesites.api.Api;
 import agilesites.api.AssetTag;
-import agilesites.api.StringTag;
 import com.fatwire.assetapi.data.AssetData;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.assetapi.data.AssetId;
-import com.fatwire.services.beans.AssetIdImpl;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
-import com.thoughtworks.xstream.XStream;
+import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
