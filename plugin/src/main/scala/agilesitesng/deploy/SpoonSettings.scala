@@ -153,6 +153,6 @@ trait SpoonSettings {
     , ngSpoon := {
       (spoon).toTask("").value
     }
-    ,sourceGenerators in Compile ++= Seq(processAnnotations.taskValue)
+    //,sourceGenerators in Compile ++= Seq(processAnnotations.taskValue)
   )
 }

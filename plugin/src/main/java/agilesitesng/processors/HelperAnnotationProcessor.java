@@ -3,6 +3,7 @@ package agilesitesng.processors;
 import agilesites.annotations.Attribute;
 import agilesites.annotations.ContentDefinition;
 import agilesites.annotations.ParentDefinition;
+import org.kohsuke.MetaInfServices;
 //import org.kohsuke.MetaInfServices;
 
 import javax.annotation.processing.*;
@@ -21,14 +22,14 @@ import java.util.Set;
 /**
  * Created by jelerak on 04/12/2015.
  */
-//@MetaInfServices(Processor.class)
+@MetaInfServices(Processor.class)
 public class HelperAnnotationProcessor extends AbstractProcessor {
 
     private Types typeUtils;
     private Elements elementUtils;
     private Filer filer;
     private Messager messager;
-    private boolean isRoundOne = false;
+    //private boolean isRoundOne = false;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -79,16 +80,7 @@ public class HelperAnnotationProcessor extends AbstractProcessor {
                         }
                     }
                 }
-/*
-                typeElement.getEnclosedElements().stream().filter(element -> element.getKind().equals(ElementKind.FIELD)).forEach(element -> {
-                    Attribute[] attributes = element.getAnnotationsByType(Attribute.class);
-                    if (attributes.length > 0) {
-                        VariableElement annotatedField = (VariableElement) element;
-                        definitionHelperClass.addAttribute(annotatedField.getSimpleName().toString(), annotatedField.asType());
-                    }
 
-                });
-*/
                 definitionHelperClass.generateCode(elementUtils, filer);
             }
             // Scan classes

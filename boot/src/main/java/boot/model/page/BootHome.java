@@ -22,4 +22,5 @@ public class BootHome extends Page {
 
         @Attribute
         Date bootDate;
+
 }
