@@ -16,13 +16,12 @@ object AgileSitesConfigPlugin
   import AgileSitesConfigKeys._
 
   override val projectSettings = propertySettings ++ versionSettings ++ Seq(
-    sitesUrl in Global := utilPropertyMap.value.getOrElse("sites.url",
+    sitesUrl  := utilPropertyMap.value.getOrElse("sites.url",
       s"http://${sitesHost.value}:${sitesPort.value}/cs"),
-    sitesUser in Global := utilPropertyMap.value.getOrElse("sites.user", "fwadmin"),
-    sitesPassword in Global := utilPropertyMap.value.getOrElse("sites.password", "xceladmin"),
-    sitesAdminUser in Global := utilPropertyMap.value.getOrElse("sites.admin.user", "ContentServer"),
-    sitesAdminPassword in Global := utilPropertyMap.value.getOrElse("sites.admin.password", "password"),
-    casProtocol in Global := utilPropertyMap.value.getOrElse("cas.protocol", "1"),
+    sitesUser  := utilPropertyMap.value.getOrElse("sites.user", "fwadmin"),
+    sitesPassword  := utilPropertyMap.value.getOrElse("sites.password", "xceladmin"),
+    sitesAdminUser := utilPropertyMap.value.getOrElse("sites.admin.user", "ContentServer"),
+    sitesAdminPassword  := utilPropertyMap.value.getOrElse("sites.admin.password", "password"),
 
     // focus on which site?
     sitesFocus := utilPropertyMap.value.getOrElse("sites.focus", "Demo"),

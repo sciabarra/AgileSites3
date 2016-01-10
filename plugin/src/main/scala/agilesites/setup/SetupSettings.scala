@@ -7,8 +7,8 @@ import sbt.Keys._
 import sbt._
 
 /**
- * Created by msciab on 01/03/15.
- */
+  * Created by msciab on 01/03/15.
+  */
 trait SetupSettings extends Utils {
   this: AutoPlugin
     with InstallerSettings
@@ -167,12 +167,21 @@ trait SetupSettings extends Utils {
     // installing jars
     asSetupCopyJarsWeb.value
     asSetupCopyJarsLib.value
-    println( """**** Setup Complete.
-               |**** Please restart your application server.
-               |**** You need to complete installation with "asDeploy".""".stripMargin)
+    println(
+      """**** Setup Complete.
+        |**** Please restart your application server.
+        |**** You need to complete installation with "asDeploy".""".stripMargin)
   }
 
-  //val asSetupOnlineTask = cmov.fullInput(" setup").parsed
+  val asSetupCmd = Command.command("asSetup") { state =>
+    state.copy(remainingCommands =
+      Seq("serverStop", "asSetupOffline", "serverStart", "asSetupOnline") ++ state.remainingCommands)
+  }
+
+  val asSetupWeblogicCmd = Command.command("asSetupWeblogic") { state =>
+    state.copy(remainingCommands =
+      Seq("asSetupOffline", "weblogicRedeployCs", "asSetupOnline", "asSetupOnline") ++ state.remainingCommands)
+  }
 
   val setupSettings = Seq(ivyConfigurations ++= Seq(config("core"), config("api"), config("populate")),
     asCoreClasspath <<= (update) map {
@@ -190,14 +199,6 @@ trait SetupSettings extends Utils {
     asSetupOnline := {
       cmov.toTask(" setup").value
     },
-    asSetupWeblogic := Seq(
-      asSetupOffline,
-      weblogicRedeployCs,
-      asSetupOnline
-    ),
-    asSetup := Seq(
-      serverStop,
-      asSetupOffline,
-      serverStart,
-      asSetupOnline))
+    commands ++= Seq(asSetupWeblogicCmd, asSetupCmd))
+
 }

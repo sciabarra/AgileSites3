@@ -18,6 +18,9 @@ libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT"
 
 compileOrder := CompileOrder.JavaThenScala
 
+val boot = project.in(file("boot"))
+
+val dist = project.in(file("dist"))
+
 val demo = project.in(file("demo"))
 
-val boot = project.in(file("boot"))

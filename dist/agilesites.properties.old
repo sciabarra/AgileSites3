@@ -1,6 +1,0 @@
-#Created by AgileSites
-#Wed Dec 02 09:15:45 GMT 2015
-sites.port=7003
-sites.user=fwadmin
-sites.pass=xceladmin
-sites.url=http\://10.0.2.15\:7003/sites

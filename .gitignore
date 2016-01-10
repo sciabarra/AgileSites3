@@ -8,3 +8,4 @@ agilesites.log
 WEB-INF
 dist/project/WEB-INF/
 dist/project/agilesites.ver
+dist/project/repo/local/

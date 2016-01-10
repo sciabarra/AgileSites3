@@ -35,8 +35,6 @@ object AgileSitesConfigKeys {
   val sitesPopulate = settingKey[String]("Sites Populate Dir")
   val sitesEnvision = settingKey[String]("Sites Envision Dir")
 
-  val casProtocol = settingKey[String]("Cas Protocol version")
-
   val satelliteWebapp = settingKey[String]("Sites Satellite Directory")
   val satelliteHome = settingKey[String]("Sites Satellite Home Directory")
   val satelliteUrl = settingKey[String]("Sites Satellite Url Directory")
@@ -48,6 +46,5 @@ object AgileSitesConfigKeys {
   val weblogicUser = settingKey[String]("Weblogic User")
   val weblogicPassword = settingKey[String]("Weblogic Password")
   val weblogicServer = settingKey[File]("Weblogic Server")
-
 
 }

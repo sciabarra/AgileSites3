@@ -82,15 +82,13 @@ trait DeploySettings extends Utils {
     uploadJar(new URL(sitesUrl.value), jar, log, site, siteId, user, pass)
   }
 
-  val asDeployTask = asDeploy := Seq (
-    asCopyStatics,
-    asPackage,
-    asPopulate
-  )
+  val asDeployCmd = Command.command("asDeploy") { state =>
+    state.copy(remainingCommands =
+      Seq("asCopyStatics", "asPackage", "asPopulate") ++ state.remainingCommands)
+  }
 
   val deploySettings = Seq(asPackageTask,
-    asDeployTask,
-    asPackageTask,
-    asPopulate := cmov.toTask(" import_all @src/main/populate").value
+    asPopulate := cmov.toTask(" import_all @src/main/populate").value,
+    commands ++= Seq(asDeployCmd)
   )
 }

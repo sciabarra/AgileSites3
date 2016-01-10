@@ -9,8 +9,8 @@ import java.util.{Scanner, Properties}
 import scala.util.Try
 
 /**
- * Created by msciab on 04/11/15.
- */
+  * Created by msciab on 04/11/15.
+  */
 trait SetupSettings
   extends Utils
   with NgSetupSupport {
@@ -41,60 +41,61 @@ trait SetupSettings
     folder.mkdirs
     writeFile(folder / s"${siteName}.java",
       s"""
-        |package ${sitePackage};
-        |
+         |package ${sitePackage};
+         |
         |import agilesites.annotations.AttributeEditor;
-        |import agilesites.annotations.Site;
-        |import agilesites.annotations.FlexFamily;
-        |import agilesites.api.AgileSite;
-        |
+         |import agilesites.annotations.Site;
+         |import agilesites.annotations.FlexFamily;
+         |import agilesites.api.AgileSite;
+         |
         |@FlexFamily(
-        |       flexAttribute = "${siteName}Attribute",
-        |       flexParentDefinition = "${siteName}ParentDefinition",
-        |       flexContentDefinition = "${siteName}ContentDefinition",
-        |       flexFilter = "${siteName}Filter",
-        |       flexContent = "${siteName}Content",
-        |       flexParent = "${siteName}Parent")
-        |@Site(enabledTypes = {"${siteName}Attribute",
-        |       "${siteName}ParentDefinition",
-        |       "${siteName}ContentDefinition",
-        |       "${siteName}Content:F",
-        |       "${siteName}Parent:F",
-        |       "Template",
-        |       "CSElement",
-        |       "SiteEntry",
-        |       "Controller",
-        |       "PageAttribute",
-        |       "PageDefinition",
-        |       "Page:F"})
-        |public class ${siteName} extends AgileSite {
-        |
+         |       flexAttribute = "${siteName}Attribute",
+         |       flexParentDefinition = "${siteName}ParentDefinition",
+         |       flexContentDefinition = "${siteName}ContentDefinition",
+         |       flexFilter = "${siteName}Filter",
+         |       flexContent = "${siteName}Content",
+         |       flexParent = "${siteName}Parent")
+         |@Site(enabledTypes = {"${siteName}Attribute",
+         |       "${siteName}ParentDefinition",
+         |       "${siteName}ContentDefinition",
+         |       "${siteName}Content:F",
+         |       "${siteName}Parent:F",
+         |       "Template",
+         |       "CSElement",
+         |       "SiteEntry",
+         |       "Controller",
+         |       "PageAttribute",
+         |       "PageDefinition",
+         |       "Page:F"})
+         |public class ${siteName} extends AgileSite {
+         |
         |   @AttributeEditor
-        |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
-        |
+         |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
+         |
         |}
       """.stripMargin, log)
   }
 
   def checkArg(n: Integer, prop: String, prompt: String, validate: String => Boolean)
               (implicit args: Seq[String], prp: Properties, scanner: Scanner): String = {
-    val value = if (args.length > n)
+
+    var value = if (args.length > n)
       args(n)
     else if (prp.getProperty(prop) == null) {
       println(prompt)
       scanner.next()
-    } else
-      prp.getProperty("sites.url")
-    if (validate(value))
-      value
-    else {
-      println("ERROR! Try again.")
-      checkArg(n, prop, prompt, validate)
+    } else prp.getProperty(prop)
+
+    while (!validate(value)) {
+      println(prompt)
+      value = scanner.next()
     }
+    value
   }
 
   def isUrl(x: String) = Try(new java.net.URL(x)).isSuccess
-  def isAlphaNumeric(x: String) =  x.forall(_.isLetterOrDigit)
+
+  def isAlphaNumeric(x: String) = x.forall(_.isLetterOrDigit)
 
   lazy val setupTask = setup := {
     implicit val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
@@ -112,17 +113,17 @@ trait SetupSettings
         """********** Configuring AgileSites **********
           |* Please answer to the following questions *
           |********************************************
-          |""".stripMargin)
+          | """.stripMargin)
 
       val url = new java.net.URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
       val user = checkArg(1, "sites.user", "Type a Sites Admin Username\n (example: fwadmin) :", _.trim.size > 0)
-      val pass = checkArg(2, "sites.pass", "Type a Sites Admin Password\n (example: xceladmin) :", _.trim.size > 0)
-      val focus = checkArg(3, "sites.focus", "Type you new Site name (short, alphanumeric, no spaces)\n (example: Site ) :", isAlphaNumeric)
+      val pass = checkArg(2, "sites.password", "Type a Sites Admin Password\n (example: xceladmin) :", _.trim.size > 0)
+      val focus = checkArg(3, "sites.focus", "Type your new Site name (short, alphanumeric, no spaces)\n (example: Site ) :", isAlphaNumeric)
 
       prp.setProperty("sites.url", url.toString)
       prp.setProperty("sites.port", url.getPort.toString)
       prp.setProperty("sites.user", user)
-      prp.setProperty("sites.pass", pass)
+      prp.setProperty("sites.password", pass)
       prp.setProperty("sites.focus", focus)
 
       val err = doSetup(url, user, pass, streams.value.log)
@@ -144,36 +145,12 @@ trait SetupSettings
   }
 
   val setupSettings = Seq(setupTask, setupOnlyTask,
-    setupOnlyDefault := (if ((baseDirectory.value / "plugin").exists) "" else "../") +
-      "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
+    setupOnlyDefault := {
+      //println("eccomi")
+      val base = baseDirectory.value.getParentFile
+      val service = "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
+      ( base / service ).getAbsolutePath
+    }
   )
 }
 
-/*
-  val url = new java.net.URL(if (args.length > 0)
-    args(0)
-  else if (prp.getProperty("sites.url") == null) {
-    println("Sites URL: ")
-    scanner.next()
-  } else prp.getProperty("sites.url"))
-
-  val user = if (args.length > 1)
-    args(1)
-  else if (prp.getProperty("sites.user") == null) {
-    println("Sites User:")
-    scanner.next()
-  } else prp.getProperty("sites.user")
-
-  val pass = if (args.length > 2)
-    args(2)
-  else if (prp.getProperty("sites.pass") == null) {
-    println("Sites Password:")
-    scanner.next()
-  } else prp.getProperty("sites.pass")
-
-  val focus = if (args.length > 3)
-    args(3)
-  else if (prp.getProperty("sites.focus") == null) {
-    println("Your new Site name (short, no spaces):")
-    scanner.next()
-  } else prp.getProperty("sites.focus")*/

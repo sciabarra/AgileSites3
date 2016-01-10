@@ -105,3 +105,5 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
   IO.copyDirectory(src, tgt, overwrite=true)
   IO.listFiles(tgt).toSeq
 }
+
+

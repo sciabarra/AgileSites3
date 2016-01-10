@@ -17,9 +17,7 @@ object NgSetupPlugin
 
   override def requires = AgileSitesConfigPlugin
 
-
   override val projectSettings = setupSettings ++
     upgradeSettings ++
     tagSettings
-
 }

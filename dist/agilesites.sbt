@@ -1,6 +1,6 @@
 val pluginCurrentVer = "3.0.0-SNAPSHOT"
 
-val ASDT = project.in(file("."))
+val agilesites = project.in(file("."))
 
 scalaVersion := "2.10.5"
 
