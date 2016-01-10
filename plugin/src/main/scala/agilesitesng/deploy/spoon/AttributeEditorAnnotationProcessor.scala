@@ -29,6 +29,6 @@ class AttributeEditorAnnotationProcessor
     val uid = Uid.generate(key)
     //cl.getDefaultExpression.
     println(cl.getDeclaringType.getQualifiedName)
-    Spooler.insert(95, key, SpoonModel.AttributeEditor(uid, name, outfile))
+    Spooler.insert(a.priority(), key, SpoonModel.AttributeEditor(uid, name, outfile))
   }
 }

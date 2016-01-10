@@ -59,7 +59,7 @@ class TemplateAnnotationProcessor
     val templateType = if (a.layout()) "l"
     else if (a.external()) "x" else "b"
 
-    Spooler.insert(60, key,
+    Spooler.insert(a.priority(), key,
       SpoonModel.Template(
         id = Uid.generate(key),
         name = name,

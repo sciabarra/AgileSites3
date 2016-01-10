@@ -17,4 +17,6 @@ public @interface CSElement {
     public String from() default "";
 
     public String pick() default "";
+
+    public int priority() default 50;
 }

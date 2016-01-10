@@ -22,4 +22,6 @@ public @interface FlexFamily {
     String flexParentDefinition();
 
     String flexContentDefinition();
+
+    public int priority() default 120;
 }

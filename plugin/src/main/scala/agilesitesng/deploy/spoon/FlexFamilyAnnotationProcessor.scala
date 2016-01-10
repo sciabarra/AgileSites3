@@ -21,7 +21,7 @@ class FlexFamilyAnnotationProcessor extends AbstractAnnotationProcessor[FlexFami
     val parentDef = a.flexParentDefinition()
     val filter = a.flexFilter()
     val key = s"FlexFamily.$content"
-    Spooler.insert(120, key, SpoonModel.FlexFamily(attr,contentDef,parentDef,content,parent,filter))
+    Spooler.insert(a.priority(), key, SpoonModel.FlexFamily(attr,contentDef,parentDef,content,parent,filter))
    }
 
 }

@@ -20,5 +20,7 @@ public @interface FindStartMenu {
 
     String defaultValues() default "";
 
+    public int priority() default 111;
+
 }
 

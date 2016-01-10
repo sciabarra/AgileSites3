@@ -22,7 +22,7 @@ class FindStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[FindS
     val assetType = cl.getSuperclass.getSimpleName
     val assetSubtype = cl.getSimpleName
     val key = s"StartMenu.${name.filter(_ > ' ')}.Search"
-    Spooler.insert(111, key, SpoonModel.StartMenu(Uid.generate(key), name, description, "Search", assetType, assetSubtype, Nil))
+    Spooler.insert(a.priority(), key, SpoonModel.StartMenu(Uid.generate(key), name, description, "Search", assetType, assetSubtype, Nil))
     logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType menuType: Search ")
   }
 }

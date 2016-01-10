@@ -26,8 +26,8 @@ class ParentDefinitionAnnotationProcessor
     }
     val parents = if (cl.getAnnotation(classOf[Parents]) != null) cl.getAnnotation(classOf[Parents]).value().toList else Nil
     val key = s"$parentType.$name"
-    Spooler.insert(80, key, SpoonModel.ParentDefinition(Uid.generate(key), name, description, parentType, attributeType, parents, attributes.toList))
+    Spooler.insert(a.priority(), key, SpoonModel.ParentDefinition(Uid.generate(key), name, description, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Parent definition - name:$name description: $description parentType: $parentType attributeType: $attributeType attributes: $attributes ")
-    addController(cl.getSimpleName, cl.getQualifiedName)
+    addController(cl.getSimpleName, cl.getQualifiedName, 50)
   }
 }

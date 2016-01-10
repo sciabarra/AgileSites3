@@ -17,7 +17,7 @@ class ControllerAnnotationProcessor
     val classname = cl.getQualifiedName
     val key = s"Controller.$classname"
 
-    Spooler.insert(50, key,
+    Spooler.insert(a.priority(), key,
       SpoonModel.Controller(
         id = Uid.generate(key),
         name = classname,

@@ -31,11 +31,12 @@ class ContentDefinitionAnnotationProcessor
     }
     val parents = if (cl.getAnnotation(classOf[Parents]) != null) cl.getAnnotation(classOf[Parents]).value().toList else Nil
     val key = s"$contentType.$name"
-    Spooler.insert(70, key, SpoonModel.ContentDefinition(Uid.generate(key), name, description, contentType, parentType, attributeType, parents, attributes.toList))
+    Spooler.insert(a.priority(), key, SpoonModel.ContentDefinition(Uid.generate(key), name, description, contentType, parentType, attributeType, parents, attributes.toList))
     logger.debug(s"Content definition - name:$name description: $description contentType: $contentType parentType: $parentType attributeType: $attributeType attributes: $attributes ")
     implicit val formats = Serialization.formats(NoTypeHints)
     val amap = attributes.map(attribute => {
-      Spooler.get(90, s"$attributeType.${attribute.name}") match {
+
+      Spooler.find(s"$attributeType.${attribute.name}") match {
         case Some(x) => val attributeModel = x.asInstanceOf[SpoonModel.Attribute]
           Serialization.write(Map("name" -> attributeModel.name, "type" -> attributeModel.attributeType, "assettype" -> attributeModel.assetType.getOrElse(""), "mul" -> attributeModel.mul))
         //s"${attributeModel.name}~${attributeModel.attributeType}~${attributeModel.assetType.getOrElse("")}~${attributeModel.mul}"
@@ -44,7 +45,7 @@ class ContentDefinitionAnnotationProcessor
     })
     val t = new ContentDefinitionTemplate("[" + amap.filter(_ != "").mkString(",") + "]")
     t.apply(cl)
-    addController(cl.getSimpleName, cl.getQualifiedName)
+    addController(cl.getSimpleName, cl.getQualifiedName, 50)
   }
 
 }

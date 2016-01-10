@@ -27,4 +27,6 @@ public @interface SiteEntry {
 
     public boolean wrapper() default false;
 
+    public int priority() default 50;
+
 }

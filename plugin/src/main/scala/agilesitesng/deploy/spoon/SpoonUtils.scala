@@ -53,17 +53,17 @@ trait SpoonUtils {
     file.getAbsolutePath
   }
 
-  def addApiController(name: String, classname: String) = {
+  def addApiController(name: String, classname: String, priority: Int) = {
     val key = s"Controller.$classname"
-    Spooler.insert(50, key,
+    Spooler.insert(priority, key,
       SpoonModel.Controller(Uid.generate(key),
         name, s"Controller ${name}",
         classname, class2file(classname)))
   }
 
-  def addController(name: String, classname: String) = {
+  def addController(name: String, classname: String,  priority: Int) = {
     val key = s"Controller.$classname"
-    Spooler.insert(50, key,
+    Spooler.insert(priority, key,
       SpoonModel.Controller(Uid.generate(key),
         name, s"Controller ${name}",
         classname, class2file(classname)))

@@ -16,4 +16,5 @@ public @interface Attribute {
     boolean multiple() default false;
     boolean ordered() default false;
     String editor() default "";
+    int priority() default 90;
 }

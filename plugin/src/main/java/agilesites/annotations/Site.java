@@ -15,5 +15,6 @@ public @interface Site {
     String value() default "";
     String description() default "";
     String[] enabledTypes() default {};
+    public int priority() default 130;
 }
 

@@ -11,6 +11,6 @@ class TypeAnnotationProcessor extends AbstractAnnotationProcessor[Type, CtClass[
 
   def process(a: Type, cl: CtClass[_]) {
     val name = cl.getQualifiedName
-    addController(cl.getSimpleName, name)
+    addController(cl.getSimpleName, name, a.priority())
   }
 }

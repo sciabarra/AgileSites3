@@ -36,4 +36,6 @@ public @interface Template {
     public String criteria() default "";
 
     public String extraCriteria() default "";
+
+    public int priority() default 60;
 }

@@ -21,5 +21,7 @@ public @interface NewStartMenu {
     String defaultValues() default "";
 
     String[] args() default {};
+
+    public int priority() default 110;
 }
 

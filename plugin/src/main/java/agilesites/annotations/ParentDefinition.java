@@ -15,4 +15,5 @@ public @interface ParentDefinition {
     String description() default "";
     String flexAttribute();
     String flexParent();
+    public int priority() default 80;
 }

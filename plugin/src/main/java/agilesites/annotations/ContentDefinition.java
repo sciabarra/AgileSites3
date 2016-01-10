@@ -17,4 +17,5 @@ public @interface ContentDefinition {
     String flexAttribute();
     String flexContent();
     String flexParent() default "";
+    int priority() default 70;
 }

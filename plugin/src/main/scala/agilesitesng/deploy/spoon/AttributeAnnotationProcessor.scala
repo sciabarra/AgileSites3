@@ -69,7 +69,7 @@ class AttributeAnnotationProcessor extends AbstractAnnotationProcessor[Attribute
     val mul = if (multiple) "O" else "S"
     logger.debug(s"$flexAttributeType - name:$name description: $description attributeType: $attributeType mul: $mul editor: $editor assetType: $assetType subtypes: $assetSubtypes")
     val key = s"$flexAttributeType.$name"
-    Spooler.insert(90, key, SpoonModel.Attribute(Uid.generate(key), name, description, flexAttributeType, mul, attributeType, editor, assetType, assetSubtypes))
+    Spooler.insert(a.priority(), key, SpoonModel.Attribute(Uid.generate(key), name, description, flexAttributeType, mul, attributeType, editor, assetType, assetSubtypes))
   }
 
   def getSubtype(ctTypeReference: CtTypeReference[_]) = {

@@ -3,13 +3,13 @@ package agilesitesng.deploy.model
 import agilesitesng.deploy.model.SpoonModel.DeployObjects
 
 /**
- * A spooler class to collect object and serialize them in priority order
- *
- * @param map
- */
-case class Spooler(val map: Map[String, Map[String,SpoonModel]] = Map.empty) {
+  * A spooler class to collect object and serialize them in priority order
+  *
+  * @param map
+  */
+case class Spooler(val map: Map[String, Map[String, SpoonModel]] = Map.empty) {
 
-  def push(i: Int, key:String, obj: SpoonModel) = {
+  def push(i: Int, key: String, obj: SpoonModel) = {
     val pri = i.toString
     val ls = if (map.contains(pri)) map(pri) + (key -> obj) else Map(key -> obj)
     new Spooler(map + (pri -> ls))
@@ -27,10 +27,16 @@ case class Spooler(val map: Map[String, Map[String,SpoonModel]] = Map.empty) {
     ls.head._2 -> new Spooler(nmap)
   }
 
-  def get(i:Int, key:String) = {
+  def get(i: Int, key: String) = {
     val pri = i.toString
-    val mp =  if (map.contains(pri)) map(pri) else Map.empty[String, SpoonModel]
+    val mp = if (map.contains(pri)) map(pri) else Map.empty[String, SpoonModel]
     mp.get(key)
+  }
+
+  def find(key: String) = {
+    // find all the keys for each map
+    val ls = map.map(_._2.get(key)).filter(_.nonEmpty)
+    if (ls.size == 1) ls.head else None
   }
 
   def size = map.size
@@ -42,12 +48,13 @@ object Spooler {
 
   var spool = new Spooler
 
-  def insert(pri: Int, key:String, obj: SpoonModel) {
+
+  def insert(pri: Int, key: String, obj: SpoonModel) {
     val prev = spool.get(pri, key)
     prev match {
-      case x:Some[SpoonModel] =>
+      case x: Some[SpoonModel] =>
         if (x.get != obj) {
-           throw new Exception(s"object \n $obj \n already defined with different values: \n ${x.get}")
+          throw new Exception(s"object \n $obj \n already defined with different values: \n ${x.get}")
         }
       case None =>
         val t = spool.push(pri, key, obj)
@@ -66,8 +73,11 @@ object Spooler {
 
   }
 
-  def get[T](i:Int, key:String) = {
-    spool.get(i,key)
+  /*
+   * find by key, if unique
+   */
+  def find[T](key: String) = {
+    spool.find(key)
   }
 
   import net.liftweb.json.Serialization.{read, write}

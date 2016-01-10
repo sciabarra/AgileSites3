@@ -177,5 +177,4 @@ public abstract class Asset {
      */
     abstract public void setData(MutableAssetData data);
 
-
 }

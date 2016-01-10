@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface MultipleStartMenu {
     NewStartMenu[] items();
-
+    public int priority() default 110;
 }

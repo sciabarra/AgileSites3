@@ -34,7 +34,7 @@ class CSElementAnnotationProcessor
 
     mt.getDeclaringType.removeMethod(mt)
 
-    Spooler.insert(50, key,
+    Spooler.insert(a.priority(), key,
       SpoonModel.CSElement(
         id=Uid.generate(key),
         name=name,
