@@ -8,5 +8,5 @@ import agilesitesng.api.ASAsset;
  */
 
 @Type
-public class Page extends ASAsset {
+public class BootContainer extends ASAsset {
 }

@@ -1,8 +1,6 @@
 package boot;
 
-import agilesites.annotations.AttributeEditor;
-import agilesites.annotations.Site;
-import agilesites.annotations.FlexFamily;
+import agilesites.annotations.*;
 import agilesites.api.AgileSite;
 
 /**
@@ -14,13 +12,22 @@ import agilesites.api.AgileSite;
         flexContentDefinition = "BootContentDefinition",
         flexFilter = "BootFilter",
         flexContent = "BootContent",
-        flexParent = "BootParent"
+        flexParent = "BootParent",
+        additionalFlexParents = {"BootGallery"},
+        additionalFlexTypes = {
+                @FlexType(name = "BootImage", parentType = "BootGallery"),
+                @FlexType(name = "BootContainer", parentType = "BootParent")
+        }
 )
+
 @Site(enabledTypes = {"BootAttribute",
         "BootParentDefinition",
         "BootContentDefinition",
         "BootContent:F",
+        "BootImage:F",
+        "BootContainer:F",
         "BootParent:F",
+        "BootGallery:F",
         "Template",
         "CSElement",
         "SiteEntry",
@@ -35,4 +42,6 @@ public class Boot extends AgileSite {
 
     @AttributeEditor
     private String BootUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
+
+
 }

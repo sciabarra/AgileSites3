@@ -42,7 +42,7 @@ object Collector {
           val map = decoder.get(model)
           log.debug(s">>> collector data: ${map} ---")
           val f = services ? ServicePost(map)
-          val r = Await.result(f, 10.seconds).asInstanceOf[ServiceReply]
+          val r = Await.result(f, 30.seconds).asInstanceOf[ServiceReply]
           log.debug(r.result)
         } else {
           log.warning("dropping request as  decoder not initialized")

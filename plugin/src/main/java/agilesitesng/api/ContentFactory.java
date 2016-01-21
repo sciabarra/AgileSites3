@@ -5,6 +5,7 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import groovy.lang.GroovyClassLoader;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.ArrayList;
@@ -42,9 +43,20 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
                     .includeLinksForBlobs(true)
                     .includeFeatures(true)
                     .read();
+
             String assetSubtype = (String) assetMap.get("subtype");
-            String assetClass = getAssetClass((String) assetMap.get("name"), assetSubtype);
-            t = (T) Class.forName(assetClass, true, this.getClass().getClassLoader()).newInstance();
+            String assetClassName = getAssetClass((String) assetMap.get("name"), assetSubtype);
+            System.out.println("asset class: " + assetClassName);
+            System.out.println("ASAsset classloader: " + ASAsset.class.getClassLoader());
+            System.out.println("asset classloader: " + this.getClass().getClassLoader());
+            //GroovyClassLoader gcl = (GroovyClassLoader) this.getClass().getClassLoader();
+            //System.out.println("using loadClass true, false");
+            //Class clazz = gcl.loadClass(assetClassName, true, false);
+            Class clazz = this.getClass().getClassLoader().loadClass(assetClassName);
+            //Class clazz = Class.forName(assetClassName, false, gcl);
+            System.out.println("Instance classloader: " + clazz.getClassLoader());
+            t = (T) clazz.newInstance();
+
             for (Map<String, String> attribute : t.getAttributes()) {
                 String attributeName = attribute.get("name");
                 if (assetMap.get(attributeName) != null) {
@@ -67,7 +79,7 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
                     .forAsset(assetId)
                     .selectAll(true)
                     .read();
-            assetClass = (String)assetMap.get("path");
+            assetClass = (String) assetMap.get("path");
         }
         return assetClass;
     }
@@ -83,15 +95,14 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
                     AssetId id = (AssetId) value;
                     return new AssetAttribute(id.getType(), id.getId(), attributeName);
                 }
-            }
-            else {
+            } else {
                 List<AssetAttribute> assetList = new ArrayList<AssetAttribute>();
                 if (value instanceof List) {
                     List<AssetId> list = (List<AssetId>) value;
                     for (AssetId id : list) {
-                       assetList.add(new AssetAttribute(id.getType(), id.getId()));
+                        assetList.add(new AssetAttribute(id.getType(), id.getId()));
                     }
-                    return assetList.toArray(new AssetAttribute[0]);
+                    return assetList.toArray(new AssetAttribute[assetList.size()]);
                 }
             }
         } else if ("blob".equals(attributeType)) {
@@ -99,15 +110,14 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
                 if (value instanceof BlobObject) {
                     return new BlobAttribute((String) assetmap.get(attributeName + "_bloblink_"));
                 }
-            }
-            else {
+            } else {
                 List<BlobAttribute> assetList = new ArrayList<BlobAttribute>();
                 if (value instanceof List) {
                     List list = (List) value;
                     for (int i = 0; i < list.size(); i++) {
                         assetList.add(new BlobAttribute((String) assetmap.get(attributeName + "_" + i + "_bloblink_")));
                     }
-                    return assetList.toArray(new BlobAttribute[0]);
+                    return assetList.toArray(new BlobAttribute[assetList.size()]);
                 }
             }
         }

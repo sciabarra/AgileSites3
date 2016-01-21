@@ -29,7 +29,7 @@ object SpoonModel extends ModelUtil {
 
   case class Site(id: Long, name: String, enabledTypes: List[String]) extends SpoonModel
 
-  case class FlexFamily(attribute: String, contentDef: String, parentDef: String, content: String, parent: String, filter: String) extends SpoonModel
+  case class FlexFamily(attribute: String, contentDef: String, parentDef: String, content: String, parent: String, filter: String, additionalTypes:List[String], additionalParents:List[String]) extends SpoonModel
 
   case class AttributeEditor(id: Long, name: String, file: String) extends SpoonModel
 

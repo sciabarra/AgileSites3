@@ -64,17 +64,24 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
         'parents -> parents.map(x => s"${readAssetId(parentType, x)}").mkString("|")
       )
 
-    case FlexFamily(attr, contentDef, parentDef, content, parent, filter) => Map(
+    case FlexFamily(attr, contentDef, parentDef, content, parent, filter, additionalTypes, additionalParents) => Map(
       "op" -> "flexFamily",
+      "username" -> username,
+      "password" -> password,
       "flexAttribute" -> attr,
       "flexParentDef" -> parentDef,
       "flexContentDef" -> contentDef,
       "flexParent" -> parent,
       "flexContent" -> content,
-      "flexFilter" -> filter)
+      "flexFilter" -> filter,
+      "aditionalTypes" -> additionalTypes.mkString("|"),
+      "additionalParents" -> additionalParents.mkString("|")
+    )
 
     case Site(id, name, enabledTypes) => Map(
       "op" -> "site",
+      "username" -> username,
+      "password" -> password,
       "id" -> id.toString,
       "name" -> name,
       "enabledTypes" -> enabledTypes.mkString("|"))

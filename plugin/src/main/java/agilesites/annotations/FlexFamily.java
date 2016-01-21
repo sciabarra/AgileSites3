@@ -22,4 +22,8 @@ public @interface FlexFamily {
     String flexParentDefinition();
 
     String flexContentDefinition();
+
+    String[] additionalFlexParents() default {};
+
+    FlexType[] additionalFlexTypes() default {};
 }

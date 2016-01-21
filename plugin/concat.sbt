@@ -52,6 +52,8 @@ TaskKey[Seq[File]]("concat by compile") <<= Def.task {
       tgtG / "AAAgileApi.groovy" ->
         ((src / "java" / "agilesites" / "api" * "*.java") +++
           (src / s"java-${sitesVersion}" / "agilesites" / "api" * "*.java")),
+      tgtG / "AAAgileNgApi.groovy" ->
+        (src / "java" / "agilesitesng" / "api" * "*.java"),
       tgtR / "AAAgileServices.txt" ->
         (src / "java" / "agilesitesng" / "services" * "*.java"),
       tgtR / "AAAgileApi.txt" ->
@@ -61,7 +63,7 @@ TaskKey[Seq[File]]("concat by compile") <<= Def.task {
     ), version.value)
   } catch {
     case e: Exception => e.printStackTrace()
-    Seq.empty[File]
+      Seq.empty[File]
   }
   out
 }.triggeredBy(compile in Compile)

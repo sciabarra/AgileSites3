@@ -13,8 +13,7 @@ import java.util.Date;
  */
 @FindStartMenu("Find Boot Page")
 @NewStartMenu("New Boot Page")
-@ContentDefinition(flexContent = "PageDefinition",
-        flexAttribute = "PageAttribute")
+@ContentDefinition(flexContent = "PageDefinition", flexAttribute = "PageAttribute")
 public class BootHome extends Page {
 
         @Attribute

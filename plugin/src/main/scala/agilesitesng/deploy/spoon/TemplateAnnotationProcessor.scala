@@ -37,20 +37,22 @@ class TemplateAnnotationProcessor
 
      */
     val objs = params map {
-      case dh if classOf[DefinitionHelper].isAssignableFrom(dh) => {
-        val assetName = s"${mt.getSimpleName}_${dh.getSimpleName}"
+      case dh if classOf[DefinitionHelper].isAssignableFrom(dh) =>
+        val assetName = s"${dh.getSimpleName.dropRight(6)}"
         val objParam = dh.getConstructor(classOf[String]).newInstance(assetName)
         objParam.asInstanceOf[Object]
-      }
       case p if p == classOf[Picker] =>
         PickerImpl.load(a.from(), a.pick())
       case x => x.newInstance().asInstanceOf[Object]
     }
 
-    val output = method.invoke(obj, objs.toSeq:_*).asInstanceOf[String]
+    val output = replaceTags (method.invoke(obj, objs.toSeq:_*).asInstanceOf[String])
     val filename = s"jsp/${orEmpty(a.forType(), "Typeless")}/$name.jsp"
     writeFileOutdir(filename, JspUtils.wrapAsJsp(output))
   }
+
+  def replaceTags(in: String):String =
+    in.replaceAll("formatdate", "formatDate")
 
   def process(a: Template, mt: CtMethod[_]) {
     val name = orEmpty(a.name(), mt.getSimpleName)

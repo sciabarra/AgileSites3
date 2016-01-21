@@ -1,6 +1,5 @@
 package agilesitesng.api;
 
-import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 

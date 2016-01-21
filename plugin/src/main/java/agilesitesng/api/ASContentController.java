@@ -1,6 +1,5 @@
 package agilesitesng.api;
 
-import agilesites.annotations.Controller;
 import com.fatwire.assetapi.data.BaseController;
 
 import java.util.Map;
@@ -18,6 +17,7 @@ public class ASContentController<T extends ASAsset> extends BaseController {
     @Override
     protected void doWork(Map models) {
         T asset = load();
+        System.out.println(String.format("putting asset: %s in page model with name: %s ", asset, getAssetName(asset)));
         models.put(getAssetName(asset), asset);
     }
 

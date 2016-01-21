@@ -15,7 +15,9 @@ public class SiteService implements Service {
 
     private String site(ICS ics) {
         try {
-            SiteInit init = new SiteInit(ics,"fwadmin","xceladmin");
+            String user = ics.GetVar("username");
+            String pass = ics.GetVar("password");
+            SiteInit init = new SiteInit(ics,user,pass);
             return init.init(ics.GetVar("name"), Long.parseLong(ics.GetVar("id")), Utils.splitOnPipe(ics.GetVar("enabledTypes")));
         } catch (Exception e) {
             return "error";
