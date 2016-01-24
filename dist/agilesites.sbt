@@ -27,4 +27,6 @@ name := sitesFocus.value
 
 organization := "org.agilesites"
 
-version := "1.0"
+version := "3.0.0-SNAPSHOT"
+
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
