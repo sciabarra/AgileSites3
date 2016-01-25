@@ -146,6 +146,7 @@ trait SpoonSettings {
       , "TemplateAnnotation"
       , "CSElementAnnotation"
       , "ControllerAnnotation"
+      , "GroovyAnnotation"
     ).map(x => s"agilesitesng.deploy.spoon.${x}Processor")
     , ivyConfigurations += config("spoon")
     , libraryDependencies ++= AgileSitesConstants.spoonDependencies

@@ -19,7 +19,7 @@ val pluginVer = try {
 
 libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
-//unmanagedBase := baseDirectory.value.getAbsoluteFile / "project" / "WEB-INF" / "lib"
+unmanagedBase := baseDirectory.value.getAbsoluteFile / "project" / "WEB-INF" / "lib"
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
 

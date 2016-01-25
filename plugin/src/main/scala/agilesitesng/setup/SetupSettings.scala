@@ -43,36 +43,36 @@ trait SetupSettings
       s"""
          |package ${sitePackage};
          |
-        |import agilesites.annotations.AttributeEditor;
+         |import agilesites.annotations.AttributeEditor;
          |import agilesites.annotations.Site;
          |import agilesites.annotations.FlexFamily;
          |import agilesites.api.AgileSite;
          |
-        |@FlexFamily(
-         |       flexAttribute = "${siteName}Attribute",
-         |       flexParentDefinition = "${siteName}ParentDefinition",
-         |       flexContentDefinition = "${siteName}ContentDefinition",
-         |       flexFilter = "${siteName}Filter",
-         |       flexContent = "${siteName}Content",
-         |       flexParent = "${siteName}Parent")
-         |@Site(enabledTypes = {"${siteName}Attribute",
-         |       "${siteName}ParentDefinition",
-         |       "${siteName}ContentDefinition",
-         |       "${siteName}Content:F",
-         |       "${siteName}Parent:F",
+         |@FlexFamily(
+         |       flexAttribute = "${siteName}_A",
+         |       flexParentDefinition = "${siteName}_PD",
+         |       flexContentDefinition = "${siteName}_CD",
+         |       flexFilter = "${siteName}_F",
+         |       flexContent = "${siteName}_C",
+         |       flexParent = "${siteName}_P")
+         |@Site(enabledTypes = {"${siteName}_A",
+         |       "${siteName}_PD",
+         |       "${siteName}_CD",
+         |       "${siteName}_C:F",
+         |       "${siteName}_P:F",
+         |       "WCS_Controller",
          |       "Template",
          |       "CSElement",
          |       "SiteEntry",
-         |       "Controller",
          |       "PageAttribute",
          |       "PageDefinition",
          |       "Page:F"})
          |public class ${siteName} extends AgileSite {
          |
-        |   @AttributeEditor
+         |   @AttributeEditor
          |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
          |
-        |}
+         |}
       """.stripMargin, log)
   }
 
