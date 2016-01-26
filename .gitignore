@@ -9,3 +9,8 @@ WEB-INF
 dist/project/WEB-INF/
 dist/project/agilesites.ver
 dist/project/repo/local/
+sbt.sh
+build.sh
+attic/
+docker/
+agilesites.zip

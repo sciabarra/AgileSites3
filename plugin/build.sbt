@@ -106,4 +106,4 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
   IO.listFiles(tgt).toSeq
 }
 
-
+Seq(Concat.concatTask)
