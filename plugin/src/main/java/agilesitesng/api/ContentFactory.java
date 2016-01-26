@@ -5,7 +5,6 @@ import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
-import groovy.lang.GroovyClassLoader;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.Map;
 /**
  * Created by jelerak on 15/10/2015.
  */
+
 public class ContentFactory<T extends ASAsset> extends BaseController {
 
     private static final ThreadLocal<ICS> context = new ThreadLocal<ICS>();
@@ -26,6 +26,7 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
         }
         setICS(ics);
     }
+
 
     public ContentFactory() {
         super();
@@ -46,15 +47,11 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
 
             String assetSubtype = (String) assetMap.get("subtype");
             String assetClassName = getAssetClass((String) assetMap.get("name"), assetSubtype);
-            System.out.println("asset class: " + assetClassName);
-            System.out.println("ASAsset classloader: " + ASAsset.class.getClassLoader());
-            System.out.println("asset classloader: " + this.getClass().getClassLoader());
-            //GroovyClassLoader gcl = (GroovyClassLoader) this.getClass().getClassLoader();
-            //System.out.println("using loadClass true, false");
+            //System.out.println("asset class: " + assetClassName);
             //Class clazz = gcl.loadClass(assetClassName, true, false);
             Class clazz = this.getClass().getClassLoader().loadClass(assetClassName);
-            //Class clazz = Class.forName(assetClassName, false, gcl);
-            System.out.println("Instance classloader: " + clazz.getClassLoader());
+            //Class clazz = Class.forName(assetClassName, false, this.getClass().getClassLoader());
+            System.out.println("reading bean from generated factory");
             t = (T) clazz.newInstance();
 
             for (Map<String, String> attribute : t.getAttributes()) {
