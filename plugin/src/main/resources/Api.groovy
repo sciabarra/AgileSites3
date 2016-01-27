@@ -1,21 +1,183 @@
 package agilesitesng.api;
 
-import COM.FutureTense.Interfaces.ICS;
-import com.fatwire.assetapi.data.AssetId;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fatwire.assetapi.data.BaseController;
-import com.fatwire.assetapi.data.BlobObject;
+import java.io.IOException;
+import java.util.Map;
+import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
+import COM.FutureTense.Interfaces.ICS;
+import com.fatwire.assetapi.data.BlobObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+
+/**
+ * Created by jelerak on 20/10/2015.
+ */
+public class ASAsset extends BaseController {
+
+    public Map<String, String>[] getAttributes() {
+        try {
+            JsonFactory factory = new JsonFactory();
+            ObjectMapper mapper = new ObjectMapper(factory);
+            TypeReference<Map<String, String>[]> typeRef = new TypeReference<Map<String, String>[]>() {
+            };
+            return mapper.readValue(readAttributes(), typeRef);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    protected String readAttributes() {
+        return null;
+    }
+
+}
+
+
+/**
+ * Created by jelerak on 19/10/2015.
+ */
+public class ASContentController<T extends ASAsset> extends BaseController {
+
+ def load() {
+
+
+
+     ContentFactory cf = new ContentFactory(ics);
+
+
+
+        return cf.load(getAssetId());
+    }
+
+    @Override
+    protected void doWork(Map models) {
+     def asset = load()
+
+
+
+        System.out.println(String.format("putting asset: %s in page model with name: %s ", asset, getAssetName(asset)));
+        models.put(getAssetName(asset), asset);
+    }
+
+ protected String getAssetName(Object assetType)
+
+
+
+    {
+        return assetType.getClass().getSimpleName();
+    }
+}
+
+
+public class AssetAttribute
+
+
+
+{
+
+ def attributeAssetType;
+
+
+
+
+    String name;
+    String c;
+    long cid;
+
+ public AssetAttribute(Object attributeAssetType)
+
+
+
+    {
+        this.attributeAssetType = attributeAssetType;
+    }
+
+    public AssetAttribute(String c, long cid) {
+        this.c = c;
+        this.cid = cid;
+    }
+
+    public AssetAttribute(String c, long cid, String name) {
+        this.c = c;
+        this.cid = cid;
+        this.name = name;
+    }
+
+ def getValue()
+
+
+
+    {
+        if (attributeAssetType == null) {
+
+         ContentFactory cf = new ContentFactory();
+
+
+
+            attributeAssetType = cf.load(new AssetIdImpl(c,cid));
+        }
+        return attributeAssetType;
+    }
+
+    public AssetId getAssetId() {
+        return new AssetIdImpl(c,cid);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+}
+
+public class BlobAttribute {
+
+    public BlobAttribute(String url) {
+        this.url = url;
+    }
+
+    public BlobAttribute(String url, String name) {
+        this.url = url;
+        this.name = name;
+    }
+
+    public String url;
+
+    private String name;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url=url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+
 
 /**
  * Created by jelerak on 15/10/2015.
  */
 
-//+public class ContentFactory extends BaseController
-public class ContentFactory<T extends ASAsset> extends BaseController //-
+public class ContentFactory extends BaseController
+
+
+
 {
 
     private static final ThreadLocal<ICS> context = new ThreadLocal<ICS>();
@@ -33,11 +195,15 @@ public class ContentFactory<T extends ASAsset> extends BaseController //-
         setICS(context.get());
     }
 
-//+ def load(AssetId assetId)
-    public T load(AssetId assetId)//-
+ def load(AssetId assetId)
+
+
+
     {
-//+     def t = null;
-        T t = null; //-
+     def t = null;
+
+
+
         try {
             Map assetMap = newAssetReader()
                     .forAsset(assetId)
@@ -53,8 +219,10 @@ public class ContentFactory<T extends ASAsset> extends BaseController //-
 
             Class clazz = this.getClass().getClassLoader().loadClass(assetClassName);
 
-//+         t = clazz.newInstance();
-            t = (T) clazz.newInstance(); //-
+         t = clazz.newInstance();
+
+
+
 
             for (Map<String, String> attribute : t.getAttributes()) {
                 String attributeName = attribute.get("name");
@@ -125,3 +293,5 @@ public class ContentFactory<T extends ASAsset> extends BaseController //-
     }
 
 }
+public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Jan 27 18:21:42 CET 2016"; } }
+        
