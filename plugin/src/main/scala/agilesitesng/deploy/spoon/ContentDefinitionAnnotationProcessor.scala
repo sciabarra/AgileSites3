@@ -12,8 +12,8 @@ import scala.collection.JavaConversions._
 
 
 /**
- * Created by msciab on 06/08/15.
- */
+  * Created by jelerak on 06/08/15.
+  */
 class ContentDefinitionAnnotationProcessor
   extends AbstractAnnotationProcessor[ContentDefinition, CtClass[_]]
   with SpoonUtils {

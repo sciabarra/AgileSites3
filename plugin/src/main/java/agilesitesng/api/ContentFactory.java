@@ -1,6 +1,7 @@
 package agilesitesng.api;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.annotations.Groovy;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
@@ -27,6 +28,7 @@ public class ContentFactory<T extends ASAsset> extends BaseController //-
         }
         setICS(ics);
     }
+
 
     public ContentFactory() {
         super();

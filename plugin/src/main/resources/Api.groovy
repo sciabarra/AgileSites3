@@ -9,6 +9,7 @@ import java.util.Map;
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.annotations.Groovy;
 import com.fatwire.assetapi.data.BlobObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import java.util.ArrayList;
@@ -190,6 +191,7 @@ public class ContentFactory extends BaseController
         setICS(ics);
     }
 
+
     public ContentFactory() {
         super();
         setICS(context.get());
@@ -293,5 +295,5 @@ public class ContentFactory extends BaseController
     }
 
 }
-public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Jan 27 18:21:42 CET 2016"; } }
+public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Jan 27 19:00:00 CET 2016"; } }
         

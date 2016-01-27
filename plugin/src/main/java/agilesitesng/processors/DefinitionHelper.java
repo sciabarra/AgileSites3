@@ -9,6 +9,14 @@ public class DefinitionHelper {
         return String.format("${%s._link_}", assetName);
     }
 
+    protected String getBlobUrl(String assetName, String value) {
+        return String.format("${%s.%s_link_}", assetName, value);
+    }
+
+    protected String getAsset(String assetName, String value) {
+        return String.format("${%s.%s}", assetName, value);
+    }
+
     protected String getString(String assetName, String value) {
         return String.format("${%s.%s}", assetName, value);
     }
