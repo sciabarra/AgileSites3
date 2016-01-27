@@ -106,6 +106,7 @@ public class DefinitionHelperClass {
                 .addModifiers(Modifier.PUBLIC)
                 .returns(returnType);
 
+        System.out.println("attribute type: " + attribute.getType().toString());
         switch (attribute.getType().toString()) {
             case "java.lang.String":
                 getMethod.addStatement(String.format("return getString(getName(),\"%s\")", attribute.getName()));
@@ -116,6 +117,14 @@ public class DefinitionHelperClass {
                 getMethod.addStatement(String.format("return getDate(getName(),\"%s\",format)", attribute.getName()));
                 editMethod.addParameter(String.class,"format");
                 editMethod.addStatement(String.format("return editDate(getName(),\"%s\",format)", attribute.getName()));
+                break;
+            case "agilesitesng.api.BlobAttribute":
+                getMethod.addStatement(String.format("return getBlobUrl(getName(),\"%s\")", attribute.getName()));
+                editMethod.addStatement(String.format("return getBlobUrl(getName(),\"%s\")", attribute.getName()));
+                break;
+            case "agilesitesng.api.AssetAttribute":
+                getMethod.addStatement(String.format("return getAsset(getName(),\"%s\")", attribute.getName()));
+                editMethod.addStatement(String.format("return getAsset(getName(),\"%s\")", attribute.getName()));
                 break;
 
         }

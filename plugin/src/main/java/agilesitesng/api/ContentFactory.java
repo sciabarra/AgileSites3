@@ -1,6 +1,7 @@
 package agilesitesng.api;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.annotations.Groovy;
 import com.fatwire.assetapi.data.AssetId;
 import com.fatwire.assetapi.data.BaseController;
 import com.fatwire.assetapi.data.BlobObject;
@@ -34,6 +35,7 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
     }
 
     public T load(AssetId assetId) {
+        @Groovy("def t = null")
         T t = null;
         try {
             Map assetMap = newAssetReader()
@@ -47,13 +49,11 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
 
             String assetSubtype = (String) assetMap.get("subtype");
             String assetClassName = getAssetClass((String) assetMap.get("name"), assetSubtype);
-            //System.out.println("asset class: " + assetClassName);
-            //Class clazz = gcl.loadClass(assetClassName, true, false);
             Class clazz = this.getClass().getClassLoader().loadClass(assetClassName);
-            //Class clazz = Class.forName(assetClassName, false, this.getClass().getClassLoader());
             System.out.println("reading bean from generated factory");
-            t = (T) clazz.newInstance();
-
+            @Groovy("def tt = clazz.newInstance()")
+            T tt = (T) clazz.newInstance();
+            t = tt;
             for (Map<String, String> attribute : t.getAttributes()) {
                 String attributeName = attribute.get("name");
                 if (assetMap.get(attributeName) != null) {
