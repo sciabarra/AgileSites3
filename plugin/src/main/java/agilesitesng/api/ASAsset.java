@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fatwire.assetapi.data.BaseController;
-
 import java.io.IOException;
 import java.util.Map;
 
