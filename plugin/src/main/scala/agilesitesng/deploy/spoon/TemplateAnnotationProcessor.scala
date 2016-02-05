@@ -47,12 +47,12 @@ class TemplateAnnotationProcessor
     }
 
     val output = replaceTags (method.invoke(obj, objs.toSeq:_*).asInstanceOf[String])
-    val filename = s"jsp/${orEmpty(a.forType(), "Typeless")}/$name.jsp"
+    val filename = s"jsp/${sys.props("spoon.site")}/${orEmpty(a.forType(), "Typeless")}/$name.jsp"
     writeFileOutdir(filename, JspUtils.wrapAsJsp(output))
   }
 
   def replaceTags(in: String):String =
-    in.replaceAll("formatdate", "formatDate")
+    in.replaceAll("formatdate", "formatDate").replaceAll("foreach", "forEach")
 
   def process(a: Template, mt: CtMethod[_]) {
     val name = orEmpty(a.name(), mt.getSimpleName)

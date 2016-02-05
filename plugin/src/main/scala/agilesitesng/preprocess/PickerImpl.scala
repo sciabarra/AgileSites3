@@ -264,8 +264,8 @@ class PickerImpl extends Picker {
     val elements: Elements = top.select(where)
     import scala.collection.JavaConversions._
     for (element <- elements) {
-      PickerImpl.log.trace("Replace with: %s", newTag.childNode(0).childNode(1).childNode(0))
-      element.replaceWith(newTag.childNode(0).childNode(1).childNode(0))
+      PickerImpl.log.trace("Replace with: %s", newTag.body().child(0))
+      element.replaceWith(newTag.body().child(0))
     }
     return this
   }

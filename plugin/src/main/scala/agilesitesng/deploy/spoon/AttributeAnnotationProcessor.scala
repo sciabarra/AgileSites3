@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.{CtClass, CtAnnotation, CtField}
 import spoon.reflect.reference.{CtFieldReference, CtTypeReference}
-import spoon.support.reflect.reference.CtArrayTypeReferenceImpl
+import spoon.support.reflect.reference.{CtTypeReferenceImpl, CtArrayTypeReferenceImpl}
 import spoon.template.Substitution
 
 import scala.collection.JavaConversions._
@@ -66,6 +66,7 @@ class AttributeAnnotationProcessor extends AbstractAnnotationProcessor[Attribute
         (Some(assetType.getSimpleName), assetSubtypes)
       case _ => (None, Nil)
     }
+
     val mul = if (multiple) "O" else "S"
     logger.debug(s"$flexAttributeType - name:$name description: $description attributeType: $attributeType mul: $mul editor: $editor assetType: $assetType subtypes: $assetSubtypes")
     val key = s"$flexAttributeType.$name"

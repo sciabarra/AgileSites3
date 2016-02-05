@@ -10,5 +10,12 @@ import spoon.reflect.declaration.{CtField, CtClass}
 class AttributeAnnotationCleanProcessor extends AbstractAnnotationProcessor[Attribute, CtField[_]] with SpoonUtils {
 
   def process(a: Attribute, cl: CtField[_]): Unit = {
+    val defField = getFactory().Core().createField()
+    val defType = getFactory().Core().createTypeReference()
+    defType.setSimpleName("def")
+    defField.setSimpleName(cl.getSimpleName)
+
+    defField.setType(defType)
+    cl.replace(defField)
   }
 }

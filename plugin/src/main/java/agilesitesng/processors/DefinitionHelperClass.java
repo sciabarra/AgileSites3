@@ -2,15 +2,20 @@ package agilesitesng.processors;
 
 import com.squareup.javapoet.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -96,18 +101,43 @@ public class DefinitionHelperClass {
     private List<MethodSpec> getMethodsForAttribute(HelperAttribute attribute) {
         List<MethodSpec> methods = new ArrayList<>();
 
+
+        if (attribute.getType().getKind().equals(TypeKind.DECLARED)) {
+            methods.addAll(generateSimpleAccessors(attribute));
+        }
+        else if (attribute.getType().getKind().equals(TypeKind.ARRAY)) {
+            methods.addAll(generateIndexedAccessors(attribute));
+        }
+        return methods;
+    }
+
+    private Collection<? extends MethodSpec> generateIndexedAccessors(HelperAttribute attribute) {
+        List<MethodSpec> methods = new ArrayList<>();
+        System.out.println("attribute type: " + attribute.getType().toString());
+        boolean generateMethods = true;
+
+        ArrayType attributeType = (ArrayType) attribute.getType();
+        return methods;
+    }
+
+    private List<MethodSpec> generateSimpleAccessors(HelperAttribute attribute ) {
+        List<MethodSpec> methods = new ArrayList<>();
+        System.out.println("attribute type: " + attribute.getType().toString());
+        boolean generateMethods = true;
+
+        DeclaredType attributeType = (DeclaredType) attribute.getType();
         String getMethodName = "get" + StringUtils.capitalize(attribute.getName());
         String editMethodName = "edit" + StringUtils.capitalize(attribute.getName());
+
         TypeName returnType = TypeName.get(String.class);
+
         MethodSpec.Builder getMethod = MethodSpec.methodBuilder(getMethodName)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(returnType);
         MethodSpec.Builder editMethod = MethodSpec.methodBuilder(editMethodName)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(returnType);
-
-        System.out.println("attribute type: " + attribute.getType().toString());
-        switch (attribute.getType().toString()) {
+        switch (attributeType.asElement().toString()) {
             case "java.lang.String":
                 getMethod.addStatement(String.format("return getString(getName(),\"%s\")", attribute.getName()));
                 editMethod.addStatement(String.format("return editString(getName(),\"%s\")", attribute.getName()));
@@ -126,7 +156,6 @@ public class DefinitionHelperClass {
                 getMethod.addStatement(String.format("return getAsset(getName(),\"%s\")", attribute.getName()));
                 editMethod.addStatement(String.format("return getAsset(getName(),\"%s\")", attribute.getName()));
                 break;
-
         }
         methods.add(getMethod.build());
         methods.add(editMethod.build());

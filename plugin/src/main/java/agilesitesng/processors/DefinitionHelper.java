@@ -1,5 +1,7 @@
 package agilesitesng.processors;
 
+import agilesites.api.Arg;
+
 /**
  * Created by jelerak on 07/12/2015.
  */
@@ -10,7 +12,35 @@ public class DefinitionHelper {
     }
 
     protected String getBlobUrl(String assetName, String value) {
-        return String.format("${%s.%s_link_}", assetName, value);
+        return String.format("${%s.%s.url}", assetName, value);
+    }
+
+    public String editFragment(String fragmentName, Arg... arg) {
+        return String.format("<fragment:include name=\"%s\"/>", fragmentName);
+    }
+
+    public String editFragmentIfPresent(String fragmentName, Arg... arg) {
+
+        return String.format("<c:if test=\"${%s != null}\"><fragment:include name=\"%s\"/></c:if>", fragmentName, fragmentName);
+    }
+
+    public String editFragmentOrElse(String fragmentName, String alt, Arg... arg) {
+
+        return String.format(" " +
+                "<c:choose>" +
+                "    <c:when test=\"${%s != null}\">" +
+                "        <fragment:include name=\"%s\"/>" +
+            "        </c:when>" +
+                "    <c:otherwise>" +
+                "        %s" +
+                "    </c:otherwise>" +
+                "</c:choose>", fragmentName, fragmentName, alt);
+    }
+
+    public String editFragmentLoop(String fragmentName, Arg... arg) {
+        return String.format("<c:forEach begin=\"0\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">\n" +
+                "\t\t\t\t\t\t\t<fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
+                "\t\t\t\t\t</c:forEach>", fragmentName,fragmentName);
     }
 
     protected String getAsset(String assetName, String value) {

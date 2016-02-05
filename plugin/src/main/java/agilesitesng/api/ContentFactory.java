@@ -50,7 +50,6 @@ public class ContentFactory<T extends ASAsset> extends BaseController {
             String assetSubtype = (String) assetMap.get("subtype");
             String assetClassName = getAssetClass((String) assetMap.get("name"), assetSubtype);
             Class clazz = this.getClass().getClassLoader().loadClass(assetClassName);
-            System.out.println("reading bean from generated factory");
             @Groovy("def tt = clazz.newInstance()")
             T tt = (T) clazz.newInstance();
             t = tt;

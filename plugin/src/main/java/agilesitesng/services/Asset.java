@@ -44,7 +44,7 @@ public abstract class Asset {
         this.site = ics.GetVar("site");
         this.name = ics.GetVar("name");
         this.description = Utils.nnOr(ics.GetVar("description"), this.name);
-        this.subtype = Utils.nnOr(subtype, "");
+        this.subtype = Utils.nnOr(ics.GetVar("subtype"), "");
         this.filename = ics.GetVar("filename");
         this.path = ics.GetVar("path");
         this.template = ics.GetVar("template");

@@ -8,5 +8,5 @@ import agilesitesng.api.ASAsset;
  */
 
 @Type
-public class BootContent<T> extends ASAsset {
+public class BootImage<T> extends ASAsset {
 }

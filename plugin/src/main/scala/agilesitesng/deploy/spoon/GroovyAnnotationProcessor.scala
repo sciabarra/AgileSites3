@@ -10,8 +10,8 @@ import spoon.reflect.declaration.{CtMethod, CtClass}
   */
 class GroovyAnnotationProcessor extends AbstractAnnotationProcessor[Groovy, CtLocalVariable[_]] {
   def process(an: Groovy, lv: CtLocalVariable[_]) {
-    val snippet = getFactory().Core().createCodeSnippetStatement();
-    snippet.setValue(an.value());
-    lv.replace(snippet);
+    val snippet = getFactory().Core().createCodeSnippetStatement()
+    snippet.setValue(an.value())
+    lv.replace(snippet)
   }
 }

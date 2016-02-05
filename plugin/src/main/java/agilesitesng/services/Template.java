@@ -51,12 +51,12 @@ public class Template extends Asset {
         // file & folder from type
         if (subtype == null || subtype.trim().length() == 0) {
             subtype = "";
-            rootElement = "/" + name;
+            rootElement = site + "/" + name;
             folderElement = "Typeless";
         } else {
             subtype = subtype.trim();
-            rootElement = subtype + "/" + name;
-            folderElement = subtype;
+            rootElement = site + "/" + subtype + "/" + name;
+            folderElement = site + "/" + subtype;
         }
         fileElement = name + ".jsp";
         this.body = ics.GetVar("body");
@@ -71,8 +71,8 @@ public class Template extends Asset {
             this.forSubtype = forSubtype;
 
         // cache & criteria
-        this.csCache = ics.GetVar("cscache");
-        this.ssCache = ics.GetVar("sscache");
+        this.csCache = Utils.nnOr(ics.GetVar("cscache"), "false");
+        this.ssCache = Utils.nnOr(ics.GetVar("sscache"), "false");
         if (!isEmpty(ics.GetVar("criteria")))
             cacheCriteria = Arrays.asList(Utils.splitOnComma(ics.GetVar("criteria")));
         if (!isEmpty(ics.GetVar("extraCriteria")))
