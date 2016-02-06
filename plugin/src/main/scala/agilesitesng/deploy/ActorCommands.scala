@@ -34,8 +34,21 @@ trait ActorCommands {
     (url, focus, user, password)
   }
 
+  def getTimeout(state: State): Int = {
+    val extracted: Extracted = Project.extract(state)
+    import extracted._
+    val timeoutOpt = sitesTimeout in currentRef get structure.data
+    timeoutOpt.getOrElse(30)
+  }
+
+  def timeoutCmd = Command.args("timeout", "<args>") { (state, args) =>
+    println(getTimeout(state))
+    state
+  }
 
   def serviceCmd = Command.args("service", "<args>") { (state, args) =>
+
+    val timeOut = getTimeout(state)
 
     if (args.size == 0) {
       println("usage: service <op> <key=value>")
@@ -43,6 +56,7 @@ trait ActorCommands {
       // input hello 0 a=1 b=2
       val opts = args.map(s => if (s.indexOf("=") == -1) "value=" + s else s)
       // output List("value=0", "a=1", "b=2")
+
       val map = opts.tail.map(_.split("=")).map(x => x(0) -> x(1)).toMap + ("op" -> args.head)
       // output Map("value"->"0" "a" -> "1", "b" -> "2")
 
@@ -52,7 +66,7 @@ trait ActorCommands {
           login(svc, state)
           val req = ServiceGet(map)
           println(s">>>" + req)
-          val ServiceReply(res) = Await.result(svc ? req, 10.second).asInstanceOf[ServiceReply]
+          val ServiceReply(res) = Await.result(svc ? req, timeOut.seconds).asInstanceOf[ServiceReply]
           println(s"${res}")
       }
     }
@@ -77,7 +91,6 @@ trait ActorCommands {
   }
 
   def deployCmd = Command.args("deploy", "<args>") { (state, args) =>
-
     val result: Option[(State, Result[File])] = Project.runTask(ngSpoon, state)
     result match {
       case Some((newState, Value(spool))) =>
@@ -85,7 +98,7 @@ trait ActorCommands {
         SbtWeb.withActorRefFactory(state, "Ng") {
           arf =>
             val svc = arf.actorOf(Services.actor())
-            val coll = arf.actorOf(Collector.actor(svc))
+            val coll = arf.actorOf(Collector.actor(svc, getTimeout(state)))
             val (url, focus, user, password) = login(svc, state)
             val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
             result match {
@@ -103,6 +116,6 @@ trait ActorCommands {
     }
   }
 
-  val actorCommands = Seq(commands ++= Seq(serviceCmd, deployCmd))
+  val actorCommands = Seq(commands ++= Seq(serviceCmd, deployCmd, timeoutCmd))
 
 }

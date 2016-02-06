@@ -1,2 +1,0 @@
-REM debug which log file used
-REM set JOPTS=%JOPTS% -Dlogback.debug=true -Dconfig.trace=loads

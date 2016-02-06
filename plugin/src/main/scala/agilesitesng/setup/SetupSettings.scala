@@ -1,6 +1,5 @@
 package agilesitesng.setup
 
-
 import sbt._
 import Keys._
 import agilesites.Utils
@@ -19,7 +18,6 @@ trait SetupSettings
   import NgSetupKeys._
   import agilesites.config.AgileSitesConfigKeys._
 
-
   lazy val setupOnlyTask = setupOnly := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val args1 = if (args.isEmpty) Seq(setupOnlyDefault.value) else args
@@ -27,7 +25,7 @@ trait SetupSettings
       val file = new java.io.File(filename)
       if (file.exists)
         doSetupOnly(new java.net.URL(sitesUrl.value), sitesUser.value, sitesPassword.value,
-          "AdminSite", file, streams.value.log)
+          "AdminSite", file, streams.value.log, sitesTimeout.value)
       else
         println(s"${file} does not exist")
     }
@@ -36,7 +34,6 @@ trait SetupSettings
   def mkSite(base: File, siteName: String, log: Logger) {
 
     val sitePackage = siteName.toLowerCase
-
     val folder = base / "src" / "main" / "java" / sitePackage
     folder.mkdirs
     writeFile(folder / s"${siteName}.java",
@@ -125,8 +122,9 @@ trait SetupSettings
       prp.setProperty("sites.user", user)
       prp.setProperty("sites.password", pass)
       prp.setProperty("sites.focus", focus)
+      prp.setProperty("sites.timeout", "30")
 
-      val err = doSetup(url, user, pass, streams.value.log)
+      val err = doSetup(url, user, pass, streams.value.log, sitesTimeout.value)
       if (err.isEmpty) {
         val fw = new java.io.FileWriter("agilesites.properties")
         prp.store(fw, "Created by AgileSites")

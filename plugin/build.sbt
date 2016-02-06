@@ -52,6 +52,9 @@ libraryDependencies ++= Seq(
   , "net.databinder.dispatch"    %% "dispatch-core"       % "0.11.2"
   , "org.scalatest"              %% "scalatest"           % "2.2.4" % "test"
   , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
+  , "com.typesafe.akka" % "akka-stream-experimental_2.10" % "2.0.3"
+  , "com.typesafe.akka" % "akka-http-core-experimental_2.10" % "2.0.3"
+  , "com.typesafe.akka" % "akka-http-experimental_2.10" % "2.0.3"
 )
 
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
@@ -73,7 +76,9 @@ publishTo := {
 
 publishArtifact in Test := false
 
-publishArtifact in packageDoc := false
+publishArtifact in (Compile, packageDoc) := false
+
+publishArtifact in (Compile, packageSrc) := false
 
 licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 

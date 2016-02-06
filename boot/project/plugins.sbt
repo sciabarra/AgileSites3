@@ -9,7 +9,5 @@ val pluginVer = "3.0.0-SNAPSHOT"
 
 addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
 
-//val plugin = (file("..")/"plugin").toURI
-
-//val root = project.in(file(".")).dependsOn( plugin )
+addSbtPlugin("com.typesafe.sbt" % "sbt-js-engine" % "1.1.2")
 

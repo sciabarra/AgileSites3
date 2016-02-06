@@ -31,6 +31,7 @@ object AgileSitesConfigKeys {
   val sitesShared = settingKey[String]("Sites Shared Directory")
   val sitesWebapp = settingKey[String]("Sites Webapp Directory")
   val sitesWebappName = settingKey[String]("Sites Webapp Name")
+  val sitesTimeout = settingKey[Int]("Sites Timout in seconds")
 
   val sitesPopulate = settingKey[String]("Sites Populate Dir")
   val sitesEnvision = settingKey[String]("Sites Envision Dir")
