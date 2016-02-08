@@ -8,6 +8,7 @@ resolvers ++= Seq(
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
   "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
+
 assemblySettings
 
 val ASBuilder = project.in(file("."))

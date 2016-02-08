@@ -1,47 +1,34 @@
+
 package boot;
 
-import agilesites.annotations.*;
+import agilesites.annotations.AttributeEditor;
+import agilesites.annotations.Site;
+import agilesites.annotations.FlexFamily;
 import agilesites.api.AgileSite;
 
-/**
- * Declaring the site with his types
- */
 @FlexFamily(
-        flexAttribute = "BootAttribute",
-        flexParentDefinition = "BootParentDefinition",
-        flexContentDefinition = "BootContentDefinition",
-        flexFilter = "BootFilter",
-        flexContent = "BootContent",
-        flexParent = "BootParent",
-        additionalFlexParents = {"BootGallery"},
-        additionalFlexTypes = {
-                @FlexType(name = "BootImage", parentType = "BootGallery"),
-                @FlexType(name = "BootContainer", parentType = "BootParent")
-        }
-)
-
-@Site(enabledTypes = {"BootAttribute",
-        "BootParentDefinition",
-        "BootContentDefinition",
-        "BootContent:F",
-        "BootImage:F",
-        "BootContainer:F",
-        "BootParent:F",
-        "BootGallery:F",
-        "Template",
-        "CSElement",
-        "SiteEntry",
-        "WCS_Controller",
-        "PageAttribute",
-        "PageDefinition",
-        "Page:F"})
+       flexAttribute = "Boot_A",
+       flexParentDefinition = "Boot_PD",
+       flexContentDefinition = "Boot_CD",
+       flexFilter = "Boot_F",
+       flexContent = "Boot_C",
+       flexParent = "Boot_P")
+@Site(enabledTypes = {"Boot_A",
+       "Boot_PD",
+       "Boot_CD",
+       "Boot_C:F",
+       "Boot_P:F",
+       "WCS_Controller",
+       "Template",
+       "CSElement",
+       "SiteEntry",
+       "PageAttribute",
+       "PageDefinition",
+       "Page:F"})
 public class Boot extends AgileSite {
 
-    @AttributeEditor
-    private String BootRichTextEditor = "<CKEDITOR/>";
-
-    @AttributeEditor
-    private String BootUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
-
+   @AttributeEditor
+   private String BootRichTextEditor = "<CKEDITOR/>";
 
 }
+      
