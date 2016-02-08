@@ -22,6 +22,7 @@ public class PortfolioContainerLayout extends ASContentController<PortfolioConta
 
     @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "PortfolioContainer", layout = true, pick = "#portfolio-container")
     public String portfolioContainerLayout(Picker p, PortfolioContainerHelper helper) {
+        p.replace("portfolio-header", helper.editHeading());
         p.single(".portfolio_item");
         p.replaceWith(".portfolio_item", helper.editFragmentLoop("projectDetailFragments"));
         return p.outerHtml();

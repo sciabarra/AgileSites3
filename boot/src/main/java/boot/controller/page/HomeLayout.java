@@ -43,7 +43,7 @@ public class HomeLayout extends ASContentController<Home> {
             models.put("portfolioContainerFragment", portfolioContainerFragment);
         }
 
-        if (home.portfolioContainer != null) {
+        if (home.carouselContainer != null) {
             EditableTemplateFragment carouselContainerFragment = newEditableTemplateFragment()
                     .useTemplate("carouselContainerLayout")
                     .forAsset(home.carouselContainer.getAssetId())

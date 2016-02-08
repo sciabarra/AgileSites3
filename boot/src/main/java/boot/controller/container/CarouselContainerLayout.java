@@ -7,8 +7,6 @@ import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
 import boot.model.container.CarouselContainer;
 import boot.model.container.CarouselContainerHelper;
-import boot.model.container.PortfolioContainer;
-import boot.model.page.HomeHelper;
 import com.fatwire.assetapi.fragment.EditableTemplateFragment;
 
 import java.util.List;
@@ -20,8 +18,10 @@ import java.util.Map;
 @Controller
 public class CarouselContainerLayout extends ASContentController<CarouselContainer> {
 
-    @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "CarouselContainer", layout = true, pick = "#myCarousel")
+    @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "CarouselContainer", layout = true, pick = "#carousel-items")
     public String carouselContainerLayout(Picker p, CarouselContainerHelper helper) {
+        p.single(".item");
+        p.replaceWith(".item", helper.editFragmentLoop("carouselItemFragments"));
         return p.outerHtml();
     }
 
@@ -35,16 +35,16 @@ public class CarouselContainerLayout extends ASContentController<CarouselContain
         List<EditableTemplateFragment> carouselList = newFragmentList();
 
         for (int i = 0; i < existingProjectsSize; i++) {
-            EditableTemplateFragment projectEmptySlotFragment = newEditableTemplateFragment()
+            EditableTemplateFragment carouselEmptySlotFragment = newEditableTemplateFragment()
                     //.addLegalTypes("Project")
-                    .useTemplate("projectSummary")
+                    .useTemplate("carouselItemLayout")
                     .forAsset(container.carouselItems[i].getAssetId())
-                    .editField("projectPortfolio", i)
-                    .setSlotname("Project Portfolio Detail")
-                    .setEmptyText("Drop Project");
-            carouselList.add(projectEmptySlotFragment);
+                    .editField("carouselItems", i)
+                    .setSlotname("Carousel Item layout")
+                    .setEmptyText("Drop Carousel Item");
+            carouselList.add(carouselEmptySlotFragment);
         }
-        models.put("projectDetailFragments", carouselList);
+        models.put("carouselItemFragments", carouselList);
 
     }
 
