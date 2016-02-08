@@ -15,10 +15,11 @@ import scala.concurrent.Await
 class WemFrontend(system: ActorSystem,
                   url: java.net.URL,
                   user: String,
-                  password: String)
+                  password: String,
+                  timeOut: Int)
 /*extends Logging */ {
 
-  implicit val timeout = Timeout(300.second)
+  implicit val timeout = Timeout(timeOut.second)
 
   val hub = system.actorOf(Hub.actor(), "Hub")
   val connect = hub ? Protocol.Connect(Some(url), Some(user), Some(password))

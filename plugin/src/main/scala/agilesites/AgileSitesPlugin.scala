@@ -1,9 +1,9 @@
 package agilesites
 
+import sbt._, Keys._
 import agilesites.config.AgileSitesConfigPlugin
 import agilesites.deploy.AgileSitesDeployPlugin
 import agilesites.setup.AgileSitesSetupPlugin
-import sbt._, Keys._
 
 import sbt.plugins.JvmPlugin
 

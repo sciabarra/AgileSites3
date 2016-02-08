@@ -27,4 +27,6 @@ organization := utilPropertyMap.value.getOrElse("organization", "com.sciabarra")
 
 version := utilPropertyMap.value.getOrElse("version", "1.0-SNAPSHOT")
 
+ivyConfigurations += config("akkahttp")
 
+fork in run := true

@@ -2,16 +2,9 @@ package agilesitesng.deploy
 
 import java.net.URLEncoder
 
-import agilesites.config.AgileSitesConfigKeys._
+import sbt._
 import agilesites.Utils
-import agilesitesng.deploy.actor.DeployProtocol._
-import agilesitesng.deploy.model.Spooler
-import akka.pattern.ask
-import akka.util.Timeout
-import sbt.{AutoPlugin, _}
-
-import scala.concurrent.Await
-import scala.concurrent.duration._
+import agilesites.config.AgileSitesConfigKeys._
 
 /**
  * Created by msciab on 04/08/15.

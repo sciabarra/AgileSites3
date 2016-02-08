@@ -19,7 +19,7 @@ object Services {
 
   import DeployProtocol._
 
-  def actor() = Props[ServicesActor]
+  def actor() = Props(classOf[ServicesActor])
 
   // build a get request
   def buildGet(op: String, params: Tuple2[String, String]*)

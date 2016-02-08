@@ -40,6 +40,7 @@ object AgileSitesConfigPlugin
     sitesWebappName := utilPropertyMap.value.getOrElse("sites.webapp.name",
       (file(sitesWebapp.value).getName)),
 
+    sitesTimeout := utilPropertyMap.value.getOrElse("sites.timeout", "30").toInt,
     sitesPopulate := utilPropertyMap.value.getOrElse("sites.populate",
       (baseDirectory.value / "export" / "populate").getAbsolutePath),
     sitesEnvision := utilPropertyMap.value.getOrElse("sites.envision",

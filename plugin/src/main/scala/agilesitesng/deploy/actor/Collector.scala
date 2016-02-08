@@ -3,9 +3,10 @@ package agilesitesng.deploy.actor
 import java.io.File
 import java.net.URL
 
-import agilesitesng.wem.actor.Protocol.Post
+import akka.util.Timeout
 import spoon.Launcher
 import agilesitesng.deploy.model.SpoonModel
+import agilesitesng.wem.actor.Protocol.Post
 
 import akka.actor._
 import akka.event.LoggingReceive
@@ -22,12 +23,14 @@ object Collector {
 
   import DeployProtocol._
 
-  def actor(services: ActorRef) = Props(classOf[CollectorActor], services)
+  def actor(services: ActorRef, timeOut: Int) = Props(classOf[CollectorActor], services, timeOut)
 
-  class CollectorActor(services: ActorRef)
+  class CollectorActor(services: ActorRef, timeOut: Int)
     extends Actor
     with ActorLogging
     with ActorUtils {
+
+    implicit val timeout = Timeout(timeOut.seconds)
 
     var decoder: Option[Decoder] = None
 
@@ -42,7 +45,7 @@ object Collector {
           val map = decoder.get(model)
           log.debug(s">>> collector data: ${map} ---")
           val f = services ? ServicePost(map)
-          val r = Await.result(f, 30.seconds).asInstanceOf[ServiceReply]
+          val r = Await.result(f, timeOut.seconds).asInstanceOf[ServiceReply]
           log.debug(r.result)
         } else {
           log.warning("dropping request as  decoder not initialized")

@@ -1,17 +1,17 @@
 package agilesitesng.wem
 
-import agilesites.Utils
-import agilesitesng.wem.actor.Protocol
-import Protocol.{Reply, Put}
-import akka.actor.ActorRef
-import akka.pattern.ask
-import akka.util.Timeout
 import sbt._
 import sbt.Keys._
-import agilesites.config._
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import net.liftweb.json._
+import agilesites.Utils
+import agilesitesng.wem.actor.Protocol
+import akka.actor.ActorRef
+import akka.pattern.ask
+import akka.util.Timeout
+import agilesites.config.AgileSitesConfigKeys.sitesTimeout
+import Protocol.{Reply, Put}
 
 /**
  * Created by msciab on 01/07/15.
@@ -21,9 +21,10 @@ trait WemSettings {
 
   import NgWemKeys._
 
-  implicit val timeout = Timeout(3.second)
 
-  def process(ref: ActorRef, action: Symbol, args: Seq[String], log: Logger): String = {
+  def process(ref: ActorRef, action: Symbol, args: Seq[String], log: Logger, timeOut: Int): String = {
+
+    implicit val timeout = Timeout(timeOut.second)
 
     log.debug(s"${action.name}: ${args.mkString(" ")}")
 
@@ -84,29 +85,28 @@ trait WemSettings {
     val log = streams.value.log
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val ref = (hub in wem).value
-    process(ref, 'get, args, log)
+    process(ref, 'get, args, log, sitesTimeout.value)
   }
 
   def postTask = post in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val ref = (hub in wem).value
-    process(ref, 'post, args, streams.value.log)
+    process(ref, 'post, args, streams.value.log, sitesTimeout.value)
   }
 
   def putTask = put in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val ref = (hub in wem).value
-    process(ref, 'put, args, streams.value.log)
+    process(ref, 'put, args, streams.value.log, sitesTimeout.value)
   }
 
   def deleteTask = delete in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val ref = (hub in wem).value
-    process(ref, 'delete, args, streams.value.log)
+    process(ref, 'delete, args, streams.value.log, sitesTimeout.value)
   }
 
   val wemSettings = Seq(
     ivyConfigurations += wem,
     getTask, postTask, putTask, deleteTask)
-
 }
