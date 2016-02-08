@@ -84,15 +84,17 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       "password" -> password,
       "id" -> id.toString,
       "name" -> name,
-      "enabledTypes" -> enabledTypes.mkString("|"))
-
-    case Controller(id, name, description, classname, file) => deploy("Controller", id, name, description,
-      'filename -> new java.io.File(file).getName,
-      'filefolder -> name.split("\\.").init.mkString("WCS_Controller/", "/", "/"),
-      'fileext -> file.split("\\.").last,
-      'filebody -> readFile(file),
-      'path -> classname
+      "enabledTypes" -> enabledTypes.mkString("|")
     )
+
+    case Controller(id, name, description, classname, file, resource) =>
+      deploy("Controller", id, name, description,
+        'filename -> new java.io.File(file).getName,
+        'filefolder -> name.split("\\.").init.mkString("WCS_Controller/", "/", "/"),
+        'fileext -> file.split("\\.").last,
+        'filebody -> (if (resource) readResource(file) else readFile(file)),
+        'path -> classname
+      )
 
     case StartMenu(id, name, description, menuType, assetType, assetSubtype, args) => Map(
       "op" -> "startmenu",

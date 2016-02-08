@@ -7,14 +7,20 @@ import sbt._
 
 trait Utils {
 
-  def readFile(s: String): String = readFile(new java.io.File(s))
+  def readFile(s: String): String = {
+      readFile(new java.io.File(s))
+  }
+
+  def readResource(s: String): String = {
+    readStream(getClass.getResourceAsStream(s))
+  }
 
   // read a file
   def readFile(f: File) = {
     val fr = new FileReader(f)
     val sb = new StringBuilder
     var c = fr.read
-    while(c != -1) {
+    while (c != -1) {
       sb.append(c.asInstanceOf[Char])
       c = fr.read
     }
@@ -22,12 +28,11 @@ trait Utils {
     sb.toString
   }
 
-
-  // read a file
+  // read a stream
   def readStream(is: InputStream) = {
     val sb = new StringBuilder
     var c = is.read
-    while(c != -1) {
+    while (c != -1) {
       sb.append(c.asInstanceOf[Char])
       c = is.read
     }
@@ -62,7 +67,7 @@ trait Utils {
     val is = this.getClass.getResourceAsStream(resource)
     val sc = new java.util.Scanner(is).useDelimiter("\\A");
 
-    if(sc.hasNext())
+    if (sc.hasNext())
       writeFile(file, sc.next, log)
     else
       writeFile(file, "", log)
@@ -115,7 +120,7 @@ trait Utils {
     val siteList = if (sites == null) {
       List("")
     } else {
-      (sites split (",") map { s => "&site=" + s}).toList
+      (sites split (",") map { s => "&site=" + s }).toList
     }
 
     //println(siteList)
@@ -142,11 +147,12 @@ trait Utils {
       res match {
         case reWeb(sitesVersion) =>
           if (javaVersion != sitesVersion) {
-            println( """*** WebCenter Sites use java %s and AgileSites uses java %s
-                       |*** They are different major versions of Java.
-                       |*** The compiler may generate incompatible bytecode
-                       |*** Please set JAVA_HOME and use the same major java version for both
-                       |***""".format(sitesVersion, javaVersion).stripMargin)
+            println(
+              """*** WebCenter Sites use java %s and AgileSites uses java %s
+                |*** They are different major versions of Java.
+                |*** The compiler may generate incompatible bytecode
+                |*** Please set JAVA_HOME and use the same major java version for both
+                |***""".format(sitesVersion, javaVersion).stripMargin)
             None
           } else {
             println("WebCenter Sites running with java " + sitesVersion)

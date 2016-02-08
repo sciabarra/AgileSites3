@@ -29,7 +29,7 @@ object SpoonModel extends ModelUtil {
 
   case class Site(id: Long, name: String, enabledTypes: List[String]) extends SpoonModel
 
-  case class FlexFamily(attribute: String, contentDef: String, parentDef: String, content: String, parent: String, filter: String, additionalTypes:List[String], additionalParents:List[String]) extends SpoonModel
+  case class FlexFamily(attribute: String, contentDef: String, parentDef: String, content: String, parent: String, filter: String, additionalTypes: List[String], additionalParents: List[String]) extends SpoonModel
 
   case class AttributeEditor(id: Long, name: String, file: String) extends SpoonModel
 
@@ -68,8 +68,9 @@ object SpoonModel extends ModelUtil {
                         name: String,
                         description: String,
                         classname: String,
-                        file: String) extends SpoonModel
+                        file: String,
+                        resource: Boolean = false) extends SpoonModel
 
-  case class AssetAttribute(name: String, required: Boolean)
+  case class AssetAttribute(name: String, required: Boolean) extends SpoonModel
 
 }
