@@ -171,6 +171,7 @@ public class BlobAttribute {
 
 
 
+
 /**
  * Created by jelerak on 15/10/2015.
  */
@@ -295,5 +296,5 @@ public class ContentFactory extends BaseController
     }
 
 }
-public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Mon Feb 08 10:24:48 GMT 2016"; } }
+public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Feb 10 17:29:14 GMT 2016"; } }
         

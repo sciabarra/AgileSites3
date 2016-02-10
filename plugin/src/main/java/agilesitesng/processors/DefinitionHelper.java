@@ -7,6 +7,14 @@ import agilesites.api.Arg;
  */
 public class DefinitionHelper {
 
+    public String getArgument(String name) {
+        return "<%=ics.GetVar(\""+name+"\")%>";
+    }
+
+    public String getArgumentOrElse(String name, String alt) {
+        return "<%=ics.GetVar(\""+name+"\") != null?ics.GetVar(\""+name+"\"):\""+alt+"\"%>";
+    }
+
     protected String getUrl(String assetName) {
         return String.format("${%s._link_}", assetName);
     }
@@ -41,6 +49,15 @@ public class DefinitionHelper {
         return String.format("" +
                 "<c:if test=\"${%s.size() gt 0}\">" +
                 "   <c:forEach begin=\"0\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">" +
+                "       <fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
+                "   </c:forEach>" +
+                "</c:if>", fragmentName, fragmentName,fragmentName);
+    }
+
+    public String editFragmentLoop(String fragmentName, int startIndex,  Arg... arg) {
+        return String.format("" +
+                "<c:if test=\"${%s.size() gt 0}\">" +
+                "   <c:forEach begin=\"%n\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">" +
                 "       <fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
                 "   </c:forEach>" +
                 "</c:if>", fragmentName, fragmentName,fragmentName);

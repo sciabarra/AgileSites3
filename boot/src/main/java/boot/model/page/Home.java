@@ -11,6 +11,7 @@ import boot.model.BootImage;
 import boot.model.Page;
 import boot.model.block.Project;
 import boot.model.container.CarouselContainer;
+import boot.model.container.MarketingContainer;
 import boot.model.container.PortfolioContainer;
 import boot.model.media.Image;
 
@@ -32,6 +33,9 @@ public class Home extends Page {
 
     @Attribute
     public AssetAttribute<BootContainer<CarouselContainer>> carouselContainer;
+
+    @Attribute
+    public AssetAttribute<BootContainer<MarketingContainer>> marketingContainer;
 
     @Attribute
     public AssetAttribute<BootContainer<PortfolioContainer>> portfolioContainer;

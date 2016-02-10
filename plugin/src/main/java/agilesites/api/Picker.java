@@ -40,6 +40,8 @@ public interface Picker {
 
     Picker addClass(String where, String what);
 
+    Picker removeClass(String where, String what);
+
     Picker replaceWith(String where, String what);
 
     PickerInjector replace(String where);

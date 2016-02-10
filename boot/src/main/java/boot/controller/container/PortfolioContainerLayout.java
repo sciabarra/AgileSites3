@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by msciab on 03/12/15.
+ * Created by jelerak on 03/12/15.
  */
 @Controller
 public class PortfolioContainerLayout extends ASContentController<PortfolioContainer> {
 
     @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "PortfolioContainer", layout = true, pick = "#portfolio-container")
     public String portfolioContainerLayout(Picker p, PortfolioContainerHelper helper) {
-        p.replace("portfolio-header", helper.editHeading());
+        p.replace("#portfolio-header", helper.editHeading());
         p.single(".portfolio_item");
         p.replaceWith(".portfolio_item", helper.editFragmentLoop("projectDetailFragments"));
         return p.outerHtml();

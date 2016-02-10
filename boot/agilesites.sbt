@@ -6,6 +6,8 @@ scalaVersion := "2.10.5"
 
 enablePlugins(AgileSitesNgPlugin)
 
+javacOptions ++= Seq("-s", s"${(sourceManaged in Compile).value}", "-g", "-Xlint:unchecked")//, "-J-Xdebug", "-J-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5006")
+
 crossPaths := false
 
 resolvers ++= Seq(

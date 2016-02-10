@@ -52,7 +52,7 @@ class TemplateAnnotationProcessor
   }
 
   def replaceTags(in: String):String =
-    in.replaceAll("formatdate", "formatDate").replaceAll("foreach", "forEach")
+    in.replaceAll("formatdate", "formatDate").replaceAll("foreach", "forEach").replaceAll("&lt;%", "<%").replaceAll("%&gt;", "%>").replaceAll("&quot;", "\"")
 
   def process(a: Template, mt: CtMethod[_]) {
     val name = orEmpty(a.name(), mt.getSimpleName)

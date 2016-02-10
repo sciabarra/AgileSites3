@@ -18,7 +18,7 @@ import java.util.Map;
 @Controller
 public class CarouselContainerLayout extends ASContentController<CarouselContainer> {
 
-    @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "CarouselContainer", layout = true, pick = "#carousel-items")
+    @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "CarouselContainer", layout = true, pick = "header")
     public String carouselContainerLayout(Picker p, CarouselContainerHelper helper) {
         p.single(".item");
         p.replaceWith(".item", helper.editFragmentLoop("carouselItemFragments"));
@@ -42,6 +42,9 @@ public class CarouselContainerLayout extends ASContentController<CarouselContain
                     .editField("carouselItems", i)
                     .setSlotname("Carousel Item layout")
                     .setEmptyText("Drop Carousel Item");
+            if(i == 1) {
+                carouselEmptySlotFragment.addArgument("active","active");
+            }
             carouselList.add(carouselEmptySlotFragment);
         }
         models.put("carouselItemFragments", carouselList);

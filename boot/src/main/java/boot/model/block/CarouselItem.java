@@ -9,8 +9,8 @@ import agilesitesng.api.BlobAttribute;
 import boot.model.BootImage;
 import boot.model.media.Image;
 
-@NewStartMenu("New Carousel Item")
-@FindStartMenu("Find Carousel Item")
+@NewStartMenu("Block: Carousel")
+@FindStartMenu("Block: Carousel")
 @ContentDefinition(flexAttribute = "BootAttribute",
         flexContent = "BootContentDefinition",
         flexParent = "BootParentDefinition")

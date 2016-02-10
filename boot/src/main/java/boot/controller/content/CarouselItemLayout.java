@@ -19,17 +19,15 @@ import java.util.Map;
 @Controller
 public class CarouselItemLayout extends ASContentController<CarouselItem> {
 
-    @Template(from = "boot/index.html", layout = true, forType = "BootContent", forSubtype = "CarouselItem", pick = "#carousel-item")
+    @Template(from = "boot/index.html", layout = true, forType = "BootContent", forSubtype = "CarouselItem", pick = "#carousel-item", extraCriteria = "active")
     public String carouselItemLayout(Picker p, CarouselItemHelper helper) {
         p.replace("#carousel-item-caption", helper.editCaption());
+        p.removeClass(".item", "active");
+        p.addClass(".item", helper.getArgumentOrElse("active", ""));
         return p.outerHtml();
     }
 
     public void doWork(Map models) {
         super.doWork(models);
-        @Groovy("def carouselItem = this.load()")
-        CarouselItem carouselItem = this.load();
-
     }
-
 }
