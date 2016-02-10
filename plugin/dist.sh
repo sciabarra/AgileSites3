@@ -1,0 +1,1 @@
+sh sbt.sh publishLocal

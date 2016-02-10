@@ -157,18 +157,10 @@ trait NgSetupSupport
     }
   }
 
-  def akka = {
-    val cl = getClass.getClassLoader
-    val config = ConfigFactory.load(cl)
-      .getConfig("sbt-web")
-      .withFallback(ConfigFactory.defaultReference(cl))
-    ActorSystem("sbt-web", config, cl)
-  }
-
   // return None if ok, Some(error) otherwise
   def doSetup(url: URL, user: String, password: String, log: sbt.Logger, timeOut: Int): Option[String] = {
     try {
-      val wem = new WemFrontend(akka, url, user, password, timeOut)
+      val wem = new WemFrontend(url, user, password, timeOut)
 
       println("Initializing")
       typesToEnable foreach {
@@ -216,7 +208,7 @@ trait NgSetupSupport
   // return None if ok, Some(error) otherwise
   def doSetupOnly(url: URL, user: String, password: String, site: String, file: File, log: sbt.Logger, timeOut: Int): Option[String] = {
     try {
-      val wem = new WemFrontend(akka, url, user, password, timeOut)
+      val wem = new WemFrontend(url, user, password, timeOut)
 
       val fileName = file.getName
       val assetName = fileName.split("\\.").head

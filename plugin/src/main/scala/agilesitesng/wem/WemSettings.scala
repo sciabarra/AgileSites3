@@ -14,17 +14,15 @@ import agilesites.config.AgileSitesConfigKeys.sitesTimeout
 import Protocol.{Reply, Put}
 
 /**
- * Created by msciab on 01/07/15.
- */
+  * Created by msciab on 01/07/15.
+  */
 trait WemSettings {
   this: AutoPlugin with Utils =>
 
   import NgWemKeys._
+  import agilesites.config.AgileSitesConfigKeys._
 
-
-  def process(ref: ActorRef, action: Symbol, args: Seq[String], log: Logger, timeOut: Int): String = {
-
-    implicit val timeout = Timeout(timeOut.second)
+  def process(wem: WemFrontend, action: Symbol, args: Seq[String], log: Logger): String = {
 
     log.debug(s"${action.name}: ${args.mkString(" ")}")
 
@@ -62,11 +60,12 @@ trait WemSettings {
       }
 
       log.debug(">>> sending " + msg.toString)
-      val rf = ref ? msg
-      val Reply(json, status) = Await.result(rf, 3.second).asInstanceOf[Reply]
-      val res = if(status==200)
-      pretty(render(json))
-      else """{ "error": "${status}" }"""
+      val (json, status) = wem.request(msg)
+
+      val res = if (status == 200)
+        pretty(render(json))
+      else
+        """{ "error": "${status}" }"""
       log.debug("<<< received " + res)
       val out = m.get('out)
       if (out.isEmpty) {
@@ -84,26 +83,26 @@ trait WemSettings {
   def getTask = get in wem := {
     val log = streams.value.log
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val ref = (hub in wem).value
-    process(ref, 'get, args, log, sitesTimeout.value)
+    val wem = new WemFrontend(new URL(sitesUrl.value), sitesUser.value, sitesPassword.value, sitesTimeout.value)
+    process(wem, 'get, args, log)
   }
 
   def postTask = post in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val ref = (hub in wem).value
-    process(ref, 'post, args, streams.value.log, sitesTimeout.value)
+    val wem = new WemFrontend(new URL(sitesUrl.value), sitesUser.value, sitesPassword.value, sitesTimeout.value)
+    process(wem, 'post, args, streams.value.log)
   }
 
   def putTask = put in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val ref = (hub in wem).value
-    process(ref, 'put, args, streams.value.log, sitesTimeout.value)
+    val wem = new WemFrontend(new URL(sitesUrl.value), sitesUser.value, sitesPassword.value, sitesTimeout.value)
+    process(wem, 'put, args, streams.value.log)
   }
 
   def deleteTask = delete in wem := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val ref = (hub in wem).value
-    process(ref, 'delete, args, streams.value.log, sitesTimeout.value)
+    val wem = new WemFrontend(new URL(sitesUrl.value), sitesUser.value, sitesPassword.value, sitesTimeout.value)
+    process(wem, 'delete, args, streams.value.log)
   }
 
   val wemSettings = Seq(

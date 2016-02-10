@@ -35,42 +35,45 @@ trait SetupSettings
 
     val sitePackage = siteName.toLowerCase
     val folder = base / "src" / "main" / "java" / sitePackage
-    folder.mkdirs
-    writeFile(folder / s"${siteName}.java",
-      s"""
-         |package ${sitePackage};
-         |
-         |import agilesites.annotations.AttributeEditor;
-         |import agilesites.annotations.Site;
-         |import agilesites.annotations.FlexFamily;
-         |import agilesites.api.AgileSite;
-         |
-         |@FlexFamily(
-         |       flexAttribute = "${siteName}_A",
-         |       flexParentDefinition = "${siteName}_PD",
-         |       flexContentDefinition = "${siteName}_CD",
-         |       flexFilter = "${siteName}_F",
-         |       flexContent = "${siteName}_C",
-         |       flexParent = "${siteName}_P")
-         |@Site(enabledTypes = {"${siteName}_A",
-         |       "${siteName}_PD",
-         |       "${siteName}_CD",
-         |       "${siteName}_C:F",
-         |       "${siteName}_P:F",
-         |       "WCS_Controller",
-         |       "Template",
-         |       "CSElement",
-         |       "SiteEntry",
-         |       "PageAttribute",
-         |       "PageDefinition",
-         |       "Page:F"})
-         |public class ${siteName} extends AgileSite {
-         |
-         |   @AttributeEditor
-         |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
-         |
-         |}
-      """.stripMargin, log)
+    val fileJava = folder / s"${siteName}.java"
+    if (!fileJava.exists) {
+      folder.mkdirs
+      writeFile(fileJava,
+        s"""
+          |package ${sitePackage};
+          |
+          |import agilesites.annotations.AttributeEditor;
+          |import agilesites.annotations.Site;
+          |import agilesites.annotations.FlexFamily;
+          |import agilesites.api.AgileSite;
+          |
+          |@FlexFamily(
+          |       flexAttribute = "${siteName}_A",
+          |       flexParentDefinition = "${siteName}_PD",
+          |       flexContentDefinition = "${siteName}_CD",
+          |       flexFilter = "${siteName}_F",
+          |       flexContent = "${siteName}_C",
+          |       flexParent = "${siteName}_P")
+          |@Site(enabledTypes = {"${siteName}_A",
+          |       "${siteName}_PD",
+          |       "${siteName}_CD",
+          |       "${siteName}_C:F",
+          |       "${siteName}_P:F",
+          |       "WCS_Controller",
+          |       "Template",
+          |       "CSElement",
+          |       "SiteEntry",
+          |       "PageAttribute",
+          |       "PageDefinition",
+          |       "Page:F"})
+          |public class ${siteName} extends AgileSite {
+          |
+          |   @AttributeEditor
+          |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
+          |
+          |}
+        """.stripMargin, log)
+    }
   }
 
   def checkArg(n: Integer, prop: String, prompt: String, validate: String => Boolean)
@@ -147,7 +150,7 @@ trait SetupSettings
       //println("eccomi")
       val base = baseDirectory.value.getParentFile
       val service = "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
-      ( base / service ).getAbsolutePath
+      (base / service).getAbsolutePath
     }
   )
 }

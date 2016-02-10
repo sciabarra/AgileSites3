@@ -296,5 +296,5 @@ public class ContentFactory extends BaseController
     }
 
 }
-public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Mon Feb 08 16:50:53 CET 2016"; } }
+public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Feb 10 16:16:04 CET 2016"; } }
         
