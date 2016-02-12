@@ -40,37 +40,37 @@ trait SetupSettings
       folder.mkdirs
       writeFile(fileJava,
         s"""
-          |package ${sitePackage};
-          |
+           |package ${sitePackage};
+           |
           |import agilesites.annotations.AttributeEditor;
-          |import agilesites.annotations.Site;
-          |import agilesites.annotations.FlexFamily;
-          |import agilesites.api.AgileSite;
-          |
+           |import agilesites.annotations.Site;
+           |import agilesites.annotations.FlexFamily;
+           |import agilesites.api.AgileSite;
+           |
           |@FlexFamily(
-          |       flexAttribute = "${siteName}_A",
-          |       flexParentDefinition = "${siteName}_PD",
-          |       flexContentDefinition = "${siteName}_CD",
-          |       flexFilter = "${siteName}_F",
-          |       flexContent = "${siteName}_C",
-          |       flexParent = "${siteName}_P")
-          |@Site(enabledTypes = {"${siteName}_A",
-          |       "${siteName}_PD",
-          |       "${siteName}_CD",
-          |       "${siteName}_C:F",
-          |       "${siteName}_P:F",
-          |       "WCS_Controller",
-          |       "Template",
-          |       "CSElement",
-          |       "SiteEntry",
-          |       "PageAttribute",
-          |       "PageDefinition",
-          |       "Page:F"})
-          |public class ${siteName} extends AgileSite {
-          |
+           |       flexAttribute = "${siteName}_A",
+           |       flexParentDefinition = "${siteName}_PD",
+           |       flexContentDefinition = "${siteName}_CD",
+           |       flexFilter = "${siteName}_F",
+           |       flexContent = "${siteName}_C",
+           |       flexParent = "${siteName}_P")
+           |@Site(enabledTypes = {"${siteName}_A",
+           |       "${siteName}_PD",
+           |       "${siteName}_CD",
+           |       "${siteName}_C:F",
+           |       "${siteName}_P:F",
+           |       "WCS_Controller",
+           |       "Template",
+           |       "CSElement",
+           |       "SiteEntry",
+           |       "PageAttribute",
+           |       "PageDefinition",
+           |       "Page:F"})
+           |public class ${siteName} extends AgileSite {
+           |
           |   @AttributeEditor
-          |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
-          |
+           |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
+           |
           |}
         """.stripMargin, log)
     }
@@ -108,12 +108,12 @@ trait SetupSettings
       val file = new java.io.File("agilesites.properties")
       if (file.exists())
         prp.load(new java.io.FileReader(file))
-
-      println(
-        """********** Configuring AgileSites **********
-          |* Please answer to the following questions *
-          |********************************************
-          | """.stripMargin)
+      else
+        println(
+          """********** Configuring AgileSites **********
+            |* Please answer to the following questions *
+            |********************************************
+            | """.stripMargin)
 
       val url = new java.net.URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
       val user = checkArg(1, "sites.user", "Type a Sites Admin Username\n (example: fwadmin) :", _.trim.size > 0)
@@ -127,7 +127,10 @@ trait SetupSettings
       prp.setProperty("sites.focus", focus)
       prp.setProperty("sites.timeout", "30")
 
-      val err = doSetup(url, user, pass, streams.value.log, sitesTimeout.value)
+      val err = if (sitesHello.value.nonEmpty)
+        doSetup(url, user, pass, streams.value.log, sitesTimeout.value)
+      else Some(s"cannot connect to ${url}")
+
       if (err.isEmpty) {
         val fw = new java.io.FileWriter("agilesites.properties")
         prp.store(fw, "Created by AgileSites")

@@ -65,7 +65,7 @@ trait WemSettings {
       val res = if (status == 200)
         pretty(render(json))
       else
-        """{ "error": "${status}" }"""
+        s"""{ "error": "${status}" }"""
       log.debug("<<< received " + res)
       val out = m.get('out)
       if (out.isEmpty) {

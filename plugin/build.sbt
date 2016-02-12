@@ -112,3 +112,4 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
 }
 
 Seq(Concat.concatTask)
+

@@ -199,7 +199,7 @@ trait NgSetupSupport
       None
     } catch {
       case ex: Throwable =>
-        ex.printStackTrace
+        //ex.printStackTrace
         log.error(ex.getMessage)
         Some(ex.getMessage)
     }
