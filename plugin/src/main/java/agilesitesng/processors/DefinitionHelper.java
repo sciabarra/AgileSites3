@@ -7,6 +7,14 @@ import agilesites.api.Arg;
  */
 public class DefinitionHelper {
 
+    public String getArgument(String name) {
+        return "<%=ics.GetVar(\""+name+"\")%>";
+    }
+
+    public String getArgumentOrElse(String name, String alt) {
+        return "<%=ics.GetVar(\""+name+"\") != null?ics.GetVar(\""+name+"\"):\""+alt+"\"%>";
+    }
+
     protected String getUrl(String assetName) {
         return String.format("${%s._link_}", assetName);
     }
@@ -26,11 +34,11 @@ public class DefinitionHelper {
 
     public String editFragmentOrElse(String fragmentName, String alt, Arg... arg) {
 
-        return String.format(" " +
+        return String.format(
                 "<c:choose>" +
                 "    <c:when test=\"${%s != null}\">" +
                 "        <fragment:include name=\"%s\"/>" +
-            "        </c:when>" +
+                "    </c:when>" +
                 "    <c:otherwise>" +
                 "        %s" +
                 "    </c:otherwise>" +
@@ -38,11 +46,36 @@ public class DefinitionHelper {
     }
 
     public String editFragmentLoop(String fragmentName, Arg... arg) {
-        return String.format("<c:forEach begin=\"0\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">\n" +
-                "\t\t\t\t\t\t\t<fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
-                "\t\t\t\t\t</c:forEach>", fragmentName,fragmentName);
+        return String.format("" +
+                "<c:if test=\"${%s.size() gt 0}\">" +
+                "   <c:forEach begin=\"0\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">" +
+                "       <fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
+                "   </c:forEach>" +
+                "</c:if>", fragmentName, fragmentName,fragmentName);
     }
 
+    public String editFragmentLoop(String fragmentName, int startIndex,  Arg... arg) {
+        return String.format("" +
+                "<c:if test=\"${%s.size() gt 0}\">" +
+                "   <c:forEach begin=\"%n\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">" +
+                "       <fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
+                "   </c:forEach>" +
+                "</c:if>", fragmentName, fragmentName,fragmentName);
+    }
+
+    public String editFragmentLoopOrElse(String fragmentName, String alt, Arg... arg) {
+        return String.format("" +
+                "<c:choose>" +
+                "   <c:when test=\"${%s.size() gt 0}\">" +
+                "       <c:forEach begin=\"0\" end=\"${%s.size()-1}\" var=\"fragmentIndex\">" +
+                "           <fragment:include name=\"%s\" index=\"${fragmentIndex}\"/>\n" +
+                "       </c:forEach>" +
+                "   </c:when>" +
+                "    <c:otherwise>" +
+                "        %s" +
+                "    </c:otherwise>" +
+                "</c:choose>", fragmentName, fragmentName, fragmentName, alt);
+    }
     protected String getAsset(String assetName, String value) {
         return String.format("${%s.%s}", assetName, value);
     }

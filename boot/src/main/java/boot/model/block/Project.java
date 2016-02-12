@@ -3,6 +3,7 @@ package boot.model.block;
 import agilesites.annotations.*;
 import agilesitesng.api.AssetAttribute;
 import agilesitesng.api.BlobAttribute;
+import boot.model.BootContent;
 import boot.model.BootImage;
 import boot.model.media.Image;
 
@@ -16,11 +17,11 @@ public class Project extends boot.model.BootContent {
     @Attribute(value = "Title")
     public String title;
 
-    @Attribute(value = "Subtitle")
-    public String subtitle;
-
     @Attribute(value = "Description", editor = "BootRichTextEditor")
     public String description;
+
+    @Attribute(value = "Details", editor = "BootRichTextEditor")
+    public String details;
 
     @Attribute(value = "Main Project Image")
     public AssetAttribute<BootImage<Image>> smallProjectImage;
@@ -28,5 +29,7 @@ public class Project extends boot.model.BootContent {
     @Attribute(value = "Main Project Image")
     public AssetAttribute<BootImage<Image>> portfolioImages[];
 
+    @Attribute(value = "Related Projects")
+    public AssetAttribute<BootContent<Project>> relatedProjects[];
 
 }

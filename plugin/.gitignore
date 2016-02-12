@@ -11,3 +11,4 @@ target/
 version.txt
 src/test/groovy/
 src/main/resources/aaagile/ElementCatalog/AAA*.txt
+src/main/resources/Api.groovy

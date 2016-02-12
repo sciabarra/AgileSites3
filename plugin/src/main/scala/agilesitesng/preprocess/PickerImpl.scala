@@ -251,6 +251,10 @@ class PickerImpl extends Picker {
   }
 
 
+  def removeClass(where: String, what: String): Picker = {
+    top.select (where).removeClass(what)
+    return this
+  }
   /**
    * Replace tag selected by "where" with String "what"
    *

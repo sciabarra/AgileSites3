@@ -13,25 +13,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by msciab on 03/12/15.
+ * Created by jelerak on 03/12/15.
  */
 @Controller
 public class HomeLayout extends ASContentController<Home> {
 
-    @Template(from = "boot/index.html", forType = "Page", forSubtype = "Home", layout = true, pick = "body")
+    @Template(from = "boot/index.html", forType = "Page", forSubtype = "Home", layout = true)
     public String homeLayout(Picker p, HomeHelper helper) {
         p.replace("#home-title", helper.editBootTitle());
         p.replace("#home-subtitle", helper.editBootSubtitle());
         p.replaceWith("header", helper.editFragmentOrElse("carouselContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));
         p.replaceWith("#portfolio-container", helper.editFragmentOrElse("portfolioContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));
+        p.replaceWith("#marketing-container", helper.editFragmentOrElse("marketingContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));
         return p.outerHtml();
     }
 
     public void doWork(Map models) {
         super.doWork(models);
-        @Groovy("def home = this.load()")
         Home home = this.load();
-
 
         if (home.portfolioContainer != null) {
             EditableTemplateFragment portfolioContainerFragment = newEditableTemplateFragment()
@@ -43,7 +42,7 @@ public class HomeLayout extends ASContentController<Home> {
             models.put("portfolioContainerFragment", portfolioContainerFragment);
         }
 
-        if (home.portfolioContainer != null) {
+        if (home.carouselContainer != null) {
             EditableTemplateFragment carouselContainerFragment = newEditableTemplateFragment()
                     .useTemplate("carouselContainerLayout")
                     .forAsset(home.carouselContainer.getAssetId())
@@ -51,6 +50,16 @@ public class HomeLayout extends ASContentController<Home> {
                     .setSlotname("Carousel Container")
                     .setEmptyText("Drop Carousel Container");
             models.put("carouselContainerFragment", carouselContainerFragment);
+        }
+
+        if (home.marketingContainer != null) {
+            EditableTemplateFragment marketingContainerFragment = newEditableTemplateFragment()
+                    .useTemplate("marketingContainerLayout")
+                    .forAsset(home.marketingContainer.getAssetId())
+                    .editField("marketingContainer")
+                    .setSlotname("Marketing Container")
+                    .setEmptyText("Drop Marketing Container");
+            models.put("marketingContainerFragment", marketingContainerFragment);
         }
     }
 

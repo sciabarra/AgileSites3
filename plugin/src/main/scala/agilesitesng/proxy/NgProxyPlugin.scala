@@ -27,7 +27,7 @@ object NgProxyPlugin
       _ % "akkahttp"
     }
     , proxyRemoteUrl := new java.net.URL(sitesUrl.value)
-    , proxyLocalDir := baseDirectory.value / "src" / "main" / "assets"
+    , proxyLocalDir := baseDirectory.value / "src" / "main" / "assets" / "boot"
     , proxyPort := 3000
     , proxyTask
     , proxyTimeout := sitesTimeout.value
