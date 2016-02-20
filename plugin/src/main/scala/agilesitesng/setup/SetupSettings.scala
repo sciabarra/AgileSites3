@@ -1,5 +1,7 @@
 package agilesitesng.setup
 
+import java.io.{FileReader, FileWriter}
+
 import sbt._
 import Keys._
 import agilesites.Utils
@@ -31,6 +33,8 @@ trait SetupSettings
     }
   }
 
+
+
   def mkSite(base: File, siteName: String, log: Logger) {
 
     val sitePackage = siteName.toLowerCase
@@ -42,12 +46,12 @@ trait SetupSettings
         s"""
            |package ${sitePackage};
            |
-          |import agilesites.annotations.AttributeEditor;
+           |import agilesites.annotations.AttributeEditor;
            |import agilesites.annotations.Site;
            |import agilesites.annotations.FlexFamily;
            |import agilesites.api.AgileSite;
            |
-          |@FlexFamily(
+           |@FlexFamily(
            |       flexAttribute = "${siteName}_A",
            |       flexParentDefinition = "${siteName}_PD",
            |       flexContentDefinition = "${siteName}_CD",
@@ -68,10 +72,10 @@ trait SetupSettings
            |       "Page:F"})
            |public class ${siteName} extends AgileSite {
            |
-          |   @AttributeEditor
+           |   @AttributeEditor
            |   private String ${siteName}RichTextEditor = "<CKEDITOR/>";
            |
-          |}
+           |}
         """.stripMargin, log)
     }
   }
@@ -104,18 +108,19 @@ trait SetupSettings
     val log = streams.value.log
     val base = baseDirectory.value
 
+
     try {
-      val file = new java.io.File("agilesites.properties")
+      val file = new File("agilesites.properties")
       if (file.exists())
-        prp.load(new java.io.FileReader(file))
+        prp.load(new FileReader(file))
       else
         println(
           """********** Configuring AgileSites **********
             |* Please answer to the following questions *
             |********************************************
-            | """.stripMargin)
+            |""".stripMargin)
 
-      val url = new java.net.URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
+      val url = new URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
       val user = checkArg(1, "sites.user", "Type a Sites Admin Username\n (example: fwadmin) :", _.trim.size > 0)
       val pass = checkArg(2, "sites.password", "Type a Sites Admin Password\n (example: xceladmin) :", _.trim.size > 0)
       val focus = checkArg(3, "sites.focus", "Type your new Site name (short, alphanumeric, no spaces)\n (example: Site ) :", isAlphaNumeric)
@@ -127,12 +132,14 @@ trait SetupSettings
       prp.setProperty("sites.focus", focus)
       prp.setProperty("sites.timeout", "30")
 
-      val err = if (sitesHello.value.nonEmpty)
+      val err = try {
         doSetup(url, user, pass, streams.value.log, sitesTimeout.value)
-      else Some(s"cannot connect to ${url}")
+      } catch {
+        case _:Throwable => Some(s"cannot connect to ${url}")
+      }
 
       if (err.isEmpty) {
-        val fw = new java.io.FileWriter("agilesites.properties")
+        val fw = new FileWriter("agilesites.properties")
         prp.store(fw, "Created by AgileSites")
         fw.close
         log.info("Created agilesites.properties")
@@ -140,7 +147,6 @@ trait SetupSettings
         mkSite(base, focus, log)
         None
       } else err
-
     } catch {
       case ex: Throwable =>
         log.error(ex.getMessage)
@@ -148,9 +154,18 @@ trait SetupSettings
     }
   }
 
-  val setupSettings = Seq(setupTask, setupOnlyTask,
+
+  val setupAllTask = setupAll := {
+    val url = new URL(sitesUrl.value)
+    println(s"setup: ${url}")
+    val err = try {
+      doSetup(url, sitesUser.value, sitesPassword.value, streams.value.log, sitesTimeout.value)
+    } catch {
+      case _:Throwable => Some(s"cannot connect to ${url}")
+    }
+  }
+  val setupSettings = Seq(setupTask, setupOnlyTask, setupAllTask,
     setupOnlyDefault := {
-      //println("eccomi")
       val base = baseDirectory.value.getParentFile
       val service = "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
       (base / service).getAbsolutePath

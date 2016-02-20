@@ -39,12 +39,12 @@ trait NgSetupSupport
   def enableType(wem: WemFrontend, site: String, stype: String): Unit = {
 
     val siteJson = wem.request(Get(s"/sites/${site}"))
-    //logger.debug(pretty(render(siteJson._1)))
+    logger.debug(pretty(render(siteJson._1)))
 
     val newEntry = parse(
       s"""{ "href": "${wem.base}/REST/types/${stype}",
             "name" : "${stype}" }""")
-    //logger.debug(compact(render(newEntry)))
+    logger.debug(compact(render(newEntry)))
     val lookup = siteJson._1 find {
       _ == newEntry
     }

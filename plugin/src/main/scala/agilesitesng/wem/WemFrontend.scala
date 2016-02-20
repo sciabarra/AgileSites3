@@ -38,7 +38,9 @@ class WemFrontend(url: java.net.URL,
     println("*** connected ***")
     true
   } catch {
-    case _: Throwable => false
+    case _: Throwable =>
+      println("*** cannot connet ***")
+      false
   }
 
   def request(msg: Message): (JValue, Int) = {

@@ -23,9 +23,10 @@ libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer changi
 
 addCommandAlias("dbg", """set logLevel := Level.Debug""")
 
-
-name := utilPropertyMap.value.getOrElse("sites.focus", "Unnamed")
+name := utilPropertyMap.value.getOrElse("sites.focus", "Installing")
 
 organization := utilPropertyMap.value.getOrElse("organization", "com.sciabarra")
 
 version := utilPropertyMap.value.getOrElse("version", "1.0-SNAPSHOT")
+
+ivyConfigurations += config("akkahttp")
