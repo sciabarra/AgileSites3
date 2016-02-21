@@ -21,6 +21,9 @@ object NgSetupKeys {
 
   lazy val setupOnlyDefault = taskKey[String]("Default setupOnlyFile")
 
-  lazy val setupAll = taskKey[Unit]("Execute setup of all the steps using current profile")
+
+  lazy val setup12c = taskKey[Unit]("Execute setup of all the steps using current profile")
+
+  lazy val setup11g = taskKey[Unit]("Install using catalog mover in 11g")
 
 }

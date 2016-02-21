@@ -29,4 +29,6 @@ object AgileSitesSetupKeys {
   lazy val weblogicRedeployPackage = taskKey[Unit]("Weblogic Redeploy CS")
   lazy val server = inputKey[Unit]("Launch Local Sites")
   lazy val cmov = inputKey[Unit]("WCS Catalog Mover")
+  lazy val cmovClasspath = taskKey[Seq[File]]("Sites Populate Classpath")
 }
+

@@ -34,7 +34,6 @@ trait SetupSettings
   }
 
 
-
   def mkSite(base: File, siteName: String, log: Logger) {
 
     val sitePackage = siteName.toLowerCase
@@ -108,7 +107,6 @@ trait SetupSettings
     val log = streams.value.log
     val base = baseDirectory.value
 
-
     try {
       val file = new File("agilesites.properties")
       if (file.exists())
@@ -118,7 +116,7 @@ trait SetupSettings
           """********** Configuring AgileSites **********
             |* Please answer to the following questions *
             |********************************************
-            |""".stripMargin)
+            | """.stripMargin)
 
       val url = new URL(checkArg(0, "sites.url", "Type a Sites 12c valid URL and press enter.\n (Example: http://10.0.2.15:7003/sites) :", isUrl))
       val user = checkArg(1, "sites.user", "Type a Sites Admin Username\n (example: fwadmin) :", _.trim.size > 0)
@@ -135,7 +133,7 @@ trait SetupSettings
       val err = try {
         doSetup(url, user, pass, streams.value.log, sitesTimeout.value)
       } catch {
-        case _:Throwable => Some(s"cannot connect to ${url}")
+        case _: Throwable => Some(s"cannot connect to ${url}")
       }
 
       if (err.isEmpty) {
@@ -155,21 +153,64 @@ trait SetupSettings
   }
 
 
-  val setupAllTask = setupAll := {
+  val setup12cTask = setup12c := {
     val url = new URL(sitesUrl.value)
     println(s"setup: ${url}")
     val err = try {
       doSetup(url, sitesUser.value, sitesPassword.value, streams.value.log, sitesTimeout.value)
     } catch {
-      case _:Throwable => Some(s"cannot connect to ${url}")
+      case _: Throwable => Some(s"cannot connect to ${url}")
     }
   }
-  val setupSettings = Seq(setupTask, setupOnlyTask, setupAllTask,
+
+  val setup11gTask = setup11g := {
+
+    println("setup 11g")
+    val dir = baseDirectory.value / "populate"
+    dir.mkdirs()
+    val log = streams.value.log
+    writeFile(dir / "ElementCatalog.html", readResource("/aaagile/ElementCatalog.html"), log)
+    writeFile(dir / "SiteCatalog.html", readResource("/aaagile/SiteCatalog.html"), log)
+    val dir1 = dir / "ElementCatalog"
+    dir1.mkdirs()
+    writeFile(dir1 / "AAAgileApi.txt", readResource("/aaagile/ElementCatalog/AAAgileApi.txt"), log)
+    writeFile(dir1 / "AAAgileService.jsp", readResource("/aaagile/ElementCatalog/AAAgileService.jsp"), log)
+
+    // read and fix 11g
+    val filtered = for(line <- readResource("/aaagile/ElementCatalog/AAAgileServices.txt").split("\n"))
+    yield {
+      if (line.trim.endsWith("//1-")) ""
+      else if (line.trim.startsWith("//1+")) line.trim.substring(4)
+      else line
+    }
+    writeFile(dir1 / "AAAgileServices.txt", filtered.mkString("\n"), log)
+
+    val cp = agilesites.setup.AgileSitesSetupKeys.cmovClasspath.value.mkString(java.io.File.pathSeparator)
+
+    val opts = Seq("COM.FutureTense.Apps.CatalogMover",
+      "-x", "import_all",
+      "-b", sitesUrl.value + "/CatalogManager",
+      "-u", sitesAdminUser.value,
+      "-p", sitesAdminPassword.value,
+      "-d", dir.getAbsolutePath)
+
+    println(cp)
+    println(opts)
+
+    Fork.java(ForkOptions(
+      runJVMOptions = Seq("-cp", cp),
+      workingDirectory = Some(baseDirectory.value)),
+      opts)
+  }
+
+  val setupSettings = Seq(setupTask, setupOnlyTask,
+    setup12cTask, setup11gTask,
     setupOnlyDefault := {
       val base = baseDirectory.value.getParentFile
       val service = "plugin/src/main/resources/aaagile/ElementCatalog/AAAgileServices.txt"
       (base / service).getAbsolutePath
     }
   )
+
 }
 

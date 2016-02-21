@@ -15,7 +15,6 @@ trait ToolsSettings extends Utils {
   // find the default workspace from sites
   def defaultWorkspace(sites: String) = normalizeSiteName(sites.split(",").head)
 
-  lazy val cmovClasspath = taskKey[Seq[File]]("Sites Populate Classpath")
   lazy val cmovClasspathTask = cmovClasspath <<= (sitesHome, baseDirectory) map {
     (home, base) =>
       val h = file(home)
@@ -32,10 +31,9 @@ trait ToolsSettings extends Utils {
       println( s"""usage: cmov <cmd> [@][<dir>...] [<options>....]])
                   |<cmd> one of view, setup, import, import_all, export, export_all
                   |[@]<dir> if start with @ uses all the contained dirs otherwise just the specified dir,
-                  |      defaults to   @${sitesPopulate.value},
+                  |    defaults to @${sitesPopulate.value},
                   |<options> can be:
-                  |-b base URL  (defaults to ${sitesUrl.value}/CatalogManager)
-                                                                                                              |-u user name (defaults to ${sitesUser.value})
+                  |    -b base URL  (defaults to ${sitesUrl.value}/CatalogManager)                                                                                                       |-u user name (defaults to ${sitesUser.value})
           """.stripMargin)
     } else {
       val cp = (Seq(file("bin").getAbsoluteFile) ++ cmovClasspath.value).mkString(java.io.File.pathSeparator)

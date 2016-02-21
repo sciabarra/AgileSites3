@@ -13,8 +13,8 @@ import java.util.*;
 public class ParentDefinition extends Asset {
 
     String attributeTable;
-    List<Long> attributeIds = new LinkedList<>();
-    List<Boolean> isRequireds = new LinkedList<>();
+    List<Long> attributeIds = new LinkedList<Long>();
+    List<Boolean> isRequireds = new LinkedList<Boolean>();
     List<Long> parentIds = new LinkedList<Long>();
 
     public ParentDefinition(ICS ics) {
@@ -89,7 +89,7 @@ public class ParentDefinition extends Asset {
 
         AssetId aid = new AssetIdImpl(c, id);
 
-        Map<String, AttributeData> map = new HashMap<>();
+        Map<String, AttributeData> map = new HashMap<String, AttributeData>();
 
         map.put("required", attrData("required", isRequired));
         map.put("multiple", attrData("multiple", isMultiple));

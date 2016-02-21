@@ -49,7 +49,7 @@ trait Utils {
       Some(r)
   }
 
-  def writeFile(file: File, body: String, log: sbt.Logger) = {
+  def writeFile(file: File, body: String, log: sbt.Logger = null) = {
     //println("*** %s%s****\n".format(file.toString, body))
     if (log != null)
       log.debug("+++ %s".format(file.toString))
