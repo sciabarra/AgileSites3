@@ -90,7 +90,7 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
 
 
 ////////////////////////////////////
-// build for java 7
+// build for java 8
 javacOptions ++= Seq("-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")

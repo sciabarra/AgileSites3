@@ -47,7 +47,7 @@ object AgileSitesConfigPlugin
       (baseDirectory.value / "export" / "envision").getAbsolutePath),
 
     // versions
-    sitesVersion := utilPropertyMap.value.getOrElse("sites.version", "11.1.1.8.0"),
+    sitesVersion := utilPropertyMap.value.getOrElse("sites.version", "12.2.1.0.0"),
     sitesPort := utilPropertyMap.value.getOrElse("sites.port", "11800"),
     sitesHost := utilPropertyMap.value.getOrElse("sites.host", "localhost"),
     satelliteWebapp := utilPropertyMap.value.getOrElse("satellite.webapp",

@@ -1,5 +1,6 @@
 package agilesitesng.deploy
 
+import agilesitesng.deploy.model.SpoonModel.Controller
 import sbt._
 import Keys._
 import akka.pattern.ask
@@ -16,8 +17,8 @@ import agilesitesng.deploy.NgDeployKeys._
 import agilesites.config.AgileSitesConfigKeys._
 
 /**
- * Created by msciab on 24/11/15.
- */
+  * Created by msciab on 24/11/15.
+  */
 trait ActorCommands {
   this: AutoPlugin with Utils =>
 
@@ -73,46 +74,74 @@ trait ActorCommands {
     state
   }
 
-  def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String]) {
-    val deployObjects = Spooler.load(readFile(spool))
+  def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String], skipCtl: Boolean, listOnly: Boolean) {
 
-    def filterAllSubstring(args: Seq[String], s: String) = args.map(s.indexOf(_) != -1).fold(true)(_ && _)
+    // list objects, skipping controllers if required
+    val deployObjects =
+      Spooler.load(readFile(spool)).deployObjects.filter(x =>
+        if (skipCtl) !x.isInstanceOf[Controller] else true
+      )
 
-    val objs = deployObjects.deployObjects.filter(x => filterAllSubstring(args, x.toString))
+    def filterAllSubstring(args: Seq[String], s: String) =
+      args.map(s.indexOf(_) != -1).fold(true)(_ && _)
 
-    for (obj <- objs) {
-      //println(obj.toString)
-      //log.debug(obj.toString)
-      hub ! SpoonData(obj)
+    val objs = deployObjects.filter(x => filterAllSubstring(args, x.toString))
+
+    if (listOnly) {
+      for (obj <- objs) {
+        println(obj.toString)
+      }
+    } else {
+      for (obj <- objs) {
+        hub ! SpoonData(obj)
+      }
+      hub ! SpoonEnd("")
+      println(s"Deployed #${objs.size}")
     }
-    hub ! SpoonEnd("")
-    println(s"Deployed #${objs.size}")
-
   }
 
   def deployCmd = Command.args("deploy", "<args>") { (state, args) =>
-    val result: Option[(State, Result[File])] = Project.runTask(ngSpoon, state)
-    result match {
-      case Some((newState, Value(spool))) =>
-        println(spool)
-        SbtWeb.withActorRefFactory(state, "Ng") {
-          arf =>
-            val svc = arf.actorOf(Services.actor())
-            val coll = arf.actorOf(Collector.actor(svc, getTimeout(state)))
-            val (url, focus, user, password) = login(svc, state)
-            val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
-            result match {
-              case Some((newState, Value(map))) =>
-                //println(">>> begin")
-                coll ! SpoonBegin(url, focus, user, password, map)
-                doDeploy(spool, coll, map, args)
-              case _ => println("cannot get uid map")
-            }
-        }
-        newState
-      case _ =>
-        println("ERROR in ngSpoon")
-        state
+
+    if (args.nonEmpty && args(0) == "-h") {
+      println("usage: deploy [-l] [filter-substring]")
+      state
+    } else {
+
+      val (listOnly, args1) =
+        if (args.nonEmpty && args(0) == "-l")
+          true -> args.tail
+        else
+          false -> args
+
+      val extracted: Extracted = Project.extract(state)
+      val skipCtl = (ngSpoonSkipControllers in extracted.currentRef get extracted.structure.data).get
+      val result: Option[(State, Result[File])] = Project.runTask(ngSpoon, state)
+      result match {
+        case Some((newState, Value(spool))) =>
+          // prepare the actor
+          SbtWeb.withActorRefFactory(state, "Ng") {
+            arf =>
+              val svc = arf.actorOf(Services.actor())
+              val coll = arf.actorOf(Collector.actor(svc, getTimeout(state)))
+              val (url, focus, user, password) = login(svc, state)
+              val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
+              result match {
+                case Some((newState, Value(map))) =>
+                  //println(">>> begin")
+
+                  if (!listOnly)
+                    coll ! SpoonBegin(url, focus, user, password, map)
+
+                  doDeploy(spool, coll, map, args1, skipCtl, listOnly)
+
+                case _ => println("cannot get uid map")
+              }
+          }
+          newState
+        case _ =>
+          println("ERROR in ngSpoon")
+          state
+      }
     }
   }
 

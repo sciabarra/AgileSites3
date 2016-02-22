@@ -119,6 +119,7 @@ trait SpoonSettings {
     , spoonTask
     , ngUidTask
     , ngSpoonDebug := false
+    , ngSpoonSkipControllers := !sitesVersion.value.startsWith("12.")
     , ngSpoon := {
       (spoon).toTask("").value
     }
