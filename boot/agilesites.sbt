@@ -20,7 +20,16 @@ val pluginVer = try {
   scala.io.Source.fromFile(file("project") / "plugin" / "version.txt").getLines.next.trim
 } catch { case _ : Throwable => "3.0.0-SNAPSHOT" }
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+//libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+
+libraryDependencies ++= Seq(
+    "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+    , "org.mockito" % "mockito-all" % "1.10.19"
+    , "org.powermock" % "powermock-core" % "1.6.4"
+    , "org.powermock" % "powermock-module-junit4" % "1.6.4"
+    , "org.powermock" % "powermock-api-mockito" % "1.6.4"
+    , "junit" % "junit" % "4.12"
+)
 
 unmanagedBase := baseDirectory.value.getAbsoluteFile / "project" / "WEB-INF" / "lib"
 

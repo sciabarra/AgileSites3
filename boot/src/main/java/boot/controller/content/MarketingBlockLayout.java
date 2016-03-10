@@ -19,7 +19,8 @@ public class MarketingBlockLayout extends ASContentController<CarouselItem> {
     @Template(from = "boot/index.html", layout = true, forType = "BootContent", forSubtype = "MarketingBlock", pick = "#marketing-block")
     public String marketingBlockLayout(Picker p, MarketingBlockHelper helper) {
         p.replace("#marketing-title", helper.editTitle());
-        p.replace("#marketing-description", helper.editDescription());
+        p.replace("#marketing-description", helper.editBlockDescription());
+        //p.replace(".wcs-cta-text", helper.editCtaText());
         p.addClass(".fa-fw", helper.getIconClass());
         return p.outerHtml();
     }

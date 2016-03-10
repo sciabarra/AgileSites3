@@ -15,11 +15,11 @@ public class DefinitionHelper {
         return "<%=ics.GetVar(\""+name+"\") != null?ics.GetVar(\""+name+"\"):\""+alt+"\"%>";
     }
 
-    protected String getUrl(String assetName) {
-        return String.format("${%s._link_}", assetName);
+    public String getUrl(String assetName) {
+        return String.format("${%s.url}", assetName);
     }
 
-    protected String getBlobUrl(String assetName, String value) {
+    public String getBlobUrl(String assetName, String value) {
         return String.format("${%s.%s.url}", assetName, value);
     }
 

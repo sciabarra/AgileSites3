@@ -4,10 +4,11 @@ import agilesites.annotations.Attribute;
 import agilesites.annotations.ContentDefinition;
 import agilesites.annotations.FindStartMenu;
 import agilesites.annotations.NewStartMenu;
+
 import agilesitesng.api.AssetAttribute;
 import boot.model.BootContainer;
-import boot.model.BootContent;
-import boot.model.block.Project;
+import boot.model.Page;
+import boot.model.page.Project;
 
 /**
  * Created by jelerak on 04/02/2016.
@@ -23,5 +24,5 @@ public class PortfolioContainer extends BootContainer {
     public String heading;
 
     @Attribute
-    public AssetAttribute<BootContent<Project>> projectPortfolio[];
+    public AssetAttribute<Page<Project>> projectPortfolio[];
 }

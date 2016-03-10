@@ -13,6 +13,7 @@ public class AssetAttribute<T extends ASAsset> //-
     String name;
     String c;
     long cid;
+    String url;
 
 //+ public AssetAttribute(Object attributeAssetType)
     public AssetAttribute(T attributeAssetType)//-
@@ -21,17 +22,21 @@ public class AssetAttribute<T extends ASAsset> //-
     }
 
     public AssetAttribute(String c, long cid) {
-        this.c = c;
-        this.cid = cid;
+        this(c, cid, null);
     }
 
     public AssetAttribute(String c, long cid, String name) {
-        this.c = c;
-        this.cid = cid;
-        this.name = name;
+        this(c,cid, name, null);
     }
 
-//+ def getValue()
+    public AssetAttribute(String c, long cid, String name,  String url) {
+        this.name = name;
+        this.c = c;
+        this.cid = cid;
+        this.url = url;
+    }
+
+    //+ def getValue()
     public T getValue() //-
     {
         if (attributeAssetType == null) {
@@ -51,4 +56,7 @@ public class AssetAttribute<T extends ASAsset> //-
         return name;
     }
 
+    public String getUrl() {
+        return url;
+    }
 }

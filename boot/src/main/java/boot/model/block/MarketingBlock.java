@@ -16,9 +16,8 @@ public class MarketingBlock extends boot.model.BootContent {
     public String title;
 
     @Attribute(value = "Description", editor = "BootRichTextEditor")
-    public String description;
+    public String blockDescription;
 
     @Attribute(value = "Icon class")
     public String iconClass;
-
 }

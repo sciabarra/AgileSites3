@@ -6,6 +6,7 @@ import agilesites.annotations.Template;
 import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
 import boot.model.container.MarketingContainer;
+import boot.model.container.MarketingContainerHelper;
 import boot.model.container.PortfolioContainer;
 import boot.model.container.PortfolioContainerHelper;
 import com.fatwire.assetapi.fragment.EditableTemplateFragment;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class MarketingContainerLayout extends ASContentController<MarketingContainer> {
 
     @Template(from = "boot/index.html", forType = "BootContainer", forSubtype = "MarketingContainer", layout = true, pick = "#marketing-container")
-    public String marketingContainerLayout(Picker p, PortfolioContainerHelper helper) {
+    public String marketingContainerLayout(Picker p, MarketingContainerHelper helper) {
         p.replace("#marketing-header", helper.editHeading());
         p.single(".marketing-block");
         p.replaceWith(".marketing-block", helper.editFragmentLoop("marketingBlockFragments"));
@@ -31,8 +32,6 @@ public class MarketingContainerLayout extends ASContentController<MarketingConta
         super.doWork(models);
         @Groovy("def container = this.load()")
         MarketingContainer container = this.load();
-
-
         int itemsSize = container.marketingItems.length;
         List<EditableTemplateFragment> blockList = newFragmentList();
 

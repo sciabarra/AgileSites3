@@ -5,6 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fatwire.assetapi.data.BaseController;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import com.fatwire.assetapi.data.AssetId;
 import com.openmarket.xcelerate.asset.AssetIdImpl;
@@ -13,13 +16,21 @@ import agilesites.annotations.Groovy;
 import com.fatwire.assetapi.data.BlobObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by jelerak on 20/10/2015.
  */
 public class ASAsset extends BaseController {
+
+    protected String assettype;
+    protected String id;
+    protected String site;
+    protected String subtype;
+    protected String name;
+    protected String url;
+    protected String description;
+    protected String template;
 
     public Map<String, String>[] getAttributes() {
         try {
@@ -38,6 +49,69 @@ public class ASAsset extends BaseController {
         return null;
     }
 
+    public String getAssettype() {
+        return assettype;
+    }
+
+    public void setAssettype(String assettype) {
+        this.assettype = assettype;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
 
 
@@ -46,6 +120,7 @@ public class ASAsset extends BaseController {
  */
 public class ASContentController<T extends ASAsset> extends BaseController {
 
+    ContentFactory<T> cf;
  def load() {
 
 
@@ -54,8 +129,19 @@ public class ASContentController<T extends ASAsset> extends BaseController {
 
 
 
+
+
+
+
         return cf.load(getAssetId());
     }
+
+
+
+
+
+
+
 
     @Override
     protected void doWork(Map models) {
@@ -91,6 +177,7 @@ public class AssetAttribute
     String name;
     String c;
     long cid;
+    String url;
 
  public AssetAttribute(Object attributeAssetType)
 
@@ -101,14 +188,18 @@ public class AssetAttribute
     }
 
     public AssetAttribute(String c, long cid) {
-        this.c = c;
-        this.cid = cid;
+        this(c, cid, null);
     }
 
     public AssetAttribute(String c, long cid, String name) {
+        this(c,cid, name, null);
+    }
+
+    public AssetAttribute(String c, long cid, String name,  String url) {
+        this.name = name;
         this.c = c;
         this.cid = cid;
-        this.name = name;
+        this.url = url;
     }
 
  def getValue()
@@ -135,6 +226,9 @@ public class AssetAttribute
         return name;
     }
 
+    public String getUrl() {
+        return url;
+    }
 }
 
 public class BlobAttribute {
@@ -226,6 +320,12 @@ public class ContentFactory extends BaseController
 
 
 
+            t.setId((String)assetMap.get("id"));
+            t.setName((String)assetMap.get("name"));
+            t.setDescription((String)assetMap.get("description"));
+            t.setSubtype(assetSubtype);
+            t.setTemplate((String)assetMap.get("template"));
+            t.setUrl((String)assetMap.get("_link_"));
 
             for (Map<String, String> attribute : t.getAttributes()) {
                 String attributeName = attribute.get("name");
@@ -296,5 +396,5 @@ public class ContentFactory extends BaseController
     }
 
 }
-public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Feb 10 17:29:14 GMT 2016"; } }
+public class Version { public String toString() { return "Concat of package agilesitesng.api; 3.0.0-SNAPSHOT built on Wed Mar 09 10:30:12 GMT 2016"; } }
         

@@ -86,6 +86,10 @@ public class DefinitionHelperClass {
 
         typeSpecBuilder.addMethod(nameGetter);
 
+        MethodSpec urlGetter = MethodSpec.methodBuilder("getUrl").addModifiers(Modifier.PUBLIC).addStatement("return getUrl(getName())").returns(String.class).build();
+
+        typeSpecBuilder.addMethod(urlGetter);
+
         for (HelperAttribute attribute : attributes) {
             methods.addAll(getMethodsForAttribute(attribute));
         }
@@ -114,7 +118,6 @@ public class DefinitionHelperClass {
     private Collection<? extends MethodSpec> generateIndexedAccessors(HelperAttribute attribute) {
         List<MethodSpec> methods = new ArrayList<>();
         System.out.println("attribute type: " + attribute.getType().toString());
-        boolean generateMethods = true;
 
         ArrayType attributeType = (ArrayType) attribute.getType();
         return methods;
@@ -123,7 +126,6 @@ public class DefinitionHelperClass {
     private List<MethodSpec> generateSimpleAccessors(HelperAttribute attribute ) {
         List<MethodSpec> methods = new ArrayList<>();
         System.out.println("attribute type: " + attribute.getType().toString());
-        boolean generateMethods = true;
 
         DeclaredType attributeType = (DeclaredType) attribute.getType();
         String getMethodName = "get" + StringUtils.capitalize(attribute.getName());
@@ -161,4 +163,5 @@ public class DefinitionHelperClass {
         methods.add(editMethod.build());
         return methods;
     }
+
 }

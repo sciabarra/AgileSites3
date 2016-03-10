@@ -7,8 +7,6 @@ import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
 import boot.model.container.PortfolioContainer;
 import boot.model.container.PortfolioContainerHelper;
-import boot.model.page.Home;
-import boot.model.page.HomeHelper;
 import com.fatwire.assetapi.fragment.EditableTemplateFragment;
 
 import java.util.List;

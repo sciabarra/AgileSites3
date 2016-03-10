@@ -58,6 +58,12 @@ public class ContentFactory<T extends ASAsset> extends BaseController //-
 
 //+         t = clazz.newInstance();
             t = (T) clazz.newInstance(); //-
+            t.setId((String)assetMap.get("id"));
+            t.setName((String)assetMap.get("name"));
+            t.setDescription((String)assetMap.get("description"));
+            t.setSubtype(assetSubtype);
+            t.setTemplate((String)assetMap.get("template"));
+            t.setUrl((String)assetMap.get("_link_"));
 
             for (Map<String, String> attribute : t.getAttributes()) {
                 String attributeName = attribute.get("name");

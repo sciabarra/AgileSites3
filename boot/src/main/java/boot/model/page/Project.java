@@ -1,24 +1,25 @@
-package boot.model.block;
+package boot.model.page;
 
-import agilesites.annotations.*;
+import agilesites.annotations.Attribute;
+import agilesites.annotations.ContentDefinition;
+import agilesites.annotations.FindStartMenu;
+import agilesites.annotations.NewStartMenu;
 import agilesitesng.api.AssetAttribute;
-import agilesitesng.api.BlobAttribute;
 import boot.model.BootContent;
 import boot.model.BootImage;
+import boot.model.Page;
 import boot.model.media.Image;
 
-@NewStartMenu("New Project")
-@FindStartMenu("Find Project")
-@ContentDefinition(flexAttribute = "BootAttribute",
-        flexContent = "BootContentDefinition",
-        flexParent = "BootParentDefinition")
-public class Project extends boot.model.BootContent {
+@NewStartMenu("Page: Project")
+@FindStartMenu("Page: Project")
+@ContentDefinition(flexContent = "PageDefinition", flexAttribute = "PageAttribute")
+public class Project extends Page {
 
     @Attribute(value = "Title")
     public String title;
 
     @Attribute(value = "Description", editor = "BootRichTextEditor")
-    public String description;
+    public String projectDescription;
 
     @Attribute(value = "Details", editor = "BootRichTextEditor")
     public String details;
@@ -30,6 +31,6 @@ public class Project extends boot.model.BootContent {
     public AssetAttribute<BootImage<Image>> portfolioImages[];
 
     @Attribute(value = "Related Projects")
-    public AssetAttribute<BootContent<Project>> relatedProjects[];
+    public AssetAttribute<Page<Project>> relatedProjects[];
 
 }

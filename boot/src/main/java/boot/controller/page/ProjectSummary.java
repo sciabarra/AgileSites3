@@ -1,12 +1,12 @@
-package boot.controller.content;
+package boot.controller.page;
 
 import agilesites.annotations.Controller;
 import agilesites.annotations.Groovy;
 import agilesites.annotations.Template;
 import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
-import boot.model.block.Project;
-import boot.model.block.ProjectHelper;
+import boot.model.page.Project;
+import boot.model.page.ProjectHelper;
 import com.fatwire.assetapi.fragment.EditableTemplateFragment;
 
 import java.util.Map;
@@ -15,11 +15,12 @@ import java.util.Map;
  * Created by jelerak on 02/02/2016.
  */
 @Controller
-public class ProjectDetail extends ASContentController<Project> {
+public class ProjectSummary extends ASContentController<Project> {
 
-    @Template(from = "boot/portfolio-item.html", layout = true, forType = "BootContent", forSubtype = "Project")
-    public String projectDetail(Picker p, ProjectHelper helper) {
+    @Template(from = "boot/index.html", layout = true, forType = "Page", forSubtype = "Project", pick = "#portfolio-item")
+    public String projectSummary(Picker p, ProjectHelper helper) {
         p.single(".img-portfolio").replaceWith(".img-portfolio", helper.editFragment("imageDetailFragment"));
+        p.attr("#project-link", "href", helper.getUrl());
         return p.outerHtml();
     }
 

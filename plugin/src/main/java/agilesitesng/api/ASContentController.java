@@ -8,12 +8,19 @@ import java.util.Map;
  */
 public class ASContentController<T extends ASAsset> extends BaseController {
 
+    ContentFactory<T> cf;
 //+ def load() {
     protected T load() {//-
 //+     ContentFactory cf = new ContentFactory(ics);
-        ContentFactory<T> cf = new ContentFactory<T>(ics);//-
+        if (cf == null) {//-
+            cf = new ContentFactory<T>(ics);//-
+        }//-
         return cf.load(getAssetId());
     }
+
+    public void setCf(ContentFactory<T> cf) {//-
+        this.cf = cf;//-
+    }//-
 
     @Override
     protected void doWork(Map models) {

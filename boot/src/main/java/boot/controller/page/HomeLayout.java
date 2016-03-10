@@ -20,8 +20,8 @@ public class HomeLayout extends ASContentController<Home> {
 
     @Template(from = "boot/index.html", forType = "Page", forSubtype = "Home", layout = true)
     public String homeLayout(Picker p, HomeHelper helper) {
-        p.replace("#home-title", helper.editBootTitle());
-        p.replace("#home-subtitle", helper.editBootSubtitle());
+        p.replace("#home-title", helper.editTitle());
+        //p.replace("#home-subtitle", helper.editSubtitle());
         p.replaceWith("header", helper.editFragmentOrElse("carouselContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));
         p.replaceWith("#portfolio-container", helper.editFragmentOrElse("portfolioContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));
         p.replaceWith("#marketing-container", helper.editFragmentOrElse("marketingContainerFragment", "<div><h2>Nun c'e' trippa pe' gatti</h2></div>"));

@@ -1,15 +1,11 @@
 package boot.controller.content;
 
 import agilesites.annotations.Controller;
-import agilesites.annotations.Groovy;
 import agilesites.annotations.Template;
 import agilesites.api.Picker;
 import agilesitesng.api.ASContentController;
 import boot.model.block.CarouselItem;
 import boot.model.block.CarouselItemHelper;
-import boot.model.block.Project;
-import boot.model.block.ProjectHelper;
-import com.fatwire.assetapi.fragment.EditableTemplateFragment;
 
 import java.util.Map;
 
