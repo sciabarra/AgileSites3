@@ -39,12 +39,12 @@ trait NgSetupSupport
   def enableType(wem: WemFrontend, site: String, stype: String): Unit = {
 
     val siteJson = wem.request(Get(s"/sites/${site}"))
-    //logger.debug(pretty(render(siteJson._1)))
+    logger.debug(pretty(render(siteJson._1)))
 
     val newEntry = parse(
       s"""{ "href": "${wem.base}/REST/types/${stype}",
             "name" : "${stype}" }""")
-    //logger.debug(compact(render(newEntry)))
+    logger.debug(compact(render(newEntry)))
     val lookup = siteJson._1 find {
       _ == newEntry
     }
@@ -157,18 +157,10 @@ trait NgSetupSupport
     }
   }
 
-  def akka = {
-    val cl = getClass.getClassLoader
-    val config = ConfigFactory.load(cl)
-      .getConfig("sbt-web")
-      .withFallback(ConfigFactory.defaultReference(cl))
-    ActorSystem("sbt-web", config, cl)
-  }
-
   // return None if ok, Some(error) otherwise
   def doSetup(url: URL, user: String, password: String, log: sbt.Logger, timeOut: Int): Option[String] = {
     try {
-      val wem = new WemFrontend(akka, url, user, password, timeOut)
+      val wem = new WemFrontend(url, user, password, timeOut)
 
       println("Initializing")
       typesToEnable foreach {
@@ -177,6 +169,7 @@ trait NgSetupSupport
       val map = loadAssetMap(wem, "AdminSite", log)
       println()
       //println(map)
+
 
       // import cselements
       print(s"Importing CSElements: ")
@@ -207,7 +200,7 @@ trait NgSetupSupport
       None
     } catch {
       case ex: Throwable =>
-        ex.printStackTrace
+        //ex.printStackTrace
         log.error(ex.getMessage)
         Some(ex.getMessage)
     }
@@ -216,7 +209,7 @@ trait NgSetupSupport
   // return None if ok, Some(error) otherwise
   def doSetupOnly(url: URL, user: String, password: String, site: String, file: File, log: sbt.Logger, timeOut: Int): Option[String] = {
     try {
-      val wem = new WemFrontend(akka, url, user, password, timeOut)
+      val wem = new WemFrontend(url, user, password, timeOut)
 
       val fileName = file.getName
       val assetName = fileName.split("\\.").head

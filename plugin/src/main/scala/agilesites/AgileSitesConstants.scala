@@ -19,6 +19,7 @@ object AgileSitesConstants {
     , "org.scala-lang" % "scala-library" % "2.10.5" % "spoon"
     , "net.liftweb" % "lift-json_2.10" % "2.6" % "spoon"
     , "ch.qos.logback" % "logback-classic" % "1.1.3" % "spoon"
+    , "com.google.guava" % "guava" % "16.0.1"
   )
 
   val tomcatVersion = "7.0.59"

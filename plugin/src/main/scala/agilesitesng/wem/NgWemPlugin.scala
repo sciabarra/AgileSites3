@@ -24,6 +24,7 @@ object NgWemPlugin
 
   val autoImport = NgWemKeys
 
+  /*
   val wemHubKey = AttributeKey[ActorRef]("wem-hub")
 
   private def finish(state: State): State = {
@@ -55,10 +56,10 @@ object NgWemPlugin
       onUnload in Global := (onUnload in Global).value andThen
         (finish)
     )
+  */
 
   override def requires = SbtWeb && AgileSitesConfigPlugin
 
-  override val projectSettings =
-    Seq(hub <<= state map (_.get(wemHubKey).get)) ++
-      wemSettings
+  override val projectSettings =  wemSettings
+  // Seq(hub <<= state map (_.get(wemHubKey).get)) ++
 }

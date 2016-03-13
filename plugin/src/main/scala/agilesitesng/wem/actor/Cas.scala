@@ -4,7 +4,8 @@ import agilesitesng.wem.actor.Protocol.{Ticket, Connect}
 import akka.actor.{ActorRef, ActorLogging, Actor, Props}
 import akka.event.LoggingReceive
 import akka.io.IO
-import spray.http.{HttpResponse, FormData, Uri}
+import akka.util.ByteStringBuilder
+import spray.http._
 import spray.http.Uri.{Path, Host, Authority}
 import spray.httpx.RequestBuilding._
 
@@ -21,6 +22,22 @@ object Cas {
     val http = IO(spray.can.Http)
     var requester: ActorRef = null
 
+    //var chunkedResponse: HttpResponse = null
+    var chunkCollector: ByteStringBuilder = null
+
+    var location = Option.empty[HttpHeader]
+
+    def processRequest(ticket: String) {
+      if (location.nonEmpty) {
+        http ! Post(Uri(location.get.value), FormData(Seq("service" -> "*")))
+        log.debug("Reply with Location {}", location.get.value)
+      } else {
+        log.debug("Reply with Ticket {}", ticket)
+        println(ticket)
+        requester ! Ticket(ticket)
+      }
+    }
+
     def receive = LoggingReceive {
       case Connect(url, username, password) =>
 
@@ -34,19 +51,20 @@ object Cas {
         http ! Post(uri, data)
         requester = context.sender()
 
+      case ChunkedResponseStart(res) =>
+        location = res.headers.filter(_.name == "Location").headOption
+        chunkCollector = new ByteStringBuilder
+
+      case MessageChunk(data, _) =>
+        chunkCollector ++= data.toByteString
+
+      case ChunkedMessageEnd(_, _) =>
+        processRequest(chunkCollector.result.decodeString("UTF-8"))
+
       case res: HttpResponse =>
-        val headers = res.headers
-        val location = headers.filter(_.name == "Location").headOption
-        log.debug("HttpResponse Location: {} ({})", location, headers.map(_.value))
-        if (location.nonEmpty) {
-          http ! Post(Uri(location.get.value), FormData(Seq("service" -> "*")))
-          log.debug("Reply with Location {}", location.get.value)
-        } else {
-          val ticket = res.entity.asString
-          log.debug("Reply with Ticket {}", ticket)
-          System.out.println(ticket)
-          requester ! Ticket(ticket)
-        }
+        location = res.headers.filter(_.name == "Location").headOption
+        log.debug("HttpResponse Location: {} ", location)
+        processRequest(res.entity.asString)
 
       case wtf => log.debug(wtf.toString)
     }

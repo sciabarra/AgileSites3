@@ -3,6 +3,7 @@ package agilesitesng.wem
 import agilesitesng.wem.actor.{Protocol, Hub}
 import agilesitesng.wem.actor.Protocol._
 import akka.actor.ActorSystem
+import com.typesafe.config.ConfigFactory
 import net.liftweb.json._
 import akka.pattern.ask
 import scala.concurrent.duration._
@@ -12,12 +13,19 @@ import scala.concurrent.Await
 /**
  * Created by msciab on 22/10/15.
  */
-class WemFrontend(system: ActorSystem,
-                  url: java.net.URL,
+class WemFrontend(url: java.net.URL,
                   user: String,
                   password: String,
                   timeOut: Int)
 /*extends Logging */ {
+
+  val system =  {
+    val cl = getClass.getClassLoader
+    val config = ConfigFactory.load(cl)
+      .getConfig("sbt-web")
+      .withFallback(ConfigFactory.defaultReference(cl))
+    ActorSystem("sbt-web", config, cl)
+  }
 
   implicit val timeout = Timeout(timeOut.second)
 
@@ -30,7 +38,9 @@ class WemFrontend(system: ActorSystem,
     println("*** connected ***")
     true
   } catch {
-    case _: Throwable => false
+    case _: Throwable =>
+      println("*** cannot connet ***")
+      false
   }
 
   def request(msg: Message): (JValue, Int) = {

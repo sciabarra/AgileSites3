@@ -4,6 +4,8 @@ import agilesites.AgileSitesPlugin
 import agilesitesng.deploy.NgDeployPlugin
 import agilesitesng.proxy.NgProxyPlugin
 import agilesitesng.setup.NgSetupPlugin
+import agilesitesng.static.NgStaticPlugin
+import agilesitesng.wem.NgWemPlugin
 
 import sbt._
 
@@ -13,5 +15,7 @@ object AgileSitesNgPlugin
   override def requires = AgileSitesPlugin &&
     NgProxyPlugin &&
     NgSetupPlugin &&
-    NgDeployPlugin
+    NgDeployPlugin &&
+    NgWemPlugin &&
+    NgStaticPlugin
 }

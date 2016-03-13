@@ -30,7 +30,6 @@ public class CarouselContainerLayout extends ASContentController<CarouselContain
         @Groovy("def container = this.load()")
         CarouselContainer container = this.load();
 
-
         int existingProjectsSize = container.carouselItems.length;
         List<EditableTemplateFragment> carouselList = newFragmentList();
 

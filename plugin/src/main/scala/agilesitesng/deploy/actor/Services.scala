@@ -45,7 +45,7 @@ object Services {
       authority = Authority(Host(url.getHost), url.getPort),
       path = Path(url.getPath + "/ContentServer"))
     val data = params.toSeq ++
-      Seq("pagename" -> "AAAgileService", "op" -> op, "_authkey_" -> authKey)
+      Seq("pagename" -> "AAAgileService", "op" -> op, "_authkey_" -> authKey.trim)
     val req = Post(uri, FormData(data)) ~> addHeaders(cookie)
     log.debug(req.toString)
     req
@@ -106,7 +106,7 @@ object Services {
 
     /** Process requests - either normal and authentication */
     def processRequest(origin: ActorRef, res: HttpResponse, body: String) = {
-      //println(s"Process Request: ${body}")
+      log.debug(s"Process Request: ${body}")
       if (authKey.nonEmpty) {
         //println(s"Sending ${origin} !${body}")
         // we are running request/response loop
@@ -114,8 +114,6 @@ object Services {
         context.unbecome()
         flushQueue
       } else {
-        // we still need authenticate
-        //val body = res.entity.asString.trim
         val headers = res.headers
         if (cookie.cookies.isEmpty) {
           val cookies = headers.filter(_.isInstanceOf[`Set-Cookie`]).map(_.asInstanceOf[`Set-Cookie`].cookie).toSeq
