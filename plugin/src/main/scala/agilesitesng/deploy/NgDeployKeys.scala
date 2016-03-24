@@ -1,5 +1,7 @@
 package agilesitesng.deploy
 
+import java.io.File
+
 import akka.actor.{ActorRef, Actor}
 import sbt._
 
@@ -21,4 +23,7 @@ object NgDeployKeys {
   val ngSpoon = taskKey[File]("invoke spoon without parameters")
   val ngUid = taskKey[Map[String,String]]("load uids for the site")
   val processAnnotations = taskKey[Unit]("Process annotations")
+
+  val exportDir = settingKey[File]("base export dir")
+
 }

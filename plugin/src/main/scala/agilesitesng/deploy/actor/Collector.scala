@@ -45,8 +45,11 @@ object Collector {
           val map = decoder.get(model)
           log.debug(s">>> collector data: ${map} ---")
           val f = services ? ServicePost(map)
-          val r = Await.result(f, timeOut.seconds).asInstanceOf[ServiceReply]
-          log.debug(r.result)
+          Await.result(f, timeOut.seconds).asInstanceOf[ServiceReply] match {
+            case SimpleServiceReply(res) => log.debug(res)
+            case _ => log.error("wrong service reply type: expected PrintServiceReply")
+          }
+
         } else {
           log.warning("dropping request as  decoder not initialized")
         }

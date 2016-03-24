@@ -47,6 +47,10 @@ public class ServiceDispatcher {
             return new DeployService();
         if (name.equals("compile"))
             return new CompilerService();
+        if (name.equals("export"))
+            return new ContentExportService();
+        if (name.equals("import"))
+            return new ContentExportService();
 
         throw new Exception("unknown service " + name);
     }

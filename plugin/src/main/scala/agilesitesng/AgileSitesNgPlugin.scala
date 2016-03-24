@@ -1,6 +1,7 @@
 package agilesitesng
 
 import agilesites.AgileSitesPlugin
+import agilesitesng.content.NgContentPlugin
 import agilesitesng.deploy.NgDeployPlugin
 import agilesitesng.proxy.NgProxyPlugin
 import agilesitesng.setup.NgSetupPlugin
@@ -17,5 +18,6 @@ object AgileSitesNgPlugin
     NgSetupPlugin &&
     NgDeployPlugin &&
     NgWemPlugin &&
-    NgStaticPlugin
+    NgStaticPlugin &&
+    NgContentPlugin
 }

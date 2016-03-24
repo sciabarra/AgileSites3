@@ -67,13 +67,17 @@ with BeforeAndAfterAll {
     val pass = "xceladmin"
 
     val f = svc ? ServiceLogin(url, user, pass)
-    val r = Await.result(f, dur).asInstanceOf[ServiceReply]
-    info(r.result)
+    val r = Await.result(f, dur).asInstanceOf[ServiceReply] match {
+      case SimpleServiceReply(res) => println(s"${res}"); info(res)
+      case _ => println("wrong service reply type: expected PrintServiceReply")
+    }
 
     val f1 = svc ? ServiceGet(Map("op" -> "version"))
-    val r1 = Await.result(f1, timeout.duration).asInstanceOf[ServiceReply]
+    val r1 = Await.result(f1, timeout.duration).asInstanceOf[ServiceReply] match {
+      case SimpleServiceReply(res) => println(s"${res}"); res must startWith("Concat ")
+      case _ => println("wrong service reply type: expected PrintServiceReply")
+    }
     info(r1.toString)
-    r1.result must startWith("Concat ")
 
     svc ! ServiceLogout()
   }

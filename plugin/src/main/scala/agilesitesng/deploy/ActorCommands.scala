@@ -1,5 +1,8 @@
 package agilesitesng.deploy
 
+import java.io.File
+import java.nio.file.{Path, Files}
+
 import sbt._
 import Keys._
 import akka.pattern.ask
@@ -66,11 +69,22 @@ trait ActorCommands {
           login(svc, state)
           val req = ServiceGet(map)
           println(s">>>" + req)
-          val ServiceReply(res) = Await.result(svc ? req, timeOut.seconds).asInstanceOf[ServiceReply]
-          println(s"${res}")
+          Await.result(svc ? req, timeOut.seconds).asInstanceOf[ServiceReply] match {
+            case SimpleServiceReply(res) => println(s"${res}")
+            case JsonFileServiceReply(path, filename, res) => writeToFile(path, filename, res)
+          }
+          //println(s"${res}")
       }
     }
     state
+  }
+
+  def writeToFile(path: String, filename: String, value: String): Unit = {
+    val exportPath = new File(path)
+    exportPath.mkdirs()
+    val exportFile = new File(exportPath, filename)
+    val pw = new java.io.PrintWriter(exportFile)
+    try pw.write(value) finally pw.close()
   }
 
   def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String]) {
@@ -116,6 +130,96 @@ trait ActorCommands {
     }
   }
 
-  val actorCommands = Seq(commands ++= Seq(serviceCmd, deployCmd, timeoutCmd))
+  def exportCmd = Command.args("exportContent", "<args>") { (state, args) =>
+    val timeOut = getTimeout(state)
+
+    if (args.size == 0) {
+      println("usage: exportContent assetType <cid=value>")
+    } else {
+      // input hello 0 a=1 b=2
+      val opts = args.map(s => if (s.indexOf("=") == -1) "type=" + s else s)
+      // output List("value=0", "a=1", "b=2")
+
+      val map = opts.map(_.split("=")).map(x => x(0) -> x(1)).toMap + ("op" -> "export") + ("exportPath" -> "export")
+      // output Map("value"->"0" "a" -> "1", "b" -> "2")
+
+      SbtWeb.withActorRefFactory(state, "Ng") {
+        arf =>
+          val svc = arf.actorOf(Services.actor())
+          login(svc, state)
+          val req = ServiceGet(map)
+          println(s">>>" + req)
+          Await.result(svc ? req, timeOut.seconds).asInstanceOf[ServiceReply] match {
+            case SimpleServiceReply(res) => println(s"${res}")
+            case JsonListServiceReply(idList) => doExport(svc, map.get("type").get, idList)
+            case JsonFileServiceReply(path, filename, res) => writeToFile(path, filename, res)
+          }
+        //println(s"${res}")
+      }
+    }
+    state
+  }
+
+  def doExport(svc: ActorRef, assetType:String, list: List[String]) {
+
+    for (id <- list) {
+      val map = Map("op" -> "export", "exportPath" -> "export", "type" -> assetType, "cid" -> id)
+      val req = ServiceGet(map)
+      println(s">>>" + req)
+      Await.result(svc ? req, 30.seconds).asInstanceOf[ServiceReply] match {
+        case SimpleServiceReply(res) => println(s"${res}")
+        case JsonFileServiceReply(path, filename, res) => writeToFile(path, filename, res)
+      }
+    }
+
+  }
+
+  def doImport(svc: ActorRef, assetType:String, list: List[String], site:String) {
+
+    for (fileName <- list) {
+      val cid = fileName.take(1 + fileName.lastIndexOf("."))
+      val assetJson = readTextFile(fileName)
+      val map = Map("op" -> "import", "importPath" -> "import", "site" -> site, "type" -> assetType, "cid" -> cid, "assetJson" -> assetJson)
+      val req = ServiceGet(map)
+      println(s">>>" + req)
+      Await.result(svc ? req, 30.seconds).asInstanceOf[ServiceReply] match {
+        case SimpleServiceReply(res) => println(s"${res}")
+        case JsonFileServiceReply(path, filename, res) => writeToFile(path, filename, res)
+      }
+    }
+
+  }
+  def importCmd = Command.args("importContent", "<args>") { (state, args) =>
+    val timeOut = getTimeout(state)
+
+    if (args.isEmpty) {
+      println("usage: importContent <assetType> <cid>")
+    } else if (args.size == 1) {
+      println("usage: importContent <assetType> <cid>")
+    } else {
+      //val map = Map("op" -> "import", "importPath" -> "export", "cid" -> args(2))
+      // output Map("value"->"0" "a" -> "1", "b" -> "2")
+      val assetType = args(0)
+      val cid = args(1)
+      val filename = s"import/$assetType/$cid.json"
+      val files = filename :: Nil
+      SbtWeb.withActorRefFactory(state, "Ng") {
+        arf =>
+          val svc = arf.actorOf(Services.actor())
+          val (url, focus, user, password) = login(svc, state)
+          doImport(svc,assetType, files, focus)
+      }
+    }
+    state
+  }
+
+  def readTextFile(filename: String): String = {
+    val bufferedSource = scala.io.Source.fromFile(filename)
+    val content = bufferedSource.getLines.mkString("")
+    bufferedSource.close
+    content
+  }
+
+  val actorCommands = Seq(commands ++= Seq(serviceCmd, deployCmd, timeoutCmd, exportCmd, importCmd))
 
 }

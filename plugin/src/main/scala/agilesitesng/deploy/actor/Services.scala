@@ -2,6 +2,9 @@ package agilesitesng.deploy.actor
 
 import java.net.URL
 
+import net.liftweb.json
+import net.liftweb.json.JsonAST.JValue
+import net.liftweb.json._
 import spray.http._
 import akka.io.IO
 import agilesitesng.wem.actor.Protocol.WemMsg
@@ -51,6 +54,11 @@ object Services {
     req
   }
 
+  def parseJsonObject(s: String) = {
+    val jsonObject = parse(s)
+    ((jsonObject \ "exportPath").asInstanceOf[JString].values, (jsonObject \ "exportFilename").asInstanceOf[JString].values, compact(render(jsonObject \\ "values")))
+  }
+
   class ServicesActor
     extends Actor
     with ActorLogging
@@ -66,7 +74,7 @@ object Services {
 
       case ServiceLogin(_url, username, password) =>
         if (authKey.nonEmpty) {
-          context.sender ! ServiceReply("OK - already logged in")
+          context.sender ! SimpleServiceReply("OK - already logged in")
         } else {
           url = _url
           http ! buildGet("login", "username" -> username,
@@ -84,7 +92,7 @@ object Services {
         log.debug(s"op=${op}")
         if (op.isEmpty) {
           log.info(s"sender ${context.sender}")
-          context.sender ! ServiceReply("ERROR: missing op")
+          context.sender ! SimpleServiceReply("ERROR: missing op")
         } else {
           http ! buildGetMap(op.get, args - "op")(url, cookie, log)
           context.become(waitForHttpReply(context.sender))
@@ -94,7 +102,7 @@ object Services {
         log.debug(args.toString)
         val op = args.get("op")
         if (op.isEmpty) {
-          sender ! ServiceReply("ERROR: missing op")
+          sender ! SimpleServiceReply("ERROR: missing op")
         } else {
           http ! buildPostMap(op.get, args - "op")(url, cookie, authKey.get, log)
           context.become(waitForHttpReply(context.sender))
@@ -110,7 +118,22 @@ object Services {
       if (authKey.nonEmpty) {
         //println(s"Sending ${origin} !${body}")
         // we are running request/response loop
-        origin ! ServiceReply(body)
+        try {
+          val jsonObject = parse(body) match {
+            case JObject(obj) =>
+              val (path, filename, assetMap) = parseJsonObject(body)
+              origin ! JsonFileServiceReply(path, filename, assetMap)
+            case JArray(arr) =>
+              origin ! JsonListServiceReply(arr.map( compactRender))
+            case JString(s) =>
+              origin ! SimpleServiceReply(s)
+            case _ => origin ! SimpleServiceReply(body)
+          }
+        }
+        catch {
+          case _: Throwable => origin ! SimpleServiceReply(body)
+        }
+
         context.unbecome()
         flushQueue
       } else {
@@ -119,7 +142,7 @@ object Services {
           val cookies = headers.filter(_.isInstanceOf[`Set-Cookie`]).map(_.asInstanceOf[`Set-Cookie`].cookie).toSeq
           log.debug(cookies.toString)
           if (cookies.isEmpty) {
-            origin ! ServiceReply(s"KO code=${body} cookies=${cookies.mkString(";")}")
+            origin ! SimpleServiceReply(s"KO code=${body} cookies=${cookies.mkString(";")}")
             context.unbecome()
           } else {
             cookie = Cookie(cookies)
@@ -128,7 +151,7 @@ object Services {
         } else {
           // got cookie, looking for authkey
           authKey = Some(body)
-          origin ! ServiceReply(s"OK ${authKey}")
+          origin ! SimpleServiceReply(s"OK ${authKey}")
           context.unbecome()
           flushQueue
         }
@@ -150,7 +173,8 @@ object Services {
 
       case res: HttpResponse =>
         val body = res.entity.asString
-        ref ! ServiceReply(body)
+        ref ! SimpleServiceReply(body)
+
         context.unbecome()
         flushQueue
 
