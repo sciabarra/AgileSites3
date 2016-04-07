@@ -6,20 +6,17 @@
       <h2>The Agile Development Tool<br/>
         for Oracle WebCenterSites</h2>
       <div class="video">
-        <iframe width="460" height="259" src="https://www.youtube.com/embed/cus7WYHdQic" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/d0WIa9ySXE0" frameborder="0" allowfullscreen></iframe>
       </div>
+
       <div class="navmenu">
         <ul>
-          <li> <a href="/docs"><img src="/images/icons/download.png" alt="Download" title="Download" /><br>Download</a> </li>
-          <li> <a href="/docs"><img src="/images/icons/tutorial.png" alt="Tutorial" title="Tutorial" /><br>Tutorial</a> </li>
-          <li> <a href="/docs"><img src="/images/icons/documentation.png" alt="Documentation" title="Documentation" /><br>Documentation</a> </li>
-          <li> <a href="/docs"><img src="/images/icons/commuity.png" alt="Commuity" title="Commuity" /><br>Commuity</a> </li>
-          <li> <a href="/news"><img src="/images/icons/news.png" alt="News" title="News" /><br>News</a> </li>
-          <li> <a href="/docs"><img src="/images/icons/support.png" alt="Support" title="Support" /><br>Support</a> </li>
-        </ul>
+        <li> <a href="#form"><img src="/images/icons/support.png" alt="Contact" title="Contact" /><br>Contact</a> </li>
+        <li> <a href="https://twitter.com/agilesitesfw"><img src="/images/icons/news.png" alt="News" title="News" /><br>News</a> </li>
+        <li> <a href="https://www.linkedin.com/groups/5120720"><img src="/images/icons/commuity.png" alt="Community" title="Community" /><br>Community</a> </li>
       </div>
     </div>
-    <img src="/images/blackswan.jpg" class="rocket" data-0="transform: perspective(10px) translate3d(0%, 0%, 0px);" data-top-center="transform: perspective(10px) translate3d(0.8%, -20%, -5.75px);" /> 
+    <img src="/images/blackswan.jpg" class="rocket" data-0="transform: perspective(10px) translate3d(0%, 0%, 0px);" data-top-center="transform: perspective(10px) translate3d(0.8%, -20%, -5.75px);" />
 </div>
  <div id="services" class="slide">
     <h2 class="title">AgileSites is Agile for Sites</h2>
@@ -28,46 +25,46 @@
              on-tap="servicesToggle('one')" data-
              data-400-center-top="opacity[swing]:0;transform[swing]:translate3d(0px, 170px, 0)"
              data-300-center-top="opacity[swing]:1;transform[swing]:translate3d(0px, 0px, 0)">
-        <h4>Agile Development</h4>
+        <h4>Agile<br>Development</h4>
         <img src="images/icons/agile_develop.png" />
         <div class="extra">
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. </p>
+          <p>All you need to implement Agile. <br><br><b>For real.</b></p>
         </div>
       </div>
       <div class="two icon"
              on-tap="servicesToggle('two')"
              data-300-center-top="opacity[swing]:0;transform[swing]:translate3d(0px, 170px, 0)"
              data-200-center-top="opacity[swing]:1;transform[swing]:translate3d(0px, 0px, 0)">
-        <h4>Unit Testing</h4>
+        <h4>Unit<br>Testing</h4>
         <img src="images/icons/cont_inte1.png" />
         <div class="extra">
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. </p>
+          <p>Keep quality under control.<br><br><b>No more regressions.</b></p>
         </div>
       </div>
       <div class="three icon"
              on-tap="servicesToggle('three')"
              data-200-center-top="opacity[swing]:0;transform[swing]:translate3d(0px, 170px, 0)"
              data-100-center-top="opacity[swing]:1;transform[swing]:translate3d(0px, 0px, 0)">
-        <h4>Version Control</h4>
+        <h4>Version<br>Control</h4>
         <img src="images/icons/version_control.png" />
         <div class="extra">
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. </p>
+          <p>Manage your sources with Git, Subversion or your favorite.<br><br><b>All of them.</b></p>
         </div>
       </div>
       <div class="four icon"
              on-tap="servicesToggle('four')"
              data-100-center-top="opacity[swing]:0;transform[swing]:translate3d(0px, 170px, 0)"
              data-center-top="opacity[swing]:1;transform[swing]:translate3d(0px, 0px, 0)">
-        <h4>Continuous Integration</h4>
+        <h4>Continuous<br>Integration</h4>
         <img src="images/icons/cont_inte2.png" />
         <div class="extra">
-          <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. </p>
+          <p>Automated build, test and delivery.<br><br><b>Automated happiness.</b></p>
         </div>
       </div>
     </div>
     <div class="clearfix"></div>
     <div class="description"> &nbsp; </div>
-    <!-- /.icons --> 
+    <!-- /.icons -->
   </div>
   <div id="founders" class="slide">
     <div class="video"> <img src="images/easy.jpg" class="easy" />
@@ -129,7 +126,7 @@
         </div>
       </div>
      </div>
-  </div>  
+  </div>
   <div id="javabeans" class="slide">
     <div class="video"> <img src="images/javabeans.jpg" class="javabeans" />
       <div class="video-overlay-content">
@@ -148,7 +145,7 @@
         </div>
       </div>
      </div>
-  </div>  
+  </div>
   <div id="html" class="slide">
     <div class="video"> <img src="images/work5.jpg" class="html" />
       <div class="video-overlay-content">
@@ -179,7 +176,7 @@
         </div>
       </div>
      </div>
-  </div>  
+  </div>
   <div id="owcscode" class="slide">
     <div>
       	<h2>AgileSites 3 produces standard, readable supported OWCS code</h2>
@@ -205,3 +202,6 @@
         </div>
      </div>
   </div>
+  <a name="form">
+  <iframe src="https://docs.google.com/forms/d/1TJDGsI4P67vH6igvuqZbDHfOWFAkYYYqsDdYxS-LQ7o/viewform?embedded=true" width="760" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+  </a>
