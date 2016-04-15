@@ -3,17 +3,16 @@
            data-0="opacity:1;transform:scale(1.0)"
            data-top-bottom="opacity:0.2;transform:scale(0.8)">
       <h1><a href="/"><img src="/images/logo.png" alt="AgileSite-3" /></a></h1>
-      <h2>The Agile Development Tool<br/>
-        for Oracle WebCenterSites</h2>
+      <h2>Agile for Oracle WebCenter Sites</h2>
       <div class="video">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/d0WIa9ySXE0" frameborder="0" allowfullscreen></iframe>
+       <iframe src="https://player.vimeo.com/video/162960792" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       </div>
 
       <div class="navmenu">
         <ul>
-        <li> <a href="#form"><img src="/images/icons/support.png" alt="Contact" title="Contact" /><br>Contact</a> </li>
-        <li> <a href="https://twitter.com/agilesitesfw"><img src="/images/icons/news.png" alt="News" title="News" /><br>News</a> </li>
-        <li> <a href="https://www.linkedin.com/groups/5120720"><img src="/images/icons/commuity.png" alt="Community" title="Community" /><br>Community</a> </li>
+        <li><a href="#form"><img src="/images/icons/support.png" alt="Contact" title="Contact" /><br>Contact</a> </li>
+        <li><a href="https://twitter.com/agilesitesfw"><img src="/images/icons/news.png" alt="News" title="News" /><br>News</a> </li>
+        <li><a href="https://www.linkedin.com/groups/5120720"><img src="/images/icons/commuity.png" alt="Community" title="Community" /><br>Community</a> </li>
       </div>
     </div>
     <img src="/images/blackswan.jpg" class="rocket" data-0="transform: perspective(10px) translate3d(0%, 0%, 0px);" data-top-center="transform: perspective(10px) translate3d(0.8%, -20%, -5.75px);" />
@@ -203,5 +202,5 @@
      </div>
   </div>
   <a name="form">
-  <iframe src="https://docs.google.com/forms/d/1TJDGsI4P67vH6igvuqZbDHfOWFAkYYYqsDdYxS-LQ7o/viewform?embedded=true" width="760" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+  <iframe src="https://docs.google.com/forms/d/1TJDGsI4P67vH6igvuqZbDHfOWFAkYYYqsDdYxS-LQ7o/viewform?embedded=true" width="760" height="760" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
   </a>
