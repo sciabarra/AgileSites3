@@ -2,28 +2,27 @@
     <div class="text"
            data-0="opacity:1;transform:scale(1.0)"
            data-top-bottom="opacity:0.2;transform:scale(0.8)">
-      <h1><a href="/"><img src="/images/logo.png" alt="AgileSite-3" /></a></h1>
-      <h2>Agile for Oracle WebCenter Sites</h2>
-      <div class="video">
-        <video controls preload=metadata width=640 height=360 poster='/images/agilesites3.png'>
-          <source src='/images/agilesites3.mp4' type='video/mp4'>
-          <source src='/images/agilesites3.webm' type='video/webm'>
-          <source src='/images/agilesites3.ogv' type='video/ogg'>
-          <iframe src="https://player.vimeo.com/video/162960792" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-       </video>
-      </div>
-
+           <a href="/"><img src="/images/logo.png" alt="AgileSite v3" /></a>
+           <h2>Agile for Oracle WebCenter Sites</h2>
       <div class="navmenu">
         <ul>
         <li><a href="#form"><img src="/images/icons/support.png" alt="Contact" title="Contact" /><br>Contact</a> </li>
         <li><a href="https://twitter.com/agilesitesfw"><img src="/images/icons/news.png" alt="News" title="News" /><br>News</a> </li>
         <li><a href="https://www.linkedin.com/groups/5120720"><img src="/images/icons/commuity.png" alt="Community" title="Community" /><br>Community</a> </li>
       </div>
+      <div  class="video">
+       <video width=50% height=50% controls loop preload=auto poster='/images/agilesites3.png'>
+         <source src='/images/agilesites3.mp4' type='video/mp4'>
+         <source src='/images/agilesites3.webm' type='video/webm'>
+         <source src='/images/agilesites3.ogv' type='video/ogg'>
+         <iframe src="https://player.vimeo.com/video/162960792" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </video>
+      </div>
     </div>
     <img src="/images/blackswan.jpg" class="rocket" data-0="transform: perspective(10px) translate3d(0%, 0%, 0px);" data-top-center="transform: perspective(10px) translate3d(0.8%, -20%, -5.75px);" />
 </div>
  <div id="services" class="slide">
-    <h2 class="title">AgileSites is Agile for Sites</h2>
+    <h1 class="title">AgileSites is Agile for Sites</h1>
     <div class="icons">
       <div class="one icon"
              on-tap="servicesToggle('one')" data-

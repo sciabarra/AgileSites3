@@ -19,11 +19,8 @@ per_page: 0
 theme: navy
 
 disqus_shortname: hexojs
-google_analytics: UA-4910098-10
-fb_admins: 100000247608790
-swiftype_key: EwN4HMy_KMxTK_GMjV1z
-twitter: hexojs
-github: hexojs/hexo
+google_analytics: UA-10041673-6
+twitter: AgileSitesFw
 
 deploy:
   type: s3
