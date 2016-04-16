@@ -5,7 +5,12 @@
       <h1><a href="/"><img src="/images/logo.png" alt="AgileSite-3" /></a></h1>
       <h2>Agile for Oracle WebCenter Sites</h2>
       <div class="video">
-       <iframe src="https://player.vimeo.com/video/162960792" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <video controls preload=metadata width=640 height=360 poster='/images/agilesites3.png'>
+          <source src='/images/agilesites3.mp4' type='video/mp4'>
+          <source src='/images/agilesites3.webm' type='video/webm'>
+          <source src='/images/agilesites3.ogv' type='video/ogg'>
+          <iframe src="https://player.vimeo.com/video/162960792" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+       </video>
       </div>
 
       <div class="navmenu">
@@ -202,5 +207,5 @@
      </div>
   </div>
   <a name="form">
-  <iframe src="https://docs.google.com/forms/d/1TJDGsI4P67vH6igvuqZbDHfOWFAkYYYqsDdYxS-LQ7o/viewform?embedded=true" width="760" height="760" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+  <iframe src="https://docs.google.com/forms/d/1TJDGsI4P67vH6igvuqZbDHfOWFAkYYYqsDdYxS-LQ7o/viewform?embedded=true&ttl=0" width="760" height="1024" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
   </a>
