@@ -1,10 +1,10 @@
 title: AgileSites3
-subtitle: "AgileSites the easy framework for agile development with WebCenter Sites"
-description: "AgileSites the easy framework for agile development with WebCenter Sites"
+subtitle: "AgileSites3 the development tool  for agile development with WebCenter Sites 12c"
+description: "AgileSites3 the development tool for agile development with WebCenter Sites 12c"
 author: Michele Sciabarra
 language: en
 timezone: UTC
-url: https://hexo.io
+url: https://www.agile4sites.com
 root: /
 permalink: news/:year/:month/:day/:title/
 archive_dir: news
@@ -18,7 +18,6 @@ per_page: 0
 
 theme: navy
 
-disqus_shortname: hexojs
 google_analytics: UA-10041673-6
 twitter: AgileSitesFw
 

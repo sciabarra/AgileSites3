@@ -1,4 +1,5 @@
 <div id="hero" class="slide">
+    <img style="display: none" src='/images/agilesites3.png'>
     <div class="text"
            data-0="opacity:1;transform:scale(1.0)"
            data-top-bottom="opacity:0.2;transform:scale(0.8)">
