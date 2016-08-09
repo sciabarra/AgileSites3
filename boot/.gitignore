@@ -1,9 +1,0 @@
-target/
-project/project/
-.classpath
-.project
-.settings/
-agilesites.properties.*
-agilesites.properties
-export/
-spoon.sh
