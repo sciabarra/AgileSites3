@@ -3,14 +3,14 @@ package agilesitesng.api;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fatwire.assetapi.data.BaseController;
+//import com.fatwire.assetapi.data.BaseController;
 import java.io.IOException;
 import java.util.Map;
 
 /**
  * Created by jelerak on 20/10/2015.
  */
-public class ASAsset extends BaseController {
+public class ASAsset /*extends BaseController*/ {
 
     public Map<String, String>[] getAttributes() {
         try {

@@ -1,27 +1,6 @@
-name := "AgileSites3"
+name := "AgileSites3.11"
 
-organization := "com.sciabarra"
+version := "3.11.0-SNAPSHOT"
 
 scalaVersion := "2.10.5"
-
-resolvers ++= Seq(
-  "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
-  "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots",
-  "Scalaz Bintray Repo"  at "http://dl.bintray.com/scalaz/releases")
-
-assemblySettings
-
-val ASBuilder = project.in(file("."))
-    .enablePlugins(SbtWeb)
-    .dependsOn(file("plugin").toURI)
-        
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % "3.0.0-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
-
-compileOrder := CompileOrder.JavaThenScala
-
-val boot = project.in(file("boot"))
-
-val dist = project.in(file("dist"))
-
-val demo = project.in(file("demo"))
-
+    

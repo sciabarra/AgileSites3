@@ -1,11 +1,10 @@
 ////////////////////////////////////
 // naming
 
-name := "agilesites3-plugin"
+name := "agilesites3-plugin-11g"
 
 organization := "com.sciabarra"
-
-version := "3.0.0-SNAPSHOT"
+version := "3.11.0-SNAPSHOT"
 
 sbtPlugin := true
 
@@ -13,23 +12,20 @@ scalaVersion := "2.10.5"
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
-
 /////////////////////////////////////
 //jar & generated src
 
-
 unmanagedBase := {
-  val dist = baseDirectory.value.getParentFile / "dist" / "project" / "WEB-INF" / "lib"
-   val fallback = baseDirectory.value.getParentFile / "WEB-INF" / "lib"
-   if(dist.exists) dist else {
-      if(!fallback.exists) {
-	println(s"ERROR! Jars not found. Plese place Sites WEB-INF/lib in ${fallback}")
-      }
-      fallback
-   }
+  val javaVersion = sys.props("java.version")
+  if(!javaVersion.startsWith("1.7"))
+     throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
+  val dist = baseDirectory.value /  "project" / "WEB-INF" / "lib"
+  if(!dist.exists) 
+     throw new Error("ERROR! Jars not found. Plese place Sites jars under project/WEB-INF/lib ")
+  dist
 }
 
-unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-11.1.1.8"
 
 ////////////////////////////////////
 // dependencies
@@ -88,10 +84,9 @@ resolvers ++= Seq(Resolver.sonatypeRepo("releases"),
   "Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
   "Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
 
-
 ////////////////////////////////////
 // build for java 8
-javacOptions ++= Seq("-g", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked")
+javacOptions ++= Seq("-g", "-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
 
