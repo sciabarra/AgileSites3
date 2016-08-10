@@ -3,7 +3,6 @@ package demo.model;
 import agilesites.annotations.Type;
 import agilesitesng.api.ASAsset;
 
-
 @Type
 public class DmContent<S> extends ASAsset {
 
