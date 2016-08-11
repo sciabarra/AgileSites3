@@ -1,11 +1,8 @@
-////////////////////////////////////
-// naming
-
 name := "agilesites3-plugin"
 
 organization := "com.sciabarra"
 
-version := "3.11.0-SNAPSHOT"
+version := "3.11-SNAPSHOT"
 
 sbtPlugin := true
 
@@ -13,23 +10,7 @@ scalaVersion := "2.10.5"
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
-/////////////////////////////////////
-//jar & generated src
-
-unmanagedBase := {
-  val javaVersion = sys.props("java.version")
-  if(!javaVersion.startsWith("1.7"))
-     throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
-  val dist = baseDirectory.value /  "project" / "WEB-INF" / "lib"
-  if(!dist.exists) 
-     throw new Error("ERROR! Jars not found. Plese place Sites jars under project/WEB-INF/lib ")
-  dist
-}
-
-unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-11.1.1.8"
-
-////////////////////////////////////
-// dependencies
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
 
 libraryDependencies ++= Seq(
     "ch.qos.logback"             % "logback-classic"      % "1.1.3"  % "test;compile"
@@ -57,35 +38,6 @@ libraryDependencies ++= Seq(
 addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
 
 ////////////////////////////////////
-// publishing
-
-pomIncludeRepository := { _ => false }
-
-publishMavenStyle := true
-
-publishTo := {
-    val nexus = "http://nexus.sciabarra.com/"
-    if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
-    else
-      Some("releases"  at nexus + "content/repositories/releases")
-  }
-
-publishArtifact in Test := false
-
-publishArtifact in (Compile, packageDoc) := false
-
-publishArtifact in (Compile, packageSrc) := false
-
-licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
-
-credentials += Credentials(Path.userHome / ".ivy2" / "credentials")
-
-resolvers ++= Seq(Resolver.sonatypeRepo("releases"))
-  //"Nexus-sciabarra-releases" at "http://nexus.sciabarra.com/content/repositories/releases",
-  //"Nexus-sciabarra-snapshots" at "http://nexus.sciabarra.com/content/repositories/snapshots")
-
-////////////////////////////////////
 // build for java 7
 javacOptions ++= Seq("-g", "-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
 
@@ -108,3 +60,20 @@ resourceGenerators in Compile <+= (resourceManaged in Compile, baseDirectory) ma
 }
 
 Seq(Concat.concatTask)
+
+sources in (Compile,doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false
+
+/////////////////////////////////////
+//jar & generated src
+
+unmanagedBase := {
+  val javaVersion = sys.props("java.version")
+  if(!javaVersion.startsWith("1.7"))
+    throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
+  val dist = baseDirectory.value.getParentFile /  "sites" / "webapps" / "cs" / "WEB-INF" / "lib"
+  if(!dist.exists)
+    throw new Error(s"ERROR! Jars not found. Plese place Sites jars under ${dist}")
+  dist
+}

@@ -1,5 +1,7 @@
 package agilesitesng.api;
 
+import agilesites.annotations.Controller;
+
 public class BlobAttribute {
 
     public BlobAttribute(String url) {

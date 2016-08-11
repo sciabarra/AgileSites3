@@ -6,7 +6,7 @@ import net.liftweb.json.{NoTypeHints, Serialization}
 import org.slf4j.LoggerFactory
 import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.CtClass
-import templates.ContentDefinitionTemplate
+//import templates.ContentDefinitionTemplate
 
 import scala.collection.JavaConversions._
 
@@ -42,9 +42,9 @@ class ContentDefinitionAnnotationProcessor
         case None => ""
       }
     })
-    val t = new ContentDefinitionTemplate("[" + amap.filter(_ != "").mkString(",") + "]")
-    t.apply(cl)
-    addController(cl.getSimpleName, cl.getQualifiedName)
+    //val t = new ContentDefinitionTemplate("[" + amap.filter(_ != "").mkString(",") + "]")
+    //t.apply(cl)
+    //addController(cl.getSimpleName, cl.getQualifiedName)
   }
 
 }

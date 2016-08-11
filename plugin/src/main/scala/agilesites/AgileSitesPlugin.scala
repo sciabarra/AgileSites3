@@ -4,6 +4,7 @@ import sbt._, Keys._
 import agilesites.config.AgileSitesConfigPlugin
 import agilesites.deploy.AgileSitesDeployPlugin
 import agilesites.setup.AgileSitesSetupPlugin
+import agilesites.wrapper.AgileSitesWrapperPlugin
 
 import sbt.plugins.JvmPlugin
 
@@ -14,6 +15,6 @@ object AgileSitesPlugin
   override def requires = JvmPlugin &&
     AgileSitesConfigPlugin &&
     AgileSitesDeployPlugin &&
-    AgileSitesSetupPlugin
-
+    AgileSitesSetupPlugin &&
+    AgileSitesWrapperPlugin
 }

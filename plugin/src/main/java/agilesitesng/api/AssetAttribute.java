@@ -1,7 +1,7 @@
 package agilesitesng.api;
 
-import com.fatwire.assetapi.data.AssetId;
-import com.openmarket.xcelerate.asset.AssetIdImpl;
+//import com.fatwire.assetapi.data.AssetId;
+//import com.openmarket.xcelerate.asset.AssetIdImpl;
 
 //+public class AssetAttribute
 public class AssetAttribute<T extends ASAsset> //-
@@ -31,6 +31,7 @@ public class AssetAttribute<T extends ASAsset> //-
         this.name = name;
     }
 
+/*
 //+ def getValue()
     public T getValue() //-
     {
@@ -46,6 +47,7 @@ public class AssetAttribute<T extends ASAsset> //-
     public AssetId getAssetId() {
         return new AssetIdImpl(c,cid);
     }
+*/
 
     public String getName() {
         return name;

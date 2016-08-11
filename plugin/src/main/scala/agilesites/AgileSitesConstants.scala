@@ -8,10 +8,7 @@ import sbt._, Keys._
 object AgileSitesConstants {
 
   val agilesitesPlugin =
-    Seq("com.sciabarra" % "agilesites3-plugin" % "3.11.0-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
-
-  val agilesitesLib =
-    Seq("com.sciabarra" % "agilesites3-lib" % "3.11.0-SNAPSHOT")
+    Seq("com.sciabarra" % "agilesites3-plugin" % "3.11-SNAPSHOT" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13"))
 
   val spoonDependencies = Seq(
     "net.openhft" % "spoon-core" % "4.3.0" % "spoon"

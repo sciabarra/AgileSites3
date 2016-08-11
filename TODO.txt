@@ -1,18 +1,2 @@
-- generate una jsp da html
-
-- impacchettare tutto con un installer
-
-- generate "Templates" per il plugin dai source dei template in modo da evitare di dimenticarsene se si modificano
-
-
-DONE
-
-*  elimino la lib
-
-* lancio l'installer
-  * scarica il plugin (buildato e pubblicato)
-  * deploia i services presi dal jar
-
-* buildo il plugin
-   * concatena le api nel posto giusto
+- BUILD 3.11
 

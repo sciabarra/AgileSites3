@@ -56,10 +56,6 @@ object Concat {
       tgtG / "AAAgileApi.groovy" ->
         ((src / "java" / "agilesites" / "api" * "*.java") +++
           (src / s"java-${sitesVersion}" / "agilesites" / "api" * "*.java")),
-      tgtG / "Api.groovy" ->
-        (src / "java" / "agilesitesng" / "api" * "*.java"),
-      src / "resources" / "Api.groovy" ->
-        (src / "java" / "agilesitesng" / "api" * "*.java"),
       tgtR / "AAAgileServices.txt" ->
         (src / "java" / "agilesitesng" / "services" * "*.java"),
       tgtR / "AAAgileApi.txt" ->
