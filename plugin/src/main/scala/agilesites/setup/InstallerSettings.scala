@@ -213,9 +213,7 @@ trait InstallerSettings extends Utils {
       dir.mkdirs()
       new SitesDownloader(args(0), args(1)).download(dir.getAbsolutePath, "sites.zip");
     }
-
   }
-
 
   val installerSettings = Seq(proxyInstallTask, sitesInstallTask, sitesDownloadTask)
 }

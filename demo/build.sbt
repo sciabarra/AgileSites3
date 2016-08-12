@@ -22,13 +22,14 @@ unmanagedBase := {
 
 crossPaths := false
 
-val pluginVer = "3.11-SNAPSHOT"
+compileOrder := CompileOrder.JavaThenScala
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+val pluginVer = "3.11-SNAPSHOT"
 
 ivyConfigurations += config("akkahttp")
 
-net.virtualvoid.sbt.graph.Plugin.graphSettings
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
+net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 sitesDirectory := baseDirectory.value.getParentFile / "sites"

@@ -45,8 +45,6 @@ public class ServiceDispatcher {
             return new SqlService();
         if (name.equals("deploy"))
             return new DeployService();
-        if (name.equals("compile"))
-            return new CompilerService();
 
         throw new Exception("unknown service " + name);
     }

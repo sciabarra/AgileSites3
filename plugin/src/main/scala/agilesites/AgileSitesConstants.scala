@@ -19,9 +19,10 @@ object AgileSitesConstants {
     , "com.google.guava" % "guava" % "16.0.1"
   )
 
-  val tomcatVersion = "7.0.59"
+  val tomcatVersion = "7.0.70"
 
   val tomcatDependencies = Seq("org.hsqldb" % "hsqldb" % "1.8.0.10"
+    , "javax.servlet" % "javax.servlet-api" % "3.0.1"
     , "org.apache.tomcat.embed" % "tomcat-embed-core" % tomcatVersion
     , "org.apache.tomcat.embed" % "tomcat-embed-logging-juli" % tomcatVersion
     , "org.apache.tomcat.embed" % "tomcat-embed-jasper" % tomcatVersion

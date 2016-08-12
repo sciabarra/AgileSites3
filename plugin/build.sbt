@@ -12,11 +12,13 @@ isSnapshot := version.value.endsWith("-SNAPSHOT")
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
 
+compileOrder := CompileOrder.JavaThenScala
+
 libraryDependencies ++= Seq(
     "ch.qos.logback"             % "logback-classic"      % "1.1.3"  % "test;compile"
   , "net.openhft"                % "spoon-core"           % "4.3.0"  % "compile"
-  , "javax.servlet"              % "servlet-api"          % "2.5"    % "compile"
-  , "org.apache.tomcat.embed"    % "tomcat-embed-core"    % "7.0.59" % "compile"
+  //, "javax.servlet"            % "servlet-api"          % "2.5"    % "compile"
+  //, "org.apache.tomcat.embed"    % "tomcat-embed-core"    % "7.0.59" % "compile"
   , "org.scalatest"              %% "scalatest"           % "2.2.4"  % "test"
   , "com.typesafe.akka"          %% "akka-testkit"        % "2.3.9"  % "test"
   , "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2"
@@ -35,13 +37,14 @@ libraryDependencies ++= Seq(
   , "org.kohsuke.metainf-services" % "metainf-services"           % "1.6"
 )
 
-addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
 
 ////////////////////////////////////
 // build for java 7
 javacOptions ++= Seq("-g", "-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
+
+addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
 
 ////////////////////////////////////
 // debugging

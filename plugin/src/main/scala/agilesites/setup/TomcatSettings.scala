@@ -3,6 +3,7 @@ package agilesites.setup
 import java.io.File
 
 import agilesites.{AgileSitesConstants, Utils}
+import org.apache.ivy.core.module.id.ModuleId
 import sbt.Keys._
 import sbt._
 
@@ -49,7 +50,7 @@ trait TomcatSettings extends Utils {
 
     val (opts, args, env) = tomcatOpts(cmd: String, base, home, port, classpath, debug)
 
-    //println (opts)
+    //println(opts)
 
     val forkOpt = ForkOptions(
       runJVMOptions = opts,
@@ -89,72 +90,80 @@ trait TomcatSettings extends Utils {
 
   lazy val serverTask = server := {
 
-    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val classpath = asTomcatClasspath.value
-    val port = sitesPort.value.toInt
-    val base = sitesDirectory.value
-    val home = file(sitesHome.value)
-    val url = sitesUrl.value
-    val log = streams.value.log
-    val cs = file("webapps") / "cs"
-    val cas = file("webapps") / "cas"
-    val debug = args.size == 2 && args(1) == "debug"
+    try {
+      val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
+      val classpath = asTomcatClasspath.value
+      val port = sitesPort.value.toInt
+      val base = sitesDirectory.value
+      val home = file(sitesHome.value)
+      val url = sitesUrl.value
+      val log = streams.value.log
+      val cs = file("webapps") / "cs"
+      val cas = file("webapps") / "cas"
+      val debug = args.size == 2 && args(1) == "debug"
 
-    val usage = "usage: start  [debug]|stop|status|script [debug]"
+      val usage = "usage: start [debug]|stop|status|script [debug]"
 
-    val ftcs = file(sitesWebapp.value) / "WEB-INF" / "futuretense_cs"
-    if (!ftcs.exists())
-      println(s"Sites not installed in ${sitesWebapp.value}")
-    else
-      args.headOption match {
-        case None => println(usage)
+      val ftcs = file(sitesWebapp.value) / "WEB-INF" / "futuretense_cs"
+      if (!ftcs.exists())
+        println(s"Sites not installed in ${sitesWebapp.value}")
+      else
+        args.headOption match {
+          case None => println(usage)
 
-        case Some("status") =>
-          tomcatEmbedded("status", base, home, port, classpath, debug)
+          case Some("status") =>
+            tomcatEmbedded("status", base, home, port, classpath, debug)
 
-        case Some("stop") =>
-          tomcatEmbedded("stop", base, home, port, classpath, debug)
+          case Some("stop") =>
+            tomcatEmbedded("stop", base, home, port, classpath, debug)
 
-        case Some("start") =>
-          val tomcat = new Thread() {
-            override def run() {
-              try {
-                println(s"*** Local Sites Server starting in port ${port} ***")
-                val tomcatProcess = tomcatEmbedded("start", base, home, port, classpath, debug)
-              } catch {
-                case e: Throwable =>
-                  e.printStackTrace
-                  println(s"!!! Cannot start (Sites Server already running?)\nError: ${e.getMessage()}")
+          case Some("start") =>
+            val tomcat = new Thread() {
+              override def run() {
+                try {
+                  println(s"*** Local Sites Server starting in port ${port} ***")
+                  val tomcatProcess = tomcatEmbedded("start", base, home, port, classpath, debug)
+                } catch {
+                  case e: Throwable =>
+                    e.printStackTrace
+                    println(s"!!! Cannot start (Sites Server already running?)\nError: ${e.getMessage()}")
+                }
               }
             }
-          }
-          tomcat.start
-          Thread.sleep(3000);
-          if (tomcat.isAlive()) {
-            println(" *** Waiting for Local Sites Server startup to complete ***")
-            println(httpCallRaw(url + "/HelloCS"))
-          }
+            tomcat.start
+            Thread.sleep(3000);
+            if (tomcat.isAlive()) {
+              println(" *** Waiting for Local Sites Server startup to complete ***")
+              println(httpCallRaw(url + "/HelloCS"))
+            }
 
-        case Some("script") =>
-          tomcatScript(base, home, port, classpath, debug, log)
+          case Some("script") =>
+            tomcatScript(base, home, port, classpath, debug, log)
 
-        case Some(thing) =>
-          println(usage)
-      }
+          case Some(thing) =>
+            println(usage)
+        }
+    } catch {
+      case e: Throwable => e.printStackTrace()
+    }
 
   }
 
+  val tomcatConfig = config("tomcat")
   val tomcatSettings = Seq(serverTask,
-    serverStop := {
+    asTomcatDeps := AgileSitesConstants.tomcatDependencies map {
+      _ % "tomcat"
+    }
+    , serverStop := {
       server.toTask(" stop").value
     },
     serverStart := {
       server.toTask(" start").value
     },
     ivyConfigurations += config("tomcat"),
-    libraryDependencies ++= AgileSitesConstants.tomcatDependencies map { _ % "tomcat"},
-    asTomcatClasspath <<= (update) map {
-      report => report.select(configurationFilter("tomcat"))
+    libraryDependencies ++= asTomcatDeps.value,
+    asTomcatClasspath <<= update map {
+      report => report.select(configurationFilter(name = "tomcat"))
     }
   )
 }

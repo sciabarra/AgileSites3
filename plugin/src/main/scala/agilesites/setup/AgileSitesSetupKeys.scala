@@ -9,6 +9,7 @@ import sbt._
  */
 object AgileSitesSetupKeys {
 
+  lazy val asTomcatDeps = settingKey[Seq[ModuleID]]("tomcat-deps")
   lazy val asTomcatClasspath = taskKey[Seq[File]]("Tomcat Classpath")
   lazy val asCoreClasspath = taskKey[Seq[File]]("AgileSites Core Classpath")
   lazy val asApiClasspath = taskKey[Seq[File]]("AgileSites Api Classpath")

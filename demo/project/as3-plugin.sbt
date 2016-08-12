@@ -1,4 +1,6 @@
-//addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
+val pluginVer = "3.11-SNAPSHOT"
+
+addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
 
 val plugin = (file("..")/"plugin").toURI
 
