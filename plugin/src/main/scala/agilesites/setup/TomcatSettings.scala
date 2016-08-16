@@ -146,7 +146,6 @@ trait TomcatSettings extends Utils {
     } catch {
       case e: Throwable => e.printStackTrace()
     }
-
   }
 
   val tomcatConfig = config("tomcat")

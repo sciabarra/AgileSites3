@@ -24,12 +24,18 @@ crossPaths := false
 
 compileOrder := CompileOrder.JavaThenScala
 
-val pluginVer = "3.11-SNAPSHOT"
+val agileSitesVer = "3.11-SNAPSHOT"
 
-ivyConfigurations += config("akkahttp")
+ivyConfigurations ++= Seq(config("akkahttp"), config("core"), config("api"))
 
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % pluginVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+libraryDependencies += "com.sciabarra" % "agilesites3-core" % agileSitesVer % "core"
+
+libraryDependencies += "com.sciabarra" % "agilesites3-api" % agileSitesVer % "api"
+
+libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % agileSitesVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
+
+publishArtifact in (Compile, packageDoc) := false
 
 sitesDirectory := baseDirectory.value.getParentFile / "sites"

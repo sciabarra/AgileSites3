@@ -17,7 +17,7 @@ scalacOptions ++= Seq("-target:jvm-1.7")
 libraryDependencies ++= Seq(
        "javax.servlet" % "servlet-api" % "2.5" % "provided",
        "log4j" % "log4j" % "1.2.16" % "provided",
-       "commons-io" % "commons-io" % "1.4"
+       "commons-io" % "commons-io" % "1.4" % "provided"
 )
 
 unmanagedBase := {

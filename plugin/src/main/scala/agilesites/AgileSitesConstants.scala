@@ -40,4 +40,8 @@ object AgileSitesConstants {
     , "com.typesafe.akka" % "akka-http-core-experimental_2.10" % akkaHttpVersion
     , "com.typesafe.akka" % "akka-http-experimental_2.10" % akkaHttpVersion
   ) ++ agilesitesPlugin
+
+  val coreDependencies = Seq(
+
+  )
 }
