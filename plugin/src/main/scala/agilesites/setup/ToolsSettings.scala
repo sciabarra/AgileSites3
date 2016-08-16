@@ -2,7 +2,7 @@ package agilesites.setup
 
 import java.io.File
 
-import agilesites.Utils
+import agilesites.{AgileSitesConstants, Utils}
 import sbt.Keys._
 import sbt._
 
@@ -27,24 +27,31 @@ trait ToolsSettings extends Utils {
   val cmovTask = cmov := {
     val args = Def.spaceDelimited("<arg>").parsed
     val log = streams.value.log
+
     if (args.length == 0) {
-      println( s"""usage: cmov <cmd> [@][<dir>...] [<options>....]])
-                  |<cmd> one of view, setup, import, import_all, export, export_all
-                  |[@]<dir> if start with @ uses all the contained dirs otherwise just the specified dir,
-                  |    defaults to @${sitesPopulate.value},
-                  |<options> can be:
-                  |    -b base URL  (defaults to ${sitesUrl.value}/CatalogManager)                                                                                                       |-u user name (defaults to ${sitesUser.value})
+      println(
+        s"""usage: cmov <cmd> [@][<dir>...] [<options>....]])
+            |<cmd> one of view, setup, import, import_all, export, export_all
+            |[@]<dir> if start with @ uses all the contained dirs otherwise just the specified dir,
+            |    defaults to @${sitesPopulate.value},
+            |<options> can be:
+            |    -b base URL  (defaults to ${sitesUrl.value}/CatalogManager)                                                                                                       |-u user name (defaults to ${sitesUser.value})
           """.stripMargin)
     } else {
       val cp = (Seq(file("bin").getAbsoluteFile) ++ cmovClasspath.value).mkString(java.io.File.pathSeparator)
 
-      val coreJar = update.value.matching({ x: ModuleID => x.name.startsWith("agilesites2-build") }).headOption
+      val coreJar = update.value.matching({ x: ModuleID =>
+        x.name == AgileSitesConstants.agilesitesPlugin.name &&
+          x.organization == AgileSitesConstants.agilesitesPlugin.organization
+      }).headOption
+
+      println(s"coreJar=${coreJar}")
       val populateJars = asPopulateClasspath.value.filter(!_.getName.startsWith("scala-library"))
 
-      //if (sitesHello.value.isEmpty)
-      //  throw new Exception(s"Web Center Sites must be online as ${sitesUrl.value}.")
+      if (sitesHello.value.isEmpty)
+        throw new Exception(s"Web Center Sites must be online as ${sitesUrl.value}.")
 
-      val populateDir = file(sitesPopulate.value) / "setup" / "populate"
+      val populateDir = file(sitesPopulate.value) / "setup"
       val cmd = if (coreJar.nonEmpty && args(0) == "setup") {
         if (coreJar.get.exists()) {
           log.info(s"extracting aaagile from ${coreJar.get.getName}")
@@ -156,20 +163,21 @@ trait ToolsSettings extends Utils {
       Run.run("com.fatwire.csdt.client.main.CSDT",
         seljars, args.drop(1), streams.value.log)(runner.value)
     } else if (args.size == 0) {
-      println( """usage: csdt <cmd> <selector> ... [#<workspace>[#]] [!<from-sites>] [^<to-sites>]
-                 | <workspace> is a substring of available workspaces, use #workspace# for an exact match
-                 |   default workspace is: %s
-                 |   available workspaces are: %s
-                 | <from-sites> and <to-sites> is a comma separated list of sites defined,
-                 |   <from-sites> defaults to <workspace>,
-                 |   <to-sites> defaults to <from-sites>
-                 | <cmd> is one of 'listcs', 'listds', 'import', 'export', 'mkws'
-                 | <selector> check developer tool documentation for complete syntax
-                 |    you can use <AssetType>[:<id>] or a special form,
-                 |    the special form are
-                 |      @SITE @ASSET_TYPE @ALL_ASSETS @STARTMENU @TREETAB
-                 |  and also additional @ALL for all of them
-                 | """.stripMargin.format(defaultSite, workspaces.mkString("'", "', '", "'")))
+      println(
+        """usage: csdt <cmd> <selector> ... [#<workspace>[#]] [!<from-sites>] [^<to-sites>]
+          | <workspace> is a substring of available workspaces, use #workspace# for an exact match
+          |   default workspace is: %s
+          |   available workspaces are: %s
+          | <from-sites> and <to-sites> is a comma separated list of sites defined,
+          |   <from-sites> defaults to <workspace>,
+          |   <to-sites> defaults to <from-sites>
+          | <cmd> is one of 'listcs', 'listds', 'import', 'export', 'mkws'
+          | <selector> check developer tool documentation for complete syntax
+          |    you can use <AssetType>[:<id>] or a special form,
+          |    the special form are
+          |      @SITE @ASSET_TYPE @ALL_ASSETS @STARTMENU @TREETAB
+          |  and also additional @ALL for all of them
+          | """.stripMargin.format(defaultSite, workspaces.mkString("'", "', '", "'")))
     } else if (workspace.size == 0)
       println("workspace " + workspaceSearch + " not found - create it with mkws <workspace>")
     else if (workspace.size > 1)

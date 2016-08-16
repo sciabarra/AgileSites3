@@ -136,7 +136,6 @@ trait Utils {
   // name says it all  
   def normalizeSiteName(s: String) = s.toLowerCase.replaceAll( """[^a-z0-9]+""", "")
 
-
   // check is sites is running
   def helloSites(url: String) = {
     try {

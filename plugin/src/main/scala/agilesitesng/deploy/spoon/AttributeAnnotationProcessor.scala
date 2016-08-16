@@ -60,7 +60,7 @@ class AttributeAnnotationProcessor extends AbstractAnnotationProcessor[Attribute
         // remove type from field
         componentType.removeActualTypeArgument(assetType)
         val assetSubtypes = getSubtype(assetType)  match {
-          case x:Some[CtTypeReference[_]] => subtypes.flatten.toList :+ x.get.getSimpleName
+          case x @ Some(_) /* x: Some[CtTypeReference[_]] */ => subtypes.flatten.toList :+ x.get.getSimpleName
           case None => subtypes.flatten.toList
         }
         (Some(assetType.getSimpleName), assetSubtypes)

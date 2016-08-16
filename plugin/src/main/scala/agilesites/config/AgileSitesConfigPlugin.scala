@@ -42,9 +42,9 @@ object AgileSitesConfigPlugin
 
     sitesTimeout := utilPropertyMap.value.getOrElse("sites.timeout", "30").toInt,
     sitesPopulate := utilPropertyMap.value.getOrElse("sites.populate",
-      (baseDirectory.value / "export" / "populate").getAbsolutePath),
+      (file(sitesHome.value) / "export" / "populate").getAbsolutePath),
     sitesEnvision := utilPropertyMap.value.getOrElse("sites.envision",
-      (baseDirectory.value / "export" / "envision").getAbsolutePath),
+      (file(sitesHome.value) / "export" / "envision").getAbsolutePath),
 
     // versions
     sitesVersion := utilPropertyMap.value.getOrElse("sites.version", "12.2.1.0.0"),
