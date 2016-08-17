@@ -17,7 +17,7 @@ javacOptions in Compile += "-g"
 autoScalaLibrary := false
 
 libraryDependencies ++= Seq(
-     "com.sciabarra" % "agilesites3-core" % "3.11-SNAPSHOT",
+     "com.sciabarra" % "agilesites3-core" % version.value,
      "junit" % "junit" % "4.11",
      "com.novocode" % "junit-interface" % "0.9" % "test",
      "log4j" % "log4j" % "1.2.16" % "provided")

@@ -16,7 +16,8 @@ object AgileSitesConstants {
   val agilesitesPlugin = "com.sciabarra" % "agilesites3-plugin" % agilesitesVersion extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
   val spoonDependencies = Seq(
-    "net.openhft" % "spoon-core" % "4.3.0" % "spoon"
+    //"net.openhft" % "spoon-core" % "4.3.0" % "spoon"
+    "fr.inria.gforge.spoon" % "spoon-core" % "4.3.0" % "spoon"
     , "commons-io" % "commons-io" % "1.3.2" % "spoon"
     , "org.scala-lang" % "scala-library" % "2.10.5" % "spoon"
     , "net.liftweb" % "lift-json_2.10" % "2.6" % "spoon"

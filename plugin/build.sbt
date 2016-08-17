@@ -16,7 +16,7 @@ compileOrder := CompileOrder.JavaThenScala
 
 libraryDependencies ++= Seq(
     "ch.qos.logback"             % "logback-classic"      % "1.1.3"  % "test;compile"
-  , "net.openhft"                % "spoon-core"           % "4.3.0"  % "compile"
+  , "fr.inria.gforge.spoon"      % "spoon-core"           % "4.3.0"  % "compile"
   , "javax.servlet"              % "javax.servlet-api"    % "3.0.1"  % "compile"
   , "org.apache.tomcat.embed"    % "tomcat-embed-core"    % "7.0.70" % "compile"
   , "org.scalatest"              %% "scalatest"           % "2.2.4"  % "test"

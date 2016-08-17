@@ -14,7 +14,7 @@ unmanagedBase := {
   val javaVersion = sys.props("java.version")
   if(!javaVersion.startsWith("1.7"))
     throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
-  val dist = baseDirectory.value.getParentFile /  "sites" / "cs" / "WEB-INF" / "lib"
+  val dist = baseDirectory.value.getParentFile /  "sites" / "webapps" / "cs" / "WEB-INF" / "lib"
   if(dist.exists)
     println("WARNING! you need to install Sites with sitesInstall before you can work.")
   dist
@@ -28,11 +28,13 @@ val agileSitesVer = "3.11-SNAPSHOT"
 
 ivyConfigurations ++= Seq(config("akkahttp"), config("core"), config("api"))
 
-libraryDependencies += "com.sciabarra" % "agilesites3-core" % agileSitesVer % "core"
+libraryDependencies ++= Seq(
+  "com.sciabarra" % "agilesites3-plugin" % agileSitesVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  , "com.sciabarra" % "agilesites3-core" % agileSitesVer % "core"
+  , "com.sciabarra" % "agilesites3-core" % agileSitesVer
+  , "com.sciabarra" % "agilesites3-api" % agileSitesVer % "api"
+  , "com.sciabarra" % "agilesites3-api" % agileSitesVer)
 
-libraryDependencies += "com.sciabarra" % "agilesites3-api" % agileSitesVer % "api"
-
-libraryDependencies += "com.sciabarra" % "agilesites3-plugin" % agileSitesVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 

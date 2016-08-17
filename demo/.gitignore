@@ -1,7 +1,17 @@
+.idea/
+.idea_modules/
 target/
 project/project/
 .classpath
 .project
+agilesites.properties
 agilesites.properties.*
+logs/
 export/
+project/conf/
 spoon.sh
+*.iml
+*.bak
+*.orig
+.cache
+*.old

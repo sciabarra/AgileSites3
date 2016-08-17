@@ -17,6 +17,7 @@ trait SetupSettings extends Utils {
 
   import agilesites.config.AgileSitesConfigKeys._
   import agilesites.setup.AgileSitesSetupKeys._
+  import agilesites.AgileSitesConstants._
 
   lazy val asSetupServletRequest = taskKey[Unit]("setup servlet request")
   lazy val asSetupServletRequestTask = asSetupServletRequest := {
@@ -183,22 +184,24 @@ trait SetupSettings extends Utils {
       Seq("asSetupOffline", "weblogicRedeployCs", "asSetupOnline", "asSetupOnline") ++ state.remainingCommands)
   }
 
-  val setupSettings = Seq(ivyConfigurations ++= Seq(config("core"), config("api"), config("populate")),
-    asCoreClasspath <<= (update) map {
+  val setupSettings = Seq(
+    ivyConfigurations ++= Seq(config("core"), config("api"), config("populate"))
+    //, libraryDependencies ++= agilesitesDependencies
+    , asCoreClasspath <<= (update) map {
       report => report.select(configurationFilter("core"))
     }, asApiClasspath <<= (update) map {
       report => report.select(configurationFilter("api"))
     }, asPopulateClasspath <<= (update) map {
       report => report.select(configurationFilter("populate"))
-    },
-    asSetupOfflineTask,
-    asSetupServletRequestTask,
-    asSetupFutureTenseIniTask,
-    asSetupCopyJarsWebTask,
-    asSetupCopyJarsLibTask,
-    asSetupOnline := {
+    }
+    , asSetupOfflineTask
+    , asSetupServletRequestTask
+    , asSetupFutureTenseIniTask
+    , asSetupCopyJarsWebTask
+    , asSetupCopyJarsLibTask
+    , asSetupOnline := {
       cmov.toTask(" setup").value
-    },
-    commands ++= Seq(asSetupWeblogicCmd, asSetupCmd))
+    }
+    , commands ++= Seq(asSetupWeblogicCmd, asSetupCmd))
 
 }
