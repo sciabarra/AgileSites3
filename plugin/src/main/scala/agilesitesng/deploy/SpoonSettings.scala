@@ -40,7 +40,7 @@ trait SpoonSettings {
     val sourceAndSpoonClasspath = spoonClasspath ++ sourceClasspath
 
     val processors = ngSpoonProcessors.value.mkString(File.pathSeparator)
-    val spoonDebug = if (ngSpoonDebug.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
+    val spoonDebugger = if (ngSpoonDebugger.value) Seq("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8005") else Seq()
     val templates = baseDirectory.value / "target" / "templates"
     val assets = baseDirectory.value / "src" / "main" / "assets"
 
@@ -52,7 +52,7 @@ trait SpoonSettings {
       s"-Dspoon.templates=${templates.getAbsolutePath}",
       s"-Dspoon.assets=${assets.getAbsolutePath}",
       s"-Dspoon.site=${sitesFocus.value}"
-    ) ++ spoonDebug
+    ) ++ spoonDebugger
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",
       "--source-classpath", sourceClasspath.mkString(File.pathSeparator),
@@ -119,7 +119,8 @@ trait SpoonSettings {
     , spoonTask
     , ngUidTask
     , ngSpoonDebug := false
-    , ngSpoonSkipControllers := !sitesVersion.value.startsWith("12.")
+    , ngSpoonDebugger := false
+    , ngSpoonSkipControllers := true
     , ngSpoon := {
       (spoon).toTask("").value
     }

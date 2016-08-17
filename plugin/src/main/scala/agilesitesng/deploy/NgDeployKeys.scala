@@ -16,6 +16,7 @@ object NgDeployKeys {
   val ngSpoonClasspath = taskKey[Seq[File]]("spoon classpath")
   val ngSpoonProcessors = settingKey[Seq[String]]("spoon processors")
   val ngSpoonDebug = settingKey[Boolean]("spoon debug")
+  val ngSpoonDebugger = settingKey[Boolean]("spoon debugger")
   val ngSpoonSkipControllers = settingKey[Boolean]("skip controllers when deploying")
 
   val spoon = inputKey[File]("invoke spoon with parameters")

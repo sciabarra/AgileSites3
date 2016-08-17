@@ -41,3 +41,5 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 publishArtifact in (Compile, packageDoc) := false
 
 sitesDirectory := baseDirectory.value.getParentFile / "sites"
+
+ngSpoonDebug := true
