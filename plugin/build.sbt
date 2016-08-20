@@ -1,14 +1,6 @@
 name := "agilesites3-plugin"
 
-organization := "com.sciabarra"
-
-version := "3.11-SNAPSHOT"
-
 sbtPlugin := true
-
-scalaVersion := "2.10.5"
-
-isSnapshot := version.value.endsWith("-SNAPSHOT")
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src"/ "main" / s"java-12.1.4.0.1"
 
@@ -35,16 +27,14 @@ libraryDependencies ++= Seq(
   , "com.typesafe.akka"          %% "akka-http-core-experimental" % "2.0.3"
   , "com.typesafe.akka"          %% "akka-http-experimental"      % "2.0.3"
   , "org.kohsuke.metainf-services" % "metainf-services"           % "1.6"
+  , "com.fasterxml.jackson.core" % "jackson-databind" % "2.5.3"
 )
-
 
 ////////////////////////////////////
 // build for java 7
 javacOptions ++= Seq("-g", "-source", "1.7", "-target", "1.7", "-Xlint:unchecked")
 
 scalacOptions ++= Seq("-feature", "-target:jvm-1.7", "-deprecation")
-
-addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
 
 ////////////////////////////////////
 // debugging
@@ -71,12 +61,6 @@ publishArtifact in (Compile, packageDoc) := false
 /////////////////////////////////////
 //jar & generated src
 
-unmanagedBase := {
-  val javaVersion = sys.props("java.version")
-  if(!javaVersion.startsWith("1.7"))
-    throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
-  val dist = baseDirectory.value.getParentFile /  "sites" / "webapps" / "cs" / "WEB-INF" / "lib"
-  if(!dist.exists)
-    throw new Error(s"ERROR! Jars not found. Plese place Sites jars under ${dist}")
-  dist
-}
+addSbtPlugin("com.typesafe.sbt" %% "sbt-web" % "1.2.2" exclude("org.slf4j", "slf4j-simple"))
+
+net.virtualvoid.sbt.graph.Plugin.graphSettings

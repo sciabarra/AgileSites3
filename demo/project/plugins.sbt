@@ -1,7 +1,9 @@
-val pluginVer = "3.11-SNAPSHOT"
+val agilesitesVer = "3.11.0-M1"
 
-addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % pluginVer)
+resolvers += "Era7 maven releases" at "https://s3-eu-west-1.amazonaws.com/releases.era7.com"
 
-//val plugin = (file("..")/"plugin").toURI
+addSbtPlugin("ohnosequences" % "sbt-s3-resolver" %  agilesitesVer)
 
-//val root = project.in(file(".")).dependsOn( plugin )
+resolvers += "agilesites3" at "https://s3.amazonaws.com/agilesites3-repo/releases"
+
+addSbtPlugin("com.sciabarra" % "agilesites3-plugin" % agilesitesVer)

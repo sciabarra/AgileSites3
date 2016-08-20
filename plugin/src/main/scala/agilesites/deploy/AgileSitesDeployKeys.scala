@@ -7,6 +7,7 @@ import sbt._
  */
 object AgileSitesDeployKeys {
   val asPackage = taskKey[Unit]("AgileSites package jar")
+  val asPackageTarget = settingKey[Option[String]]("AgileSites package target")
   val asCopyStatics = taskKey[Unit]("AgileSites copy statics")
   val asDeploy = inputKey[Unit]("AgileSites deploy")
   val asPopulate = taskKey[Unit]("AgileSites populate")

@@ -26,8 +26,6 @@ import static wcs.Api.*;
 
 public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
 
-    private String prefix = "";
-
     private static Log log = Log.getLog(Env.class);
 
     // the name of the asset
@@ -52,7 +50,6 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
         this.cid = cid;
         insite = env.isInsite();
         String site = i.GetVar("site");
-        prefix = site + "_";
         init(site);
         AssetTag.load().name(a).type(c).objectid(cid.toString()).run(i);
         String subtype = AssetTag.getsubtype().name(a).eval(i, "OUTPUT");
@@ -90,9 +87,6 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
     private String at(String attribute) {
         if (log.trace())
             log.trace("extracting attribute " + attribute);
-
-        if (!attribute.startsWith(prefix))
-            attribute = prefix + attribute;
 
         String attrList = as() + attribute.toUpperCase();
         if (i.GetList(attrList) == null) {
@@ -727,11 +721,7 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
     private String insiteCall(String type, String template, String attribute,
                               int n, String emptyText, Arg... args) {
 
-        if (!attribute.startsWith(prefix))
-            attribute = prefix + attribute;
 
-        if (!template.startsWith(prefix))
-            template = prefix + template;
 
         try {
             // let's start with the common parameters
@@ -940,8 +930,6 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
      */
     private String edit(String attribute, int index, String params, Arg... args) {
 
-        if (!attribute.startsWith(prefix))
-            attribute = prefix + attribute;
 
         // read a call or create a new call with no parameters
         String value = e.getString(at(attribute), index, "value");

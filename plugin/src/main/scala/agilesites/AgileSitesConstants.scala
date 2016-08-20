@@ -11,9 +11,7 @@ object AgileSitesConstants {
 
   val tomcatVersion = "7.0.70"
 
-  val agilesitesVersion = "3.11-SNAPSHOT"
-
-  val agilesitesPlugin = "com.sciabarra" % "agilesites3-plugin" % agilesitesVersion extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  val agilesitesPlugin = "com.sciabarra" % "agilesites3-plugin" % "latest" extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
 
   val spoonDependencies = Seq(
     //"net.openhft" % "spoon-core" % "4.3.0" % "spoon"
@@ -34,12 +32,12 @@ object AgileSitesConstants {
     , "org.apache.tomcat" % "tomcat-jasper-el" % tomcatVersion
     , "org.apache.tomcat" % "tomcat-jsp-api" % tomcatVersion
     , "org.apache.tomcat" % "tomcat-dbcp" % tomcatVersion
-  ) :+ agilesitesPlugin
+  ) //:+ agilesitesPlugin
 
   val akkaHttpDependencies = Seq(
     "com.typesafe.akka" % "akka-stream-experimental_2.10" % akkaHttpVersion
     , "com.typesafe.akka" % "akka-http-core-experimental_2.10" % akkaHttpVersion
     , "com.typesafe.akka" % "akka-http-experimental_2.10" % akkaHttpVersion
-  ) :+ agilesitesPlugin
+  ) //:+ agilesitesPlugin
 
 }

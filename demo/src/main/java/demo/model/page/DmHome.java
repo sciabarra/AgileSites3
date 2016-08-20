@@ -24,6 +24,4 @@ public class DmHome extends Page {
 
     @Attribute
     private agilesitesng.api.AssetAttribute<Page<DmSection>>[] sections;
-
-
 }

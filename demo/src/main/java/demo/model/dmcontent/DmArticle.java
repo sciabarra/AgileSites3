@@ -18,6 +18,9 @@ import java.util.Date;
 public class DmArticle extends DmContent {
 
     @Attribute
+    public Date startDate;
+
+    @Attribute
     @Required
     public String title;
 
@@ -27,8 +30,7 @@ public class DmArticle extends DmContent {
     @Attribute(editor = "ArticleTypeSelector")
     public String articleType;
 
-    @Attribute
-    public Date startDate;
+
 
     @Attribute
     public agilesitesng.api.AssetAttribute<DmContent<DmImage>> image;

@@ -1,10 +1,14 @@
-name := utilPropertyMap.value.getOrElse("sites.focus", "Installing")
+val agileSitesVer = "3.11.0-M1"
 
-organization := utilPropertyMap.value.getOrElse("organization", "com.sciabarra")
+name := sitesFocus.value
 
-version := utilPropertyMap.value.getOrElse("version", "1.0-SNAPSHOT")
+organization := "com.sciabarra"
 
-val demo = project.in(file(".")).enablePlugins(AgileSitesNgPlugin)
+version := "3.11.0-M1"
+
+val demo = project.in(file("."))
+
+enablePlugins(AgileSitesNgPlugin)
 
 scalaVersion := "2.10.5"
 
@@ -24,12 +28,15 @@ crossPaths := false
 
 compileOrder := CompileOrder.JavaThenScala
 
-val agileSitesVer = "3.11-SNAPSHOT"
+resolvers += "agilesites3" at "https://s3.amazonaws.com/agilesites3-repo/releases"
 
 ivyConfigurations ++= Seq(config("akkahttp"), config("core"), config("api"))
 
 libraryDependencies ++= Seq(
-  "com.sciabarra" % "agilesites3-plugin" % agileSitesVer extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  "com.sciabarra" % "agilesites3-plugin" % agileSitesVer
+    extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
+  , "com.sciabarra" % "agilesites3-plugin" % agileSitesVer % "tomcat"
+    extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
   , "com.sciabarra" % "agilesites3-core" % agileSitesVer % "core"
   , "com.sciabarra" % "agilesites3-core" % agileSitesVer
   , "com.sciabarra" % "agilesites3-api" % agileSitesVer % "api"
@@ -39,7 +46,5 @@ libraryDependencies ++= Seq(
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 publishArtifact in (Compile, packageDoc) := false
-
-sitesDirectory := baseDirectory.value.getParentFile / "sites"
 
 ngSpoonDebug := true
