@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Created by msciab on 14/06/15.
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
 public @interface Template {
     public String name () default "";
