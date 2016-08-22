@@ -22,7 +22,7 @@ object NgProxyPlugin
   val akkahttp = config("akkahttp")
 
   override val projectSettings = Seq(
-    ivyConfigurations += akkahttp
+    ivyConfigurations += config("akkahttp")
     , libraryDependencies ++= AgileSitesConstants.akkaHttpDependencies map {
       _ % "akkahttp"
     }

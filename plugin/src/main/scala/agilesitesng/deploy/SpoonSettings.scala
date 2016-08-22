@@ -2,7 +2,7 @@ package agilesitesng.deploy
 
 import java.io.File
 
-import agilesites.AgileSitesConstants
+import agilesites.{Utils, AgileSitesConstants}
 import agilesites.config.AgileSitesConfigKeys._
 import agilesites.deploy.AgileSitesDeployKeys._
 import sbt.Keys._
@@ -11,13 +11,14 @@ import sbt._
 /**
   * Created by msciab on 06/08/15.
   */
-trait SpoonSettings {
+trait SpoonSettings extends Utils {
   this: AutoPlugin =>
 
   import NgDeployKeys._
 
   val ngUidTask = ngUid := {
-    val prpFile = baseDirectory.value / "src" / "main" / "resources" / sitesFocus.value / "uid.properties"
+    val normName = normalizeSiteName(sitesFocus.value)
+    val prpFile = baseDirectory.value / "src" / "main" / "resources" / normName / "uid.properties"
     val prp = new java.util.Properties
     prp.load(new java.io.FileReader(prpFile))
     import scala.collection.JavaConverters._
@@ -26,7 +27,8 @@ trait SpoonSettings {
 
   val spoonTask = spoon := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    val uid = baseDirectory.value / "src" / "main" / "resources" / name.value / "uid.properties"
+    val normName = normalizeSiteName(sitesFocus.value)
+    val uid = baseDirectory.value / "src" / "main" / "resources" / normName / "uid.properties"
     val source = baseDirectory.value / "src" / "main" / "java"
     val target = baseDirectory.value / "target" / "groovy"
     val spool = baseDirectory.value / "target" / "spoon-spool.json"
@@ -51,8 +53,8 @@ trait SpoonSettings {
       s"-Dspoon.outdir=${target.getAbsolutePath}",
       s"-Dspoon.templates=${templates.getAbsolutePath}",
       s"-Dspoon.assets=${assets.getAbsolutePath}",
-      s"-Dspoon.site=${sitesFocus.value}"
-    ) ++ spoonDebugger
+      s"-Dspoon.site=${sitesFocus.value}",
+      s"-Dspoon.skip.controller=${ngSpoonSkipControllers.value}")
 
     val runOpts = Seq("agilesitesng.deploy.spoon.SpoonMain",
       "--source-classpath", sourceClasspath.mkString(File.pathSeparator),
@@ -120,7 +122,7 @@ trait SpoonSettings {
     , ngUidTask
     , ngSpoonDebug := false
     , ngSpoonDebugger := false
-    , ngSpoonSkipControllers := true
+    , ngSpoonSkipControllers := AgileSitesConstants.skipControllers
     , ngSpoon := {
       (spoon).toTask("").value
     }

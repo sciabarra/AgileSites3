@@ -20,3 +20,8 @@ sources in(Compile, doc) := Seq.empty
 
 publishArtifact in(Compile, packageDoc) := false
 
+ivyConfigurations += config("akkahttp")
+
+enablePlugins(AgileSitesNgPlugin)
+
+asPackageTarget := Some((baseDirectory.value.getParentFile/"sites"/"shared"/"agilesites"/"agilesites3-api.jar").toURI.toString)

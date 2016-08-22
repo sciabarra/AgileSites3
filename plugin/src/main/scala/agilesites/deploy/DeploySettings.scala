@@ -122,7 +122,6 @@ trait DeploySettings extends Utils {
         val user = sitesUser
         val pass = sitesPass
 
-
         proto match {
           case "file" =>
             val f = file(targetUri.getPath)
@@ -158,9 +157,17 @@ trait DeploySettings extends Utils {
       log.error(s"Sites must be up and running as ${url}.")
     else {
       upload(asPackageTarget.value, log, jar, sitesFocus.value, sitesUser.value, sitesPassword.value, sitesShared.value)
-      log.info(httpCall("Deploy", "&sites=%s".format(sitesFocus.value), url, sitesUser.value, sitesPassword.value))
     }
   }
+
+  val asDeployOnlyTask = asDeployOnly := {
+    val log = streams.value.log
+    val url = sitesUrl.value
+    asPackage.value
+    log.info(httpCall("Deploy", "&sites=%s".format(sitesFocus.value), url, sitesUser.value, sitesPassword.value))
+  }
+
+
 
   // generate index classes from sources
   val generateIndexTask = Def.task {
@@ -188,7 +195,7 @@ trait DeploySettings extends Utils {
 
   val asDeployCmd = Command.command("asDeploy") { state =>
     state.copy(remainingCommands =
-      Seq("asCopyStatics", "asPackage", "asPopulate") ++ state.remainingCommands)
+      Seq("asCopyStatics", "asDeployOnly", "asPopulate") ++ state.remainingCommands)
   }
 
   val deploySettings = Seq(asPackageTask

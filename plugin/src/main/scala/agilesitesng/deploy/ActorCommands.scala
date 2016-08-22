@@ -74,7 +74,9 @@ trait ActorCommands {
     state
   }
 
-  def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String], skipCtl: Boolean, listOnly: Boolean) {
+  def doDeploy(spool: File, hub: ActorRef, map: Map[String, String], args: Seq[String], skipCtl: Boolean, listOnly: Boolean, verbose: Boolean) {
+
+    println(s"verbose=${verbose} listOnly=${listOnly} args=${args.mkString(":")}")
 
     // list objects, skipping controllers if required
     val deployObjects =
@@ -88,11 +90,14 @@ trait ActorCommands {
     val objs = deployObjects.filter(x => filterAllSubstring(args, x.toString))
 
     if (listOnly) {
+      println("*** Listing only - NO DEPLOY ***")
       for (obj <- objs) {
         println(obj.toString)
       }
     } else {
       for (obj <- objs) {
+        if(verbose)
+          println(obj.toString)
         hub ! SpoonData(obj)
       }
       hub ! SpoonEnd("")
@@ -103,15 +108,16 @@ trait ActorCommands {
   def deployCmd = Command.args("deploy", "<args>") { (state, args) =>
 
     if (args.nonEmpty && args(0) == "-h") {
-      println("usage: deploy [-l] [filter-substring]")
+      println("usage: deploy [-l|-v] [filter-substring]")
       state
     } else {
-
-      val (listOnly, args1) =
+      val (listOnly, verbose, args1) =
         if (args.nonEmpty && args(0) == "-l")
-          true -> args.tail
+          (true, false, args.tail)
+        else if (args.nonEmpty && args(0) == "-v")
+          (false, true, args.tail)
         else
-          false -> args
+          (false, false, args)
 
       val extracted: Extracted = Project.extract(state)
       val skipCtl = (ngSpoonSkipControllers in extracted.currentRef get extracted.structure.data).get
@@ -132,7 +138,7 @@ trait ActorCommands {
                   if (!listOnly)
                     coll ! SpoonBegin(url, focus, user, password, map)
 
-                  doDeploy(spool, coll, map, args1, skipCtl, listOnly)
+                  doDeploy(spool, coll, map, args1, skipCtl, listOnly, verbose)
 
                 case _ => println("cannot get uid map")
               }

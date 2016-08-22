@@ -114,7 +114,11 @@ trait SetupSettings extends Utils {
     destLib.mkdirs()
 
     // jars to include when performing a setup
-    val addJars = asApiClasspath.value
+    // excluding core jars
+    val excludeJars = asCoreClasspath.value
+    val addJars = asApiClasspath.value.filter {
+      f => excludeJars.find(_ == f).isEmpty
+    }
 
     //println(addJars)
 

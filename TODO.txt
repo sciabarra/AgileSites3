@@ -1,2 +1,6 @@
-- BUILD 3.11
+* Deploy templates in the new way
+- Avoid the extra core in the lib
+- Fix installer to use Windows 7 for Windows 8-10 (add -Dos.name="Windows 7")
+
+- nella uid.properties genera  .altTextImageString=1444836512441
 
