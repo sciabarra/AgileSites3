@@ -783,7 +783,7 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
         log.trace("ttype/tid=", ttype, tid);
         List<Arg> list = new ArrayList<Arg>();
         list.add(arg("SITE", i.GetVar("site")));
-        list.add(arg("TNAME", Util.normalizedName(site, template)));
+        list.add(arg("TNAME", template));
         list.add(arg("C", c));
         list.add(arg("CID", cid.toString()));
         list.add(arg("TTYPE", ttype));

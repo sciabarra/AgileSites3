@@ -160,7 +160,7 @@ trait DeploySettings extends Utils {
     }
   }
 
-  val asDeployOnlyTask = asDeployOnly := {
+  val asPackageDeployTask = asPackageDeploy := {
     val log = streams.value.log
     val url = sitesUrl.value
     asPackage.value
@@ -199,6 +199,7 @@ trait DeploySettings extends Utils {
   }
 
   val deploySettings = Seq(asPackageTask
+    , asPackageDeployTask
     , asPackageTarget := Some(sitesUrl.value)
     , asPopulate := cmov.toTask(" import_all @src/main/populate").value
     , commands ++= Seq(asDeployCmd)

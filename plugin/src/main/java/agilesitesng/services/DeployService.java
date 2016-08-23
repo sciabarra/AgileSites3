@@ -1,6 +1,7 @@
 package agilesitesng.services;
 
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.api.Log;
 import com.fatwire.assetapi.data.AssetDataManager;
 import com.fatwire.system.Session;
 import com.fatwire.system.SessionFactory;
@@ -10,12 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeployService implements Service {
 
+    Log log = Log.getLog(DeployService.class);
+
     @Override
     public String exec(HttpServletRequest req, ICS ics, HttpServletResponse res) throws Exception {
 
         String what = ics.GetVar("value");
         if (what == null)
             return "Deploy: what?";
+
+        log.debug("what="+what);
 
         Asset a = null;
         if (what.equals("Controller")) {
@@ -28,8 +33,8 @@ public class DeployService implements Service {
             //return Utils.dumpVars(ics);
             a = new Template(ics);
         } else if (what.equals("SiteEntry")) {
-            return Utils.dumpVars(ics);
-            //a = new SiteEntry(ics);
+            //return Utils.dumpVars(ics);
+            a = new SiteEntry(ics);
         } else if (what.equals("AttributeEditor")) {
             a = new AttributeEditor(ics);
         } else if (what.equals("Attribute")) {

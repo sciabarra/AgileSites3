@@ -1,9 +1,15 @@
 package agilesitesng.deploy.spoon
 
+import scala.io.Source
+
 /**
  * Created by msciab on 01/12/15.
  */
 object JspUtils {
+
+  def getResource(res: String) =
+    Source.fromInputStream(getClass.getResourceAsStream(res))
+      .getLines.mkString("\n")
 
   def wrapAsJsp(body: String) =
     s"""<%@ taglib prefix="cs" uri="futuretense_cs/ftcs1_0.tld"
@@ -20,4 +26,7 @@ object JspUtils {
       |--%>
       |${body}
       |</cs:ftcs>""".stripMargin
+
+  def streamer(className: String ) =
+    getResource("/Streamer.jsp").replace("%CLASS%", className)
 }

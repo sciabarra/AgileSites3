@@ -134,7 +134,8 @@ public class Template extends Asset {
         data.getAttributeData("element").setData(
                 Utils.list(attrStruct("Structure Element", mapElement)));
 
-        data.getAttributeData("controller").setData(controller);
+        if(controller!=null && controller.trim().length()>0)
+            data.getAttributeData("controller").setData(controller);
 
         // default page criteria
         Collections.sort(cacheCriteria);

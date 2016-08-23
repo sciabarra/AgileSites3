@@ -1,6 +1,5 @@
 package agilesites.annotations;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,5 +25,7 @@ public @interface SiteEntry {
     public String extraCriteria() default "";
 
     public boolean wrapper() default false;
+
+    public String elementName() default "";
 
 }

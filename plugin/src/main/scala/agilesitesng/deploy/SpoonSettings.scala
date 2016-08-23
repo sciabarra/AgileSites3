@@ -112,7 +112,9 @@ trait SpoonSettings extends Utils {
       , "MultipleStartMenuAnnotation"
       , "SiteEntryAnnotation"
       , "TemplateAnnotation"
+      , "TemplateClassAnnotation"
       , "CSElementAnnotation"
+      , "CSElementClassAnnotation"
       , "ControllerAnnotation"
       , "GroovyAnnotation"
     ).map(x => s"agilesitesng.deploy.spoon.${x}Processor")

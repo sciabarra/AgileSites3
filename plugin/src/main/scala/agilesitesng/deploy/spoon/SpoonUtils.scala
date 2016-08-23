@@ -1,8 +1,11 @@
 package agilesitesng.deploy.spoon
 
-import java.io.File
+import java.io.{InputStream, File}
+import java.util.Scanner
 
 import agilesitesng.deploy.model.{Uid, SpoonModel, Spooler}
+
+import scala.io.Source
 
 /**
   * Created by msciab on 18/08/15.
@@ -72,4 +75,5 @@ trait SpoonUtils {
   def orEmpty(name: String, alternative: String) =
     if (name == null || name.trim.size == 0) alternative
     else name
+
 }

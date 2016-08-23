@@ -1,4 +1,4 @@
-val agileSitesVer = "3.11.0-M1"
+val agileSitesVer = "3.11.0-M3-SNAPSHOT"
 
 name := sitesFocus.value
 

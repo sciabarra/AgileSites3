@@ -6,14 +6,27 @@ import spoon.processing.AbstractAnnotationProcessor
 import spoon.reflect.declaration.CtClass
 
 /**
- * Created by msciab on 06/08/15.
- */
-class SiteEntryAnnotationProcessor extends AbstractAnnotationProcessor[SiteEntry, CtClass[_]] {
+  * Created by msciab on 06/08/15.
+  */
+class SiteEntryAnnotationProcessor
+  extends AbstractAnnotationProcessor[SiteEntry, CtClass[_]]
+    with SpoonUtils {
 
   def process(a: SiteEntry, cl: CtClass[_]) {
-    val name = cl.getQualifiedName
+    val name = orEmpty(a.name(), cl.getSimpleName)
     val key = s"SiteEntry.$name"
-    Spooler.insert(50, key, SpoonModel.SiteEntry(Uid.generate(key), name, s"SiteEntry for ${name}"))
-  }
 
+    Spooler.insert(55, key,
+      SpoonModel.SiteEntry(
+        id=Uid.generate(key),
+        name = name,
+        description= s"SiteEntry for ${name}",
+        wrapper = a.wrapper(),
+        elementName = orEmpty(a.elementName(), name),
+        ssCache = orEmpty(a.ssCache(), "false"),
+        csCache = orEmpty(a.csCache(), "false"),
+        criteria = a.criteria(),
+        extraCriteria = a.extraCriteria()
+      ))
+  }
 }

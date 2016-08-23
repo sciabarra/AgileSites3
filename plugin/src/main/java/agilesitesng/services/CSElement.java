@@ -1,7 +1,9 @@
 package agilesitesng.services;
 
 import java.util.List;
+
 import COM.FutureTense.Interfaces.ICS;
+import agilesites.api.Log;
 import com.fatwire.assetapi.data.BlobObject;
 import com.fatwire.assetapi.data.BlobObjectImpl;
 import com.fatwire.assetapi.data.MutableAssetData;
@@ -11,17 +13,19 @@ import com.fatwire.assetapi.data.MutableAssetData;
  */
 public class CSElement extends Asset {
 
+    final Log log = Log.getLog(CSElement.class);
+
     private String fileName;
     private String folder;
     private String elementCode;
     private String elementName;
-
 
     /**
      * Create a CSElement invoking the given elementClass
      */
     public CSElement(ICS ics) {
         super("CSElement", ics);
+        log.debug("!!! Deploying CSElement");
         this.fileName = ics.GetVar("filename");
         this.folder = ics.GetVar("folder");
         this.elementCode = ics.GetVar("body");

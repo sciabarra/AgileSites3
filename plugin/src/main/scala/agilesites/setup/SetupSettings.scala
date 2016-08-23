@@ -178,6 +178,11 @@ trait SetupSettings extends Utils {
         |**** You need to complete installation with "asDeploy".""".stripMargin)
   }
 
+  val asSetupOnlineCmd = Command.command("asSetupOnline") { state =>
+    state.copy(remainingCommands =
+      Seq("cmov setup", "service version reload=1") ++ state.remainingCommands)
+  }
+
   val asSetupCmd = Command.command("asSetup") { state =>
     state.copy(remainingCommands =
       Seq("serverStop", "asSetupOffline", "serverStart", "asSetupOnline") ++ state.remainingCommands)
@@ -203,9 +208,6 @@ trait SetupSettings extends Utils {
     , asSetupFutureTenseIniTask
     , asSetupCopyJarsWebTask
     , asSetupCopyJarsLibTask
-    , asSetupOnline := {
-      cmov.toTask(" setup").value
-    }
-    , commands ++= Seq(asSetupWeblogicCmd, asSetupCmd))
+    , commands ++= Seq(asSetupWeblogicCmd, asSetupCmd, asSetupOnlineCmd))
 
 }

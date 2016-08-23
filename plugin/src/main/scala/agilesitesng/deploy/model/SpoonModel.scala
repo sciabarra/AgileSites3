@@ -1,6 +1,5 @@
 package agilesitesng.deploy.model
 
-
 /**
   * Created by msciab on 15/07/15.
   */
@@ -62,7 +61,14 @@ object SpoonModel extends ModelUtil {
 
   case class SiteEntry(id: Long,
                        name: String,
-                       description: String) extends SpoonModel
+                       description: String,
+                       wrapper: Boolean,
+                       elementName: String,
+                       ssCache: String,
+                       csCache: String,
+                       criteria: String,
+                       extraCriteria: String
+                       ) extends SpoonModel
 
   case class Controller(id: Long,
                         name: String,

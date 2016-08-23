@@ -321,7 +321,7 @@ public class Util {
 	 * Normalize Asset Name: ensure there is the site prefix in the name, and
 	 * only once. Handle corner cases where the name has already the prefix, or
 	 * name or site are null or empty.
-	 */
+
 	public static String normalizedName(String site, String name) {
 		if (name == null || name.trim().length() == 0)
 			return site;
@@ -330,7 +330,7 @@ public class Util {
 		if (name.startsWith(site))
 			return name;
 		return site + "_" + name;
-	}
+	}*/
 
 
     public static String normalizeBlobFilename(String filepath) {

@@ -107,6 +107,16 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
       "assetSubtype" -> assetSubtype,
       "args" -> args.mkString("|"))
 
+    case SiteEntry(id, name, description, wrapper, elementName,
+    ssCache, csCache, criteria, extraCriteria) =>
+      deploy("SiteEntry", id, name, description,
+        'wrapper -> wrapper.toString,
+        'elementname -> elementName,
+        'ssCache -> ssCache,
+        'csCache -> csCache,
+        'criteria -> criteria,
+        'extraCriteria -> extraCriteria)
+
     case CSElement(id, name, description, file) =>
       deploy("CSElement", id, name, description,
         'filename -> new java.io.File(file).getName,
@@ -128,7 +138,6 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
         'body -> readFile(file)
       )
 
-    //case SiteEntry(id, name) => deploy("SiteEntry", id, name, name)
 
     case x => Map("op" -> "echo",
       "value" -> s"${x.getClass} not recognized")

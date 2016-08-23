@@ -46,7 +46,6 @@ public class ElementCatalog {
             file = filename.substring(slashIndex + 1);
         }
 
-
         ls.setValString("ftcmd", "replacerow");
         ls.setValString("tablename", "ElementCatalog");
         ls.setValString("elementname", name);
@@ -56,7 +55,6 @@ public class ElementCatalog {
         ics.CatalogManager(ls);
 
     }
-
 
     public void close() {
         FTValList ls = new FTValList();

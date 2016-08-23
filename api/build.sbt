@@ -24,4 +24,9 @@ ivyConfigurations += config("akkahttp")
 
 enablePlugins(AgileSitesNgPlugin)
 
-asPackageTarget := Some((baseDirectory.value.getParentFile/"sites"/"shared"/"agilesites"/"agilesites3-api.jar").toURI.toString)
+sitesDirectory := baseDirectory.value.getParentFile/"sites"
+
+asPackageTarget := Some((sitesDirectory.value/"shared"/"agilesites"/"lib"/"agilesites3-api.jar").toURI.toString)
+
+sitesPopulate := (baseDirectory.value.getParentFile/"plugin"/"src"/"main"/"resources").getAbsolutePath
+

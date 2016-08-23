@@ -8,8 +8,8 @@ import sbt._
 object AgileSitesDeployKeys {
   val asPackage = taskKey[Unit]("AgileSites package jar")
   val asPackageTarget = settingKey[Option[String]]("AgileSites package target")
+  val asPackageDeploy = taskKey[Unit]("AgileSites deploy")
   val asCopyStatics = taskKey[Unit]("AgileSites copy statics")
-  val asDeployOnly = taskKey[Unit]("AgileSites deploy")
   val asPopulate = taskKey[Unit]("AgileSites populate")
   val asScpFromTo = settingKey[Option[(File, URL)]]("AgileSites scp from source file to target url (either scp:// or file://)")
   val asScp = taskKey[Unit]("AgileSites scp")

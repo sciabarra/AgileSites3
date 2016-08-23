@@ -11,6 +11,8 @@ public class SiteEntry extends Asset {
     // private String element;
     private String elementname;
     private boolean wrapper;
+    private String csCache;
+    private String ssCache;
     private List<String> cacheCriteria =
             Utils.listString("c", "cid", "context",
                     "p", "rendermode", "site", /* "sitepfx",*/ "ft_ss");
@@ -21,10 +23,13 @@ public class SiteEntry extends Asset {
      */
     public SiteEntry(ICS ics) {
         super("SiteEntry", ics);
+        System.out.println("*** salve! ***");
         this.elementname = ics.GetVar("elementname");
         this.wrapper = Utils.bool(ics.GetVar("wrapper"));
         List<String> criteria = Arrays.asList(Utils.splitOnPipe(ics.GetVar("cachecriteria")));
         this.cacheCriteria.addAll(criteria);
+        this.csCache = Utils.nnOr(ics.GetVar("cscache"), "false");
+        this.ssCache = Utils.nnOr(ics.GetVar("sscache"), "false");
     }
 
     public List<String> getAttributes() {
@@ -37,7 +42,7 @@ public class SiteEntry extends Asset {
     @Override
     public void setData(MutableAssetData data) {
         String elementname = //
-                (this.elementname == null) ? (site + "/" + name) : this.elementname;
+                (this.elementname == null) ?  name : this.elementname;
 
         // root element
         data.getAttributeData("category").setData("");

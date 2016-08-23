@@ -765,8 +765,7 @@ public class Env extends wcs.core.ICSProxyJ implements Content, wcs.api.Env {
 		List<Arg> list = new LinkedList<Arg>();
 		for (Arg arg : args)
 			list.add(arg);
-		list.add(arg("ELEMENTNAME",
-				site + "/" + Util.normalizedName(site, name)));
+		list.add(arg("ELEMENTNAME", name));
 		return Api.call("RENDER:CALLELEMENT", list);
 	}
 

@@ -9,6 +9,11 @@ import wcs.api.URL;
 import wcs.java.util.Util;
 import COM.FutureTense.Interfaces.ICS;
 
+import java.util.List;
+import java.util.StringTokenizer;
+
+import static wcs.Api.arg;
+
 /**
  * The router - implement the abstract methods to provide url->asset and
  * asset->burl conversions.
@@ -56,9 +61,108 @@ abstract public class Router implements wcs.api.Router {
 	public Call call(String name, Arg... args) {
 		Call call = new Call("ICS:CALLELEMENT", args);
 		call.addArg("site", site);
-		call.addArg("element", site + "/" + Util.normalizedName(site, name));
+		call.addArg("element", name);
 		log.trace("call returns %s", call.toString());
 		return call;
+	}
+
+	/**
+	 * Default implementation of router.
+	 *
+	 * Route by name and calls the given wrapper.
+	 *
+	 *  http://yoursite.com
+	 *   looks for a page names Home
+	 *
+	 *  http://yoursite.com/Welcome
+	 *    looks for a page named Welcome
+	 *
+	 *  http://yoursite/Article/About
+	 *    looks for an Article named About
+	 *
+	 *  If not found calls the wrapper with error set
+	 *  Otherwise you have c/cid set.
+	 *
+	 * @param wrapper
+	 * @param e
+	 * @param url
+     * @return
+     */
+	public Call defaultRoute(String wrapper, Env e, URL url) {
+		// split the token
+		String c = null;
+		String name = null;
+
+		StringTokenizer st = url.getPathTokens();
+		switch (st.countTokens()) {
+			case 0: // example: http://yoursite.com
+				// look for the home page
+				c = "Page";
+				name = "Home";
+				break;
+
+			case 1: // example: http://yoursite.com/Welcome
+				// look for a named page
+				c = "Page";
+				name = st.nextToken();
+				break;
+
+			case 2: // example: http://yoursite/Article/About
+				// the following assume all the asset types
+				// have the same prefix as the site name
+				c = st.nextToken();
+				name = st.nextToken();
+				break;
+
+			// unknown path
+			default: // example: http://yoursite/service/action/parameter"
+				c = null;
+				break;
+		}
+
+		// path not split in pieces
+		if (c == null || name == null) {
+			if (log.debug())
+				log.debug("path not found");
+			return call(wrapper, arg("error", "Path not found: " + url.getPath()));
+		}
+
+		// resolve the name to an id
+		List<Id> list = e.find(c, arg("name", name));
+		if (list.size() > 0) {
+			// found
+			if (log.debug())
+				log.debug("calling Wrapper c=%s cid=%s", list.get(0).c,
+						list.get(0).cid.toString());
+			return call(wrapper, //
+					arg("c", list.get(0).c), //
+					arg("cid", list.get(0).cid.toString()));
+		} else {
+			// not found
+			String error = "Asset not found: type:" + c + " name:" + name;
+			return call(wrapper, arg("error", error));
+		}
+	}
+
+	/**
+	 * Encode a link of a given asset using its name.
+	 *
+	 * @param e
+	 * @param id
+	 * @param args
+     * @return
+     */
+	public String defaultLink(Env e, Id id, Arg[] args) {
+		String name = e.getAsset(id).getName();
+		if (id.c.equals("Page"))
+			// home page
+			if (name.equals("Home"))
+				return "";
+			else
+				return "/" + name;
+		else
+			// return type/name
+			return "/" + id.c + "/" + name;
 	}
 
 	/**
