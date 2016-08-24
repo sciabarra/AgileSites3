@@ -1,6 +1,5 @@
 target/
 sites/
-starter/
 project/target/
 core/*/src/main/java/wcs/core/tag/
 webapps/

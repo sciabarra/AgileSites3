@@ -15,11 +15,11 @@ import wcs.java.Picker;
 @Index("demo/elements.txt")
 public class Breadcrump extends Element {
 
-	final static Log log = Log.getLog(Breadcrump.class);
-
 	public static AssetSetup setup() {
 		return new CSElement("Breadcrump", demo.element.Breadcrump.class);
 	}
+
+	final static Log log = Log.getLog(Breadcrump.class);
 
 	@Override
 	public String apply(Env e) {

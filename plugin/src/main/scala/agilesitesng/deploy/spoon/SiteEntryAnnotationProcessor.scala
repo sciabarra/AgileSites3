@@ -16,7 +16,7 @@ class SiteEntryAnnotationProcessor
     val name = orEmpty(a.name(), cl.getSimpleName)
     val key = s"SiteEntry.$name"
 
-    Spooler.insert(55, key,
+    Spooler.insert(40, key,
       SpoonModel.SiteEntry(
         id=Uid.generate(key),
         name = name,

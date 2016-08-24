@@ -12,7 +12,6 @@ import wcs.java.Template;
 @Index("demo/elements.txt")
 public class Summary extends Element {
 
-	final static Log log = Log.getLog(Summary.class);
 
 	public static AssetSetup setup() {
 		return new Template("Page", "Summary", Template.INTERNAL, // change
@@ -21,6 +20,8 @@ public class Summary extends Element {
                 .cacheCriteria("d")
 				.description("Template Summary for type Page ");
 	}
+
+	final static Log log = Log.getLog(Summary.class);
 
 	@Override
 	public String apply(Env e) {

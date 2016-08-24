@@ -1,6 +1,13 @@
-* Deploy templates in the new way
-- Avoid the extra core in the lib
+- add default webroot
+- fix siteplan navigation
+- fix attribute editor
+- deploy should notify when done
 - Fix installer to use Windows 7 for Windows 8-10 (add -Dos.name="Windows 7")
+- better to remote the version from the package uploaded
+
+* Deploy templates in the new way
+* Avoid the extra core in the lib
+
 
 - nella uid.properties genera  .altTextImageString=1444836512441
 

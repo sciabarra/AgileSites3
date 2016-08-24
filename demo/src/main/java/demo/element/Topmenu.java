@@ -13,12 +13,12 @@ import wcs.java.Picker;
 
 @Index("demo/elements.txt")
 public class Topmenu extends Element {
-
-	final static Log log = Log.getLog(Error.class);
-
 	public static AssetSetup setup() {
 		return new CSElement("Topmenu", demo.element.Topmenu.class);
 	}
+
+	final static Log log = Log.getLog(Error.class);
+
 
 	@Override
 	public String apply(Env e) {

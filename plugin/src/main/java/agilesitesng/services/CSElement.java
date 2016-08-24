@@ -25,7 +25,6 @@ public class CSElement extends Asset {
      */
     public CSElement(ICS ics) {
         super("CSElement", ics);
-        log.debug("!!! Deploying CSElement");
         this.fileName = ics.GetVar("filename");
         this.folder = ics.GetVar("folder");
         this.elementCode = ics.GetVar("body");
@@ -54,6 +53,7 @@ public class CSElement extends Asset {
                 "timestamp=" + System.currentTimeMillis());
 
         // blob
+        log.info("filename="+filename+" folder="+folder);
         byte[] bytes = elementCode.getBytes();
         BlobObject blob = new BlobObjectImpl(fileName, folder, bytes);
         data.getAttributeData("url").setData(blob);

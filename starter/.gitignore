@@ -1,0 +1,7 @@
+agilesites.local.properties
+.idea/
+target/
+logs/
+.project
+.classpath
+.settings/

@@ -12,7 +12,6 @@ import wcs.java.Template;
 @Index("demo/elements.txt")
 public class ContentLayout extends Element {
 
-	Log log = Log.getLog(ContentLayout.class);
 
 	public static AssetSetup setup() {
 		return new Template("Page", "ContentLayout", Template.LAYOUT,
@@ -21,6 +20,8 @@ public class ContentLayout extends Element {
                 .cacheCriteria("d")
 				.description("Layout for type Page Content");
 	}
+
+	Log log = Log.getLog(ContentLayout.class);
 
 	@Override
 	public String apply(Env e) {

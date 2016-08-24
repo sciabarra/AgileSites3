@@ -14,13 +14,14 @@ import wcs.java.Picker;
 @Index("demo/elements.txt")
 public class Tree extends Element {
 
-	final static Log log = Log.getLog(Tree.class);
-	private SitePlan sp;
-	private Env e;
 
 	public static AssetSetup setup() {
 		return new CSElement("Tree", demo.element.Tree.class);
 	}
+
+	final static Log log = Log.getLog(Tree.class);
+	private SitePlan sp;
+	private Env e;
 
 	/**
 	 * Recursive visit of the site plan to build the tree

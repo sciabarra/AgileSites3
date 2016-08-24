@@ -11,7 +11,6 @@ import wcs.java.Template;
 @Index("demo/elements.txt")
 public class ContentSeeAlso extends Element {
 
-	final static Log log = Log.getLog(ContentSeeAlso.class);
 
 	public static AssetSetup setup() {
 
@@ -21,6 +20,8 @@ public class ContentSeeAlso extends Element {
                 .cacheCriteria("d")
 				.description("Template ContentSeeAlso for type Page subtype Content");
 	}
+
+	final static Log log = Log.getLog(ContentSeeAlso.class);
 
 	@Override
 	public String apply(Env e) {

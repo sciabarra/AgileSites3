@@ -6,11 +6,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import COM.FutureTense.Interfaces.ICS;
-
 import com.fatwire.assetapi.data.AttributeData;
 import com.fatwire.assetapi.data.MutableAssetData;
+import COM.FutureTense.Interfaces.ICS;
 
 public class Template extends Asset {
 
@@ -110,7 +108,6 @@ public class Template extends Asset {
                 attrString("cscacheinfo", csCache));
         mapElement.put("sscacheinfo",
                 attrString("sscacheinfo", ssCache));
-
 
         mapElement.put("url", blob);
 
