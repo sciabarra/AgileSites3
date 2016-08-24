@@ -8,9 +8,9 @@ import wcs.java.Picker;
 import agilesites.annotations.CSElement;
 import agilesites.annotations.SiteEntry;
 
-@CSElement
 @SiteEntry(wrapper = true)
-public class StWrapper extends Element {
+@CSElement
+public class Starter extends Element {
     @Override
     public String apply(Env e)
     {

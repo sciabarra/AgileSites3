@@ -12,7 +12,7 @@ public class Router extends wcs.java.Router {
 
 	@Override
 	public Call route(Env env, URL url) {
-		return defaultRoute("StWrapper", env, url);
+		return defaultRoute("Starter", env, url);
 	}
 
 	/**
