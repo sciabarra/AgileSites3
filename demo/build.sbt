@@ -1,10 +1,10 @@
-val agileSitesVer = "3.11.0-M3-SNAPSHOT"
+val agileSitesVer = "3.11.0-M5-SNAPSHOT"
 
 name := sitesFocus.value
 
 organization := "com.sciabarra"
 
-version := "3.11.0-M1"
+version := "3.11.0"
 
 val demo = project.in(file("."))
 

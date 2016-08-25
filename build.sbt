@@ -1,4 +1,4 @@
-name :="agilesites311"
+name := "agilesites311"
 
 val core = project in file("core")
 
