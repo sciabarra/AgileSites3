@@ -5,8 +5,9 @@ import agilesites.config.AgileSitesConfigPlugin
 
 object AgileSitesDeployPlugin
   extends AutoPlugin
-  with DeploySettings
-  with CopySettings {
+    with DeploySettings
+    with CopySettings
+    with NewSiteSettings {
 
   override def requires = AgileSitesConfigPlugin
 
@@ -14,6 +15,7 @@ object AgileSitesDeployPlugin
 
   override lazy val projectSettings =
     deploySettings ++
-      copySettings
+      copySettings ++
+      newSiteSettings
 
 }

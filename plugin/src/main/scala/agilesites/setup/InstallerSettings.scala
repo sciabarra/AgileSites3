@@ -1,13 +1,12 @@
 package agilesites.setup
 
 import java.io.{File, PipedInputStream, PipedOutputStream}
-
 import agilesites.{SitesDownloader, Utils}
 import sbt._
 
 /**
- * Created by msciab on 19/02/15.
- */
+  * Created by msciab on 19/02/15.
+  */
 trait InstallerSettings extends Utils {
   this: AutoPlugin with TomcatSettings =>
 
@@ -101,13 +100,19 @@ trait InstallerSettings extends Utils {
   // install sites until the deployment
   def installSitesPre(base: File) = {
 
+    // fixes for installation on w8/w10
+    replaceFile(base / "Sites" / "csInstall.bat",
+      base / "Sites" / "csInstallFix.bat") {
+      _.replaceAll("\"%JAVA_BIN%\" -X", "\"%JAVA_BIN%\" -Dos.name=\"Windows 7\" -X")
+    }
+
     // prepare input and the process
     val po = new PipedOutputStream
     val pi = new PipedInputStream(po)
     val csi = Process(
       if (File.pathSeparatorChar == ':')
         Seq("bash", "csInstall.sh", "-silent")
-      else Seq("cmd", "/c", "csInstall.bat", "-silent"),
+      else Seq("cmd", "/c", "csInstallFix.bat", "-silent"),
       Some(base / "Sites"), "JAVA_HOME" -> System.getProperty("java.home"))
 
     // run the installer until the "press ENTER message"
@@ -201,7 +206,6 @@ trait InstallerSettings extends Utils {
     helloSites(sitesUrl.value)
     // complete the installation
     installSitesPost(stream, po)
-
   }
 
   lazy val sitesDownloadTask = sitesDownload := {

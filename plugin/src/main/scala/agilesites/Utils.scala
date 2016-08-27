@@ -5,10 +5,12 @@ import java.net.URL
 
 import sbt._
 
+import scala.io.Source
+
 trait Utils {
 
   def readFile(s: String): String = {
-      readFile(new java.io.File(s))
+    readFile(new java.io.File(s))
   }
 
   def readResource(s: String): String = {
@@ -71,6 +73,19 @@ trait Utils {
       writeFile(file, sc.next, log)
     else
       writeFile(file, "", log)
+  }
+
+  def replaceFile(in: File, out: File, log: sbt.Logger = null)(replace: String => String) = {
+    println(">>> %s\n".format(out.getAbsolutePath))
+    val body = Source.fromFile(in).getLines.map(replace).mkString("\n")
+    writeFile(out, body, log)
+  }
+
+  def replaceFileFromResource(out: File, resource: String, log: sbt.Logger)(replace: String => String) = {
+    println(">>> %s\n".format(out.getAbsolutePath))
+    val is = this.getClass.getResourceAsStream(resource)
+    val body = Source.fromInputStream(is).getLines.map(replace).mkString("\n")
+    writeFile(out, body, log)
   }
 
   // is an html file?

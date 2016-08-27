@@ -17,6 +17,7 @@ import agilesitesng.wem.actor.{Protocol, Hub}
 object NgWemPlugin
   extends AutoPlugin
   with WemSettings
+  with WemImportSettings
   with Utils {
 
   import AgileSitesConfigKeys._
@@ -60,6 +61,6 @@ object NgWemPlugin
 
   override def requires = SbtWeb && AgileSitesConfigPlugin
 
-  override val projectSettings =  wemSettings
+  override val projectSettings =  wemSettings ++ wemImportSettings
   // Seq(hub <<= state map (_.get(wemHubKey).get)) ++
 }

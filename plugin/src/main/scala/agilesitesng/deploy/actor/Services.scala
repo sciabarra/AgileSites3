@@ -19,7 +19,7 @@ object Services {
 
   import DeployProtocol._
 
-  def actor() = Props(classOf[ServicesActor])
+  def actor(notifier: ActorRef) = Props(classOf[ServicesActor], notifier)
 
   // build a get request
   def buildGet(op: String, params: Tuple2[String, String]*)
@@ -51,7 +51,7 @@ object Services {
     req
   }
 
-  class ServicesActor
+  class ServicesActor(notifier: ActorRef)
     extends Actor
     with ActorLogging
     with ActorUtils {
@@ -62,6 +62,11 @@ object Services {
     var cookie = Cookie(Seq())
     var authKey = Option.empty[String]
 
+    def notify(msg: String) = {
+      notifier ! Notify(msg)
+      msg
+    }
+
     def receive = {
 
       case ServiceLogin(_url, username, password) =>
@@ -71,34 +76,46 @@ object Services {
           url = _url
           http ! buildGet("login", "username" -> username,
             "password" -> password)(url, cookie, log)
-          log.debug(s"${username}/${password} -> ${url}")
           context.become(waitForHttpReply(context.sender))
+          log.debug(s"login ${username}/${password} -> ${url}")
         }
 
       case ServiceLogout() =>
-        log.debug("logging out")
         authKey = None
+        log.debug("logout")
 
       case ServiceGet(args) =>
         val op = args.get("op")
-        log.debug(s"op=${op}")
+        log.debug(s"GET op=${op}")
         if (op.isEmpty) {
           log.info(s"sender ${context.sender}")
           context.sender ! ServiceReply("ERROR: missing op")
         } else {
           http ! buildGetMap(op.get, args - "op")(url, cookie, log)
           context.become(waitForHttpReply(context.sender))
+          notify(info(args))
         }
 
       case ServicePost(args) =>
-        log.debug(args.toString)
         val op = args.get("op")
+        log.debug(s"POST op=${op}")
         if (op.isEmpty) {
           sender ! ServiceReply("ERROR: missing op")
         } else {
           http ! buildPostMap(op.get, args - "op")(url, cookie, authKey.get, log)
           context.become(waitForHttpReply(context.sender))
+          notify(info(args))
         }
+    }
+
+    def info(args: Map[String,String]) = {
+      args.get("op") match {
+        case Some("deploy") =>
+          s"${args("value")}:${args("cid")}(${args("name")}) done"
+        case Some(thing) =>
+          thing
+        case None => "no op"
+      }
     }
 
     var chunkedResponse: HttpResponse = null

@@ -10,16 +10,16 @@ import spray.httpx.RequestBuilding._
 import akka.util._
 
 /**
- * Created by msciab on 25/04/15.
- */
+  * Created by msciab on 25/04/15.
+  */
 object WemTicket {
 
   def actor(ticket: String, url: Option[java.net.URL] = None) = Props(classOf[WemActor], ticket, url)
 
   class WemActor(ticket: String, url: Option[java.net.URL] = None)
     extends Actor
-    with Queuer
-    with ActorLogging {
+      with Queuer
+      with ActorLogging {
 
     implicit val system = context.system
     val http = IO(spray.can.Http)
@@ -34,39 +34,64 @@ object WemTicket {
       }
     }
 
+    import agilesites.AgileSitesConstants.is11g
+
     def receive: Receive = LoggingReceive {
 
       case WemGet(ref, what) =>
-        val req = Get(Uri(uri(what))) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
-          addHeader("Accept", "application/json")
+        val req = if (is11g) {
+          Get(Uri(uri(what))) ~>
+            addHeader("X-CSRF-Token", ticket) ~>
+            addHeader("Accept", "application/json")
+        } else {
+          Get(Uri(uri(what))) ~>
+            addHeader("Accept", "application/json")
+        }
 
         log.debug("get {}", req.toString)
         http ! req
         context.become(waitForHttpReply(ref), false)
 
       case WemDelete(ref, what) =>
-        val req = Delete(Uri(uri(what))) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
-          addHeader("Accept", "application/json")
+        val req = if (is11g) {
+          Delete(Uri(uri(what))) ~>
+            addHeader("X-CSRF-Token", ticket) ~> // for 11g
+            addHeader("Accept", "application/json")
+        } else {
+          Delete(Uri(uri(what))) ~>
+            addHeader("Accept", "application/json")
+        }
         log.debug("delete {}", req.toString)
         http ! req
         context.become(waitForHttpReply(ref), false)
 
       case WemPost(ref, what, body) =>
-        val req = HttpRequest(method = HttpMethods.POST, uri = uri(what),
-          entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
-          //  addHeader("X-CSRF-Token", ticket) ~> // for 11g
-          addHeader("Accept", "application/json")
+        val req = if (is11g) {
+          HttpRequest(method = HttpMethods.POST, uri = uri(what),
+            entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
+            addHeader("X-CSRF-Token", ticket) ~> // for 11g
+            addHeader("Accept", "application/json")
+        } else {
+          HttpRequest(method = HttpMethods.POST, uri = uri(what),
+            entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
+            addHeader("Accept", "application/json")
+        }
         log.debug("post {}", req.toString)
         http ! req
         context.become(waitForHttpReply(ref), false)
 
       case WemPut(ref, what, body) =>
-        val req = HttpRequest(method = HttpMethods.PUT, uri = uri(what),
-          entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
-          // ~> addHeader("X-CSRF-Token", ticket) // for 11g
-          addHeader("Accept", "application/json")
+        val req =
+          if (is11g) {
+            HttpRequest(method = HttpMethods.PUT, uri = uri(what),
+              entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
+              addHeader("X-CSRF-Token", ticket) ~>
+              addHeader("Accept", "application/json")
+          } else {
+            HttpRequest(method = HttpMethods.PUT, uri = uri(what),
+              entity = HttpEntity(ContentTypes.`application/json`, body)) ~>
+              addHeader("Accept", "application/json")
+          }
         log.debug("put {}", req.toString)
         http ! req
         context.become(waitForHttpReply(ref), false)

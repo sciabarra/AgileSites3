@@ -14,5 +14,5 @@ object NgWemKeys {
   val put = inputKey[String]("Wem Put")
   val delete = inputKey[String]("Wem delete")
   val setup = inputKey[String]("Wem setup")
-  //val wemProcessAnnotations = taskKey[Seq[File]]("process annnotations")
+
 }

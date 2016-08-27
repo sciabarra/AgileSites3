@@ -21,6 +21,8 @@ object DeployProtocol {
 
   trait SpoonMsg extends Msg
 
+  trait NotifyMsg extends Msg
+
   case class Ask(sender: ActorRef, message: Msg) extends Msg
 
   case class SpoonBegin(url: URL, site: String, user: String, pass: String, uid: Map[String,String]) extends SpoonMsg
@@ -40,5 +42,7 @@ object DeployProtocol {
   case class ServicePost(args: Map[String, String]) extends ServiceMsg
 
   case class ServiceReply(result: String) extends ServiceMsg
+
+  case class Notify(msg: String) extends NotifyMsg
 
 }

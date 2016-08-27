@@ -14,7 +14,6 @@ import scala.util.Success
 trait ActorUtils {
   this: Actor with ActorLogging =>
 
-
   // to queue not needed messages
   var queue = mutable.Queue.empty[Object]
 
@@ -37,7 +36,7 @@ trait ActorUtils {
     log.error(reason, "Unhandled exception for message: {}", message)
   }
 
-  // default durations and timeout
+  //default durations and timeout
   //val defaultDuration = 60.seconds
   //implicit val defaultTimeout = akka.util.Timeout.durationToTimeout(defaultDuration)
 

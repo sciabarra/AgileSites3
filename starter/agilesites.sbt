@@ -17,6 +17,12 @@ unmanagedBase := {
   val dist = sitesDirectory.value / "webapps" / "cs" / "WEB-INF" / "lib"
   if(!dist.exists)
     println("WARNING! You need to install Sites before you do everthing else!")
+  println("Hints:")
+  println("- download Sites with sitesDownload")
+  println("- install  Sites with sitesInstall")
+  println("- generate a site for AgileSites with asNewSite")
+  println("- install AgileSites with asSetup")
+  println("- deploy applications with asDeploy")
   dist
 }
 

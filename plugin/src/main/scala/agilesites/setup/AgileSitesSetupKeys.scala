@@ -28,5 +28,8 @@ object AgileSitesSetupKeys {
   lazy val server = inputKey[Unit]("Launch Local Sites")
   lazy val cmov = inputKey[Unit]("WCS Catalog Mover")
   lazy val cmovClasspath = taskKey[Seq[File]]("Sites Populate Classpath")
+  lazy val csdtHome = settingKey[File]("CSDT Client Home")
+  lazy val csdtClasspath = taskKey[Seq[File]]("CSDT Client Classpath")
+  lazy val csdt = inputKey[Unit]("Content Server Development Tool")
 }
 

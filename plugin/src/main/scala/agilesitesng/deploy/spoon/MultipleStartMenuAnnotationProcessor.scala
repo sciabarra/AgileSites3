@@ -22,7 +22,7 @@ class MultipleStartMenuAnnotationProcessor extends AbstractAnnotationProcessor[M
       val assetSubtype = cl.getSimpleName
       val args = a.args().toList
       val key = s"StartMenu.${name.filter(_ > ' ')}.ContentForm"
-      Spooler.insert(110, key, SpoonModel.StartMenu(Uid.generate(key), name, description, "ContentForm", assetType, assetSubtype, args))
+      Spooler.insert(50, key, SpoonModel.StartMenu(Uid.generate(key), name, description, "ContentForm", assetType, assetSubtype, args))
       logger.debug(s"StartMenu - name:$name description: $description assetType: $assetType assetSubtype: $assetSubtype menuType: ContentForm ")
     }
   }

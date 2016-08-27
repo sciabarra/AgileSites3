@@ -7,8 +7,10 @@ import sbt._, Keys._
   */
 object AgileSitesConstants {
 
+  val is11g = true
+
   // this is for 11g and version 3.11
-  val skipControllers = true
+  val skipControllers = is11g
 
   val akkaHttpVersion = "2.0.3"
 

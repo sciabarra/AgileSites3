@@ -8,7 +8,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import agilesites.Utils
 import agilesitesng.deploy.actor.DeployProtocol._
-import agilesitesng.deploy.actor.{Collector, Services}
+import agilesitesng.deploy.actor.{Notifier, Collector, Services}
 import agilesitesng.deploy.model.Spooler
 import akka.actor.ActorRef
 import akka.util.Timeout
@@ -22,7 +22,7 @@ import agilesites.config.AgileSitesConfigKeys._
 trait ActorCommands {
   this: AutoPlugin with Utils =>
 
-  implicit val myTimeout = Timeout(10.seconds)
+  //implicit val myTimeout = Timeout(60.seconds)
 
   def login(svc: ActorRef, state: State): (URL, String, String, String) = {
     // login into services
@@ -31,7 +31,9 @@ trait ActorCommands {
     val user = (sitesUser in extracted.currentRef get extracted.structure.data).get
     val password = (sitesPassword in extracted.currentRef get extracted.structure.data).get
     val focus = (sitesFocus in extracted.currentRef get extracted.structure.data).get
-    Await.result(svc ? ServiceLogin(url, user, password), 10.second)
+    val timeout = getTimeout(state)
+    implicit val myTimeout = Timeout(timeout.seconds)
+    Await.result(svc ? ServiceLogin(url, user, password), timeout.second)
     (url, focus, user, password)
   }
 
@@ -39,7 +41,7 @@ trait ActorCommands {
     val extracted: Extracted = Project.extract(state)
     import extracted._
     val timeoutOpt = sitesTimeout in currentRef get structure.data
-    timeoutOpt.getOrElse(30)
+    timeoutOpt.getOrElse(60)
   }
 
   def timeoutCmd = Command.args("timeout", "<args>") { (state, args) =>
@@ -50,6 +52,7 @@ trait ActorCommands {
   def serviceCmd = Command.args("service", "<args>") { (state, args) =>
 
     val timeOut = getTimeout(state)
+    implicit val myTimeout = Timeout(timeOut.seconds)
 
     if (args.size == 0) {
       println("usage: service <op> <key=value>")
@@ -63,7 +66,8 @@ trait ActorCommands {
 
       SbtWeb.withActorRefFactory(state, "Ng") {
         arf =>
-          val svc = arf.actorOf(Services.actor())
+          val notifier = arf.actorOf(Notifier.actor())
+          val svc = arf.actorOf(Services.actor(notifier))
           login(svc, state)
           val req = ServiceGet(map)
           println(s">>>" + req)
@@ -127,7 +131,8 @@ trait ActorCommands {
           // prepare the actor
           SbtWeb.withActorRefFactory(state, "Ng") {
             arf =>
-              val svc = arf.actorOf(Services.actor())
+              val notifier = arf.actorOf(Notifier.actor())
+              val svc = arf.actorOf(Services.actor(notifier))
               val coll = arf.actorOf(Collector.actor(svc, getTimeout(state)))
               val (url, focus, user, password) = login(svc, state)
               val result: Option[(State, Result[Map[String, String]])] = Project.runTask(ngUid, state)
