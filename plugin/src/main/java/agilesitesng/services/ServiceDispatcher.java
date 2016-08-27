@@ -44,11 +44,8 @@ public class ServiceDispatcher {
         if (name.equals("sql"))
             return new SqlService();
         if (name.equals("deploy")) {
-            log.debug("I am going to enter deploy");
-            System.out.println("Hello, I am deploying");
             return new DeployService();
         }
-
         throw new Exception("unknown service " + name);
     }
 

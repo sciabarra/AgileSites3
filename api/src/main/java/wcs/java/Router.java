@@ -40,7 +40,7 @@ abstract public class Router implements wcs.api.Router {
 	@Override
 	public Call route(ICS ics, String _path, String _query) {
 		if (log.debug())
-			log.debug("site=%s" + site + " path=" + _path + " query=" + _query);
+			log.debug("site=" + site + " path=" + _path + " query=" + _query);
 		this.i = ics;
 		this.e = new wcs.java.Env(i);
 		this.site = ics.GetVar("site");

@@ -106,7 +106,7 @@ trait NewSiteSettings extends Utils {
           |
           |	@Override
           |	public Call route(Env env, URL url) {
-          |		return defaultRoute("Starter", env, url);
+          |		return defaultRoute("${siteName}", env, url);
           |	}
           |
           |	@Override
@@ -123,6 +123,7 @@ trait NewSiteSettings extends Utils {
           |import static wcs.Api.*;
           |import wcs.api.Env;
           |import wcs.api.Asset;
+          |import wcs.api.Log;
           |import wcs.java.Element;
           |import wcs.java.Picker;
           |import agilesites.annotations.CSElement;
@@ -131,6 +132,7 @@ trait NewSiteSettings extends Utils {
           |@SiteEntry(wrapper = true)
           |@CSElement
           |public class ${siteName} extends Element {
+          |    final static Log log = Log.getLog(${siteName}.class);
           |    @Override
           |    public String apply(Env e)
           |    {
@@ -163,13 +165,16 @@ trait NewSiteSettings extends Utils {
           |import static wcs.Api.arg;
           |import static wcs.Api.model;
           |
-        |@CSElement
+          |@CSElement
           |public class ${sitePrefix}Error extends Element {
           |    @Override
           |    public String apply(Env e) {
           |        return Picker.load("/${sitePackage}/template.html", "#content")
-          |                .html(model(arg("Title", "Error"),
-          |                        arg("Text", e.getString("error"))));
+          |                .html(model(
+          |                        arg("name", "Error"),
+          |                        arg("description", e.getString("error")),
+          |                        arg("${sitePrefix}Title", "Error"),
+          |                        arg("${sitePrefix}Text", e.getString("error"))));
           |    }
           |}
           |""".stripMargin);
@@ -185,10 +190,10 @@ trait NewSiteSettings extends Utils {
           |<body>
           | <div id="content">
           |  <div>
-          |   <h1>{{${sitePrefix}Title}}</h1>
+          |   <h1 id="title">{{${sitePrefix}Title}}</h1>
           |  </div>
           |  <div>
-          |   <p>{{${sitePrefix}Text}}</p>
+          |   <p id="text">{{${sitePrefix}Text}}</p>
           |  </div>
           | </div>
           |</body>
@@ -239,24 +244,51 @@ trait NewSiteSettings extends Utils {
     vWriteFile(base / "model" / "page" / s"${sitePrefix}Home.java",
       s"""package ${sitePackage}.model.page;
           |
-        |import agilesites.annotations.*;
+          |import agilesites.annotations.*;
           |import ${sitePackage}.model.Page;
           |
-        |@FindStartMenu("Find HomePage")
+          |@FindStartMenu("Find HomePage")
           |@NewStartMenu("New HomePage")
           |@ContentDefinition(flexAttribute = "PageAttribute",
           |        flexContent = "PageDefinition")
           |public class ${sitePrefix}Home extends Page {
           |
-        |    @Attribute
+          |    @Attribute(description="Title")
           |    @Required
           |    private String ${sitePrefix}Title;
           |
-        |    @Attribute(editor = "${sitePrefix}RichTextEditor")
+          |    @Attribute(description="Text", editor = "${sitePrefix}RichTextEditor")
           |    private String ${sitePrefix}Text;
           |
-        |}
+          |}
           |""".stripMargin);
+    vWriteFile(base / "element" / "page" / s"${sitePrefix}HomeLayout.java",
+      s"""package ${sitePackage}.element.page;
+        |
+        |import static wcs.Api.arg;
+        |import wcs.api.Asset;
+        |import wcs.api.Log;
+        |import wcs.java.Element;
+        |import wcs.api.Env;
+        |import wcs.java.Picker;
+        |import agilesites.annotations.Template;
+        |
+        |
+        |@Template(forType = "Page", layout=true)
+        |public class ${sitePrefix}HomeLayout extends Element {
+        |
+        |    final static Log log = Log.getLog(${sitePrefix}HomeLayout.class);
+        |
+        |    @Override
+        |    public String apply(Env e) {
+        |        Asset a = e.getAsset();
+        |        Picker html = Picker.load("/${sitePackage}/template.html", "#content");
+        |		     html.replace("#title", a.editString("${sitePrefix}Title"));
+        |		     html.replace("#text", a.editText("${sitePrefix}Text", ""));
+        |        return html.html();
+        |    }
+        |}
+      """.stripMargin)
   }
 
   val asNewSiteCmd = Command.args("asNewSite", "<site-name> <site-prefix>") {

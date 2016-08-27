@@ -23,7 +23,6 @@ public class SiteEntry extends Asset {
      */
     public SiteEntry(ICS ics) {
         super("SiteEntry", ics);
-        System.out.println("*** salve! ***");
         this.elementname = ics.GetVar("elementname");
         this.wrapper = Utils.bool(ics.GetVar("wrapper"));
         List<String> criteria = Arrays.asList(Utils.splitOnPipe(ics.GetVar("cachecriteria")));
