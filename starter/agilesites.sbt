@@ -57,3 +57,5 @@ crossPaths := false
 compileOrder := CompileOrder.JavaThenScala
 
 publishArtifact in(Compile, packageDoc) := false
+
+EclipseKeys.projectFlavor := EclipseProjectFlavor.Java
