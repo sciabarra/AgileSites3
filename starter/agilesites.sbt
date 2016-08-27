@@ -13,6 +13,8 @@ version := {
 
 organization := utilPropertyMap.value.getOrElse("organizaition", "com.sciabarra")
 
+excludeFilter in unmanagedJars := "slf4j-*.jar" || "http*.jar"
+
 unmanagedBase := {
   val dist = sitesDirectory.value / "webapps" / "cs" / "WEB-INF" / "lib"
   if (!dist.exists) {

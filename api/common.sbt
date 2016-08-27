@@ -7,6 +7,8 @@ version := {
     getLines.mkString("").trim
 }
 
+excludeFilter in unmanagedJars := "slf4j-*.jar" || "http*.jar"
+
 unmanagedBase := {
   val dist = baseDirectory.value.getParentFile /  "sites" / "webapps" / "cs" / "WEB-INF" / "lib"
   if(!dist.exists)

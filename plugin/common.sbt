@@ -15,8 +15,8 @@ unmanagedBase := {
   dist
 }
 
-// excluding this library as interfere with log4j
-excludeFilter in unmanagedJars := "slf4j-*.jar"
+// excluding those libraries as they interfere
+excludeFilter in unmanagedJars := "slf4j-*.jar" || "http*.jar"
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
