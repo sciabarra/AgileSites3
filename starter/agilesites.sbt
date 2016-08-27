@@ -2,12 +2,12 @@ val agilesitesVersion =
   scala.io.Source.fromFile("agilesites.ver").
     getLines.mkString("").trim
 
-name := utilPropertyMap.value.getOrElse("name", "Starter")
+name := sitesFocus.value
 
 version := {
   val javaVersion = sys.props("java.version")
-  if(!javaVersion.startsWith("1.7"))
-    throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
+  if (!javaVersion.startsWith("1.7"))
+    throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have " + javaVersion)
   utilPropertyMap.value.getOrElse("version", "0.1-SNAPSHOT")
 }
 
@@ -15,16 +15,19 @@ organization := utilPropertyMap.value.getOrElse("organizaition", "com.sciabarra"
 
 unmanagedBase := {
   val dist = sitesDirectory.value / "webapps" / "cs" / "WEB-INF" / "lib"
-  if(!dist.exists)
+  if (!dist.exists) {
     println("WARNING! You need to install Sites before you do everthing else!")
-  println("Hints:")
-  println("- download Sites with sitesDownload")
-  println("- install  Sites with sitesInstall")
-  println("- generate a site for AgileSites with asNewSite")
-  println("- install AgileSites with asSetup")
-  println("- deploy applications with asDeploy")
+    println("Hints:")
+    println("- download Sites with sitesDownload")
+    println("- install  Sites with sitesInstall")
+    println("- generate a site for AgileSites with asNewSite")
+    println("- install AgileSites with asSetup")
+    println("- deploy applications with asDeploy")
+  }
   dist
 }
+
+excludeFilter in unmanagedJars := "slf4j-jdk14-*.jar"
 
 enablePlugins(AgileSitesNgPlugin)
 
@@ -53,4 +56,4 @@ crossPaths := false
 
 compileOrder := CompileOrder.JavaThenScala
 
-publishArtifact in (Compile, packageDoc) := false
+publishArtifact in(Compile, packageDoc) := false

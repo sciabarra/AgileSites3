@@ -33,12 +33,12 @@ trait NewSiteSettings extends Utils {
     prp.store(new FileWriter(file), "# by AgileSites 3.11 plugin")
   }
 
-  def vWriteFile(file: File,  body: String,  log: Logger): Unit = {
+  def vWriteFile(file: File, body: String): Unit = {
     println(s"+++ ${file.getAbsolutePath}")
-    writeFile(file,body,log)
+    writeFile(file, body, null)
   }
 
-  def mkSite(base: File, static: File, siteName: String, sitePrefix: String, log: Logger) {
+  def mkSite(base: File, static: File, siteName: String, sitePrefix: String) {
     val sitePackage = siteName.toLowerCase
     vWriteFile(base / s"${siteName}.java",
       s"""package ${sitePackage};
@@ -74,7 +74,7 @@ trait NewSiteSettings extends Utils {
           |   private String ${sitePrefix}RichTextEditor = "<CKEDITOR/>";
           |
           |}
-        """.stripMargin, log)
+        """.stripMargin)
     vWriteFile(base / s"Config.java",
       s"""package ${sitePackage};
           |
@@ -96,7 +96,7 @@ trait NewSiteSettings extends Utils {
           |		return null;
           |	}
           |}
-        """.stripMargin, log)
+        """.stripMargin)
 
     vWriteFile(base / s"Router.java",
       s"""package ${sitePackage};
@@ -115,7 +115,7 @@ trait NewSiteSettings extends Utils {
           |	}
           |}
           |
-        """.stripMargin, log)
+        """.stripMargin)
 
     vWriteFile(base / "element" / s"${siteName}.java",
       s"""package ${sitePackage}.element;
@@ -150,7 +150,7 @@ trait NewSiteSettings extends Utils {
           |        return html.outerHtml();
           |    }
           |}
-          |""".stripMargin, log);
+          |""".stripMargin);
 
     vWriteFile(base / "element" / s"${sitePrefix}Error.java",
       s"""package ${sitePackage}.element;
@@ -172,27 +172,27 @@ trait NewSiteSettings extends Utils {
           |                        arg("Text", e.getString("error"))));
           |    }
           |}
-          |""".stripMargin, log);
+          |""".stripMargin);
 
     vWriteFile(static / "template.html",
       s"""<!DOCTYPE html>
-        |<html>
-        |<head>
-        |<meta charset="utf-8">
-        |<title>{{name}}</title>
-        |<meta name="description" content="{{description}}">
-        |</head>
-        |<body>
-        | <div id="content">
-        |  <div>
-        |   <h1>{{${sitePrefix}Title}}</h1>
-        |  </div>
-        |  <div>
-        |   <p>{{${sitePrefix}Text}}</p>
-        |  </div>
-        | </div>
-        |</body>
-        |</html>""".stripMargin, log)
+          |<html>
+          |<head>
+          |<meta charset="utf-8">
+          |<title>{{name}}</title>
+          |<meta name="description" content="{{description}}">
+          |</head>
+          |<body>
+          | <div id="content">
+          |  <div>
+          |   <h1>{{${sitePrefix}Title}}</h1>
+          |  </div>
+          |  <div>
+          |   <p>{{${sitePrefix}Text}}</p>
+          |  </div>
+          | </div>
+          |</body>
+          |</html>""".stripMargin)
 
     vWriteFile(base / "model" / s"Page.java",
       s"""package ${sitePackage}.model;
@@ -207,7 +207,7 @@ trait NewSiteSettings extends Utils {
           |    public Page(S definition) { this.definition = definition; }
           |    public S getDefinition()  { return definition; }
           |    public S get() { return definition; }
-          |}""".stripMargin, log);
+          |}""".stripMargin);
     vWriteFile(base / "model" / s"${sitePrefix}Content.java",
       s"""package ${sitePackage}.model;
           |
@@ -221,7 +221,7 @@ trait NewSiteSettings extends Utils {
           |    public ${sitePrefix}Content(S definition) { this.definition = definition; }
           |    public S getDefinition()  { return definition; }
           |    public S get() { return definition; }
-          |}""".stripMargin, log);
+          |}""".stripMargin);
     vWriteFile(base / "model" / s"${sitePrefix}Parent.java",
       s"""package ${sitePackage}.model;
           |
@@ -235,47 +235,50 @@ trait NewSiteSettings extends Utils {
           |    public ${sitePrefix}Parent(S definition) { this.definition = definition; }
           |    public S getDefinition()  { return definition; }
           |    public S get() { return definition; }
-          |}""".stripMargin, log);
+          |}""".stripMargin);
     vWriteFile(base / "model" / "page" / s"${sitePrefix}Home.java",
       s"""package ${sitePackage}.model.page;
-        |
+          |
         |import agilesites.annotations.*;
-        |import ${sitePackage}.model.Page;
-        |
+          |import ${sitePackage}.model.Page;
+          |
         |@FindStartMenu("Find HomePage")
-        |@NewStartMenu("New HomePage")
-        |@ContentDefinition(flexAttribute = "PageAttribute",
-        |        flexContent = "PageDefinition")
-        |public class ${sitePrefix}Home extends Page {
-        |
+          |@NewStartMenu("New HomePage")
+          |@ContentDefinition(flexAttribute = "PageAttribute",
+          |        flexContent = "PageDefinition")
+          |public class ${sitePrefix}Home extends Page {
+          |
         |    @Attribute
-        |    @Required
-        |    private String ${sitePrefix}Title;
-        |
+          |    @Required
+          |    private String ${sitePrefix}Title;
+          |
         |    @Attribute(editor = "${sitePrefix}RichTextEditor")
-        |    private String ${sitePrefix}Text;
-        |
+          |    private String ${sitePrefix}Text;
+          |
         |}
-        |""".stripMargin, log);
+          |""".stripMargin);
   }
 
-  val asNewSiteTask = asNewSite := {
-    val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
-    if (args.length != 2 || !validate(args(0), args(1)))
-      usage
-    else {
-      val base = baseDirectory.value / "src" / "main" / "java" / args(0).toLowerCase()
-      val static = baseDirectory.value / "src" / "main" / "static" / args(0).toLowerCase
-      /*if (base.exists()) {
-        println(s"You have already a package for ${args(0)}")
-      } else {*/
-      prpInit(args(0))
-      mkSite(base, static, args(0), args(1), streams.value.log)
-      //}
-    }
+  val asNewSiteCmd = Command.args("asNewSite", "<site-name> <site-prefix>") {
+    (state, args) =>
+      if (args.length != 2 || !validate(args(0), args(1))) {
+        usage
+        state
+      } else {
+        val extracted: Extracted = Project.extract(state)
+        val baseDir = (baseDirectory in extracted.currentRef get extracted.structure.data).get
+        val base = baseDir / "src" / "main" / "java" / args(0).toLowerCase()
+        val static = baseDir / "src" / "main" / "static" / args(0).toLowerCase
+        /*if (base.exists()) {
+          println(s"You have already a package for ${args(0)}")
+        } else {*/
+        prpInit(args(0))
+        mkSite(base, static, args(0), args(1))
+        //}
+        state.copy(remainingCommands = "reload" +: state.remainingCommands)
+      }
   }
 
-
-  val newSiteSettings = Seq(asNewSiteTask)
+  val newSiteSettings = Seq(commands += asNewSiteCmd)
 
 }
