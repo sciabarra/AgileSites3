@@ -51,11 +51,11 @@ trait WemSettings {
         case 'delete => Delete(arg.getOrElse(""))
         case 'post =>
           val json = parse(m.getOrElse('in, ""))
-          println(json)
+          //println(json)
           Post(arg.getOrElse(""), json)
         case 'put =>
           val json = parse(m.getOrElse('in, ""))
-          println(json)
+          //println(json)
           Put(arg.getOrElse(""), json)
       }
 

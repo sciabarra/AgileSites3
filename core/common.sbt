@@ -16,7 +16,7 @@ unmanagedBase := {
 
 isSnapshot := version.value.endsWith("-SNAPSHOT")
 
-publishTo := Some("Agilesites3 repo" at s"s3://agilesites3-repo/${if(isSnapshot.value) "snapshots"  else "release"}")
+publishTo := Some("Agilesites3 repo" at s"s3://agilesites3-repo/${if(isSnapshot.value) "snapshots"  else "releases"}")
 
 organization := "com.sciabarra"
 

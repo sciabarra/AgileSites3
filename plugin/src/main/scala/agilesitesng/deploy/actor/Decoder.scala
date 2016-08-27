@@ -138,6 +138,10 @@ class Decoder(site: String, username: String, password: String, map: Map[String,
         'body -> readFile(file)
       )
 
+    case SitePlan(id, name, description, rank, code) =>
+      deploy("SitePlan", id, name, description,
+      'rank -> rank.toString,
+      'code -> code )
 
     case x => Map("op" -> "echo",
       "value" -> s"${x.getClass} not recognized")

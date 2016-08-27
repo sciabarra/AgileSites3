@@ -135,7 +135,9 @@ trait DeploySettings extends Utils {
             else
               log.info("+++ uploaded " + url)
           case "http" =>
-            uploadJar(new URL(url), jar, log, focus, user, pass)
+            val newJar = jar.getParentFile / s"${focus}.jar"
+            IO.copyFile(jar, newJar)
+            uploadJar(new URL(url), newJar, log, focus, user, pass)
           case _ =>
         }
       case None =>
@@ -159,15 +161,6 @@ trait DeploySettings extends Utils {
       upload(asPackageTarget.value, log, jar, sitesFocus.value, sitesUser.value, sitesPassword.value, sitesShared.value)
     }
   }
-
-  val asPackageDeployTask = asPackageDeploy := {
-    val log = streams.value.log
-    val url = sitesUrl.value
-    asPackage.value
-    log.info(httpCall("Deploy", "&sites=%s".format(sitesFocus.value), url, sitesUser.value, sitesPassword.value))
-  }
-
-
 
   // generate index classes from sources
   val generateIndexTask = Def.task {
@@ -195,13 +188,12 @@ trait DeploySettings extends Utils {
 
   val asDeployCmd = Command.command("asDeploy") { state =>
     state.copy(remainingCommands =
-      Seq("asCopyStatics", "asDeployOnly", "asPopulate") ++ state.remainingCommands)
+      Seq("asCopyStatics", "deploy", "asPackage") ++ state.remainingCommands)
   }
 
   val deploySettings = Seq(asPackageTask
-    , asPackageDeployTask
     , asPackageTarget := Some(sitesUrl.value)
-    , asPopulate := cmov.toTask(" import_all @src/main/populate").value
+    , asPopulate := cmov.toTask(s" import_all @src/main/populate").value
     , commands ++= Seq(asDeployCmd)
     , resourceGenerators in Compile += generateIndexTask.taskValue
   )

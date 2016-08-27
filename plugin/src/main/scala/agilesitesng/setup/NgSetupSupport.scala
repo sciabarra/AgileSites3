@@ -5,11 +5,9 @@ import java.net.URL
 import agilesites.Utils
 
 import scala.io.Source
-import akka.actor.ActorSystem
 import agilesitesng.wem.WemFrontend
 import agilesitesng.wem.actor.Protocol.{Delete, Get, Post, Put}
 import agilesitesng.wem.model.{Encoding, WemCSElement, WemSiteEntry}
-import com.typesafe.config.{Config, ConfigFactory}
 import com.typesafe.scalalogging.slf4j.LazyLogging
 import net.liftweb.json.JsonAST.{JArray, JField, JString}
 import net.liftweb.json._
@@ -169,7 +167,6 @@ trait NgSetupSupport
       val map = loadAssetMap(wem, "AdminSite", log)
       println()
       //println(map)
-
 
       // import cselements
       print(s"Importing CSElements: ")

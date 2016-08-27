@@ -43,6 +43,8 @@ public class DeployService implements Service {
             a = new ParentDefinition(ics);
         } else if (what.equals("ContentDefinition")) {
             a = new ContentDefinition(ics);
+        } else if (what.equals("SitePlan")) {
+            a = new SitePlan(ics);
         }
 
         if (ics.GetVar("debug") != null)

@@ -20,6 +20,7 @@ object SpoonModel extends ModelUtil {
     classOf[Template],
     classOf[CSElement],
     classOf[SiteEntry],
+    classOf[SitePlan],
     classOf[Controller])
 
   case class DeployObjects(deployObjects: List[SpoonModel]) {
@@ -76,6 +77,12 @@ object SpoonModel extends ModelUtil {
                         classname: String,
                         file: String,
                         resource: Boolean = false) extends SpoonModel
+
+  case class SitePlan(id: Long,
+                      name: String,
+                      description: String,
+                      rank: Int = 2,
+                      code: String = "Placed") extends SpoonModel
 
   case class AssetAttribute(name: String, required: Boolean) extends SpoonModel
 

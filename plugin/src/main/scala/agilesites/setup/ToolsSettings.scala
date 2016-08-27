@@ -123,11 +123,6 @@ trait ToolsSettings extends Utils {
     }
   }
 
-  lazy val csdtHome = settingKey[File]("CSDT Client Home")
-  lazy val csdtClasspath = taskKey[Seq[File]]("CSDT Client Classpath")
-
-  // interface to csdt from sbt
-  lazy val csdt = inputKey[Unit]("Content Server Development Tool")
   val csdtTask = csdt := {
     val args: Seq[String] = Def.spaceDelimited("<arg>").parsed
     val home = sitesHome.value

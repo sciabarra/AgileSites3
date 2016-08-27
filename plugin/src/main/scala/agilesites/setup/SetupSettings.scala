@@ -17,7 +17,6 @@ trait SetupSettings extends Utils {
 
   import agilesites.config.AgileSitesConfigKeys._
   import agilesites.setup.AgileSitesSetupKeys._
-  import agilesites.AgileSitesConstants._
 
   lazy val asSetupServletRequest = taskKey[Unit]("setup servlet request")
   lazy val asSetupServletRequestTask = asSetupServletRequest := {
@@ -184,8 +183,16 @@ trait SetupSettings extends Utils {
   }
 
   val asSetupCmd = Command.command("asSetup") { state =>
-    state.copy(remainingCommands =
-      Seq("serverStop", "asSetupOffline", "serverStart", "asSetupOnline") ++ state.remainingCommands)
+    val extracted: Extracted = Project.extract(state)
+    val base = (baseDirectory in extracted.currentRef get extracted.structure.data).get
+    val prp = base / "agilesites.properties"
+    if(!prp.exists) {
+      println("Please, generate your site with asNewSite before installing agileSites")
+      state
+    } else {
+      state.copy(remainingCommands =
+        Seq("serverStop", "asSetupOffline", "serverStart", "asSetupOnline", "asDeploy") ++ state.remainingCommands)
+    }
   }
 
   val asSetupWeblogicCmd = Command.command("asSetupWeblogic") { state =>
