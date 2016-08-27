@@ -141,15 +141,21 @@ trait NewSiteSettings extends Utils {
           |        if (e.isVar("error"))
           |            return html.replace("#content",
           |                    e.call("${sitePrefix}Error", arg("error", e.getString("error"))))
-          |                    .outerHtml();
+          |                    .outerHtml(model(
+          |                            arg("name", "Error"),
+          |                            arg("description",e.getString("error"))
+          |                            ));
           |        Asset a = e.getAsset();
           |        if (a == null)
           |            return html.replace("#content",
           |                    e.call("${sitePrefix}Error", arg("error", "Asset not found")))
           |                    .outerHtml();
-          |        // render the asset using his default template
+          |        // render the asset using its default template
           |        html.replace("#content", a.call(a.getTemplate()));
-          |        return html.outerHtml();
+          |        return html.outerHtml(model(
+          |                                arg("name", a.getName()),
+          |                                arg("description", a.getDescription())
+          |                              ));
           |    }
           |}
           |""".stripMargin);
@@ -171,8 +177,6 @@ trait NewSiteSettings extends Utils {
           |    public String apply(Env e) {
           |        return Picker.load("/${sitePackage}/template.html", "#content")
           |                .html(model(
-          |                        arg("name", "Error"),
-          |                        arg("description", e.getString("error")),
           |                        arg("${sitePrefix}Title", "Error"),
           |                        arg("${sitePrefix}Text", e.getString("error"))));
           |    }
