@@ -13,8 +13,6 @@ version := {
 
 organization := utilPropertyMap.value.getOrElse("organizaition", "com.sciabarra")
 
-excludeFilter in unmanagedJars := "slf4j-*.jar" || "http*.jar"
-
 unmanagedBase := {
   val dist = sitesDirectory.value / "webapps" / "cs" / "WEB-INF" / "lib"
   if (!dist.exists) {
@@ -42,9 +40,12 @@ libraryDependencies ++= Seq(
     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
   , "com.sciabarra" % "agilesites3-plugin" % agilesitesVersion % "tomcat"
     extra("scalaVersion" -> "2.10", "sbtVersion" -> "0.13")
-  , "com.sciabarra" % "agilesites3-core" % agilesitesVersion % "core"
+  , "com.sciabarra" % "agilesites3-core" % agilesitesVersion % "core" intransitive()
   , "com.sciabarra" % "agilesites3-core" % agilesitesVersion
-  , "com.sciabarra" % "agilesites3-api" % agilesitesVersion % "api"
+  , "com.sciabarra" % "agilesites3-api"  % agilesitesVersion % "api" intransitive()
+  , "com.google.guava" % "guava"         % "16.0.1" % "api" intransitive()
+  , "junit" % "junit"  % "4.11"          % "api" intransitive()
+  , "org.hamcrest"     %  "hamcrest-core" % "1.3" % "api" intransitive()
   , "com.sciabarra" % "agilesites3-api" % agilesitesVersion)
 
 
