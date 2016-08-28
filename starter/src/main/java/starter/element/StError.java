@@ -15,9 +15,7 @@ public class StError extends Element {
     @Override
     public String apply(Env e) {
         return Picker.load("/starter/simple.html", "#content")
-                .html(model(arg("Title", "Error"),
-                        arg("Text", e.getString("error"))));
-
+                .html(model(arg("StTitle", "Error"),
+                        arg("StText", e.getString("error"))));
     }
-
 }
