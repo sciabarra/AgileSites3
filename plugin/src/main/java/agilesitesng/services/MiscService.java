@@ -3,6 +3,7 @@ package agilesitesng.services;
 import COM.FutureTense.Interfaces.ICS;
 import agilesites.api.IcsTag;
 import agilesites.api.Log;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +17,7 @@ public class MiscService implements Service {
     final static Log log = Log.getLog(MiscService.class);
 
     public String hello(ICS ics) {
-        String msg = "hello, "+loadTime;
+        String msg = "hello, " + loadTime;
         log.debug(msg);
         //System.out.println("hello");
         return msg;
@@ -35,6 +36,14 @@ public class MiscService implements Service {
         }
     }
 
+    public String decode(ICS ics) {
+        //ics.GetV
+        if(Utils.decodeAssetId(ics)) {
+            return ics.GetVar("c")+":"+ics.GetVar("cid");
+        } else {
+            return "???";
+        }
+    }
 
     @Override
     public String exec(HttpServletRequest req, ICS ics, HttpServletResponse res) throws Exception {
@@ -44,6 +53,8 @@ public class MiscService implements Service {
             return reverse(ics);
         } else if (ics.GetVar("op").equals("hello")) {
             return hello(ics);
+        } else if (ics.GetVar("op").equals("decode")) {
+            return decode(ics);
         } else {
             return "nothing to echo";
         }

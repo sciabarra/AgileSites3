@@ -20,7 +20,18 @@ public class SiteService implements Service {
             SiteInit init = new SiteInit(ics,user,pass);
             return init.init(ics.GetVar("name"), Long.parseLong(ics.GetVar("id")), Utils.splitOnPipe(ics.GetVar("enabledTypes")));
         } catch (Exception e) {
-            return "error";
+            return "error "+e.getMessage();
+        }
+    }
+
+    private String delete(ICS ics) {
+        try {
+            String user = ics.GetVar("username");
+            String pass = ics.GetVar("password");
+            SiteInit init = new SiteInit(ics,user,pass);
+            return init.delete(ics.GetVar("value"));
+        } catch (Exception e) {
+            return "error "+e.getMessage();
         }
     }
 
@@ -31,6 +42,9 @@ public class SiteService implements Service {
             return Utils.siteid(ics, ics.GetVar("value"));
         if (op.equals("site"))
             return site(ics);
+        if (op.equals("sitedelete")) {
+            return delete(ics);
+        }
         return "???";
     }
 }

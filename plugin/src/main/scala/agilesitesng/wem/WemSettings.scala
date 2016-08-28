@@ -62,9 +62,9 @@ trait WemSettings {
       log.debug(">>> sending " + msg.toString)
       val (json, status) = wem.request(msg)
 
-      val res = if (status == 200)
+      val res = if (status == 200) {
         pretty(render(json))
-      else
+      } else
         s"""{ "error": "${status}" }"""
       log.debug("<<< received " + res)
       val out = m.get('out)

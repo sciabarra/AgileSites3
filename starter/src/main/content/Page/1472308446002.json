@@ -1,15 +1,15 @@
 {
   "schemaLocation":"http://www.fatwire.com/schema/rest/1.0 http://localhost:11800/cs/schema/rest-api.xsd",
-  "id":"Page:1470989014482",
-  "name":"Section",
+  "id":"Page:1472308446002",
+  "name":"Home",
   "createdby":"fwadmin",
-  "createddate":"2016-08-24T13:50:33.699Z",
+  "createddate":"2016-08-28T14:21:40.489Z",
   "description":"",
   "publist":["Starter"],
-  "status":"PL",
+  "status":"ED",
   "subtype":"StContent",
   "updatedby":"fwadmin",
-  "updateddate":"2016-08-24T13:51:01.358Z",
+  "updateddate":"2016-08-28T14:24:54.989Z",
   "attribute":[{
     "name":"startdate",
     "data":null
@@ -45,12 +45,12 @@
   },{
     "name":"fw_uid",
     "data":{
-      "stringValue":"4c2db4e6-7e97-43e5-8dc4-2d5bfff0fb71"
+      "stringValue":"bf6cac72-3a1f-4b3f-b6f7-9a5c6c7ea507"
     }
   },{
     "name":"id",
     "data":{
-      "longValue":1470989014482
+      "longValue":1472308446002
     }
   },{
     "name":"SegRating",
@@ -69,7 +69,7 @@
   },{
     "name":"SPTParent",
     "data":{
-      "stringValue":"Page:1470989014239"
+      "stringValue":"SitePlan:1472375596045"
     }
   },{
     "name":"SPTRank",
@@ -89,22 +89,33 @@
   },{
     "name":"stTitle",
     "data":{
-      "stringValue":"Section"
+      "stringValue":"Home"
     }
   },{
     "name":"stSubtitle",
     "data":{
-      "stringValue":"<div>\r\n\tSection</div>\r\n"
+      "stringValue":"<div>\r\n\tHome Page</div>\r\n"
     }
   },{
     "name":"stSummary",
-    "data":null
+    "data":{
+      "stringValue":"Welcome"
+    }
   },{
     "name":"stDetail",
-    "data":null
+    "data":{
+      "stringValue":"<div>\r\n\tThis is the home page.</div>\r\n"
+    }
   },{
     "name":"stImage",
-    "data":null
+    "data":{
+      "blobValue":{
+        "filename":"133/268/test.jpg",
+        "foldername":"/Users/msciab/AgileSites3x/AgileSites3.11/sites/shared/ccurl/",
+        "filedata":"",
+        "href":"http://localhost:11800/cs/BlobServer?blobkey=id&blobnocache=true&blobwhere=1472308446025&blobheadername3=MDT-Type&blobheadername2=Content-Disposition&blobheadername1=Content-Type&blobheadervalue3=abinary%3B+charset%3DUTF-8&blobheadervalue2=attachment%3B+filename%3D%22test.jpg%22%3Bfilename*%3DUTF-8%27%27test.jpg&blobheadervalue1=image%2Fjpeg&blobcol=urldata&blobtable=MungoBlobs"
+      }
+    }
   },{
     "name":"stTeaserTitle",
     "data":null
@@ -119,6 +130,6 @@
     "data":null
   }],
   "associations":{
-    "href":"http://localhost:11800/cs/REST/sites/Starter/types/Page/assets/1470989014482/associations"
+    "href":"http://localhost:11800/cs/REST/sites/Starter/types/Page/assets/1472308446002/associations"
   }
 }

@@ -21,6 +21,8 @@ public class ServiceDispatcher {
             return new SiteService();
         if (name.equals("site"))
             return new SiteService();
+        if (name.equals("sitedelete"))
+            return new SiteService();
         if (name.equals("flexFamily"))
             return new FlexFamilyService();
         if (name.equals("startmenu"))
@@ -40,6 +42,8 @@ public class ServiceDispatcher {
         if (name.equals("hello"))
             return new MiscService();
         if (name.equals("reverse"))
+            return new MiscService();
+        if (name.equals("decode"))
             return new MiscService();
         if (name.equals("sql"))
             return new SqlService();

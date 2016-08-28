@@ -58,7 +58,7 @@ public class StContentLayout extends Element {
                 "StContentSeeAlso", "Drag a Page Here"));
 
 
-        html.replace("#topmenu", e.call("StTopmenu"));
+        html.replace("#topmenu", e.call("StTopMenu"));
         html.replace(
                 "#breadcrump",
                 e.call("StBreadcrump", arg("c", a.getC()),

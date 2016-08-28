@@ -45,12 +45,21 @@ public class SiteInit {
         this.username = username;
         this.password = password;
 
-        //System.out.println(username);
-        //System.out.println(password);
+        System.out.println(username);
+        System.out.println(password);
 
         ses = SessionFactory.newSession(username, password);
         sim = (SiteManager) ses.getManager(SiteManager.class
                 .getName());
+    }
+
+    public String delete(String sitename) {
+        try {
+            sim.delete(Arrays.asList(sitename));
+            return "OK: deleted "+sitename;
+        } catch(Exception ex) {
+            return "ERROR: "+ex.getMessage();
+        }
     }
 
     private String xmlByType(String typeName) {
@@ -136,7 +145,6 @@ public class SiteInit {
             if (inf.getName().equals(sitename))
                 return false;
         try {
-
             Site site = new SiteImpl();
             site.setId(siteid);
             site.setName(sitename);

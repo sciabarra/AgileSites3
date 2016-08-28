@@ -3,7 +3,7 @@ version := {
   if(!javaVersion.startsWith("1.7"))
     throw new Error("ERROR! AgileSites 3.11 requires Java 1.7.x and you have "+javaVersion)
   scala.io.Source.fromFile(
-    baseDirectory.value.getParentFile / "version.txt").
+    baseDirectory.value.getParentFile / "agilesites.ver").
     getLines.mkString("").trim
 }
 

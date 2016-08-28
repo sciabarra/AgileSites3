@@ -128,6 +128,14 @@ trait Utils {
     res
   }
 
+  def serviceCall(op: String, args: String*)(implicit url: URL, userPass: (String, String)): String = {
+    var base = s"${url.toString}/ContentServer?pagename=AAAgileService"
+    val creds = s"username=${userPass._1}&password=${userPass._2}"
+    val req = s"${base}&op=${op}&${creds}&${args.mkString(" & ")}"
+    //println(req)
+    httpCallRaw(req).trim
+  }
+
   // invoking the url (for comma separated options)
   def httpCall(op: String, option: String, url: String, user: String, pass: String, sites: String = null) = {
 
@@ -152,7 +160,7 @@ trait Utils {
   def normalizeSiteName(s: String) = s.toLowerCase.replaceAll( """[^a-z0-9]+""", "")
 
   // check is sites is running
-  def helloSites(url: String) = {
+  def helloSites(url: String, verbose: Boolean = true) = {
     try {
       val res = httpCallRaw(url + "/HelloCS")
       val rePrp = """(\d+\.\d+)\..*""".r
@@ -161,25 +169,29 @@ trait Utils {
       res match {
         case reWeb(sitesVersion) =>
           if (javaVersion != sitesVersion) {
-            println(
-              """*** WebCenter Sites use java %s and AgileSites uses java %s
-                |*** They are different major versions of Java.
-                |*** The compiler may generate incompatible bytecode
-                |*** Please set JAVA_HOME and use the same major java version for both
-                |***""".format(sitesVersion, javaVersion).stripMargin)
+            if (verbose)
+              println(
+                """*** WebCenter Sites use java %s and AgileSites uses java %s
+                  |*** They are different major versions of Java.
+                  |*** The compiler may generate incompatible bytecode
+                  |*** Please set JAVA_HOME and use the same major java version for both
+                  |***""".format(sitesVersion, javaVersion).stripMargin)
             None
           } else {
-            println("WebCenter Sites running with java " + sitesVersion)
+            if (verbose)
+              println("WebCenter Sites running with java " + sitesVersion)
             Some(javaVersion)
           }
         case _ =>
           //println(" no match ")
-          println("WebCenter Sites running")
+          if (verbose)
+            println("WebCenter Sites running")
           Some("unknown")
       }
     } catch {
       case ex: Throwable =>
-        println("WebCenter Sites NOT running")
+        if (verbose)
+          println("WebCenter Sites NOT running")
         None
     }
   }

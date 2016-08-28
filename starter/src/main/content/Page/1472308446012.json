@@ -1,15 +1,15 @@
 {
   "schemaLocation":"http://www.fatwire.com/schema/rest/1.0 http://localhost:11800/cs/schema/rest-api.xsd",
-  "id":"Page:1470989014239",
-  "name":"Home",
+  "id":"Page:1472308446012",
+  "name":"About",
   "createdby":"fwadmin",
-  "createddate":"2016-08-24T13:31:30.817Z",
+  "createddate":"2016-08-28T14:23:24.020Z",
   "description":"",
   "publist":["Starter"],
-  "status":"ED",
+  "status":"PL",
   "subtype":"StContent",
   "updatedby":"fwadmin",
-  "updateddate":"2016-08-24T13:55:18.167Z",
+  "updateddate":"2016-08-28T14:24:54.996Z",
   "attribute":[{
     "name":"startdate",
     "data":null
@@ -45,12 +45,12 @@
   },{
     "name":"fw_uid",
     "data":{
-      "stringValue":"6a768c08-91d8-4b7a-8943-ea911bb88e4e"
+      "stringValue":"1c2b5735-00fe-42c0-9ab8-8151033775d4"
     }
   },{
     "name":"id",
     "data":{
-      "longValue":1470989014239
+      "longValue":1472308446012
     }
   },{
     "name":"SegRating",
@@ -69,7 +69,7 @@
   },{
     "name":"SPTParent",
     "data":{
-      "stringValue":"SitePlan:1470989014270"
+      "stringValue":"Page:1472308446002"
     }
   },{
     "name":"SPTRank",
@@ -82,40 +82,33 @@
       "stringValue":"Placed"
     }
   },{
-    "name":"flextemplateid",
+    "name":"flextemplateid"w
     "data":{
       "stringValue":"PageDefinition:1472045188027"
     }
   },{
     "name":"stTitle",
     "data":{
-      "stringValue":"Home Page"
+      "stringValue":"About"
     }
   },{
     "name":"stSubtitle",
     "data":{
-      "stringValue":"Home Page"
+      "stringValue":"<div>\r\n\tAbout us.</div>\r\n"
     }
   },{
     "name":"stSummary",
     "data":{
-      "stringValue":"Home Page Summary"
+      "stringValue":"About "
     }
   },{
     "name":"stDetail",
     "data":{
-      "stringValue":"Home Page Detail"
+      "stringValue":"<div>\r\n\tAbout Us</div>\r\n"
     }
   },{
     "name":"stImage",
-    "data":{
-      "blobValue":{
-        "filename":"133/268/test.jpg",
-        "foldername":"/Users/msciab/AgileSites3x/AgileSites3.11/sites/shared/ccurl/",
-        "filedata":"",
-        "href":"http://localhost:11800/cs/BlobServer?blobkey=id&blobnocache=true&blobwhere=1470989014519&blobheadername3=MDT-Type&blobheadername2=Content-Disposition&blobheadername1=Content-Type&blobheadervalue3=abinary%3B+charset%3DUTF-8&blobheadervalue2=attachment%3B+filename%3D%22test.jpg%22%3Bfilename*%3DUTF-8%27%27test.jpg&blobheadervalue1=image%2Fjpeg&blobcol=urldata&blobtable=MungoBlobs"
-      }
-    }
+    "data":null
   },{
     "name":"stTeaserTitle",
     "data":null
@@ -130,6 +123,6 @@
     "data":null
   }],
   "associations":{
-    "href":"http://localhost:11800/cs/REST/sites/Starter/types/Page/assets/1470989014239/associations"
+    "href":"http://localhost:11800/cs/REST/sites/Starter/types/Page/assets/1472308446012/associations"
   }
 }
