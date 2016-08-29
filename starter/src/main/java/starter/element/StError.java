@@ -1,7 +1,7 @@
 package starter.element;
 
 import agilesites.annotations.CSElement;
-import agilesites.annotations.SiteEntry;
+
 import wcs.api.*;
 import wcs.java.Element;
 import wcs.java.Picker;

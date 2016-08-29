@@ -1,13 +1,11 @@
 package starter.element;
 
 import agilesites.annotations.CSElement;
-import agilesites.annotations.SiteEntry;
 import wcs.api.*;
 import wcs.java.Element;
 import wcs.java.Picker;
 
 import static java.lang.String.format;
-import static wcs.Api.arg;
 
 @CSElement
 public class StBreadcrump extends Element {

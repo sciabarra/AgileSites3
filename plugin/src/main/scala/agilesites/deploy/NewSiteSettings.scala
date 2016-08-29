@@ -17,11 +17,17 @@ trait NewSiteSettings extends Utils {
   def usage = println(
     """
       |usage: <sitename> <siteprefix>
+      |where
+      |  - both alphanumeric
+      |  - both starting with a capital letter
+      |  - <siteprefix> must be no longer than 4 characters
     """.stripMargin)
 
+  val siteNameRegex = "[A-Z]\\w+"
+  val sitePrefixRegex = "[A-Z]\\w\\w?\\w?"
+
   def validate(sitename: String, siteprefix: String) = {
-    // todo use regexp to validate
-    true
+    sitename.matches(siteNameRegex) && siteprefix.matches(sitePrefixRegex)
   }
 
   def prpInit(site: String) = {
@@ -38,7 +44,7 @@ trait NewSiteSettings extends Utils {
     writeFile(file, body, null)
   }
 
-  def mkSite(base: File, static: File, siteName: String, sitePrefix: String) {
+  def mkSite(base: File, static: File, tests: File, siteName: String, sitePrefix: String) {
     val sitePackage = siteName.toLowerCase
     vWriteFile(base / s"${siteName}.java",
       s"""package ${sitePackage};
@@ -268,31 +274,140 @@ trait NewSiteSettings extends Utils {
           |""".stripMargin);
     vWriteFile(base / "element" / "page" / s"${sitePrefix}HomeLayout.java",
       s"""package ${sitePackage}.element.page;
-        |
-        |import static wcs.Api.arg;
-        |import wcs.api.Asset;
-        |import wcs.api.Log;
-        |import wcs.java.Element;
-        |import wcs.api.Env;
-        |import wcs.java.Picker;
-        |import agilesites.annotations.Template;
-        |
-        |
-        |@Template(forType = "Page", layout=true)
-        |public class ${sitePrefix}HomeLayout extends Element {
-        |
-        |    final static Log log = Log.getLog(${sitePrefix}HomeLayout.class);
-        |
-        |    @Override
-        |    public String apply(Env e) {
-        |        Asset a = e.getAsset();
-        |        Picker html = Picker.load("/${sitePackage}/template.html", "#content");
-        |		     html.replace("#title", a.editString("${sitePrefix}Title"));
-        |		     html.replace("#text", a.editText("${sitePrefix}Text", ""));
-        |        return html.html();
-        |    }
-        |}
+          |
+          |import static wcs.Api.arg;
+          |import wcs.api.Asset;
+          |import wcs.api.Log;
+          |import wcs.java.Element;
+          |import wcs.api.Env;
+          |import wcs.java.Picker;
+          |import agilesites.annotations.Template;
+          |
+          |
+          |@Template(forType = "Page", layout=true)
+          |public class ${sitePrefix}HomeLayout extends Element {
+          |
+          |    final static Log log = Log.getLog(${sitePrefix}HomeLayout.class);
+          |
+          |    @Override
+          |    public String apply(Env e) {
+          |        Asset a = e.getAsset();
+          |        Picker html = Picker.load("/${sitePackage}/template.html", "#content");
+          |		     html.replace("#title", a.editString("${sitePrefix}Title"));
+          |		     html.replace("#text", a.editText("${sitePrefix}Text", ""));
+          |        return html.html();
+          |    }
+          |}
       """.stripMargin)
+
+    vWriteFile(base / "element" / s"${sitePrefix}Tester.java",
+      s"""package ${sitePackage}.element;
+          |import wcs.java.util.TestRunnerElement;
+          |import wcs.java.util.Util;
+          |import agilesites.annotations.CSElement;
+          |import agilesites.annotations.SiteEntry;
+          |
+        |@SiteEntry
+          |@CSElement
+          |public class ${sitePrefix}Tester extends TestRunnerElement {
+          |	@Override
+          |	public Class<?>[] tests() {
+          |		return Util.classesFromResource(${sitePackage}.Config.site.toLowerCase(), "tests.txt");
+          |	}
+          |}
+          |
+      """.stripMargin)
+
+    vWriteFile(base / "test" / s"${sitePrefix}ErrorTest.java",
+      s"""package ${sitePackage}.test;
+          |import static wcs.Api.*;
+          |import ${sitePackage}.element.${sitePrefix}Error;
+          |import wcs.api.*;
+          |import wcs.java.util.TestElement;
+          |import org.junit.Before;
+          |import org.junit.Test;
+          |// sample integration test
+          |@Index("${sitePackage}/tests.txt")
+          |public class ${sitePrefix}ErrorTest extends TestElement {
+          |
+          |	${sitePrefix}Error it;
+          |
+          |	@Before
+          |	public void setUp() {
+          |		it = new ${sitePrefix}Error();
+          |	}
+          |
+          |	@Test
+          |	public void test() {
+          |		// parse element in a custom env
+          |		parse(it.apply(env(arg("error", "Hello, world"))));
+          |		// check the result
+          |		assertText("#text", "Hello, world");
+          |	}
+          |}
+          |""".stripMargin)
+
+
+    vWriteFile(tests / s"${sitePrefix}ErrorTest.java",
+      s"""package ${sitePackage}.element;
+          |
+        |import static org.mockito.Mockito.*;
+          |import static wcs.Api.*;
+          |import wcs.api.*;
+          |import org.junit.Before;
+          |import org.junit.Test;
+          |import wcs.java.util.TestElement;
+          |
+        |public class ${sitePrefix}ErrorTest extends TestElement {
+          |
+        |	Env env = mock(Env.class);
+          |	${sitePrefix}Error it = new ${sitePrefix}Error();
+          |
+        |	@Before
+          |	public void setUp() {
+          |    when(env.getString("error")).thenReturn("Hello, world");
+          |	}
+          |
+        |	@Test
+          |	public void test() {
+          |		// parse element in a custom env
+          |		parse(it.apply(env));
+          |		// check the result
+          |		assertText("#text", "Hello, world");
+          |	}
+          |}
+          |""".stripMargin)
+
+    vWriteFile(tests / "page" / s"${sitePrefix}HomeLayoutTest.java",
+      s"""package ${sitePackage}.element.page;
+          |
+        |import org.junit.Before;
+          |import org.junit.Test;
+          |import wcs.api.Asset;
+          |import wcs.api.Env;
+          |import wcs.java.util.TestElement;
+          |import static org.mockito.Mockito.*;
+          |
+        |public class ${sitePrefix}HomeLayoutTest extends TestElement {
+          |	Env e = mock(Env.class);
+          |	Asset a = mock(Asset.class);
+          |	${sitePrefix}HomeLayout it = new ${sitePrefix}HomeLayout();
+          |
+        |	@Before
+          |	public void setUp() {
+          |		when(e.getAsset()).thenReturn(a);
+          |		when(a.editString("${sitePrefix}Title")).thenReturn("Home");
+          |		when(a.editText("${sitePrefix}Text", "")).thenReturn("Home Page");
+          |	}
+          |
+        |	@Test
+          |	public void test() {
+          |		parse(it.apply(e));
+          |		assertText("#title", "Home");
+          |		assertText("#text", "Home Page");
+          |	}
+          |}
+          |""".stripMargin)
   }
 
   val asNewSiteCmd = Command.args("asNewSite", "<site-name> <site-prefix>") {
@@ -305,13 +420,15 @@ trait NewSiteSettings extends Utils {
         val baseDir = (baseDirectory in extracted.currentRef get extracted.structure.data).get
         val base = baseDir / "src" / "main" / "java" / args(0).toLowerCase()
         val static = baseDir / "src" / "main" / "static" / args(0).toLowerCase
-        /*if (base.exists()) {
+        val tests = baseDir / "src" / "test" / "java" / args(0).toLowerCase
+        if (base.exists()) {
           println(s"You have already a package for ${args(0)}")
-        } else {*/
-        prpInit(args(0))
-        mkSite(base, static, args(0), args(1))
-        //}
-        state.copy(remainingCommands = "reload" +: state.remainingCommands)
+          state
+        } else {
+          prpInit(args(0))
+          mkSite(base, static, tests, args(0), args(1))
+          state.copy(remainingCommands = "reload" +: state.remainingCommands)
+        }
       }
   }
 

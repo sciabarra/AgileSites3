@@ -1,7 +1,6 @@
 package starter.element;
 
 import agilesites.annotations.CSElement;
-import agilesites.annotations.SiteEntry;
 import wcs.api.Env;
 import wcs.api.Id;
 import wcs.api.Log;

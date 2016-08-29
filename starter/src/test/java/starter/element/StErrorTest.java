@@ -1,30 +1,28 @@
-package starter.test;
-import static wcs.Api.*;
+package starter.element;
 
-import starter.element.StError;
+import static org.mockito.Mockito.*;
+import static wcs.Api.*;
 import wcs.api.*;
-import wcs.java.util.TestElement;
 import org.junit.Before;
 import org.junit.Test;
+import wcs.java.util.TestElement;
 
-@Index("starter/tests.txt")
 public class StErrorTest extends TestElement {
 
+	Env env = mock(Env.class);
 	StError it;
 
 	@Before
 	public void setUp() {
+        when(env.getString("error")).thenReturn("Hello, world");
 		it = new StError();
 	}
 
 	@Test
 	public void test() {
-
 		// parse element in a custom env
-		parse(it.apply(env(arg("error", "Hello, world"))));
-
+		parse(it.apply(env));
 		// check the result
 		assertText("#detail p", "Hello, world");
 	}
-
 }

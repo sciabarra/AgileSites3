@@ -46,8 +46,13 @@ libraryDependencies ++= Seq(
   , "com.google.guava" % "guava"         % "16.0.1" % "api" intransitive()
   , "junit" % "junit"  % "4.11"          % "api" intransitive()
   , "org.hamcrest"     %  "hamcrest-core" % "1.3" % "api" intransitive()
-  , "com.sciabarra" % "agilesites3-api" % agilesitesVersion)
+  , "com.sciabarra" % "agilesites3-api" % agilesitesVersion
+  )
 
+libraryDependencies ++= Seq(
+  "com.novocode" % "junit-interface" % "0.11" % "test"
+  , "org.mockito" % "mockito-core" % "1.10.19" % "test"
+)
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
