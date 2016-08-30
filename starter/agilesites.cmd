@@ -1,3 +1,4 @@
+@echo off
 cd %~dp0
 set BASE=%CD%
 set JOPTS=

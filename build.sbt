@@ -13,10 +13,10 @@ import S3._
 s3Settings
 
 mappings in upload := Seq(
-  (file("starter")/"agilesites.ver", "agilesites3-repo/releases/11g/agilesites.ver"),
-  (file("starter")/"agilesites.zip", "agilesites3-repo/releases/11g/agilesites.zip")
+  (file("agilesites.ver"), "releases/11g/agilesites.ver"),
+  (file("starter")/"agilesites.zip", "releases/11g/agilesites.zip")
 )
 
-host in upload := "s3.amazonaws.com"
+host in upload := "agilesites3-repo.s3.amazonaws.com"
 
 credentials += Credentials(Path.userHome/".s3credentials")
