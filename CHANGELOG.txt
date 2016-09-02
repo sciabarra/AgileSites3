@@ -1,0 +1,6 @@
+3.11.0-M10
+
+- fixed template generation for tests
+- removed slash from proxy servlet for allowing url rewrite with Sites
+- copying now html in resource folder (NOT resurceManageg)
+
