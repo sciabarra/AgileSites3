@@ -53,7 +53,8 @@ trait CopySettings extends Utils {
 
   val copyHtmlTask = Def.task {
     val base = baseDirectory.value
-    val dstDir = (resourceManaged in Compile).value
+
+    val dstDir = (resourceDirectory in Compile).value
     val s = streams.value
 
     val srcDir = base / "src" / "main" / "static"

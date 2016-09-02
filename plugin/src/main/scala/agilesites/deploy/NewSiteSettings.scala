@@ -170,7 +170,6 @@ trait NewSiteSettings extends Utils {
       s"""package ${sitePackage}.element;
           |
           |import agilesites.annotations.CSElement;
-          |import agilesites.annotations.SiteEntry;
           |import wcs.api.*;
           |import wcs.java.Element;
           |import wcs.java.Picker;
@@ -275,7 +274,6 @@ trait NewSiteSettings extends Utils {
     vWriteFile(base / "element" / "page" / s"${sitePrefix}HomeLayout.java",
       s"""package ${sitePackage}.element.page;
           |
-          |import static wcs.Api.arg;
           |import wcs.api.Asset;
           |import wcs.api.Log;
           |import wcs.java.Element;
@@ -348,27 +346,26 @@ trait NewSiteSettings extends Utils {
           |""".stripMargin)
 
 
-    vWriteFile(tests / s"${sitePrefix}ErrorTest.java",
+    vWriteFile(tests / "element" / s"${sitePrefix}ErrorTest.java",
       s"""package ${sitePackage}.element;
           |
-        |import static org.mockito.Mockito.*;
+          |import static org.mockito.Mockito.*;
           |import static wcs.Api.*;
-          |import wcs.api.*;
           |import org.junit.Before;
           |import org.junit.Test;
           |import wcs.java.util.TestElement;
           |
-        |public class ${sitePrefix}ErrorTest extends TestElement {
+          |public class ${sitePrefix}ErrorTest extends TestElement {
           |
-        |	Env env = mock(Env.class);
+          |	Env env = mock(Env.class);
           |	${sitePrefix}Error it = new ${sitePrefix}Error();
           |
-        |	@Before
+          |	@Before
           |	public void setUp() {
           |    when(env.getString("error")).thenReturn("Hello, world");
           |	}
           |
-        |	@Test
+          |	@Test
           |	public void test() {
           |		// parse element in a custom env
           |		parse(it.apply(env));
@@ -378,29 +375,29 @@ trait NewSiteSettings extends Utils {
           |}
           |""".stripMargin)
 
-    vWriteFile(tests / "page" / s"${sitePrefix}HomeLayoutTest.java",
+    vWriteFile(tests / "element" / "page" / s"${sitePrefix}HomeLayoutTest.java",
       s"""package ${sitePackage}.element.page;
           |
-        |import org.junit.Before;
+          |import org.junit.Before;
           |import org.junit.Test;
           |import wcs.api.Asset;
           |import wcs.api.Env;
           |import wcs.java.util.TestElement;
           |import static org.mockito.Mockito.*;
           |
-        |public class ${sitePrefix}HomeLayoutTest extends TestElement {
+          |public class ${sitePrefix}HomeLayoutTest extends TestElement {
           |	Env e = mock(Env.class);
           |	Asset a = mock(Asset.class);
           |	${sitePrefix}HomeLayout it = new ${sitePrefix}HomeLayout();
           |
-        |	@Before
+          |	@Before
           |	public void setUp() {
           |		when(e.getAsset()).thenReturn(a);
           |		when(a.editString("${sitePrefix}Title")).thenReturn("Home");
           |		when(a.editText("${sitePrefix}Text", "")).thenReturn("Home Page");
           |	}
           |
-        |	@Test
+          |	@Test
           |	public void test() {
           |		parse(it.apply(e));
           |		assertText("#title", "Home");

@@ -73,6 +73,15 @@ import org.apache.http.util.EntityUtils;
  */
 public class ProxyServlet extends HttpServlet {
 
+  public void log(String msg) {
+    System.out.println("PROXY: "+msg);
+  }
+
+  public void log(String message, Throwable t) {
+    log(message);
+    t.printStackTrace();
+  }
+
   /* INIT PARAMETER NAME CONSTANTS */
 
   /** A boolean parameter name to enable logging of input and target URLs to the servlet log. */
@@ -128,7 +137,7 @@ public class ProxyServlet extends HttpServlet {
 
   @Override
   public void init() throws ServletException {
-    String doLogStr = getConfigParam(P_LOG);
+    String doLogStr = System.getProperty("proxy.debug");
     if (doLogStr != null) {
       this.doLog = Boolean.parseBoolean(doLogStr);
     }
@@ -203,7 +212,6 @@ public class ProxyServlet extends HttpServlet {
     } else {
       try {
         //noinspection unchecked
-
         val_obj = type.getMethod("valueOf",String.class).invoke(type,val_str);
       } catch (Exception e) {
         throw new RuntimeException(e);
@@ -509,8 +517,11 @@ public class ProxyServlet extends HttpServlet {
     StringBuilder uri = new StringBuilder(500);
     uri.append(getTargetUri(servletRequest));
     // Handle the path given to the servlet
-    if (servletRequest.getPathInfo() != null) {//ex: /my/path.html
-      uri.append(encodeUriQuery(servletRequest.getPathInfo()));
+    String pathInfo = servletRequest.getPathInfo();
+    if (pathInfo != null) {//ex: /my/path.html
+      if(pathInfo.startsWith("/"))
+        pathInfo = pathInfo.substring(1);
+      uri.append(encodeUriQuery(pathInfo));
     }
     // Handle the query string & fragment
     String queryString = servletRequest.getQueryString();//ex:(following '?'): name=value&foo=bar#fragment

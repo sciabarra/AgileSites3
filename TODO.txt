@@ -1,18 +1,28 @@
-+ fix installer to use Windows 7 for Windows 8-10 (add -Dos.name="Windows 7")
-+ deploy should notify when done
-+ import content with wem
-+ export content with wem
+- move html in resources (NOT resource_generated) to avoid problems with unit tests with eclipse
+- server script generator should add tools.jar to the classpath AND QUOTES to avoid spaces on classpath jars
+- also include jars from a lib directory
+- installation with a proxy should work
+- downloader should work when behind a proxy
+- silence the exception when stopping (put System.err to something?)
+- add a non-empty ckeditor in the default site
+- update build.properties not only agilesites.ver
 
 - Starter with articles
-- generator for the default website (Done manually for now)
-- add default webroot when installing (Done manually)
 
+? import content with wem
 ? fix siteplan not to throw exceptin if no default
 ? nella uid.properties genera  .altTextImageString=1444836512441
 
+* the site generated has problems with generated tests
+* less verbose log
 * remove the version from the package uploaded
 * fix siteplan navigation
 * fix attribute editor
 * Deploy templates in the new way
 * Avoid the extra core in the lib
+* fix installer to use Windows 7 for Windows 8-10 (add -Dos.name="Windows 7")
+* generator for the default website
+* add default webroot when installing
+* export content with wem
+* deploy should notify when done
 
