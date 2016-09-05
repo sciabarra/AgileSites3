@@ -174,7 +174,7 @@ trait SetupSettings extends Utils {
     println(
       """**** Setup Complete.
         |**** Please restart your application server.
-        |**** You need to complete installation with "asDeploy".""".stripMargin)
+        |**** You need to complete installation with "asSetupOnline" and redeploy with "asDeploy".""".stripMargin)
   }
 
   val asSetupOnlineCmd = Command.command("asSetupOnline") { state =>

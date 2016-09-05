@@ -28,11 +28,13 @@ import agilesites.api.AgileSite;
         "PageAttribute",
         "PageDefinition",
         "Page:F"})
-public class Demo extends AgileSite {
+public class Starter extends AgileSite {
 
     @AttributeEditor
-    private String DmRichTextEditor = "<CKEDITOR/>";
+    private String DmRichTextEditor =
+        "<CKEDITOR WIDTH=\"400px\" HEIGHT=\"200px\"/>";
 
     @AttributeEditor
-    private String DmUploaderEditor = "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
+    private String DmUploaderEditor =
+            "<UPLOADER FILETYPES=\"jpg;jpeg;png\" />";
 }

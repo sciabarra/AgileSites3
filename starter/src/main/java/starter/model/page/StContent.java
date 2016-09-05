@@ -12,7 +12,8 @@ public class StContent extends Page {
 
         @Attribute(description = "Title")
         @Required
-        private String stTitle;
+        private String StTitle;
+
 
         @Attribute(description="Subtitle", editor = "stRichTextEditor")
         private String stSubtitle;

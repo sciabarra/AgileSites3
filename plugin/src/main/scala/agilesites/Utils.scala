@@ -105,7 +105,7 @@ trait Utils {
     }
     if (log != null)
       log.info(s"copying #${cpList.size} files")
-    IO.copy(cpList).toSeq
+    IO.copy(cpList, true).toSeq
   }
 
   // write an index of the files in a subdirectory in the target file

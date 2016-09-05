@@ -17,8 +17,10 @@ public class Starter extends Element {
         Picker html = Picker.load("/starter/template.html");
 
         // change relative references to absolute
-        html.prefixAttrs("link[rel=stylesheet]", "href", "/cs/starter/");
-        html.prefixAttrs("script[id=js-import]", "src", "/cs/starter/");
+        html.prefixAttrs("link[rel=stylesheet]",
+                "href", "/cs/starter/");
+        html.prefixAttrs("script[id=js-import]",
+                "src", "/cs/starter/");
         html.replace("#js-base", "var base='/cs/starter/'");
 
         // handle errors

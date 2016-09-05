@@ -43,29 +43,27 @@ trait CopySettings extends Utils {
 
   val asCopyStaticsTask = asCopyStatics := {
     val base = baseDirectory.value
+    val log = streams.value.log
+    // copy  statics in resources
+    /* off - copied from resources
+    val dstDir = (resourceDirectory in Compile).value
+    val srcDir = base / "src" / "main" / "static"
+    log.debug("copyHtml from" + srcDir)
+    recursiveCopy(srcDir, dstDir, log)(isHtml)
+    */
+
+    // copy resources in webapps
     val tgt = sitesWebapp.value
-    val s = streams.value
-    val src = base / "src" / "main" / "static"
-    s.log.debug(" from" + src)
-    val l = recursiveCopy(src, file(tgt), s.log)(x => true)
+    val src = base / "src" / "main" / "resources"
+    log.debug(" from" + src)
+    val l = recursiveCopy(src, file(tgt), log)(x => true)
     println("*** copied " + (l.size) + " static files")
   }
 
-  val copyHtmlTask = Def.task {
-    val base = baseDirectory.value
-
-    val dstDir = (resourceDirectory in Compile).value
-    val s = streams.value
-
-    val srcDir = base / "src" / "main" / "static"
-    s.log.debug("copyHtml from" + srcDir)
-    recursiveCopy(srcDir, dstDir, s.log)(isHtml)
-  }
 
   val copySettings = Seq(
     asCopyStaticsTask,
     asScpTask,
-    asScpFromTo := None,
-    resourceGenerators in Compile += copyHtmlTask.taskValue
+    asScpFromTo := None
   )
 }

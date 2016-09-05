@@ -77,7 +77,7 @@ trait NewSiteSettings extends Utils {
           |        })
           |public class ${siteName} extends AgileSite {
           |   @AttributeEditor
-          |   private String ${sitePrefix}RichTextEditor = "<CKEDITOR/>";
+          |   private String ${sitePrefix}RichTextEditor = "<CKEDITOR WIDTH=\\"400p\\" HEIGHT=\\"200p\\"/>";
           |
           |}
         """.stripMargin)
@@ -256,6 +256,7 @@ trait NewSiteSettings extends Utils {
           |import agilesites.annotations.*;
           |import ${sitePackage}.model.Page;
           |
+          |@SuppressWarnings("rawtypes")
           |@FindStartMenu("Find HomePage")
           |@NewStartMenu("New HomePage")
           |@ContentDefinition(flexAttribute = "PageAttribute",
@@ -350,7 +351,7 @@ trait NewSiteSettings extends Utils {
       s"""package ${sitePackage}.element;
           |
           |import static org.mockito.Mockito.*;
-          |import static wcs.Api.*;
+          |import wcs.api.Env;
           |import org.junit.Before;
           |import org.junit.Test;
           |import wcs.java.util.TestElement;
@@ -416,7 +417,7 @@ trait NewSiteSettings extends Utils {
         val extracted: Extracted = Project.extract(state)
         val baseDir = (baseDirectory in extracted.currentRef get extracted.structure.data).get
         val base = baseDir / "src" / "main" / "java" / args(0).toLowerCase()
-        val static = baseDir / "src" / "main" / "static" / args(0).toLowerCase
+        val static = baseDir / "src" / "main" / "resources" / args(0).toLowerCase
         val tests = baseDir / "src" / "test" / "java" / args(0).toLowerCase
         if (base.exists()) {
           println(s"You have already a package for ${args(0)}")
