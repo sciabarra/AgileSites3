@@ -9,7 +9,7 @@ import wcs.java.Picker;
 
 import static wcs.Api.arg;
 
-@Template(forType = "Page", layout=true)
+@Template(forType = "Page", layout=true, extraCriteria = "test", csCache="true,~0", ssCache="true,~0")
 public class StContentLayout extends Element {
 
     Log log = Log.getLog(StContentLayout.class);
@@ -40,9 +40,9 @@ public class StContentLayout extends Element {
 
         html.remove("div.related");
         html.append("#related-container",
-                a.slotList("stRelated", "Page", "StSummary"));
+                a.slotList("stRelated", 3, "Page", "StContentSeeAlso"));
         html.append("#related-container", a.slotEmpty("stRelated", "Page",
-                "StSummary", "Drag a Page here. Save to add more."));
+                "StContentSeeAlso", "Drag a Page here. Save to add more."));
 
         String image = a.getBlobUrl("stImage");
         if (image == null)
@@ -51,12 +51,11 @@ public class StContentLayout extends Element {
             html.attr("#image-main", "src", image);
 
         html.replace("#seealso1", a.slot("stSeeAlso", 1, "Page",
-                "StContentSeeAlso", "Drag a Page Here"));
+                "StContentSummary", "Drag a Page Here"));
         html.replace("#seealso2", a.slot("stSeeAlso", 2, "Page",
                 "StContentSeeAlso", "Drag a Page Here"));
         html.replace("#seealso3", a.slot("stSeeAlso", 3, "Page",
                 "StContentSeeAlso", "Drag a Page Here"));
-
 
         html.replace("#topmenu", e.call("StTopMenu"));
         html.replace(

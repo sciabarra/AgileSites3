@@ -12,7 +12,7 @@ public class StContent extends Page {
 
         @Attribute(description = "Title")
         @Required
-        private String StTitle;
+        private String stTitle;
 
 
         @Attribute(description="Subtitle", editor = "stRichTextEditor")
@@ -38,5 +38,6 @@ public class StContent extends Page {
         private agilesitesng.api.AssetAttribute<Page> stRelated[];
 
         @Attribute(description = "similar pages")
-        private agilesitesng.api.AssetAttribute<Page<Page>> stSeeAlso[];
+        @AssetSubtypes(values = {"StContent"})
+        private agilesitesng.api.AssetAttribute<Page> stSeeAlso[];
     }

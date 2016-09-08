@@ -17,12 +17,16 @@ public class StContentSummary extends Element {
         if (log.debug())
             log.debug("Demo StContentSummary");
 
+        System.out.println("I am here");
+        return "hello";
+        /*
         Asset a = e.getAsset();
         Picker html = Picker.load("/starter/template.html", "#related");
         html.replace("#related-title", a.getString("stTitle"));
         html.replace("#related-body", a.getString("stSummary"));
         html.removeAttrs("*[id^=related]", "id");
         return html.outerHtml();
+        */
     }
 
 }

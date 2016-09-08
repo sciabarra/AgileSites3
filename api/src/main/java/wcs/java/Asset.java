@@ -720,9 +720,6 @@ public class Asset extends AssetBase implements wcs.api.Asset, wcs.api.Content {
      */
     private String insiteCall(String type, String template, String attribute,
                               int n, String emptyText, Arg... args) {
-
-
-
         try {
             // let's start with the common parameters
             List<Arg> list = new ArrayList<Arg>();

@@ -49,7 +49,7 @@ public class ContentLayout extends Element {
 
 		html.remove("div.related");
 		html.append("#related-container",
-				a.slotList("Related", "Page", "Summary"));
+				a.slotList("Related", 3, "Page", "Summary"));
 		html.append("#related-container", a.slotEmpty("Related", "Page",
 				"Summary", "Drag a Page here. Save to add more."));
 

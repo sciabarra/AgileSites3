@@ -17,7 +17,8 @@ public class StContentSeeAlso extends Element {
         if (log.debug())
             log.debug("Demo ContentSeeAlso");
 
-        Picker html = Picker.load("/starter/template.html", "#seealso1");
+        Picker html =
+          Picker.load("/starter/template.html", "#seealso1");
         Asset a = e.getAsset();
         html.replace("#seealso-title1", a.getString("stTitle"));
         html.replace("#seealso-text1", a.getString("stSummary"));
